@@ -42,9 +42,9 @@ server.use(
 );
 
 // Health Check endpoint
-server.get("/health_check", async function (req: Request, res: Response) {
+server.get("/bum-ui/:version/health", async function (req: Request, res: Response) {
     console.log("Heath Check endpoint called");
-    res.status(200).json({status: 200});
+    res.status(200).json({healthy: true});
 });
 
 
