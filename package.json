@@ -28,7 +28,7 @@
     "lint-fix"
   ],
   "dependencies": {
-    "@testing-library/dom": "^7.30.4",
+    "@testing-library/dom": "^8.2.0",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
