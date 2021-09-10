@@ -138,16 +138,16 @@ function App(): ReactElement {
                     </ONSPanel>
                     <DefaultErrorBoundary>
                         <Switch>
-                            <PrivateRoute path={"/user/upload"}>
+                            <PrivateRoute path={"/users/upload"}>
                                 <BulkUserUpload/>
                             </PrivateRoute>
-                            <PrivateRoute path={"/user/changepassword/:user"}>
+                            <PrivateRoute path={"/users/changepassword/:user"}>
                                 <ChangePassword/>
                             </PrivateRoute>
-                            <PrivateRoute path={"/user/delete/:user"}>
+                            <PrivateRoute path={"/users/delete/:user"}>
                                 <DeleteUser/>
                             </PrivateRoute>
-                            <PrivateRoute path={"/user"}>
+                            <PrivateRoute path={"/users/new"}>
                                 <NewUser/>
                             </PrivateRoute>
                             <PrivateRoute path={"/roles/new"}>

@@ -52,12 +52,12 @@ function Users({currentUser, externalCATIUrl}: Props): ReactElement {
             <h1 className="u-mb-l">Manage users</h1>
             <ul className="list list--bare list--inline ">
                 <li className="list__item ">
-                    <Link to={"/user"}>
+                    <Link to={"/users/new"}>
                         Create new user
                     </Link>
                 </li>
                 <li className="list__item ">
-                    <Link to={"/user/upload"}>
+                    <Link to={"/users/upload"}>
                         Bulk upload users
                     </Link>
                 </li>

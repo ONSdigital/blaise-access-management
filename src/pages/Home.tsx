@@ -23,10 +23,10 @@ function Home({user}: Props): ReactElement {
                                 <p id="text1">View, create and edit users in Blaise.</p>
                                 <ul className="list list--dashed">
                                     <li className="list__item ">
-                                        <Link to="/user/new" className="list__link ">Create new user</Link>
+                                        <Link to="/users/new" className="list__link ">Create new user</Link>
                                     </li>
                                     <li className="list__item ">
-                                        <Link to="/user/upload" className="list__link ">Bulk upload users</Link>
+                                        <Link to="/users/upload" className="list__link ">Bulk upload users</Link>
                                     </li>
                                 </ul>
                             </div>
