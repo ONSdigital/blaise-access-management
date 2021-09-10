@@ -44,7 +44,6 @@ const TextInput = (props: TextInputProps): ReactElement => {
                     props.password &&
                     <span className="checkbox checkbox--toggle">
                     <input
-                        autoComplete={"new-password"}
                         type="checkbox"
                         id={`${props.name}-password-toggle`}
                         className="checkbox__input"
@@ -59,6 +58,7 @@ const TextInput = (props: TextInputProps): ReactElement => {
                 }
                 <input id={props.name} className="input input--text input-type__input u-mt-xs"
                        name={props.name}
+                       autoComplete={props.password ? "current-password" : undefined}
                        type={props.password ? showPassword ? "text" : "password" : "text"}
                        placeholder={props.placeholder}
                        onChange={onChange}

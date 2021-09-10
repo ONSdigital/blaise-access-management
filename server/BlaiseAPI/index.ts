@@ -78,6 +78,30 @@ export default function BlaiseAPIRouter(environmentVariables: EnvironmentVariabl
             });
     });
 
+    router.get("/api/login/:user", async function (req: Request, res: Response) {
+        const {user} = req.params;
+        const {password} = req.headers;
+
+        let url = `/api/v1/users/${user}/password/${password}/validate`;
+        const [status, validated] = await SendBlaiseAPIRequest(req, res, url, "GET");
+
+        if (status !== 200) {
+            res.status(status).json(validated);
+            return;
+        }
+
+        if (!validated) {
+            res.status(403).json(validated);
+            return;
+        }
+
+        url = `/api/v1/users/${user}`;
+        SendBlaiseAPIRequest(req, res, url, "GET")
+            .then(([status, data]) => {
+                res.status(status).json(data);
+            });
+    });
+
     router.get("/api/change_password/:user", (req, res) => {
         console.log("change_password");
         const {user} = req.params;

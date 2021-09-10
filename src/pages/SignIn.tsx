@@ -1,13 +1,15 @@
 import React, {ReactElement, useState} from "react";
-import {Redirect, useLocation} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 import {ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import FormTextInput from "../form/TextInput";
 import Form from "../form";
 import {requiredValidator} from "../form/FormValidators";
+import {loginUser} from "../utilities/http";
+import {User} from "../../Interfaces";
 
 
 interface Props {
-    setAuthenticationToken: any
+    setAuthenticatedUser: (user: User) => void
 }
 
 interface location {
@@ -28,31 +30,46 @@ function SignIn(props: Props): ReactElement {
 
     const {from} = (location as location).state || {from: {pathname: "/"}};
 
-    const {setAuthenticationToken} = props;
+    const {setAuthenticatedUser} = props;
 
-    function signIn(formData: FormData) {
-
+    async function signIn(formData: FormData) {
         setButtonLoading(true);
 
-        if (formData.username === "Blaise") {
+        // TODO: Removed before better implementation is created
+        // const [success, user] = await loginUser(formData.username, formData.password);
+        const [success, user] = simpleAuth(formData.username);
+
+        if (!success) {
             setButtonLoading(false);
-            setAuthenticationToken("Auth");
-            setRedirect(true);
-        } else {
-            setButtonLoading(false);
-            setMessage("Invalid username or password");
+            setMessage("Unable to verify user credentials.");
+            return;
         }
+
+        if (user === null) {
+            setButtonLoading(false);
+            setMessage("Invalid username or password.");
+            return;
+        }
+
+        setAuthenticatedUser(user);
+        setRedirect(true);
     }
 
+    function simpleAuth(username: string): [boolean, User | null] {
+        if (username === "Blaise") {
+            return [true, {defaultServerPark: "", name: "Blaise User", password: "", role: "DST", serverParks: []}];
+        }
+        return [true, null];
+    }
 
     return (
         <>
             {
                 redirect && <Redirect to={from}/>
             }
-            <h1>Sign in</h1>
+            <h1 className="u-mt-m">Sign in</h1>
 
-            {(message !== "" && <ONSPanel status={"error"}>{message}</ONSPanel>)}
+            {(message !== "" && <ONSPanel status={"error"}>{message} </ONSPanel>)}
 
             <Form onSubmit={(data) => signIn(data)}>
 

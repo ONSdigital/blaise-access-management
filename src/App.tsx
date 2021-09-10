@@ -1,25 +1,19 @@
 import React, {ReactElement, useEffect, useState} from "react";
-// import Header from "./Components/ONSDesignSystem/Header";
 import {DefaultErrorBoundary} from "./Components/ErrorHandling/DefaultErrorBoundary";
-// import Footer from "./Components/ONSDesignSystem/Footer";
 import {isDevEnv} from "./Functions";
-import {
-    Switch,
-    Route,
-    Redirect
-} from "react-router-dom";
-import UserList from "./Components/UserList";
+import {Switch, Route, Redirect, useLocation} from "react-router-dom";
+import Users from "./pages/users/Users";
 import {User} from "../Interfaces";
 import {ErrorBoundary} from "./Components/ErrorHandling/ErrorBoundary";
-import NewUser from "./pages/NewUser";
-import ChangePassword from "./pages/ChangePassword";
-import DeleteUser from "./pages/DeleteUser";
+import NewUser from "./pages/users/NewUser";
+import ChangePassword from "./pages/users/ChangePassword";
+import DeleteUser from "./pages/users/DeleteUser";
 import SignIn from "./pages/SignIn";
-import NewRole from "./pages/NewRole";
-import {getAllUsers} from "./utilities/http";
-
+import NewRole from "./pages/roles/NewRole";
 import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner} from "blaise-design-system-react-components";
-import Roles from "./pages/Roles";
+import Roles from "./pages/roles/Roles";
+import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
+import Home from "./pages/Home";
 
 interface Panel {
     visible: boolean
@@ -36,10 +30,35 @@ const divStyle = {
     minHeight: "calc(67vh)"
 };
 
+interface Panel {
+    visible: boolean
+    message: string
+    status: string
+}
+
+
+interface location {
+    state: any
+}
+
 function App(): ReactElement {
 
     const [externalCATIUrl, setExternalCATIUrl] = useState<string>("/Blaise");
-    const [panel, setPanel] = useState<Panel>({visible: false, message: "", status: "info"});
+    const defaultPanel = {visible: false, message: "", status: "info"};
+    const [panel, setPanel] = useState<Panel>(defaultPanel);
+
+    const {state}: location = useLocation();
+    const {updatedPanel} = state || {updatedPanel: panel};
+
+    useEffect(() => {
+        if (updatedPanel === null || updatedPanel?.message === undefined) {
+            return;
+        }
+        if (updatedPanel.message !== panel.message) {
+            updatePanel(updatedPanel.visible, updatedPanel.message, updatedPanel.status);
+        }
+
+    }, [updatedPanel]);
 
     const updatePanel = (visible = false, message = "", status = "info") => {
         setPanel(
@@ -53,10 +72,28 @@ function App(): ReactElement {
             process.env.REACT_APP_CATI_DASHBOARD_URL || externalCATIUrl : (window as unknown as window).CATI_DASHBOARD_URL);
     }, [externalCATIUrl]);
 
-    const [users, setUsers] = useState<User[]>([]);
-    const [listError, setListError] = useState<string>("Loading ...");
 
-    const [authentication, setAuthentication] = useState(null);
+    function loginUser(user: User) {
+        setAuthenticatedUser(user);
+        setUserAuthenticated(true);
+        updatePanel();
+    }
+
+    function signOutUser() {
+        setAuthenticatedUser(emptyUser);
+        setUserAuthenticated(false);
+        updatePanel(true, "Successfully signed out", "success");
+    }
+
+
+    const emptyUser: User = {
+        defaultServerPark: "",
+        password: "",
+        serverParks: [],
+        name: "", role: ""
+    };
+    const [authenticatedUser, setAuthenticatedUser] = useState<User>(emptyUser);
+    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false);
 
 
     // A wrapper for <Route> that redirects to the login
@@ -67,9 +104,10 @@ function App(): ReactElement {
     function PrivateRoute({children, ...rest}) {
         return (
             <Route
+                exact
                 {...rest}
                 render={({location}) =>
-                    authentication !== null ? (
+                    userAuthenticated ? (
                         children
                     ) : (
                         <Redirect
@@ -84,35 +122,14 @@ function App(): ReactElement {
         );
     }
 
-    useEffect(() => {
-        getUserList().then(() => console.log("Call getUserList Complete"));
-    }, []);
-
-    async function getUserList() {
-        setUsers([]);
-
-        const [success, instrumentList] = await getAllUsers();
-
-        if (!success) {
-            setListError("Unable to load users");
-            return;
-        }
-
-        if (instrumentList.length === 0) {
-            setListError("No installed users found.");
-        }
-
-        setUsers(instrumentList);
-    }
-
 
     return (
         <>
-            <BetaBanner/>
             {
                 (window.location.hostname.includes("dev")) && <NotProductionWarning/>
             }
-            <Header title={"Blaise User Management"}/>
+            <BetaBanner/>
+            <Header title={"Blaise User Management"} signOutButton={userAuthenticated} signOutFunction={() => signOutUser()}/>
             <div style={divStyle} className="page__container container">
                 <main id="main-content" className="page__main">
                     <ONSPanel hidden={!panel.visible} status={panel.status}>
@@ -120,6 +137,9 @@ function App(): ReactElement {
                     </ONSPanel>
                     <DefaultErrorBoundary>
                         <Switch>
+                            <PrivateRoute path={"/user/upload"}>
+                                <BulkUserUpload/>
+                            </PrivateRoute>
                             <PrivateRoute path={"/user/changepassword/:user"}>
                                 <ChangePassword/>
                             </PrivateRoute>
@@ -133,23 +153,26 @@ function App(): ReactElement {
                                 <NewRole/>
                             </PrivateRoute>
                             <PrivateRoute path={"/roles"}>
-                                <Roles/>
+                                <ErrorBoundary errorMessageText={"Unable to load role table correctly."}>
+                                    <Roles/>
+                                </ErrorBoundary>
                             </PrivateRoute>
                             <Route path="/signin">
-                                <ErrorBoundary errorMessageText={"Unable to load survey table correctly"}>
-                                    <SignIn setAuthenticationToken={setAuthentication}/>
+                                <ErrorBoundary errorMessageText={"Unable to load survey table correctly."}>
+                                    <SignIn setAuthenticatedUser={loginUser}/>
                                 </ErrorBoundary>
                             </Route>
-                            <PrivateRoute path="/">
-                                <ErrorBoundary errorMessageText={"Unable to load user table correctly"}>
-                                    <UserList list={users}
-                                              listError={listError}
-                                              getUsers={getUserList}
-                                              externalCATIUrl={externalCATIUrl}
-                                              updatePanel={updatePanel}
-                                              panel={panel}/>
+                            <PrivateRoute path="/users">
+                                <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
+                                    <Users currentUser={authenticatedUser}
+                                           externalCATIUrl={externalCATIUrl}/>
                                 </ErrorBoundary>
                             </PrivateRoute>
+                            <PrivateRoute path="/">
+                            <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
+                                <Home user={authenticatedUser}/>
+                            </ErrorBoundary>
+                        </PrivateRoute>
                         </Switch>
                     </DefaultErrorBoundary>
                 </main>

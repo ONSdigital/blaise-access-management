@@ -1,0 +1,448 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Manage Users page view users page matches Snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <p
+        class="u-mt-m"
+      >
+        <a
+          href="/"
+        >
+          Previous
+        </a>
+      </p>
+      <h1
+        class="u-mt-s"
+      >
+        Manage users
+      </h1>
+      <ul
+        class="list list--bare list--inline "
+      >
+        <li
+          class="list__item "
+        >
+          <a
+            href="/user"
+          >
+            Create new user
+          </a>
+        </li>
+        <li
+          class="list__item "
+        >
+          <a
+            href="/user/upload"
+          >
+            Bulk upload users
+          </a>
+        </li>
+      </ul>
+      <p
+        class="u-mt-m"
+      >
+        <a
+          class="external-link"
+          href="url/"
+          id="cati-dashboard"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Link to CATI dashboard
+          <svg
+            class="svg-icon"
+            viewBox="0 0 12 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
+              transform="translate(-2 -1.99)"
+            />
+            <path
+              d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
+              transform="translate(-2 -1.99)"
+            />
+          </svg>
+        </a>
+      </p>
+      <table
+        class="table u-mt-m"
+        id="users-table"
+      >
+        <thead
+          class="table__head "
+        >
+          <tr
+            class="table__row"
+          >
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Name
+              </span>
+            </th>
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Role
+              </span>
+            </th>
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Default server park
+              </span>
+            </th>
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Change password
+              </span>
+            </th>
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Delete user
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="table__body"
+        >
+          <tr
+            class="table__row"
+            data-testid="users-table-row"
+          >
+            <td
+              class="table__cell "
+            >
+              TestUser123
+            </td>
+            <td
+              class="table__cell "
+            >
+              DST
+            </td>
+            <td
+              class="table__cell "
+            >
+              gusty
+            </td>
+            <td
+              class="table__cell "
+            >
+              <a
+                href="/user/changepassword/TestUser123"
+              >
+                Change password
+              </a>
+            </td>
+            <td
+              class="table__cell "
+            >
+              Currently signed in user
+            </td>
+          </tr>
+          <tr
+            class="table__row"
+            data-testid="users-table-row"
+          >
+            <td
+              class="table__cell "
+            >
+              SecondUser
+            </td>
+            <td
+              class="table__cell "
+            >
+              BDSS
+            </td>
+            <td
+              class="table__cell "
+            >
+              gusty
+            </td>
+            <td
+              class="table__cell "
+            >
+              <a
+                href="/user/changepassword/SecondUser"
+              >
+                Change password
+              </a>
+            </td>
+            <td
+              class="table__cell "
+            >
+              <a
+                href="/user/delete/SecondUser"
+              >
+                Delete
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>,
+  "container": <div>
+    <p
+      class="u-mt-m"
+    >
+      <a
+        href="/"
+      >
+        Previous
+      </a>
+    </p>
+    <h1
+      class="u-mt-s"
+    >
+      Manage users
+    </h1>
+    <ul
+      class="list list--bare list--inline "
+    >
+      <li
+        class="list__item "
+      >
+        <a
+          href="/user"
+        >
+          Create new user
+        </a>
+      </li>
+      <li
+        class="list__item "
+      >
+        <a
+          href="/user/upload"
+        >
+          Bulk upload users
+        </a>
+      </li>
+    </ul>
+    <p
+      class="u-mt-m"
+    >
+      <a
+        class="external-link"
+        href="url/"
+        id="cati-dashboard"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Link to CATI dashboard
+        <svg
+          class="svg-icon"
+          viewBox="0 0 12 12"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
+            transform="translate(-2 -1.99)"
+          />
+          <path
+            d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
+            transform="translate(-2 -1.99)"
+          />
+        </svg>
+      </a>
+    </p>
+    <table
+      class="table u-mt-m"
+      id="users-table"
+    >
+      <thead
+        class="table__head "
+      >
+        <tr
+          class="table__row"
+        >
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Name
+            </span>
+          </th>
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Role
+            </span>
+          </th>
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Default server park
+            </span>
+          </th>
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Change password
+            </span>
+          </th>
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Delete user
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="table__body"
+      >
+        <tr
+          class="table__row"
+          data-testid="users-table-row"
+        >
+          <td
+            class="table__cell "
+          >
+            TestUser123
+          </td>
+          <td
+            class="table__cell "
+          >
+            DST
+          </td>
+          <td
+            class="table__cell "
+          >
+            gusty
+          </td>
+          <td
+            class="table__cell "
+          >
+            <a
+              href="/user/changepassword/TestUser123"
+            >
+              Change password
+            </a>
+          </td>
+          <td
+            class="table__cell "
+          >
+            Currently signed in user
+          </td>
+        </tr>
+        <tr
+          class="table__row"
+          data-testid="users-table-row"
+        >
+          <td
+            class="table__cell "
+          >
+            SecondUser
+          </td>
+          <td
+            class="table__cell "
+          >
+            BDSS
+          </td>
+          <td
+            class="table__cell "
+          >
+            gusty
+          </td>
+          <td
+            class="table__cell "
+          >
+            <a
+              href="/user/changepassword/SecondUser"
+            >
+              Change password
+            </a>
+          </td>
+          <td
+            class="table__cell "
+          >
+            <a
+              href="/user/delete/SecondUser"
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -1,11 +1,11 @@
-import React, {ChangeEvent,  ReactElement, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent,  ReactElement, useEffect, useState} from "react";
 import {Link, Redirect} from "react-router-dom";
 import {ONSPanel, ONSButton} from "blaise-design-system-react-components";
-import {addNewUser, getAllRoles} from "../utilities/http";
-import {Role, User} from "../../Interfaces";
-import FormTextInput from "../form/TextInput";
-import Form from "../form";
-import {passwordMatchedValidator, requiredValidator} from "../form/FormValidators";
+import {addNewUser, getAllRoles} from "../../utilities/http";
+import {Role, User} from "../../../Interfaces";
+import FormTextInput from "../../form/TextInput";
+import Form from "../../form";
+import {passwordMatchedValidator, requiredValidator} from "../../form/FormValidators";
 
 function NewUser(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -38,7 +38,6 @@ function NewUser(): ReactElement {
             return;
         }
 
-        setButtonLoading(false);
         setRedirect(true);
     }
 
@@ -69,14 +68,14 @@ function NewUser(): ReactElement {
         <>
             {
                 redirect && <Redirect to={{
-                    pathname: "/",
+                    pathname: "/users",
                     state: {updatedPanel: {visible: true, message: "User " + username + " created", status: "success"}}
                 }}/>
             }
             <p className="u-mt-m">
-                <Link to={"/"}>Previous</Link>
+                <Link to={"/users"}>Previous</Link>
             </p>
-            <h1>Create a new user</h1>
+            <h1>Create new user</h1>
             <ONSPanel hidden={(message === "")} status="error">
                 {message}
             </ONSPanel>

@@ -1,0 +1,280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Manage Roles page view users page matches Snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <p
+        class="u-mt-m"
+      >
+        <a
+          href="/"
+        >
+          Previous
+        </a>
+      </p>
+      <h1
+        class="u-mt-s"
+      >
+        Manage roles
+      </h1>
+      <ul
+        class="list list--bare list--inline "
+      >
+        <li
+          class="list__item "
+        >
+          <a
+            href="/roles/new"
+          >
+            Create new role
+          </a>
+        </li>
+      </ul>
+      <table
+        class="table u-mt-m"
+        id="roles-table"
+      >
+        <thead
+          class="table__head"
+        >
+          <tr
+            class="table__row"
+          >
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Name
+              </span>
+            </th>
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Description
+              </span>
+            </th>
+            <th
+              class="table__header "
+              scope="col"
+            >
+              <span>
+                Number of permissions
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="table__body"
+        >
+          <tr
+            class="table__row"
+            data-testid="user-table-row"
+          >
+            <td
+              class="table__cell "
+            >
+              DST
+            </td>
+            <td
+              class="table__cell "
+            >
+              A role
+            </td>
+            <td
+              class="table__cell "
+            >
+              2
+            </td>
+          </tr>
+          <tr
+            class="table__row"
+            data-testid="user-table-row"
+          >
+            <td
+              class="table__cell "
+            >
+              BDSS
+            </td>
+            <td
+              class="table__cell "
+            >
+              Another role
+            </td>
+            <td
+              class="table__cell "
+            >
+              1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>,
+  "container": <div>
+    <p
+      class="u-mt-m"
+    >
+      <a
+        href="/"
+      >
+        Previous
+      </a>
+    </p>
+    <h1
+      class="u-mt-s"
+    >
+      Manage roles
+    </h1>
+    <ul
+      class="list list--bare list--inline "
+    >
+      <li
+        class="list__item "
+      >
+        <a
+          href="/roles/new"
+        >
+          Create new role
+        </a>
+      </li>
+    </ul>
+    <table
+      class="table u-mt-m"
+      id="roles-table"
+    >
+      <thead
+        class="table__head"
+      >
+        <tr
+          class="table__row"
+        >
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Name
+            </span>
+          </th>
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Description
+            </span>
+          </th>
+          <th
+            class="table__header "
+            scope="col"
+          >
+            <span>
+              Number of permissions
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="table__body"
+      >
+        <tr
+          class="table__row"
+          data-testid="user-table-row"
+        >
+          <td
+            class="table__cell "
+          >
+            DST
+          </td>
+          <td
+            class="table__cell "
+          >
+            A role
+          </td>
+          <td
+            class="table__cell "
+          >
+            2
+          </td>
+        </tr>
+        <tr
+          class="table__row"
+          data-testid="user-table-row"
+        >
+          <td
+            class="table__cell "
+          >
+            BDSS
+          </td>
+          <td
+            class="table__cell "
+          >
+            Another role
+          </td>
+          <td
+            class="table__cell "
+          >
+            1
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
