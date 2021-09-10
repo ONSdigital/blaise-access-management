@@ -1,7 +1,7 @@
 import { ONSLoadingPanel } from "blaise-design-system-react-components";
-import React from "react";
+import React, {ReactElement} from "react";
 
-const UsersUploadInProgress = () => {
+const UsersUploadInProgress = (): ReactElement => {
     return (
         <>
             <h1 className="u-mb-l">Upload in progress</h1>
