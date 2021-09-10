@@ -1,5 +1,5 @@
 import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {ONSPanel, ONSButton} from "blaise-design-system-react-components";
 import {addNewUser, getAllRoles} from "../../utilities/http";
 import {Role, User} from "../../../Interfaces";

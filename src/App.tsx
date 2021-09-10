@@ -92,7 +92,7 @@ function App(): ReactElement {
         name: "", role: ""
     };
     const [authenticatedUser, setAuthenticatedUser] = useState<User>(emptyUser);
-    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(true);
+    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false);
 
 
     // A wrapper for <Route> that redirects to the login

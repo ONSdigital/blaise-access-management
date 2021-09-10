@@ -1,5 +1,5 @@
 import React, {ReactElement, useState} from "react";
-import {Link, Redirect, useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import {ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import {deleteUser} from "../../utilities/http";
 import Breadcrumbs from "../../Components/Breadcrumbs";

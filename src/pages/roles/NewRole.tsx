@@ -1,5 +1,5 @@
 import React, {ReactElement, useState} from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {ONSTextInput, ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import {Role} from "../../../Interfaces";
 import {addNewRole} from "../../utilities/http";
