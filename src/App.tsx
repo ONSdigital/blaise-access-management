@@ -1,16 +1,14 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {DefaultErrorBoundary} from "./Components/ErrorHandling/DefaultErrorBoundary";
 import {isDevEnv} from "./Functions";
 import {Switch, Route, Redirect, useLocation} from "react-router-dom";
 import Users from "./pages/users/Users";
 import {User} from "../Interfaces";
-import {ErrorBoundary} from "./Components/ErrorHandling/ErrorBoundary";
 import NewUser from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
 import DeleteUser from "./pages/users/DeleteUser";
 import SignIn from "./pages/SignIn";
 import NewRole from "./pages/roles/NewRole";
-import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner} from "blaise-design-system-react-components";
+import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner, ErrorBoundary, DefaultErrorBoundary} from "blaise-design-system-react-components";
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
@@ -93,7 +91,7 @@ function App(): ReactElement {
         name: "", role: ""
     };
     const [authenticatedUser, setAuthenticatedUser] = useState<User>(emptyUser);
-    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false);
+    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(true);
 
 
     // A wrapper for <Route> that redirects to the login
@@ -132,7 +130,7 @@ function App(): ReactElement {
             <Header title={"Blaise User Management"} signOutButton={userAuthenticated} signOutFunction={() => signOutUser()}/>
             <div style={divStyle} className="page__container container">
                 <main id="main-content" className="page__main">
-                    <ONSPanel hidden={!panel.visible} status={panel.status}>
+                    <ONSPanel hidden={!panel.visible} status={"info"}>
                         <p>{panel.message}</p>
                     </ONSPanel>
                     <DefaultErrorBoundary>

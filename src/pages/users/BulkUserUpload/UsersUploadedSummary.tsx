@@ -1,7 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {ONSButton, ONSPanel} from "blaise-design-system-react-components";
+import {ErrorBoundary, ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import {UploadedUser} from "../../../../Interfaces";
-import {ErrorBoundary} from "../../../Components/ErrorHandling/ErrorBoundary";
 import {useHistory} from "react-router-dom";
 import converter from "number-to-words";
 
