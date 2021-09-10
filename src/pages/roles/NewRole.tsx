@@ -3,7 +3,7 @@ import {Link, Redirect} from "react-router-dom";
 import {ONSTextInput, ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import {Role} from "../../../Interfaces";
 import {addNewRole} from "../../utilities/http";
-
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 
 function NewRole(): ReactElement {
@@ -49,32 +49,35 @@ function NewRole(): ReactElement {
             {
                 redirect && <Redirect to={{
                     pathname: "/roles",
-                    state: {updatedPanel: {visible: true, message: "Role " + name + " created", status: "success"} }
+                    state: {updatedPanel: {visible: true, message: "Role " + name + " created", status: "success"}}
                 }}/>
             }
-            <p className="u-mt-m">
-                <Link to={"/roles"}>Previous</Link>
-            </p>
-            <h1>Create new role</h1>
-            <ONSPanel hidden={(message === "")} status="error">
-                {message}
-            </ONSPanel>
-            <form onSubmit={() => createNewUser()}>
-                <ONSTextInput label={"Name"}
-                              autoFocus={true}
-                              value={name}
-                              onChange={(e) => setName(e.target.value)} zIndex={0}/>
-                <ONSTextInput label={"Description"}
-                              value={description}
-                              onChange={(e) => setDescription(e.target.value)} zIndex={0}/>
-                <ONSButton
-                    label={"Save"}
-                    primary={true}
-                    loading={buttonLoading}
-                    onClick={() => createNewUser()}/>
-            </form>
+            <Breadcrumbs BreadcrumbList={
+                [
+                    {link: "/", title: "Home"}, {link: "/roles", title: "Manage roles"}
+                ]
+            }/>
 
-
+            <main id="main-content" className="page__main u-mt-no">
+                <h1 className="u-mb-l">Create new role</h1>
+                <ONSPanel hidden={(message === "")} status="error">
+                    {message}
+                </ONSPanel>
+                <form onSubmit={() => createNewUser()}>
+                    <ONSTextInput label={"Name"}
+                                  autoFocus={true}
+                                  value={name}
+                                  onChange={(e) => setName(e.target.value)} zIndex={0}/>
+                    <ONSTextInput label={"Description"}
+                                  value={description}
+                                  onChange={(e) => setDescription(e.target.value)} zIndex={0}/>
+                    <ONSButton
+                        label={"Save"}
+                        primary={true}
+                        loading={buttonLoading}
+                        onClick={() => createNewUser()}/>
+                </form>
+            </main>
         </>
     );
 }

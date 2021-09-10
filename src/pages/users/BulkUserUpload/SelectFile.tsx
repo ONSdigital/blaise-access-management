@@ -4,10 +4,11 @@ import {ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
 import {ImportUser, Role} from "../../../../Interfaces";
 import {getAllRoles} from "../../../utilities/http";
+import Breadcrumbs from "../../../Components/Breadcrumbs";
 
 interface Props {
-    setUsersToUpload: (users: ImportUser[]) => void
-    movePageForward: () => void
+    setUsersToUpload: (users: ImportUser[]) => void;
+    movePageForward: () => void;
 }
 
 function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
@@ -54,7 +55,9 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
             user.warnings.push("Invalid role");
             user.valid = false;
         } else {
-            const isValidRole = roles.some(function(el){ return el.name === user.role;});
+            const isValidRole = roles.some(function (el) {
+                return el.name === user.role;
+            });
 
             if (!isValidRole) {
                 console.warn("User with invalid role!");
@@ -92,10 +95,7 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
 
     return (
         <>
-            <p className="u-mt-m">
-                <Link to={"/users"}>Previous</Link>
-            </p>
-            <h1>Bulk user upload</h1>
+            <h1 className="u-mb-l">Bulk user upload</h1>
 
             <label className="label" htmlFor="react-csv-reader-input">Select CSV file
                 <br/>
@@ -120,7 +120,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                     <div className="collapsible__controls">
                         <div className="collapsible__title">What format should the bulk upload file be?</div>
                         <span className="collapsible__icon">
-                            <svg className="svg-icon" viewBox="0 0 7.5 12.85" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <svg className="svg-icon" viewBox="0 0 7.5 12.85" xmlns="http://www.w3.org/2000/svg"
+                                 focusable="false">
                                 <path
                                     d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
                                     transform="translate(-5.02 -1.59)"/>
@@ -130,7 +131,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                 </div>
                 <div id="collapsible-with-save-content" className="collapsible__content js-collapsible-content"
                      aria-hidden={(panelOpen ? "false" : "true")}>
-                    <p>The user file should be a Comma-Separated Values file (CSV) with the headings <em>user, password and role</em>.
+                    <p>The user file should be a Comma-Separated Values file (CSV) with the headings <em>user, password
+                        and role</em>.
                         A blank template is available to download below.
                     </p>
 
@@ -138,7 +140,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                         <div className="download__image" aria-hidden="true">
                             <a className="download__image-link"
                                href="/documents/users.csv">
-                                <img src="https://ons-design-system.netlify.app/img/small/placeholder-portrait.png" alt=""
+                                <img src="https://ons-design-system.netlify.app/img/small/placeholder-portrait.png"
+                                     alt=""
                                      loading="lazy"/>
                             </a>
                         </div>
@@ -149,7 +152,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                                 CSV document download, 48 Bytes
                         </span></a>
                             </h3>
-                            <span className="u-fs-s u-mb-xs download__meta" aria-hidden="true">Poster, CSV, 48 Bytes</span>
+                            <span className="u-fs-s u-mb-xs download__meta"
+                                  aria-hidden="true">Poster, CSV, 48 Bytes</span>
                             <p className="download__excerpt">Blank CSV file to upload multiple users at once.</p>
                         </div>
                     </div>

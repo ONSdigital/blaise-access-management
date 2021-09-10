@@ -1,13 +1,14 @@
 import React, {ReactElement, useState} from "react";
 import {Link, Redirect, useParams} from "react-router-dom";
 import {ONSButton, ONSPanel, ONSPasswordInput} from "blaise-design-system-react-components";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 interface Parmas {
-    user: string
+    user: string;
 }
 
 
-function ChangePassword(): ReactElement  {
+function ChangePassword(): ReactElement {
     // We can use the `useParams` hook here to access
     // the dynamic pieces of the URL.
     const {user}: Parmas = useParams();
@@ -55,32 +56,41 @@ function ChangePassword(): ReactElement  {
             {
                 redirect && <Redirect to={{
                     pathname: "/users",
-                    state: {updatedPanel: {visible: true, message: "Password for user " + user + " changed", status: "success"} }
+                    state: {
+                        updatedPanel: {
+                            visible: true,
+                            message: "Password for user " + user + " changed",
+                            status: "success"
+                        }
+                    }
                 }}/>
             }
-            <p>
-                <Link to={"/users"}>Previous</Link>
-            </p>
-            <h1>Change password for user <em>{user}</em></h1>
-            <ONSPanel hidden={(message === "")} status="error">
-                {message}
-            </ONSPanel>
-            <form onSubmit={() => changePassword()}>
-                <ONSPasswordInput label={"New password"}
-                                  autoFocus={true}
-                                  value={password}
-                                  onChange={(e) => setPassword(e.target.value)}/>
-                <ONSPasswordInput label={"Confirm password"}
-                                  value={confirmPassword}
-                                  onChange={(e) => setConfirmPassword(e.target.value)}/>
-                <ONSButton
-                    label={"Save"}
-                    primary={true}
-                    loading={buttonLoading}
-                    onClick={() => changePassword()}/>
-            </form>
+            <Breadcrumbs BreadcrumbList={
+                [
+                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
+                ]
+            }/>
 
-
+            <main id="main-content" className="page__main u-mt-no">
+                <h1 className="u-mb-l">Change password for user <em>{user}</em></h1>
+                <ONSPanel hidden={(message === "")} status="error">
+                    {message}
+                </ONSPanel>
+                <form onSubmit={() => changePassword()}>
+                    <ONSPasswordInput label={"New password"}
+                                      autoFocus={true}
+                                      value={password}
+                                      onChange={(e) => setPassword(e.target.value)}/>
+                    <ONSPasswordInput label={"Confirm password"}
+                                      value={confirmPassword}
+                                      onChange={(e) => setConfirmPassword(e.target.value)}/>
+                    <ONSButton
+                        label={"Save"}
+                        primary={true}
+                        loading={buttonLoading}
+                        onClick={() => changePassword()}/>
+                </form>
+            </main>
         </>
     );
 }

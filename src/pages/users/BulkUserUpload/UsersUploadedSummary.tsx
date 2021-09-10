@@ -80,7 +80,7 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
 
     return (
         <>
-            <h1 className="u-mt-l">Uploaded <em>{converter.toWords(numberOfCreatedUsers)} of {converter.toWords(numberOfValidUsers)}</em> user{(numberOfValidUsers > 1 && "s")} successfully
+            <h1 className="u-mb-l">Uploaded <em>{converter.toWords(numberOfCreatedUsers)} of {converter.toWords(numberOfValidUsers)}</em> user{(numberOfValidUsers > 1 && "s")} successfully
             </h1>
 
             {

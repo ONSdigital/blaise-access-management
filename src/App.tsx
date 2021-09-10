@@ -12,6 +12,7 @@ import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner, ErrorBoundar
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
+import {NavigationLinks} from "./Components/NavigationLinks";
 
 interface Panel {
     visible: boolean
@@ -128,8 +129,10 @@ function App(): ReactElement {
             }
             <BetaBanner/>
             <Header title={"Blaise User Management"} signOutButton={userAuthenticated} signOutFunction={() => signOutUser()}/>
+            {
+                userAuthenticated && <NavigationLinks/>
+            }
             <div style={divStyle} className="page__container container">
-                <main id="main-content" className="page__main">
                     <ONSPanel hidden={!panel.visible} status={"info"}>
                         <p>{panel.message}</p>
                     </ONSPanel>
@@ -173,7 +176,6 @@ function App(): ReactElement {
                         </PrivateRoute>
                         </Switch>
                     </DefaultErrorBoundary>
-                </main>
             </div>
             <Footer/>
         </>
