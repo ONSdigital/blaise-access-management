@@ -54,14 +54,14 @@ function UsersTable({users, currentUser, listError}: UsersTableProps): ReactElem
                                     {/*    <Link to={"/survey/" + item.name}>Edit</Link>*/}
                                     {/*</td>*/}
                                     <td className="table__cell ">
-                                        <Link to={"/user/changepassword/" + name}>Change password</Link>
+                                        <Link to={"/users/changepassword/" + name}>Change password</Link>
                                     </td>
                                     <td className="table__cell ">
                                         {
                                             (
                                                 name === currentUser.name ?
                                                     "Currently signed in user" :
-                                                    <Link to={"/user/delete/" + name}>Delete</Link>
+                                                    <Link to={"/users/delete/" + name}>Delete</Link>
                                             )
                                         }
                                     </td>

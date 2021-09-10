@@ -172,7 +172,7 @@ Object {
                 class="table__cell "
               >
                 <a
-                  href="/user/changepassword/TestUser123"
+                  href="/users/changepassword/TestUser123"
                 >
                   Change password
                 </a>
@@ -206,7 +206,7 @@ Object {
                 class="table__cell "
               >
                 <a
-                  href="/user/changepassword/SecondUser"
+                  href="/users/changepassword/SecondUser"
                 >
                   Change password
                 </a>
@@ -215,7 +215,7 @@ Object {
                 class="table__cell "
               >
                 <a
-                  href="/user/delete/SecondUser"
+                  href="/users/delete/SecondUser"
                 >
                   Delete
                 </a>
@@ -394,7 +394,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/changepassword/TestUser123"
+                href="/users/changepassword/TestUser123"
               >
                 Change password
               </a>
@@ -428,7 +428,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/changepassword/SecondUser"
+                href="/users/changepassword/SecondUser"
               >
                 Change password
               </a>
@@ -437,7 +437,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/delete/SecondUser"
+                href="/users/delete/SecondUser"
               >
                 Delete
               </a>
