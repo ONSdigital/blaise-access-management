@@ -7,6 +7,12 @@ import {getEnvironmentVariables} from "./Config";
 import createLogger from "./pino";
 import BlaiseAPIRouter from "./BlaiseAPI";
 import multer from "multer";
+import * as profiler from "@google-cloud/profiler";
+
+profiler.start({logLevel: 4}).catch((err: unknown) => {
+    console.log(`Failed to start profiler: ${err}`);
+});
+
 const upload = multer();
 
 const server = express();

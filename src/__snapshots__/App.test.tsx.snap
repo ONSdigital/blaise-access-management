@@ -124,25 +124,77 @@ Object {
         </div>
       </header>
       <div
+        class="header__bottom"
+      >
+        <div
+          class="container container--gutterless@xxs@m"
+        >
+          <nav
+            aria-label="Main menu"
+            class="header-nav js-header-nav"
+            data-analytics="header-navigation"
+            id="main-nav"
+          >
+            <ul
+              class="header-nav__list"
+            >
+              <li
+                class="header-nav__item  header-nav__item--active"
+              >
+                <a
+                  class="header-nav__link"
+                  href="/"
+                  id="home-link"
+                >
+                  Home
+                </a>
+              </li>
+              <li
+                class="header-nav__item  "
+              >
+                <a
+                  class="header-nav__link"
+                  href="/users"
+                  id="users-link"
+                >
+                  Manage users
+                </a>
+              </li>
+              <li
+                class="header-nav__item  "
+              >
+                <a
+                  class="header-nav__link"
+                  href="/roles"
+                  id="roles-link"
+                >
+                  Manages roles
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div
         class="page__container container"
         style="min-height: calc(67vh);"
       >
-        <main
-          class="page__main"
-          id="main-content"
+        <div
+          class="panel panel--info panel--no-title  u-mt-m"
+          hidden=""
         >
           <div
-            class="panel panel--info panel--no-title  u-mt-m"
-            hidden=""
+            class="panel__body "
           >
-            <div
-              class="panel__body "
-            >
-              <p />
-            </div>
+            <p />
           </div>
+        </div>
+        <main
+          class="page__main u-mt-no"
+          id="main-content"
+        >
           <h1
-            class="u-mt-m"
+            class="u-mt-m u-mb-l"
           >
             User Management
           </h1>
@@ -194,7 +246,7 @@ Object {
                     >
                       <a
                         class="list__link "
-                        href="/user/new"
+                        href="/users/new"
                       >
                         Create new user
                       </a>
@@ -204,7 +256,7 @@ Object {
                     >
                       <a
                         class="list__link "
-                        href="/user/upload"
+                        href="/users/upload"
                       >
                         Bulk upload users
                       </a>
@@ -406,25 +458,77 @@ Object {
       </div>
     </header>
     <div
+      class="header__bottom"
+    >
+      <div
+        class="container container--gutterless@xxs@m"
+      >
+        <nav
+          aria-label="Main menu"
+          class="header-nav js-header-nav"
+          data-analytics="header-navigation"
+          id="main-nav"
+        >
+          <ul
+            class="header-nav__list"
+          >
+            <li
+              class="header-nav__item  header-nav__item--active"
+            >
+              <a
+                class="header-nav__link"
+                href="/"
+                id="home-link"
+              >
+                Home
+              </a>
+            </li>
+            <li
+              class="header-nav__item  "
+            >
+              <a
+                class="header-nav__link"
+                href="/users"
+                id="users-link"
+              >
+                Manage users
+              </a>
+            </li>
+            <li
+              class="header-nav__item  "
+            >
+              <a
+                class="header-nav__link"
+                href="/roles"
+                id="roles-link"
+              >
+                Manages roles
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div
       class="page__container container"
       style="min-height: calc(67vh);"
     >
-      <main
-        class="page__main"
-        id="main-content"
+      <div
+        class="panel panel--info panel--no-title  u-mt-m"
+        hidden=""
       >
         <div
-          class="panel panel--info panel--no-title  u-mt-m"
-          hidden=""
+          class="panel__body "
         >
-          <div
-            class="panel__body "
-          >
-            <p />
-          </div>
+          <p />
         </div>
+      </div>
+      <main
+        class="page__main u-mt-no"
+        id="main-content"
+      >
         <h1
-          class="u-mt-m"
+          class="u-mt-m u-mb-l"
         >
           User Management
         </h1>
@@ -476,7 +580,7 @@ Object {
                   >
                     <a
                       class="list__link "
-                      href="/user/new"
+                      href="/users/new"
                     >
                       Create new user
                     </a>
@@ -486,7 +590,7 @@ Object {
                   >
                     <a
                       class="list__link "
-                      href="/user/upload"
+                      href="/users/upload"
                     >
                       Bulk upload users
                     </a>

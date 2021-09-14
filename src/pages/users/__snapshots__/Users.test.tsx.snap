@@ -5,17 +5,265 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <p
-        class="u-mt-m"
+      <nav
+        aria-label="Breadcrumb"
+        class="breadcrumb"
       >
-        <a
-          href="/"
+        <ol
+          class="breadcrumb__items u-fs-s"
         >
-          Previous
-        </a>
-      </p>
+          <li
+            class="breadcrumb__item"
+            id="breadcrumb-0"
+          >
+            <a
+              class="breadcrumb__link"
+              href="/"
+            >
+              Home
+            </a>
+            <svg
+              class="svg-icon"
+              focusable="false"
+              viewBox="0 0 8 13"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+                transform="translate(-5.02 -1.59)"
+              />
+            </svg>
+          </li>
+        </ol>
+      </nav>
+      <main
+        class="page__main u-mt-no"
+        id="main-content"
+      >
+        <h1
+          class="u-mb-l"
+        >
+          Manage users
+        </h1>
+        <ul
+          class="list list--bare list--inline "
+        >
+          <li
+            class="list__item "
+          >
+            <a
+              href="/users/new"
+            >
+              Create new user
+            </a>
+          </li>
+          <li
+            class="list__item "
+          >
+            <a
+              href="/users/upload"
+            >
+              Bulk upload users
+            </a>
+          </li>
+        </ul>
+        <p
+          class="u-mt-m"
+        >
+          <a
+            class="external-link"
+            href="url/"
+            id="cati-dashboard"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Link to CATI dashboard
+            <svg
+              class="svg-icon"
+              viewBox="0 0 12 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
+                transform="translate(-2 -1.99)"
+              />
+              <path
+                d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
+                transform="translate(-2 -1.99)"
+              />
+            </svg>
+          </a>
+        </p>
+        <table
+          class="table u-mt-m"
+          id="users-table"
+        >
+          <thead
+            class="table__head "
+          >
+            <tr
+              class="table__row"
+            >
+              <th
+                class="table__header "
+                scope="col"
+              >
+                <span>
+                  Name
+                </span>
+              </th>
+              <th
+                class="table__header "
+                scope="col"
+              >
+                <span>
+                  Role
+                </span>
+              </th>
+              <th
+                class="table__header "
+                scope="col"
+              >
+                <span>
+                  Default server park
+                </span>
+              </th>
+              <th
+                class="table__header "
+                scope="col"
+              >
+                <span>
+                  Change password
+                </span>
+              </th>
+              <th
+                class="table__header "
+                scope="col"
+              >
+                <span>
+                  Delete user
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="table__body"
+          >
+            <tr
+              class="table__row"
+              data-testid="users-table-row"
+            >
+              <td
+                class="table__cell "
+              >
+                TestUser123
+              </td>
+              <td
+                class="table__cell "
+              >
+                DST
+              </td>
+              <td
+                class="table__cell "
+              >
+                gusty
+              </td>
+              <td
+                class="table__cell "
+              >
+                <a
+                  href="/users/changepassword/TestUser123"
+                >
+                  Change password
+                </a>
+              </td>
+              <td
+                class="table__cell "
+              >
+                Currently signed in user
+              </td>
+            </tr>
+            <tr
+              class="table__row"
+              data-testid="users-table-row"
+            >
+              <td
+                class="table__cell "
+              >
+                SecondUser
+              </td>
+              <td
+                class="table__cell "
+              >
+                BDSS
+              </td>
+              <td
+                class="table__cell "
+              >
+                gusty
+              </td>
+              <td
+                class="table__cell "
+              >
+                <a
+                  href="/users/changepassword/SecondUser"
+                >
+                  Change password
+                </a>
+              </td>
+              <td
+                class="table__cell "
+              >
+                <a
+                  href="/users/delete/SecondUser"
+                >
+                  Delete
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <nav
+      aria-label="Breadcrumb"
+      class="breadcrumb"
+    >
+      <ol
+        class="breadcrumb__items u-fs-s"
+      >
+        <li
+          class="breadcrumb__item"
+          id="breadcrumb-0"
+        >
+          <a
+            class="breadcrumb__link"
+            href="/"
+          >
+            Home
+          </a>
+          <svg
+            class="svg-icon"
+            focusable="false"
+            viewBox="0 0 8 13"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+              transform="translate(-5.02 -1.59)"
+            />
+          </svg>
+        </li>
+      </ol>
+    </nav>
+    <main
+      class="page__main u-mt-no"
+      id="main-content"
+    >
       <h1
-        class="u-mt-s"
+        class="u-mb-l"
       >
         Manage users
       </h1>
@@ -26,7 +274,7 @@ Object {
           class="list__item "
         >
           <a
-            href="/user"
+            href="/users/new"
           >
             Create new user
           </a>
@@ -35,7 +283,7 @@ Object {
           class="list__item "
         >
           <a
-            href="/user/upload"
+            href="/users/upload"
           >
             Bulk upload users
           </a>
@@ -146,7 +394,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/changepassword/TestUser123"
+                href="/users/changepassword/TestUser123"
               >
                 Change password
               </a>
@@ -180,7 +428,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/changepassword/SecondUser"
+                href="/users/changepassword/SecondUser"
               >
                 Change password
               </a>
@@ -189,7 +437,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/delete/SecondUser"
+                href="/users/delete/SecondUser"
               >
                 Delete
               </a>
@@ -197,201 +445,7 @@ Object {
           </tr>
         </tbody>
       </table>
-    </div>
-  </body>,
-  "container": <div>
-    <p
-      class="u-mt-m"
-    >
-      <a
-        href="/"
-      >
-        Previous
-      </a>
-    </p>
-    <h1
-      class="u-mt-s"
-    >
-      Manage users
-    </h1>
-    <ul
-      class="list list--bare list--inline "
-    >
-      <li
-        class="list__item "
-      >
-        <a
-          href="/user"
-        >
-          Create new user
-        </a>
-      </li>
-      <li
-        class="list__item "
-      >
-        <a
-          href="/user/upload"
-        >
-          Bulk upload users
-        </a>
-      </li>
-    </ul>
-    <p
-      class="u-mt-m"
-    >
-      <a
-        class="external-link"
-        href="url/"
-        id="cati-dashboard"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Link to CATI dashboard
-        <svg
-          class="svg-icon"
-          viewBox="0 0 12 12"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
-            transform="translate(-2 -1.99)"
-          />
-          <path
-            d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
-            transform="translate(-2 -1.99)"
-          />
-        </svg>
-      </a>
-    </p>
-    <table
-      class="table u-mt-m"
-      id="users-table"
-    >
-      <thead
-        class="table__head "
-      >
-        <tr
-          class="table__row"
-        >
-          <th
-            class="table__header "
-            scope="col"
-          >
-            <span>
-              Name
-            </span>
-          </th>
-          <th
-            class="table__header "
-            scope="col"
-          >
-            <span>
-              Role
-            </span>
-          </th>
-          <th
-            class="table__header "
-            scope="col"
-          >
-            <span>
-              Default server park
-            </span>
-          </th>
-          <th
-            class="table__header "
-            scope="col"
-          >
-            <span>
-              Change password
-            </span>
-          </th>
-          <th
-            class="table__header "
-            scope="col"
-          >
-            <span>
-              Delete user
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody
-        class="table__body"
-      >
-        <tr
-          class="table__row"
-          data-testid="users-table-row"
-        >
-          <td
-            class="table__cell "
-          >
-            TestUser123
-          </td>
-          <td
-            class="table__cell "
-          >
-            DST
-          </td>
-          <td
-            class="table__cell "
-          >
-            gusty
-          </td>
-          <td
-            class="table__cell "
-          >
-            <a
-              href="/user/changepassword/TestUser123"
-            >
-              Change password
-            </a>
-          </td>
-          <td
-            class="table__cell "
-          >
-            Currently signed in user
-          </td>
-        </tr>
-        <tr
-          class="table__row"
-          data-testid="users-table-row"
-        >
-          <td
-            class="table__cell "
-          >
-            SecondUser
-          </td>
-          <td
-            class="table__cell "
-          >
-            BDSS
-          </td>
-          <td
-            class="table__cell "
-          >
-            gusty
-          </td>
-          <td
-            class="table__cell "
-          >
-            <a
-              href="/user/changepassword/SecondUser"
-            >
-              Change password
-            </a>
-          </td>
-          <td
-            class="table__cell "
-          >
-            <a
-              href="/user/delete/SecondUser"
-            >
-              Delete
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    </main>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
