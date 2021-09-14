@@ -4,6 +4,8 @@ import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
 import {addNewUser} from "../../../utilities/http";
 import UsersUploadedSummary from "./UsersUploadedSummary";
+import Breadcrumbs from "../../../Components/Breadcrumbs";
+import UsersUploadInProgress from "./UsersUploadInProgress";
 
 function BulkUserUpload(): ReactElement {
 
@@ -62,9 +64,10 @@ function BulkUserUpload(): ReactElement {
             case Pages.ToUploadSummary:
                 return <UsersToUploadSummary statusDescriptionList={usersToUpload} uploadUsers={UploadUsers}/>;
             case Pages.InProgress:
-                return <h1 className="u-mt-m">Upload in progress</h1>;
+                return <UsersUploadInProgress/>;
             case Pages.UploadedSummary:
-                return <UsersUploadedSummary key={usersUploaded.toString()} usersUploaded={usersUploaded} numberOfValidUsers={numberOfValidUsers}/>;
+                return <UsersUploadedSummary key={usersUploaded.toString()} usersUploaded={usersUploaded}
+                                             numberOfValidUsers={numberOfValidUsers}/>;
             default:
                 return <SelectFile setUsersToUpload={setUsersToUpload} movePageForward={MovePageToSummary}/>;
         }
@@ -72,7 +75,15 @@ function BulkUserUpload(): ReactElement {
 
     return (
         <>
-            {returnPage()}
+            <Breadcrumbs BreadcrumbList={
+                [
+                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
+                ]
+            }/>
+
+            <main id="main-content" className="page__main u-mt-no">
+                {returnPage()}
+            </main>
         </>
     );
 }

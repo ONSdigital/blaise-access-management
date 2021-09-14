@@ -1,11 +1,12 @@
-import React, {ChangeEvent,  ReactElement, useEffect, useState} from "react";
-import {Link, Redirect} from "react-router-dom";
+import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
+import {Redirect} from "react-router-dom";
 import {ONSPanel, ONSButton} from "blaise-design-system-react-components";
 import {addNewUser, getAllRoles} from "../../utilities/http";
 import {Role, User} from "../../../Interfaces";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import {passwordMatchedValidator, requiredValidator} from "../../form/FormValidators";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function NewUser(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -72,51 +73,55 @@ function NewUser(): ReactElement {
                     state: {updatedPanel: {visible: true, message: "User " + username + " created", status: "success"}}
                 }}/>
             }
-            <p className="u-mt-m">
-                <Link to={"/users"}>Previous</Link>
-            </p>
-            <h1>Create new user</h1>
-            <ONSPanel hidden={(message === "")} status="error">
-                {message}
-            </ONSPanel>
+            <Breadcrumbs BreadcrumbList={
+                [
+                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
+                ]
+            }/>
 
-            <Form onSubmit={(data) => createNewUser(data)}>
-                <FormTextInput
-                    name="username"
-                    validators={[requiredValidator]}
-                    label={"Username"}
-                />
-                <FormTextInput
-                    name="password"
-                    validators={[requiredValidator]}
-                    label={"Password"}
-                    password={true}
-                />
-                <FormTextInput
-                    name="confirm_password"
-                    validators={[requiredValidator, passwordMatchedValidator]}
-                    label={"Confirm password"}
-                    password={true}
-                 />
-                <p className="field">
-                    <label className="label" htmlFor="role">Role
-                    </label>
-                    <select value={role} id="role" name="select" className="input input--select "
-                            onChange={(e: ChangeEvent<HTMLSelectElement>) => setRole(e.target.value)}>
-                        {
-                            roleList.map((option: Role) => {
-                                return (<option key={option.name} value={option.name}>{option.name}</option>);
-                            })
-                        }
-                    </select>
-                </p>
-                <ONSButton
-                    label={"Save"}
-                    primary={true}
-                    loading={buttonLoading}
-                    submit={true}/>
-            </Form>
+            <main id="main-content" className="page__main u-mt-no">
+                <h1 className="u-mb-l">Create new user</h1>
+                <ONSPanel hidden={(message === "")} status="error">
+                    {message}
+                </ONSPanel>
 
+                <Form onSubmit={(data) => createNewUser(data)}>
+                    <FormTextInput
+                        name="username"
+                        validators={[requiredValidator]}
+                        label={"Username"}
+                    />
+                    <FormTextInput
+                        name="password"
+                        validators={[requiredValidator]}
+                        label={"Password"}
+                        password={true}
+                    />
+                    <FormTextInput
+                        name="confirm_password"
+                        validators={[requiredValidator, passwordMatchedValidator]}
+                        label={"Confirm password"}
+                        password={true}
+                    />
+                    <p className="field">
+                        <label className="label" htmlFor="role">Role
+                        </label>
+                        <select value={role} id="role" name="select" className="input input--select "
+                                onChange={(e: ChangeEvent<HTMLSelectElement>) => setRole(e.target.value)}>
+                            {
+                                roleList.map((option: Role) => {
+                                    return (<option key={option.name} value={option.name}>{option.name}</option>);
+                                })
+                            }
+                        </select>
+                    </p>
+                    <ONSButton
+                        label={"Save"}
+                        primary={true}
+                        loading={buttonLoading}
+                        submit={true}/>
+                </Form>
+            </main>
         </>
     );
 }
