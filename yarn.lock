@@ -2778,10 +2778,10 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
-"@types/pino-http@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@types/pino-http/-/pino-http-5.4.0.tgz#0e5d63dad7f8a0bd2c91380d6dc2bc2dbd5a1cc8"
-  integrity sha512-d2OqdD3BWZA7JupHHkWHl/9aqzpGOI2jwD9FGcoWqbg/1f/HaXENI8T4gqzCHZg3ELkhrTaPjrLWbAfD8bGJ3g==
+"@types/pino-http@^5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@types/pino-http/-/pino-http-5.7.0.tgz#d6e5719ff0640f716b873ed717da09629351a264"
+  integrity sha512-6I6Nmp5ySfaxE+QFMZWGpDMTfkx8AHh6VETkqAixiTupeTY2uOSnMmGAbtLoWIA1ymrw+lCvA8HB0U4JkL0gTQ==
   dependencies:
     "@types/pino" "*"
 
