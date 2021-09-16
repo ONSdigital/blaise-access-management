@@ -2581,10 +2581,10 @@
   resolved "https://registry.yarnpkg.com/@types/console-log-level/-/console-log-level-1.4.2.tgz#32ae0c2e704303833448528508f7de982a4d3ce5"
   integrity sha512-TnhDAntcJthcCMrR3OAKAUjgHyQgoms1yaBJepGv+BtXi8PLf8aX2L/NMCfofRTpVqW0bLklpGTsuqmUSCR2Uw==
 
-"@types/ejs@^3.0.5":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-3.0.5.tgz#95a3a1c3d9603eba80fe67ff56da1ba275ef2eda"
-  integrity sha512-k4ef69sS4sIqAPW9GoBnN+URAON2LeL1H0duQvL4RgdEBna19/WattYSA1qYqvbVEDRTSWzOw56tCLhC/m/IOw==
+"@types/ejs@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-3.1.0.tgz#ab8109208106b5e764e5a6c92b2ba1c625b73020"
+  integrity sha512-DCg+Ka+uDQ31lJ/UtEXVlaeV3d6t81gifaVWKJy4MYVVgvJttyX/viREy+If7fz+tK/gVxTGMtyrFPnm4gjrVA==
 
 "@types/eslint@^7.2.6":
   version "7.2.10"
