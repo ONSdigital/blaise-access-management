@@ -71,7 +71,7 @@
     "axios-mock-adapter": "^1.19.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.32.0",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react": "^7.25.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "pino-pretty": "^4.7.1",
     "supertest": "^6.1.3"
