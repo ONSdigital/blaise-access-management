@@ -6,6 +6,7 @@ updates:
       interval: "daily"
     commit-message:
       prefix: chore
+    open-pull-requests-limit: 100
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
