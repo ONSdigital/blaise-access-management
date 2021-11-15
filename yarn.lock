@@ -2778,12 +2778,19 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
-"@types/pino-http@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@types/pino-http/-/pino-http-5.4.0.tgz#0e5d63dad7f8a0bd2c91380d6dc2bc2dbd5a1cc8"
-  integrity sha512-d2OqdD3BWZA7JupHHkWHl/9aqzpGOI2jwD9FGcoWqbg/1f/HaXENI8T4gqzCHZg3ELkhrTaPjrLWbAfD8bGJ3g==
+"@types/pino-http@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@types/pino-http/-/pino-http-5.8.1.tgz#ebb194750ad2f9245c3028b5d2c4e6d64f685ba9"
+  integrity sha512-A9MW6VCnx5ii7s+Fs5aFIw+aSZcBCpsZ/atpxamu8tTsvWFacxSf2Hrn1Ohn1jkVRB/LiPGOapRXcFawDBnDnA==
   dependencies:
-    "@types/pino" "*"
+    "@types/pino" "6.3"
+
+"@types/pino-pretty@*":
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/@types/pino-pretty/-/pino-pretty-4.7.2.tgz#c6e2a96d6ba1463d27cca6f512451ae70b40bf78"
+  integrity sha512-a4/hqUb8AYNJYtWkR4cVpT9m2bcO6DUO+MLAtaLNCgYhbrleHJiUBgTSZfcFbaZwi1naAIQVKJbHVrj9YRfujQ==
+  dependencies:
+    "@types/pino" "6.3"
 
 "@types/pino-std-serializers@*":
   version "2.4.1"
@@ -2792,14 +2799,15 @@
   dependencies:
     "@types/node" "*"
 
-"@types/pino@*":
-  version "6.3.6"
-  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.6.tgz#3aa928bcbd30dc0c6a0ec2e9302cabd5dee6e832"
-  integrity sha512-yVgSyMGzNDYe/XNMJyuIkklDeZbFdGAxRztYLoN1QQrrgiLJ1oJPmnS8Ge5xpzI9ODKEddKH97VFQ7cWO6Pumw==
+"@types/pino@6.3":
+  version "6.3.12"
+  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.12.tgz#4425db6ced806109c3df957100cba9dfcd73c228"
+  integrity sha512-dsLRTq8/4UtVSpJgl9aeqHvbh6pzdmjYD3C092SYgLD2TyoCqHpTJk6vp8DvCTGGc7iowZ2MoiYiVUUCcu7muw==
   dependencies:
     "@types/node" "*"
+    "@types/pino-pretty" "*"
     "@types/pino-std-serializers" "*"
-    "@types/sonic-boom" "*"
+    sonic-boom "^2.1.0"
 
 "@types/prettier@^2.0.0":
   version "2.1.5"
@@ -2882,13 +2890,6 @@
   integrity sha512-MoJhSQreaVoL+/hurAZzIm8wafFR6ajiTM1m4A0kv6AGeVBl4r4pOV8bGFrjjq1sGxDTnCoF8i22o0/aE5XCyA==
   dependencies:
     "@types/mime" "*"
-    "@types/node" "*"
-
-"@types/sonic-boom@*":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@types/sonic-boom/-/sonic-boom-0.7.0.tgz#38337036293992a1df65dd3161abddf8fb9b7176"
-  integrity sha512-AfqR0fZMoUXUNwusgXKxcE9DPlHNDHQp6nKYUd4PSRpLobF5CCevSpyTEBcVZreqaWKCnGBr9KI1fHMTttoB7A==
-  dependencies:
     "@types/node" "*"
 
 "@types/source-list-map@*":
@@ -12010,6 +12011,13 @@ sonic-boom@^1.0.2:
   dependencies:
     atomic-sleep "^1.0.0"
     flatstr "^1.0.12"
+
+sonic-boom@^2.1.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-2.3.1.tgz#e6572184fb3adf145dbfeccff48141bbd1009e4c"
+  integrity sha512-o0vJPsRiCW5Q0EmRKjNiiYGy2DqSXcxk4mY9vIBSPwmkH/e/vJ2Tq8EECd5NTiO77x8vlVN+ykDjRQJTqf7eKg==
+  dependencies:
+    atomic-sleep "^1.0.0"
 
 sort-keys@^1.0.0:
   version "1.1.2"
