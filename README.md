@@ -12,8 +12,6 @@ Dashboard for managing Blaise users.
 
 This project is a React application which when build is rendered by a Node.js express server.
 
-![Diagram of Blaise User Management sertup](.github/Diagram.png)
-
 ### Setup
 
 #### Prerequisites
@@ -113,6 +111,3 @@ You can run this service in a container, the Dockerfile is setup to:
 - Run the tests, the build will fail if the tests fail.
 - Build the React project for serving by express
 - Run Yarn Start on startup
-
-gcloud builds submit --substitutions=_PROJECT_ID=ons-blaise-v2-dev-matt58,_VM_INTERNAL_URL=test,_VM_EXTERNAL_WEB_URL=dev-matt58-web.social-surveys.gcp.onsdigital.uk,_VM_EXTERNAL_CLIENT_URL=test,_BLAISE_API_URL=restapi.europe-west2-a.c.ons-blaise-v2-dev-matt58.internal:90
-gcloud builds submit --substitutions=_PROJECT_ID=ons-blaise-v2-dev,_VM_INTERNAL_URL=test,_VM_EXTERNAL_WEB_URL=dev-web.social-surveys.gcp.onsdigital.uk,_VM_EXTERNAL_CLIENT_URL=test,_BLAISE_API_URL=restapi.europe-west2-a.c.ons-blaise-v2-dev.internal:90,_SLACK_CHANNEL=moo,_SLACK_WEBHOOK=moo
