@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <nav
-        aria-label="Back"
+        aria-label="Breadcrumb"
         class="breadcrumb"
       >
         <ol
@@ -14,12 +14,11 @@ Object {
         >
           <li
             class="breadcrumb__item"
-            id="breadcrumb-1"
+            id="breadcrumb-0"
           >
             <a
               class="breadcrumb__link"
               href="/"
-              id="back"
             >
               Home
             </a>
@@ -145,7 +144,7 @@ Object {
   </body>,
   "container": <div>
     <nav
-      aria-label="Back"
+      aria-label="Breadcrumb"
       class="breadcrumb"
     >
       <ol
@@ -153,12 +152,11 @@ Object {
       >
         <li
           class="breadcrumb__item"
-          id="breadcrumb-1"
+          id="breadcrumb-0"
         >
           <a
             class="breadcrumb__link"
             href="/"
-            id="back"
           >
             Home
           </a>

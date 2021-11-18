@@ -1,7 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {ONSPanel} from "blaise-design-system-react-components";
+import {ErrorBoundary, ONSPanel} from "blaise-design-system-react-components";
 import {ImportUser} from "../../../../Interfaces";
-import {ErrorBoundary} from "../../../Components/ErrorHandling/ErrorBoundary";
 import Confirmation from "./Confirmation";
 import converter from "number-to-words";
 
@@ -46,7 +45,7 @@ function UsersToUploadSummary({statusDescriptionList, uploadUsers}: Props): Reac
 
     return (
         <>
-            <h1 className="u-mt-l">Bulk upload <em>{converter.toWords(noValidUsers)}</em> user{(noValidUsers > 1 && "s")}?</h1>
+            <h1 className="u-mb-l">Bulk upload <em>{converter.toWords(noValidUsers)}</em> user{(noValidUsers > 1 && "s")}?</h1>
             <ONSPanel>
                 <p>{noValidUsers} of {userList.length} users are valid and will be uploaded. <em>Invalid users will not be uploaded.
                 </em> You can review any issues in the table below.</p>

@@ -6,7 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <nav
-        aria-label="Back"
+        aria-label="Breadcrumb"
         class="breadcrumb"
       >
         <ol
@@ -14,12 +14,11 @@ Object {
         >
           <li
             class="breadcrumb__item"
-            id="breadcrumb-1"
+            id="breadcrumb-0"
           >
             <a
               class="breadcrumb__link"
               href="/"
-              id="back"
             >
               Home
             </a>
@@ -53,7 +52,7 @@ Object {
             class="list__item "
           >
             <a
-              href="/user"
+              href="/users/new"
             >
               Create new user
             </a>
@@ -62,7 +61,7 @@ Object {
             class="list__item "
           >
             <a
-              href="/user/upload"
+              href="/users/upload"
             >
               Bulk upload users
             </a>
@@ -173,7 +172,7 @@ Object {
                 class="table__cell "
               >
                 <a
-                  href="/user/changepassword/TestUser123"
+                  href="/users/changepassword/TestUser123"
                 >
                   Change password
                 </a>
@@ -207,7 +206,7 @@ Object {
                 class="table__cell "
               >
                 <a
-                  href="/user/changepassword/SecondUser"
+                  href="/users/changepassword/SecondUser"
                 >
                   Change password
                 </a>
@@ -216,7 +215,7 @@ Object {
                 class="table__cell "
               >
                 <a
-                  href="/user/delete/SecondUser"
+                  href="/users/delete/SecondUser"
                 >
                   Delete
                 </a>
@@ -229,7 +228,7 @@ Object {
   </body>,
   "container": <div>
     <nav
-      aria-label="Back"
+      aria-label="Breadcrumb"
       class="breadcrumb"
     >
       <ol
@@ -237,12 +236,11 @@ Object {
       >
         <li
           class="breadcrumb__item"
-          id="breadcrumb-1"
+          id="breadcrumb-0"
         >
           <a
             class="breadcrumb__link"
             href="/"
-            id="back"
           >
             Home
           </a>
@@ -276,7 +274,7 @@ Object {
           class="list__item "
         >
           <a
-            href="/user"
+            href="/users/new"
           >
             Create new user
           </a>
@@ -285,7 +283,7 @@ Object {
           class="list__item "
         >
           <a
-            href="/user/upload"
+            href="/users/upload"
           >
             Bulk upload users
           </a>
@@ -396,7 +394,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/changepassword/TestUser123"
+                href="/users/changepassword/TestUser123"
               >
                 Change password
               </a>
@@ -430,7 +428,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/changepassword/SecondUser"
+                href="/users/changepassword/SecondUser"
               >
                 Change password
               </a>
@@ -439,7 +437,7 @@ Object {
               class="table__cell "
             >
               <a
-                href="/user/delete/SecondUser"
+                href="/users/delete/SecondUser"
               >
                 Delete
               </a>

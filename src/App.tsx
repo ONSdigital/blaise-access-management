@@ -1,19 +1,18 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {DefaultErrorBoundary} from "./Components/ErrorHandling/DefaultErrorBoundary";
 import {isDevEnv} from "./Functions";
 import {Switch, Route, Redirect, useLocation} from "react-router-dom";
 import Users from "./pages/users/Users";
 import {User} from "../Interfaces";
-import {ErrorBoundary} from "./Components/ErrorHandling/ErrorBoundary";
 import NewUser from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
 import DeleteUser from "./pages/users/DeleteUser";
 import SignIn from "./pages/SignIn";
 import NewRole from "./pages/roles/NewRole";
-import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner} from "blaise-design-system-react-components";
+import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner, ErrorBoundary, DefaultErrorBoundary} from "blaise-design-system-react-components";
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
+import {NavigationLinks} from "./Components/NavigationLinks";
 
 interface Panel {
     visible: boolean
@@ -131,23 +130,26 @@ function App(): ReactElement {
             <BetaBanner/>
             <Header title={"Blaise User Management"} signOutButton={userAuthenticated}
                     signOutFunction={() => signOutUser()}/>
+            {
+                userAuthenticated && <NavigationLinks/>
+            }
             <div style={divStyle} className="page__container container">
 
-                <ONSPanel hidden={!panel.visible} status={panel.status}>
+                <ONSPanel hidden={!panel.visible} status={"info"}>
                     <p>{panel.message}</p>
                 </ONSPanel>
                 <DefaultErrorBoundary>
                     <Switch>
-                        <PrivateRoute path={"/user/upload"}>
+                        <PrivateRoute path={"/users/upload"}>
                             <BulkUserUpload/>
                         </PrivateRoute>
-                        <PrivateRoute path={"/user/changepassword/:user"}>
+                        <PrivateRoute path={"/users/changepassword/:user"}>
                             <ChangePassword/>
                         </PrivateRoute>
-                        <PrivateRoute path={"/user/delete/:user"}>
+                        <PrivateRoute path={"/users/delete/:user"}>
                             <DeleteUser/>
                         </PrivateRoute>
-                        <PrivateRoute path={"/user"}>
+                        <PrivateRoute path={"/users/new"}>
                             <NewUser/>
                         </PrivateRoute>
                         <PrivateRoute path={"/roles/new"}>
