@@ -1,5 +1,5 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {ONSButton} from "blaise-design-system-react-components";
+import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
 import {ImportUser, Role} from "../../../../Interfaces";
 import {getAllRoles} from "../../../utilities/http";
@@ -108,27 +108,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
             <br/>
             <ONSButton label={"Upload"} primary={true} onClick={() => validateUpload()} loading={buttonLoading}/>
 
-            <div id="collapsible-with-save"
-                 className={`collapsible js-collapsible collapsible--initialised ${(panelOpen && "collapsible--open")} u-mt-l`}
-                 data-btn-close="Hide this" data-save-state="true" role="group">
-                <div className="collapsible__heading js-collapsible-heading" role="link"
-                     onClick={() => setPanelOpen(!panelOpen)}
-                     aria-controls="collapsible-with-save" aria-expanded="false"
-                     data-ga-action="Close panel">
-                    <div className="collapsible__controls">
-                        <div className="collapsible__title">What format should the bulk upload file be?</div>
-                        <span className="collapsible__icon">
-                            <svg className="svg-icon" viewBox="0 0 7.5 12.85" xmlns="http://www.w3.org/2000/svg"
-                                 focusable="false">
-                                <path
-                                    d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
-                                    transform="translate(-5.02 -1.59)"/>
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-                <div id="collapsible-with-save-content" className="collapsible__content js-collapsible-content"
-                     aria-hidden={(panelOpen ? "false" : "true")}>
+            <Collapsible title="What format should the bulk upload file be?">
+                <>
                     <p>The user file should be a Comma-Separated Values file (CSV) with the headings <em>user, password
                         and role</em>.
                         A blank template is available to download below.
@@ -155,15 +136,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                             <p className="download__excerpt">Blank CSV file to upload multiple users at once.</p>
                         </div>
                     </div>
-
-                    <button type="button" className="btn btn--small js-collapsible-button btn--secondary u-mt-m"
-                            aria-hidden="true" aria-controls="collapsible-with-save" data-ga-action="Close panel"
-                            onClick={() => setPanelOpen(false)}>
-                        <span className="btn__inner js-collapsible-button-inner">Hide this</span>
-                        <span className="btn__context u-vh">What is a photovoltaic system? undefined</span>
-                    </button>
-                </div>
-            </div>
+                </>
+            </Collapsible>
         </>
     );
 }
