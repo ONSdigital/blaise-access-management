@@ -1,7 +1,6 @@
 import React, {ReactElement, useState} from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {ONSButton, ONSPanel, ONSPasswordInput} from "blaise-design-system-react-components";
-import Breadcrumbs from "../../Components/Breadcrumbs";
 import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 interface Parmas {
