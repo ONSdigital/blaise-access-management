@@ -1,18 +1,18 @@
 import React, {ReactElement, useState} from "react";
-import {Redirect, useParams} from "react-router-dom";
+import {Link, Redirect, useParams} from "react-router-dom";
 import {ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import {deleteUser} from "../../utilities/http";
-import Breadcrumbs from "../../Components/Breadcrumbs";
+import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 
 interface ReturnPanel {
-    visible: boolean;
-    message: string;
-    status: string;
+    visible: boolean
+    message: string
+    status: string
 }
 
 interface Parmas {
-    user: string;
+    user: string
 }
 
 
@@ -45,6 +45,12 @@ function DeleteUser(): ReactElement {
         setRedirect(true);
     }
 
+
+    const breadcrumbList: BreadcrumbItem[] = [
+        {link: "/", title: "Home"},
+        {link: "/users", title: "Manage users"},
+    ];
+
     return (
         <>
             {
@@ -53,11 +59,7 @@ function DeleteUser(): ReactElement {
                     state: {updatedPanel: returnPanel}
                 }}/>
             }
-            <Breadcrumbs BreadcrumbList={
-                [
-                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
-                ]
-            }/>
+            <Breadcrumbs BreadcrumbList={breadcrumbList}/>
 
             <main id="main-content" className="page__main u-mt-no">
                 <h1 className="u-mb-l">Are you sure you want to delete user <em className="highlight">{user}</em>?</h1>
