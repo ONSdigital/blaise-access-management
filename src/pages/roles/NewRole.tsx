@@ -1,13 +1,12 @@
 import React, {ReactElement, useState} from "react";
-import {Link, Redirect} from "react-router-dom";
-import {ONSTextInput, ONSButton, ONSPanel, StyledForm, FormField} from "blaise-design-system-react-components";
+import {Redirect} from "react-router-dom";
+import {ONSPanel, StyledForm, FormField} from "blaise-design-system-react-components";
 import {Role} from "../../../Interfaces";
 import {addNewRole} from "../../utilities/http";
 import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 
 function NewRole(): ReactElement {
-    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
