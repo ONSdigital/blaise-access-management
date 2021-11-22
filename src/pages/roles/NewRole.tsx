@@ -1,47 +1,73 @@
 import React, {ReactElement, useState} from "react";
 import {Redirect} from "react-router-dom";
-import {ONSTextInput, ONSButton, ONSPanel} from "blaise-design-system-react-components";
+import {ONSPanel, StyledForm, FormField} from "blaise-design-system-react-components";
 import {Role} from "../../../Interfaces";
 import {addNewRole} from "../../utilities/http";
-import Breadcrumbs from "../../Components/Breadcrumbs";
+import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 
 function NewRole(): ReactElement {
-    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
 
-    async function createNewUser() {
-        if (name === "") {
-            setMessage("Name cannot be blank");
-            return;
+    function validateRoleName(value: string) {
+        let error;
+        if (!value) {
+            error = "Enter a name";
         }
+        return error;
+    }
 
-        if (description === "") {
-            setMessage("Description cannot be blank");
-            return;
+    function validateDescription(value: string) {
+        let error;
+        if (!value) {
+            error = "Enter a description";
         }
+        return error;
+    }
+
+
+    const formElements: FormField[] = [
+        {
+            name: "name",
+            type: "text",
+            validate: validateRoleName
+        },
+        {
+            name: "description",
+            type: "text",
+            validate: validateDescription
+        }
+    ];
+
+    async function onFormSubmission(formValues: any, setSubmitting: (isSubmitting: boolean) => void) {
+        setName(formValues.name);
 
         const newRole: Role = {
             permissions: [],
-            name: name,
-            description: description
+            name: formValues.name,
+            description: formValues.description
         };
 
-        setButtonLoading(true);
         const created = await addNewRole(newRole);
 
         if (!created) {
             console.error("Failed to create new role");
             setMessage("Failed to create new role");
-            setButtonLoading(false);
+            setSubmitting(false);
             return;
         }
 
+        setSubmitting(false);
         setRedirect(true);
+
     }
+
+    const breadcrumbList: BreadcrumbItem[] = [
+        {link: "/", title: "Home"},
+        {link: "/roles", title: "Manage roles"},
+    ];
 
 
     return (
@@ -52,31 +78,14 @@ function NewRole(): ReactElement {
                     state: {updatedPanel: {visible: true, message: "Role " + name + " created", status: "success"}}
                 }}/>
             }
-            <Breadcrumbs BreadcrumbList={
-                [
-                    {link: "/", title: "Home"}, {link: "/roles", title: "Manage roles"}
-                ]
-            }/>
-
+            <Breadcrumbs BreadcrumbList={breadcrumbList}/>
             <main id="main-content" className="page__main u-mt-no">
                 <h1 className="u-mb-l">Create new role</h1>
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
                 </ONSPanel>
-                <form onSubmit={() => createNewUser()}>
-                    <ONSTextInput label={"Name"}
-                                  autoFocus={true}
-                                  value={name}
-                                  onChange={(e) => setName(e.target.value)} zIndex={0}/>
-                    <ONSTextInput label={"Description"}
-                                  value={description}
-                                  onChange={(e) => setDescription(e.target.value)} zIndex={0}/>
-                    <ONSButton
-                        label={"Save"}
-                        primary={true}
-                        loading={buttonLoading}
-                        onClick={() => createNewUser()}/>
-                </form>
+
+                <StyledForm fields={formElements} onSubmitFunction={onFormSubmission}/>
             </main>
         </>
     );

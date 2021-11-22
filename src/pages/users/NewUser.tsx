@@ -6,7 +6,7 @@ import {Role, User} from "../../../Interfaces";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import {passwordMatchedValidator, requiredValidator} from "../../form/FormValidators";
-import Breadcrumbs from "../../Components/Breadcrumbs";
+import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 function NewUser(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -65,6 +65,12 @@ function NewUser(): ReactElement {
         setRoleList(roleList);
     }
 
+
+    const breadcrumbList: BreadcrumbItem[] = [
+        {link: "/", title: "Home"},
+        {link: "/users", title: "Manage users"},
+    ];
+
     return (
         <>
             {
@@ -73,11 +79,7 @@ function NewUser(): ReactElement {
                     state: {updatedPanel: {visible: true, message: "User " + username + " created", status: "success"}}
                 }}/>
             }
-            <Breadcrumbs BreadcrumbList={
-                [
-                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
-                ]
-            }/>
+            <Breadcrumbs BreadcrumbList={breadcrumbList}/>
 
             <main id="main-content" className="page__main u-mt-no">
                 <h1 className="u-mb-l">Create new user</h1>
@@ -122,6 +124,7 @@ function NewUser(): ReactElement {
                         submit={true}/>
                 </Form>
             </main>
+
         </>
     );
 }

@@ -1,7 +1,7 @@
 import React, {ReactElement, useState} from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {ONSButton, ONSPanel, ONSPasswordInput} from "blaise-design-system-react-components";
-import Breadcrumbs from "../../Components/Breadcrumbs";
+import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 interface Parmas {
     user: string;
@@ -51,6 +51,11 @@ function ChangePassword(): ReactElement {
         );
     }
 
+    const breadcrumbList: BreadcrumbItem[] = [
+        {link: "/", title: "Home"},
+        {link: "/users", title: "Manage users"},
+    ];
+
     return (
         <>
             {
@@ -65,11 +70,7 @@ function ChangePassword(): ReactElement {
                     }
                 }}/>
             }
-            <Breadcrumbs BreadcrumbList={
-                [
-                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
-                ]
-            }/>
+            <Breadcrumbs BreadcrumbList={breadcrumbList}/>
 
             <main id="main-content" className="page__main u-mt-no">
                 <h1 className="u-mb-l">Change password for user <em>{user}</em></h1>
