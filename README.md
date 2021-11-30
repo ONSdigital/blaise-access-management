@@ -19,7 +19,7 @@ This project is a React application which when build is rendered by a Node.js ex
 To run Blaise User Management locally, you'll need to have [Node installed](https://nodejs.org/en/), as well as [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable).
 
 To have the list of users and roles load on the page, you'll need to have [Blaise Rest API](https://github.com/ONSdigital/blaise-api-rest) running locally (On a Windows machine), or you 
-can [create an IAP tunnel](https://cloud.google.com/sdk/gcloud/reference/compute/start-iap-tunnel) from a GCP Compute
+can [create an Identity-Aware Proxy (IAP) tunnel](https://cloud.google.com/sdk/gcloud/reference/compute/start-iap-tunnel) from a GCP Compute
 Instance running the rest API in a sandbox. An example command to connect to the rest api VM on local port `5011`:
 
 ```shell
