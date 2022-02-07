@@ -7,7 +7,6 @@ type PromiseResponse = [number, any];
 
 export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth): Router {
     const router = express.Router();
-    router.use(auth.Middleware);
 
     const configHeaders = {
         "content-type": "application/json",
@@ -46,7 +45,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
     }
 
     // Get health status for Blaise connections
-    router.get("/api/health", function (req: ResponseQuery, res: Response) {
+    router.get("/api/health", auth.Middleware, function (req: ResponseQuery, res: Response) {
         const url = "/api/v1/health";
 
         SendBlaiseAPIRequest(req, res, url, "GET")
@@ -55,7 +54,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
             });
     });
 
-    router.get("/api/serverparks", async function (req: Request, res: Response) {
+    router.get("/api/serverparks", auth.Middleware, async function (req: Request, res: Response) {
         const url = "/api/v1/serverparks";
         SendBlaiseAPIRequest(req, res, url, "GET")
             .then(([status, data]) => {
@@ -63,7 +62,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
             });
     });
 
-    router.get("/api/roles", async function (req: Request, res: Response) {
+    router.get("/api/roles", auth.Middleware, async function (req: Request, res: Response) {
         const url = "/api/v1/userroles";
         SendBlaiseAPIRequest(req, res, url, "GET")
             .then(([status, data]) => {
@@ -71,7 +70,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
             });
     });
 
-    router.get("/api/users", async function (req: Request, res: Response) {
+    router.get("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         const url = "/api/v1/users";
         SendBlaiseAPIRequest(req, res, url, "GET")
             .then(([status, data]) => {
@@ -79,7 +78,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
             });
     });
 
-    router.get("/api/login/:user", async function (req: Request, res: Response) {
+    router.get("/api/login/:user", auth.Middleware, async function (req: Request, res: Response) {
         const { user } = req.params;
         const { password } = req.headers;
 
@@ -103,7 +102,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
             });
     });
 
-    router.get("/api/change_password/:user", (req, res) => {
+    router.get("/api/change_password/:user", auth.Middleware, (req, res) => {
         console.log("change_password");
         const { user } = req.params;
         const { password } = req.headers;
@@ -119,7 +118,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
 
     });
 
-    router.delete("/api/users", (req, res) => {
+    router.delete("/api/users", auth.Middleware, (req, res) => {
         console.log("delete_user");
         const { user } = req.headers;
 
@@ -131,7 +130,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
     });
 
 
-    router.post("/api/users", (req, res) => {
+    router.post("/api/users", auth.Middleware, (req, res) => {
         console.log("add user");
         const data = req.body;
         console.log(data);
@@ -146,7 +145,7 @@ export default function BlaiseAPIRouter(config: Config, logger: any, auth: Auth)
             });
     });
 
-    router.post("/api/roles", (req, res) => {
+    router.post("/api/roles", auth.Middleware, (req, res) => {
         console.log("add role");
         const data = req.body;
         console.log(data);
