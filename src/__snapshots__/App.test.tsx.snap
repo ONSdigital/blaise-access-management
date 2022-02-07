@@ -100,7 +100,7 @@ Object {
                   <span
                     class="btn__inner"
                   >
-                    Save and sign out
+                    Sign out
                     <svg
                       class="svg-icon"
                       focusable="false"
@@ -179,16 +179,6 @@ Object {
         class="page__container container"
         style="min-height: calc(67vh);"
       >
-        <div
-          class="panel panel--info panel--no-title  u-mt-m"
-          hidden=""
-        >
-          <div
-            class="panel__body "
-          >
-            <p />
-          </div>
-        </div>
         <main
           class="page__main u-mt-no"
           id="main-content"
@@ -434,7 +424,7 @@ Object {
                 <span
                   class="btn__inner"
                 >
-                  Save and sign out
+                  Sign out
                   <svg
                     class="svg-icon"
                     focusable="false"
@@ -513,16 +503,6 @@ Object {
       class="page__container container"
       style="min-height: calc(67vh);"
     >
-      <div
-        class="panel panel--info panel--no-title  u-mt-m"
-        hidden=""
-      >
-        <div
-          class="panel__body "
-        >
-          <p />
-        </div>
-      </div>
       <main
         class="page__main u-mt-no"
         id="main-content"

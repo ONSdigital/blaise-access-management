@@ -1,16 +1,16 @@
 import React from "react";
-import {render, waitFor, cleanup, screen} from "@testing-library/react";
+import { render, waitFor, cleanup, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import flushPromises, {mock_server_request_Return_JSON} from "../../tests/utils";
-import {act} from "react-dom/test-utils";
-import {createMemoryHistory} from "history";
-import {Router} from "react-router";
-import {Role} from "../../../Interfaces";
+import { mock_server_request_Return_JSON } from "../../tests/utils";
+import { act } from "react-dom/test-utils";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router";
+import { Role } from "../../../Interfaces";
 import Roles from "./Roles";
 
 const roleList: Role[] = [
-    {name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role"},
-    {name: "BDSS", permissions: ["Admin"], description: "Another role"}
+    { name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role" },
+    { name: "BDSS", permissions: ["Admin"], description: "Another role" }
 ];
 
 describe("Manage Roles page", () => {
@@ -23,12 +23,12 @@ describe("Manage Roles page", () => {
         const history = createMemoryHistory();
         const wrapper = render(
             <Router history={history}>
-                <Roles/>
+                <Roles />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
         await waitFor(() => {
@@ -41,12 +41,12 @@ describe("Manage Roles page", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Roles/>
+                <Roles />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
         await waitFor(() => {
@@ -68,19 +68,19 @@ describe("Manage Roles page", () => {
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
-        mock_server_request_Return_JSON(200, {text: "Hello"});
+        mock_server_request_Return_JSON(200, { text: "Hello" });
     });
 
     it("it should render with the error message displayed", async () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Roles/>
+                <Roles />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
 
@@ -107,12 +107,12 @@ describe("Given the API returns an empty list", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Roles/>
+                <Roles />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
 

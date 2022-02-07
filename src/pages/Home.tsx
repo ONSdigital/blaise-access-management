@@ -1,12 +1,12 @@
-import React, {ReactElement} from "react";
-import {User} from "../../Interfaces";
-import {Link} from "react-router-dom";
+import React, { ReactElement } from "react";
+import { User } from "../../Interfaces";
+import { Link } from "react-router-dom";
 
 interface Props {
-    user: User;
+    user: User | undefined;
 }
 
-function Home({user}: Props): ReactElement {
+function Home({ user }: Props): ReactElement {
     return (
         <>
             <main id="main-content" className="page__main u-mt-no">

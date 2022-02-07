@@ -1,9 +1,9 @@
-import React, {ReactElement, useState} from "react";
-import {Redirect} from "react-router-dom";
-import {ONSPanel, StyledForm, FormField} from "blaise-design-system-react-components";
-import {Role} from "../../../Interfaces";
-import {addNewRole} from "../../utilities/http";
-import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
+import React, { ReactElement, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { ONSPanel, StyledForm } from "blaise-design-system-react-components";
+import { Role } from "../../../Interfaces";
+import { addNewRole } from "../../utilities/http";
+import Breadcrumbs, { BreadcrumbItem } from "../../Components/Breadcrumbs";
 
 
 function NewRole(): ReactElement {
@@ -28,7 +28,7 @@ function NewRole(): ReactElement {
     }
 
 
-    const formElements: FormField[] = [
+    const formElements: any = [
         {
             name: "name",
             type: "text",
@@ -65,8 +65,8 @@ function NewRole(): ReactElement {
     }
 
     const breadcrumbList: BreadcrumbItem[] = [
-        {link: "/", title: "Home"},
-        {link: "/roles", title: "Manage roles"},
+        { link: "/", title: "Home" },
+        { link: "/roles", title: "Manage roles" },
     ];
 
 
@@ -75,17 +75,17 @@ function NewRole(): ReactElement {
             {
                 redirect && <Redirect to={{
                     pathname: "/roles",
-                    state: {updatedPanel: {visible: true, message: "Role " + name + " created", status: "success"}}
-                }}/>
+                    state: { updatedPanel: { visible: true, message: "Role " + name + " created", status: "success" } }
+                }} />
             }
-            <Breadcrumbs BreadcrumbList={breadcrumbList}/>
+            <Breadcrumbs BreadcrumbList={breadcrumbList} />
             <main id="main-content" className="page__main u-mt-no">
                 <h1 className="u-mb-l">Create new role</h1>
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
                 </ONSPanel>
 
-                <StyledForm fields={formElements} onSubmitFunction={onFormSubmission}/>
+                <StyledForm fields={formElements} onSubmitFunction={onFormSubmission} />
             </main>
         </>
     );
