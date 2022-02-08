@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { ImportUser, UploadedUser } from "../../../../Interfaces";
-import { User } from "blaise-api-node-client";
+import { NewUser } from "blaise-api-node-client";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
 import { addNewUser } from "../../../utilities/http";
@@ -39,7 +39,7 @@ function BulkUserUpload(): ReactElement {
             }
             numberToUpload = numberToUpload + 1;
 
-            const newUser: User = {
+            const newUser: NewUser = {
                 defaultServerPark: "",
                 serverParks: [],
                 name: user.name,

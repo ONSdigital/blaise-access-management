@@ -1,5 +1,5 @@
 import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
-import { User } from "blaise-api-node-client";
+import { User, NewUser } from "blaise-api-node-client";
 
 type getUsersListResponse = [boolean, User[]];
 
@@ -18,7 +18,7 @@ function getAllUsers(): Promise<getUsersListResponse> {
     });
 }
 
-function addNewUser(newUser: User): Promise<boolean> {
+function addNewUser(newUser: NewUser): Promise<boolean> {
     console.log("Call to addNewUser");
 
     const url = "/api/users";

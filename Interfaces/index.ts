@@ -1,21 +1,7 @@
-interface Instrument {
-    installDate: string
+export interface UploadedUser {
     name: string
-    expired: boolean
-    serverParkName: string
-    activeToday: boolean
-    surveyDays: string[]
-    link: string
-    fieldPeriod: string
-    surveyTLA: string
+    created: boolean
 }
-
-interface Survey {
-    instruments: Instrument[]
-    survey: string
-}
-
-export type { Instrument, Survey };
 
 export interface ImportUser {
     name: string
@@ -23,15 +9,4 @@ export interface ImportUser {
     role: string
     valid: boolean
     warnings: string[]
-}
-
-export interface UploadedUser {
-    name: string
-    created: boolean
-}
-
-export interface Role {
-    name: string
-    permissions: string[]
-    description: string
 }

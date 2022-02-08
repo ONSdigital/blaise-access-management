@@ -1,20 +1,21 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {Collapsible, ONSButton} from "blaise-design-system-react-components";
+import React, { ReactElement, useEffect, useState } from "react";
+import { Collapsible, ONSButton } from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
-import {ImportUser, Role} from "../../../../Interfaces";
-import {getAllRoles} from "../../../utilities/http";
+import { ImportUser } from "../../../../Interfaces";
+import { UserRole } from "blaise-api-node-client";
+import { getAllRoles } from "../../../utilities/http";
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
     movePageForward: () => void;
 }
 
-function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
+function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement {
 
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [uploadData, setUploadData] = useState<ImportUser[]>([]);
     const [panelOpen, setPanelOpen] = useState<boolean>(false);
-    const [roles, setRoles] = useState<Role[]>([]);
+    const [roles, setRoles] = useState<UserRole[]>([]);
 
     useEffect(() => {
         getRolesList().then(() => console.log("Call getRolesList Complete"));
@@ -96,7 +97,7 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
             <h1 className="u-mb-l">Bulk user upload</h1>
 
             <label className="label" htmlFor="react-csv-reader-input">Select CSV file
-                <br/>
+                <br />
                 <span className="label__description">File type accepted is .csv only</span>
             </label>
             <CSVReader
@@ -105,8 +106,8 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                 onFileLoaded={(data) => setUploadData(data)}
             />
 
-            <br/>
-            <ONSButton label={"Upload"} primary={true} onClick={() => validateUpload()} loading={buttonLoading}/>
+            <br />
+            <ONSButton label={"Upload"} primary={true} onClick={() => validateUpload()} loading={buttonLoading} />
 
             <Collapsible title="What format should the bulk upload file be?">
                 <>
@@ -118,21 +119,21 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
                     <div className="download">
                         <div className="download__image" aria-hidden="true">
                             <a className="download__image-link"
-                               href="/documents/users.csv">
+                                href="/documents/users.csv">
                                 <img src="https://ons-design-system.netlify.app/img/small/placeholder-portrait.png"
-                                     alt=""
-                                     loading="lazy"/>
+                                    alt=""
+                                    loading="lazy" />
                             </a>
                         </div>
                         <div className="download__content">
                             <h3 className="u-fs-m u-mt-no u-mb-xs">
                                 <a href="/documents/users.csv">
                                     Bulk user upload template file<span className="u-vh">,
-                                CSV document download, 48 Bytes
-                        </span></a>
+                                        CSV document download, 48 Bytes
+                                    </span></a>
                             </h3>
                             <span className="u-fs-s u-mb-xs download__meta"
-                                  aria-hidden="true">Poster, CSV, 48 Bytes</span>
+                                aria-hidden="true">Poster, CSV, 48 Bytes</span>
                             <p className="download__excerpt">Blank CSV file to upload multiple users at once.</p>
                         </div>
                     </div>

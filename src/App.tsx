@@ -2,10 +2,9 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { isDevEnv } from "./Functions";
 import { Switch, Route, useLocation } from "react-router-dom";
 import Users from "./pages/users/Users";
-import NewUser from "./pages/users/NewUser";
+import NewUserComponent from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
 import DeleteUser from "./pages/users/DeleteUser";
-import NewRole from "./pages/roles/NewRole";
 import { NotProductionWarning, Footer, Header, BetaBanner, ErrorBoundary, DefaultErrorBoundary, ONSLoadingPanel } from "blaise-design-system-react-components";
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
@@ -36,7 +35,7 @@ function App(): ReactElement {
         console.log(location);
         authManager.loggedIn().then(async (isLoggedIn: boolean) => {
             setLoggedIn(isLoggedIn);
-            if (isLoggedIn) {
+            if (loggedIn) {
                 getCurrentUser(authManager).then((user: User) => {
                     setCurrentUser(user);
                 }).catch(() => {
@@ -98,10 +97,7 @@ function App(): ReactElement {
                                     <DeleteUser />
                                 </Route>
                                 <Route path={"/users/new"}>
-                                    <NewUser />
-                                </Route>
-                                <Route path={"/roles/new"}>
-                                    <NewRole />
+                                    <NewUserComponent />
                                 </Route>
                                 <Route path={"/roles"}>
                                     <ErrorBoundary errorMessageText={"Unable to load role table correctly."}>

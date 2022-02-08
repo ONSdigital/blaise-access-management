@@ -2,27 +2,27 @@ import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
 import { addNewUser, getAllRoles } from "../../utilities/http";
-import { Role } from "../../../Interfaces";
-import { User } from "blaise-api-node-client";
+import { UserRole } from "blaise-api-node-client";
+import { NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
 import Breadcrumbs, { BreadcrumbItem } from "../../Components/Breadcrumbs";
 
-function NewUser(): ReactElement {
+function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
     const [role, setRole] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
-    const [roleList, setRoleList] = useState<Role[]>([]);
+    const [roleList, setRoleList] = useState<UserRole[]>([]);
     const [listError, setListError] = useState<string>("");
 
 
     async function createNewUser(formData: any) {
         setUsername(formData.username);
 
-        const newUser: User = {
+        const newUser: NewUser = {
             name: formData.username,
             password: formData.password,
             role: role,
@@ -112,7 +112,7 @@ function NewUser(): ReactElement {
                         <select value={role} id="role" name="select" className="input input--select "
                             onChange={(e: ChangeEvent<HTMLSelectElement>) => setRole(e.target.value)}>
                             {
-                                roleList.map((option: Role) => {
+                                roleList.map((option: UserRole) => {
                                     return (<option key={option.name} value={option.name}>{option.name}</option>);
                                 })
                             }
@@ -130,4 +130,4 @@ function NewUser(): ReactElement {
     );
 }
 
-export default NewUser;
+export default NewUserComponent;

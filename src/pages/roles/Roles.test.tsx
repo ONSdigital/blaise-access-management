@@ -50,9 +50,9 @@ describe("Manage Roles page", () => {
         });
 
         await waitFor(() => {
+            expect(screen.getByText(/Roles are created and managed by DST/i)).toBeDefined();
             expect(screen.getByText(/Manage roles/i)).toBeDefined();
-            expect(screen.getByText(/Create new role/i)).toBeDefined();
-            expect(screen.getByText(/DST/i)).toBeDefined();
+            expect(screen.getAllByText(/DST/i).length).toBeGreaterThan(1);
             expect(screen.getByText(/BDSS/i)).toBeDefined();
             expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
         });

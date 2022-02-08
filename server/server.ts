@@ -49,7 +49,7 @@ server.get("/bum-ui/:version/health", async function (req: Request, res: Respons
 server.use("/", loginHandler);
 
 // All Endpoints calling the Blaise API
-server.use("/", BlaiseAPIRouter(config, logger, auth));
+server.use("/", BlaiseAPIRouter(config, auth, blaiseApiClient));
 
 
 // treat the index.html as a template and substitute the values at runtime
