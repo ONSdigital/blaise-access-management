@@ -1,5 +1,5 @@
-import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
-import {User} from "../../../Interfaces";
+import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
+import { User } from "blaise-api-node-client";
 
 type getUsersListResponse = [boolean, User[]];
 
@@ -74,4 +74,4 @@ function deleteUser(username: string): Promise<boolean> {
     });
 }
 
-export {getAllUsers, addNewUser, deleteUser};
+export { getAllUsers, addNewUser, deleteUser };

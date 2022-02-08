@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { User } from "../../Interfaces";
+import { User } from "blaise-api-node-client";
 import { Link } from "react-router-dom";
 
 interface Props {

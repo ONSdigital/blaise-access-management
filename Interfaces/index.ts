@@ -15,15 +15,7 @@ interface Survey {
     survey: string
 }
 
-export type {Instrument, Survey};
-
-export interface User {
-    name: string
-    password?: string
-    role: string
-    defaultServerPark: string
-    serverParks: string[]
-}
+export type { Instrument, Survey };
 
 export interface ImportUser {
     name: string

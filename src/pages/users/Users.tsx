@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { User } from "../../../Interfaces";
+import { User } from "blaise-api-node-client";
 import { ExternalLink, ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
 import { getAllUsers } from "../../utilities/http";
 import Breadcrumbs from "../../Components/Breadcrumbs";

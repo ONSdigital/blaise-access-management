@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { act } from "react-dom/test-utils";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router";
-import { User } from "../../../Interfaces";
+import { User } from "blaise-api-node-client";
 import Users from "./Users";
 import { mock_server_request_Return_JSON } from "../../tests/utils";
 

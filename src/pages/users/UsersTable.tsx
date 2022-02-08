@@ -1,4 +1,4 @@
-import { User } from "../../../Interfaces";
+import { User } from "blaise-api-node-client";
 import { Link } from "react-router-dom";
 import React, { ReactElement } from "react";
 
