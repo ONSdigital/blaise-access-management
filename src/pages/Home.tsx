@@ -36,11 +36,8 @@ function Home({ user }: Props): ReactElement {
                                 <h2 className="u-fs-m" id="title2">
                                     <Link to="/roles">Manage roles</Link>
                                 </h2>
-                                <p id="text2">View, create and edit roles in Blaise.</p>
+                                <p id="text2">View roles in Blaise.</p>
                                 <ul className="list list--dashed">
-                                    <li className="list__item ">
-                                        <Link to="/roles/new" className="list__link ">Create new role</Link>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
