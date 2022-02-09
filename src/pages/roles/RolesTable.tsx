@@ -24,12 +24,6 @@ function RolesTable({ roles, listError }: RolesTableProps): ReactElement {
                                 <th scope="col" className="table__header ">
                                     <span>Number of permissions</span>
                                 </th>
-                                {/*<th scope="col" className="table__header ">*/}
-                                {/*    <span>Edit role</span>*/}
-                                {/*</th>*/}
-                                {/*<th scope="col" className="table__header ">*/}
-                                {/*    <span>Delete role</span>*/}
-                                {/*</th>*/}
                             </tr>
                         </thead>
                         <tbody className="table__body">
@@ -46,12 +40,6 @@ function RolesTable({ roles, listError }: RolesTableProps): ReactElement {
                                             <td className="table__cell ">
                                                 {permissions.length}
                                             </td>
-                                            {/*<td className="table__cell ">*/}
-                                            {/*    <Link to={"/survey/" + item.name}>Edit</Link>*/}
-                                            {/*</td>*/}
-                                            {/*<td className="table__cell ">*/}
-                                            {/*    <Link to={"/roles/delete/" + item.name}>Delete</Link>*/}
-                                            {/*</td>*/}
                                         </tr>
                                     );
                                 })
