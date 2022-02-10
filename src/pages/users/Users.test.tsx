@@ -1,12 +1,12 @@
 import React from "react";
-import {render, waitFor, cleanup, screen} from "@testing-library/react";
+import { render, waitFor, cleanup, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import flushPromises, {mock_server_request_Return_JSON} from "../../tests/utils";
-import {act} from "react-dom/test-utils";
-import {createMemoryHistory} from "history";
-import {Router} from "react-router";
-import {User} from "../../../Interfaces";
+import { act } from "react-dom/test-utils";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router";
+import { User } from "blaise-api-node-client";
 import Users from "./Users";
+import { mock_server_request_Return_JSON } from "../../tests/utils";
 
 const signedInUser: User = {
     defaultServerPark: "gusty",
@@ -16,8 +16,8 @@ const signedInUser: User = {
 };
 
 const userList: User[] = [
-    {defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"]},
-    {defaultServerPark: "gusty", name: "SecondUser", role: "BDSS", serverParks: ["gusty"]}
+    { defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"] },
+    { defaultServerPark: "gusty", name: "SecondUser", role: "BDSS", serverParks: ["gusty"] }
 ];
 
 describe("Manage Users page", () => {
@@ -30,12 +30,12 @@ describe("Manage Users page", () => {
         const history = createMemoryHistory();
         const wrapper = render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"}/>
+                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
         await waitFor(() => {
@@ -48,12 +48,12 @@ describe("Manage Users page", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"}/>
+                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
         await waitFor(() => {
@@ -75,19 +75,19 @@ describe("Manage Users page", () => {
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
-        mock_server_request_Return_JSON(200, {text: "Hello"});
+        mock_server_request_Return_JSON(200, { text: "Hello" });
     });
 
     it("it should render with the error message displayed", async () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"}/>
+                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
 
@@ -114,12 +114,12 @@ describe("Given the API returns an empty list", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"}/>
+                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
             </Router>
         );
 
         await act(async () => {
-            await flushPromises();
+            await new Promise(process.nextTick);
         });
 
 

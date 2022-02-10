@@ -1,24 +1,18 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {isDevEnv} from "./Functions";
-import {Switch, Route, Redirect, useLocation} from "react-router-dom";
+import React, { ReactElement, useEffect, useState } from "react";
+import { isDevEnv } from "./Functions";
+import { Switch, Route, useLocation } from "react-router-dom";
 import Users from "./pages/users/Users";
-import {User} from "../Interfaces";
-import NewUser from "./pages/users/NewUser";
+import NewUserComponent from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
 import DeleteUser from "./pages/users/DeleteUser";
-import SignIn from "./pages/SignIn";
-import NewRole from "./pages/roles/NewRole";
-import {NotProductionWarning, Footer, Header, ONSPanel, BetaBanner, ErrorBoundary, DefaultErrorBoundary} from "blaise-design-system-react-components";
+import { NotProductionWarning, Footer, Header, BetaBanner, ErrorBoundary, DefaultErrorBoundary, ONSLoadingPanel } from "blaise-design-system-react-components";
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
-import {NavigationLinks} from "./Components/NavigationLinks";
-
-interface Panel {
-    visible: boolean
-    message: string
-    status: string
-}
+import { NavigationLinks } from "./Components/NavigationLinks";
+import { LoginForm, AuthManager } from "blaise-login-react-client";
+import { User } from "blaise-api-node-client";
+import { getCurrentUser } from "blaise-login-react-client";
 
 interface window extends Window {
     VM_EXTERNAL_CLIENT_URL: string
@@ -29,41 +23,28 @@ const divStyle = {
     minHeight: "calc(67vh)"
 };
 
-interface Panel {
-    visible: boolean
-    message: string
-    status: string
-}
-
-
-interface location {
-    state: any
-}
-
 function App(): ReactElement {
-
+    const authManager = new AuthManager();
     const [externalCATIUrl, setExternalCATIUrl] = useState<string>("/Blaise");
-    const defaultPanel = {visible: false, message: "", status: "info"};
-    const [panel, setPanel] = useState<Panel>(defaultPanel);
-
-    const {state}: location = useLocation();
-    const {updatedPanel} = state || {updatedPanel: panel};
+    const location = useLocation();
+    const [loaded, setLoaded] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [currentUser, setCurrentUser] = useState<User>();
 
     useEffect(() => {
-        if (updatedPanel === null || updatedPanel?.message === undefined) {
-            return;
-        }
-        if (updatedPanel.message !== panel.message) {
-            updatePanel(updatedPanel.visible, updatedPanel.message, updatedPanel.status);
-        }
-
-    }, [updatedPanel]);
-
-    const updatePanel = (visible = false, message = "", status = "info") => {
-        setPanel(
-            {visible: visible, message: message, status: status}
-        );
-    };
+        console.log(location);
+        authManager.loggedIn().then(async (isLoggedIn: boolean) => {
+            setLoggedIn(isLoggedIn);
+            if (loggedIn) {
+                getCurrentUser(authManager).then((user: User) => {
+                    setCurrentUser(user);
+                }).catch(() => {
+                    console.log("WTF is going on");
+                });
+            }
+            setLoaded(true);
+        });
+    });
 
 
     useEffect(function retrieveVariables() {
@@ -71,115 +52,89 @@ function App(): ReactElement {
             process.env.REACT_APP_CATI_DASHBOARD_URL || externalCATIUrl : (window as unknown as window).CATI_DASHBOARD_URL);
     }, [externalCATIUrl]);
 
-
-    function loginUser(user: User) {
-        setAuthenticatedUser(user);
-        setUserAuthenticated(true);
-        updatePanel();
-    }
-
-    function signOutUser() {
-        setAuthenticatedUser(emptyUser);
-        setUserAuthenticated(false);
-        updatePanel(true, "Successfully signed out", "success");
-    }
-
-
-    const emptyUser: User = {
-        defaultServerPark: "",
-        password: "",
-        serverParks: [],
-        name: "", role: ""
-    };
-    const [authenticatedUser, setAuthenticatedUser] = useState<User>(emptyUser);
-    const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false);
-
-
-    // A wrapper for <Route> that redirects to the login
-    // screen if you're not yet authenticated.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line react/prop-types
-    function PrivateRoute({children, ...rest}) {
+    function loginPage(): ReactElement {
+        if (loaded && loggedIn) {
+            return <></>;
+        }
         return (
-            <Route
-                exact
-                {...rest}
-                render={({location}) =>
-                    userAuthenticated ? (
-                        children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/signin",
-                                state: {from: location}
-                            }}
-                        />
-                    )
-                }
-            />
+            <div style={divStyle} className="page__container container">
+                <LoginForm authManager={authManager} setLoggedIn={setLoggedIn} />
+            </div>
         );
     }
 
+    function signOut(): void {
+        authManager.clearToken();
+        setLoggedIn(false);
+    }
+
+    function loading(): ReactElement {
+        if (loaded) {
+            return <></>;
+        }
+        return (
+            <div style={divStyle} className="page__container container">
+                <ONSLoadingPanel />
+            </div>
+        );
+    }
+
+    function app(): ReactElement {
+        if (loaded && loggedIn) {
+            return (
+                <>
+                    <NavigationLinks />
+                    <div style={divStyle} className="page__container container">
+                        <DefaultErrorBoundary>
+                            <Switch>
+                                <Route path={"/users/upload"}>
+                                    <BulkUserUpload />
+                                </Route>
+                                <Route path={"/users/changepassword/:user"}>
+                                    <ChangePassword />
+                                </Route>
+                                <Route path={"/users/delete/:user"}>
+                                    <DeleteUser />
+                                </Route>
+                                <Route path={"/users/new"}>
+                                    <NewUserComponent />
+                                </Route>
+                                <Route path={"/roles"}>
+                                    <ErrorBoundary errorMessageText={"Unable to load role table correctly."}>
+                                        <Roles />
+                                    </ErrorBoundary>
+                                </Route>
+                                <Route path="/users">
+                                    <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
+                                        <Users currentUser={currentUser}
+                                            externalCATIUrl={externalCATIUrl} />
+                                    </ErrorBoundary>
+                                </Route>
+                                <Route path="/">
+                                    <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
+                                        <Home user={currentUser} />
+                                    </ErrorBoundary>
+                                </Route>
+                            </Switch>
+                        </DefaultErrorBoundary>
+                    </div>
+                </>
+            );
+        }
+        return <></>;
+    }
 
     return (
         <>
             {
-                (window.location.hostname.includes("dev")) && <NotProductionWarning/>
+                (window.location.hostname.includes("dev")) && <NotProductionWarning />
             }
-            <BetaBanner/>
-            <Header title={"Blaise User Management"} signOutButton={userAuthenticated}
-                    signOutFunction={() => signOutUser()}/>
-            {
-                userAuthenticated && <NavigationLinks/>
-            }
-            <div style={divStyle} className="page__container container">
-
-                <ONSPanel hidden={!panel.visible} status={"info"}>
-                    <p>{panel.message}</p>
-                </ONSPanel>
-                <DefaultErrorBoundary>
-                    <Switch>
-                        <PrivateRoute path={"/users/upload"}>
-                            <BulkUserUpload/>
-                        </PrivateRoute>
-                        <PrivateRoute path={"/users/changepassword/:user"}>
-                            <ChangePassword/>
-                        </PrivateRoute>
-                        <PrivateRoute path={"/users/delete/:user"}>
-                            <DeleteUser/>
-                        </PrivateRoute>
-                        <PrivateRoute path={"/users/new"}>
-                            <NewUser/>
-                        </PrivateRoute>
-                        <PrivateRoute path={"/roles/new"}>
-                            <NewRole/>
-                        </PrivateRoute>
-                        <PrivateRoute path={"/roles"}>
-                            <ErrorBoundary errorMessageText={"Unable to load role table correctly."}>
-                                <Roles/>
-                            </ErrorBoundary>
-                        </PrivateRoute>
-                        <Route path="/signin">
-                            <ErrorBoundary errorMessageText={"Unable to load survey table correctly."}>
-                                <SignIn setAuthenticatedUser={loginUser}/>
-                            </ErrorBoundary>
-                        </Route>
-                        <PrivateRoute path="/users">
-                            <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
-                                <Users currentUser={authenticatedUser}
-                                       externalCATIUrl={externalCATIUrl}/>
-                            </ErrorBoundary>
-                        </PrivateRoute>
-                        <PrivateRoute path="/">
-                            <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
-                                <Home user={authenticatedUser}/>
-                            </ErrorBoundary>
-                        </PrivateRoute>
-                    </Switch>
-                </DefaultErrorBoundary>
-            </div>
-            <Footer/>
+            <BetaBanner />
+            <Header title={"Blaise User Management"} signOutButton={loggedIn} noSave={true} signOutFunction={signOut} />
+            {loading()}
+            {loginPage()}
+            {app()}
+            <Footer />
         </>
     );
 }

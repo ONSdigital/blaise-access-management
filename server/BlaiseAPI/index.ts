@@ -1,165 +1,62 @@
-import express, {Request, Response, Router} from "express";
-import axios, {AxiosRequestConfig} from "axios";
-import {EnvironmentVariables} from "../Config";
+import express, { Request, Response, Router } from "express";
+import { Config } from "../Config";
+import { Auth } from "blaise-login-react-server";
+import BlaiseApiClient from "blaise-api-node-client";
 
-type PromiseResponse = [number, any];
-
-export default function BlaiseAPIRouter(environmentVariables: EnvironmentVariables, logger: any): Router {
-    const {BLAISE_API_URL, SERVER_PARK}: EnvironmentVariables = environmentVariables;
+export default function BlaiseAPIRouter(config: Config, auth: Auth, blaiseApiClient: BlaiseApiClient): Router {
     const router = express.Router();
 
-    const configHeaders = {
-        "content-type": "application/json",
-        "Accept": "application/json"
-    };
-
-    // Generic function to make requests to the API
-    function SendBlaiseAPIRequest(req: Request, res: Response, url: string, method: AxiosRequestConfig["method"], data: any = null) {
-        logger(req, res);
-        const fullUrl = `http://${BLAISE_API_URL}${url}`;
-        return new Promise((resolve: (object: PromiseResponse) => void) => {
-            axios({
-                url: fullUrl,
-                method: method,
-                headers: configHeaders,
-                data: data,
-                validateStatus: function (status) {
-                    return status >= 200;
-                },
-            }).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    req.log.info(`Status ${response.status} from ${method} ${url}`);
-                } else {
-                    req.log.warn(`Status ${response.status} from ${method} ${url}`);
-                }
-                resolve([response.status, response.data]);
-            }).catch((error) => {
-                req.log.error(error, `${method} ${url} endpoint failed`);
-                resolve([500, null]);
-            });
-        });
-    }
-
-    interface ResponseQuery extends Request {
-        query: { filename: string }
-    }
-
-    // Get health status for Blaise connections
-    router.get("/api/health", function (req: ResponseQuery, res: Response) {
-        const url = "/api/v1/health";
-
-        SendBlaiseAPIRequest(req, res, url, "GET")
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
+    router.get("/api/roles", auth.Middleware, async function (req: Request, res: Response) {
+        res.status(200).json(await blaiseApiClient.getUserRoles());
     });
 
-    router.get("/api/serverparks", async function (req: Request, res: Response) {
-        const url = "/api/v1/serverparks";
-        SendBlaiseAPIRequest(req, res, url, "GET")
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
+    router.get("/api/users", auth.Middleware, async function (req: Request, res: Response) {
+        res.status(200).json(await blaiseApiClient.getUsers());
     });
 
-    router.get("/api/roles", async function (req: Request, res: Response) {
-        const url = "/api/v1/userroles";
-        SendBlaiseAPIRequest(req, res, url, "GET")
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
-    });
-
-    router.get("/api/users", async function (req: Request, res: Response) {
-        const url = "/api/v1/users";
-        SendBlaiseAPIRequest(req, res, url, "GET")
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
-    });
-
-    router.get("/api/login/:user", async function (req: Request, res: Response) {
-        const {user} = req.params;
-        const {password} = req.headers;
-
-        let url = `/api/v1/users/${user}/password/${password}/validate`;
-        const [status, validated] = await SendBlaiseAPIRequest(req, res, url, "GET");
-
-        if (status !== 200) {
-            res.status(status).json(validated);
-            return;
-        }
-
-        if (!validated) {
-            res.status(403).json(validated);
-            return;
-        }
-
-        url = `/api/v1/users/${user}`;
-        SendBlaiseAPIRequest(req, res, url, "GET")
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
-    });
-
-    router.get("/api/change_password/:user", (req, res) => {
+    router.get("/api/change_password/:user", auth.Middleware, async function (req: Request, res: Response) {
         console.log("change_password");
-        const {user} = req.params;
-        const {password} = req.headers;
-        const data = {
-            "password": password
-        };
+        let { password } = req.headers;
 
-        const url = `/api/v1/users/${user}/password`;
-        SendBlaiseAPIRequest(req, res, url, "PATCH", data)
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
+        if (Array.isArray(password)) {
+            password = password.join("");
+        }
 
+        if (!req.params.user || !password) {
+            return res.status(400).json();
+        }
+
+        blaiseApiClient.changePassword(req.params.user, password).then(() => {
+            return res.status(204).json(null);
+        }).catch((error: unknown) => {
+            console.error(error);
+            return res.status(500).json();
+        });
     });
 
-    router.delete("/api/users", (req, res) => {
+    router.delete("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         console.log("delete_user");
-        const {user} = req.headers;
+        let { user } = req.headers;
 
-        const url = `/api/v1/users/${user}`;
-        SendBlaiseAPIRequest(req, res, url, "DELETE")
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
+        if (Array.isArray(user)) {
+            user = user.join("");
+        }
+        if (!user) {
+            return res.status(400).json();
+        }
+        return res.status(204).json(await blaiseApiClient.deleteUser(user));
     });
 
-
-    router.post("/api/users", (req, res) => {
+    router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         console.log("add user");
         const data = req.body;
         console.log(data);
-        data.serverParks = [SERVER_PARK];
-        data.defaultServerPark = SERVER_PARK;
+        data.serverParks = [config.ServerPark];
+        data.defaultServerPark = config.ServerPark;
 
 
-        const url = "/api/v1/users";
-        SendBlaiseAPIRequest(req, res, url, "POST", data)
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
-    });
-
-    router.post("/api/roles", (req, res) => {
-        console.log("add role");
-        const data = req.body;
-        console.log(data);
-
-        // data.permissions = ["Deployment", "Deployment.ServerParkManagement", "Deployment.InstrumentManagement", "AppManagement", "Apps.Appfeatures", "Appfeatures.login", "Appfeatures.getlistofinstruments", "Appfeatures.installsurvey", "Appfeatures.removesurvey", "Appfeatures.startsurvey", "Appfeatures.browsedata", "Appfeatures.deletedata", "Appfeatures.uploaddata", "Appfeatures.downloadcases", "Appfeatures.updatesettings", "Appfeatures.viewsettings", "Appfeatures.viewsurveydetails", "SurveyDataAccess", "SurveyDataAccess.webviewer", "UserManagement", "user.createuser", "user.updateuser", "user.removeuser", "user.createrole", "user.updaterole", "user.removerole", "user.adsync", "SkillManagement", "user.createskill", "user.updateskill", "user.removeskill", "user.updateuserskill", "CustomReports", "CR.viewreports", "CR.setreports", "CR.runreport", "CATI", "CATI.setcatispecification", "CATI.setgeneralparameters", "CATI.setgeneralparameters.setsurveydescription", "CATI.setappointmentparameters", "CATI.setappointmentparameters.setappointmentbuffer", "CATI.setappointmentparameters.setkeeptimeofexpiredappointment", "CATI.setappointmentparameters.settreatexpiredappointmentasmedium", "CATI.setdaybatchparameters", "CATI.setdaybatchparameters.setdaybatchsize", "CATI.setdaybatchparameters.setmaxnumberofcalls", "CATI.setdaybatchparameters.setdaysbetweennoanswers", "CATI.setdaybatchparameters.setdaysbetweenansweringmachine", "CATI.setlaunchersettings", "CATI.setlaunchersettings.setschedulerkind", "CATI.setlaunchersettings.settargetresponserate", "CATI.setlaunchersettings.setworkloadforoneresponse", "CATI.setschedulerparameters", "CATI.setschedulerparameters.setmaxnumberofbusydials", "CATI.setschedulerparameters.setmaxnumberofdials", "CATI.setschedulerparameters.setminimumtimebetweennoanswer", "CATI.setschedulerparameters.setminutesbetweenbusydials", "CATI.setschedulerparameters.setnosamedayansweringmachinecalls", "CATI.setschedulerparameters.setgroupdeactivationdelay", "CATI.setschedulerparameters.setinterviewerdeactivationdelay", "CATI.setschedulerparameters.setonlyexpireondeactiviationdelays", "CATI.setfieldselection", "CATI.setfieldselection.setshowinviewer", "CATI.setfieldselection.setwritetohist", "CATI.setselectfieldsettings", "CATI.setselectfieldsettings.setfields", "CATI.setselectfieldsettings.setfields.setfieldinclude", "CATI.setselectfieldsettings.setfields.setfieldvalues", "CATI.setselectfieldsettings.setactive", "CATI.setsortfieldsettings", "CATI.setsortfieldsettings.setactive", "CATI.settimezonesettings", "CATI.settimezonesettings.setappointmentgrace", "CATI.settimezonesettings.setdonotcallbefore", "CATI.settimezonesettings.setdonotcallafter", "CATI.setquotasettings", "CATI.setquotasettings.setactive", "CATI.setsurveydaysettings", "CATI.createdaybatch", "CATI.createdaybatchwithautorevoke", "CATI.extenddaybatch", "CATI.revokecase", "CATI.makesuperappointment", "CATI.adddaybatchrecord", "CATI.updatedaybatchentry", "CATI.removefromdaybatch", "CATI.setdialednumber", "CATI.backupinstrumentdata", "CATI.clearinstrumentdata", "CATI.setoperationtimesettings", "CATI.setdialresult", "CATI.setnotes", "CATI.setcasedeliveryoptions", "CATI.setcasedeliveryoptions.setenabled", "CATI.setcasedeliveryoptions.setweightfactor", "CATI.viewcatispecificationpage", "CATI.viewappointments", "CATI.selectfromcaseinfo", "CATI.selectfromdaybatch", "Deployment", "Deployment.ServerParkManagement", "Deployment.InstrumentManagement", "AppManagement", "Apps.Appfeatures", "Appfeatures.login", "Appfeatures.getlistofinstruments", "Appfeatures.installsurvey", "Appfeatures.removesurvey", "Appfeatures.startsurvey", "Appfeatures.browsedata", "Appfeatures.deletedata", "Appfeatures.uploaddata", "Appfeatures.downloadcases", "Appfeatures.updatesettings", "Appfeatures.viewsettings", "Appfeatures.viewsurveydetails", "SurveyDataAccess", "SurveyDataAccess.webviewer", "UserManagement", "user.createuser", "user.updateuser", "user.removeuser", "user.createrole", "user.updaterole", "user.removerole", "user.adsync", "SkillManagement", "user.createskill", "user.updateskill", "user.removeskill", "user.updateuserskill", "CustomReports", "CR.viewreports", "CR.setreports", "CR.runreport", "CATI", "CATI.setcatispecification", "CATI.setgeneralparameters", "CATI.setgeneralparameters.setsurveydescription", "CATI.setappointmentparameters", "CATI.setappointmentparameters.setappointmentbuffer", "CATI.setappointmentparameters.setkeeptimeofexpiredappointment", "CATI.setappointmentparameters.settreatexpiredappointmentasmedium", "CATI.setdaybatchparameters", "CATI.setdaybatchparameters.setdaybatchsize", "CATI.setdaybatchparameters.setmaxnumberofcalls", "CATI.setdaybatchparameters.setdaysbetweennoanswers", "CATI.setdaybatchparameters.setdaysbetweenansweringmachine", "CATI.setlaunchersettings", "CATI.setlaunchersettings.setschedulerkind", "CATI.setlaunchersettings.settargetresponserate", "CATI.setlaunchersettings.setworkloadforoneresponse", "CATI.setschedulerparameters", "CATI.setschedulerparameters.setmaxnumberofbusydials", "CATI.setschedulerparameters.setmaxnumberofdials", "CATI.setschedulerparameters.setminimumtimebetweennoanswer", "CATI.setschedulerparameters.setminutesbetweenbusydials", "CATI.setschedulerparameters.setnosamedayansweringmachinecalls", "CATI.setschedulerparameters.setgroupdeactivationdelay", "CATI.setschedulerparameters.setinterviewerdeactivationdelay", "CATI.setschedulerparameters.setonlyexpireondeactiviationdelays", "CATI.setfieldselection", "CATI.setfieldselection.setshowinviewer", "CATI.setfieldselection.setwritetohist", "CATI.setselectfieldsettings", "CATI.setselectfieldsettings.setfields", "CATI.setselectfieldsettings.setfields.setfieldinclude", "CATI.setselectfieldsettings.setfields.setfieldvalues", "CATI.setselectfieldsettings.setactive", "CATI.setsortfieldsettings", "CATI.setsortfieldsettings.setactive", "CATI.settimezonesettings", "CATI.settimezonesettings.setappointmentgrace", "CATI.settimezonesettings.setdonotcallbefore", "CATI.settimezonesettings.setdonotcallafter", "CATI.setquotasettings", "CATI.setquotasettings.setactive", "CATI.setsurveydaysettings", "CATI.createdaybatch", "CATI.createdaybatchwithautorevoke", "CATI.extenddaybatch", "CATI.revokecase", "CATI.makesuperappointment", "CATI.adddaybatchrecord", "CATI.updatedaybatchentry", "CATI.removefromdaybatch", "CATI.setdialednumber", "CATI.backupinstrumentdata", "CATI.clearinstrumentdata", "CATI.setoperationtimesettings", "CATI.setdialresult", "CATI.setnotes", "CATI.setcasedeliveryoptions", "CATI.setcasedeliveryoptions.setenabled", "CATI.setcasedeliveryoptions.setweightfactor", "CATI.viewcatispecificationpage", "CATI.viewappointments", "CATI.selectfromcaseinfo", "CATI.selectfromdaybatch", "CATI.selectfromdaybatchmeta", "CATI.selectfromdialhistory", "CATI.selectfromevents", "CATI.modifyclock"];
-        data.permissions = ["Root", "Deployment", "Deployment.ServerParkManagement", "Deployment.InstrumentManagement", "Apps", "AppManagement", "Apps.Appfeatures", "Appfeatures.login", "Appfeatures.getlistofinstruments", "Appfeatures.installsurvey", "Appfeatures.removesurvey", "Appfeatures.startsurvey", "Appfeatures.browsedata", "Appfeatures.deletedata", "Appfeatures.uploaddata", "Appfeatures.downloadcases", "Appfeatures.updatesettings", "Appfeatures.viewsettings", "Appfeatures.viewsurveydetails", "SurveyDataAccess", "SurveyDataAccess.webviewer", "UserManagement", "user.createuser", "user.updateuser", "user.removeuser", "user.createrole", "user.updaterole", "user.removerole", "user.adsync", "SkillManagement", "user.createskill", "user.updateskill", "user.removeskill", "user.updateuserskill", "CustomReports", "CR.viewreports", "CR.setreports", "CR.runreport", "CATI", "CATI.setcatispecification", "CATI.setgeneralparameters", "CATI.setgeneralparameters.setsurveydescription", "CATI.setappointmentparameters", "CATI.setappointmentparameters.setappointmentbuffer", "CATI.setappointmentparameters.setkeeptimeofexpiredappointment", "CATI.setappointmentparameters.settreatexpiredappointmentasmedium", "CATI.setdaybatchparameters", "CATI.setdaybatchparameters.setdaybatchsize", "CATI.setdaybatchparameters.setmaxnumberofcalls", "CATI.setdaybatchparameters.setdaysbetweennoanswers", "CATI.setdaybatchparameters.setdaysbetweenansweringmachine", "CATI.setlaunchersettings", "CATI.setlaunchersettings.setschedulerkind", "CATI.setlaunchersettings.settargetresponserate", "CATI.setlaunchersettings.setworkloadforoneresponse", "CATI.setschedulerparameters", "CATI.setschedulerparameters.setmaxnumberofbusydials", "CATI.setschedulerparameters.setmaxnumberofdials", "CATI.setschedulerparameters.setminimumtimebetweennoanswer", "CATI.setschedulerparameters.setminutesbetweenbusydials", "CATI.setschedulerparameters.setnosamedayansweringmachinecalls", "CATI.setschedulerparameters.setgroupdeactivationdelay", "CATI.setschedulerparameters.setinterviewerdeactivationdelay", "CATI.setschedulerparameters.setonlyexpireondeactiviationdelays", "CATI.setfieldselection", "CATI.setfieldselection.setshowinviewer", "CATI.setfieldselection.setwritetohist", "CATI.setselectfieldsettings", "CATI.setselectfieldsettings.setfields", "CATI.setselectfieldsettings.setfields.setfieldinclude", "CATI.setselectfieldsettings.setfields.setfieldvalues", "CATI.setselectfieldsettings.setactive", "CATI.setsortfieldsettings", "CATI.setsortfieldsettings.setactive", "CATI.settimezonesettings", "CATI.settimezonesettings.setappointmentgrace", "CATI.settimezonesettings.setdonotcallbefore", "CATI.settimezonesettings.setdonotcallafter", "CATI.setquotasettings", "CATI.setquotasettings.setactive", "CATI.setsurveydaysettings", "CATI.createdaybatch", "CATI.createdaybatchwithautorevoke", "CATI.extenddaybatch", "CATI.revokecase", "CATI.makesuperappointment", "CATI.adddaybatchrecord", "CATI.updatedaybatchentry", "CATI.removefromdaybatch", "CATI.setdialednumber", "CATI.backupinstrumentdata", "CATI.clearinstrumentdata", "CATI.setoperationtimesettings", "CATI.setdialresult", "CATI.setnotes", "CATI.setcasedeliveryoptions", "CATI.setcasedeliveryoptions.setenabled", "CATI.setcasedeliveryoptions.setweightfactor", "CATI.viewcatispecificationpage", "CATI.viewappointments", "CATI.selectfromcaseinfo", "CATI.selectfromdaybatch", "CATI.selectfromdaybatchmeta", "CATI.selectfromdialhistory", "CATI.selectfromevents", "CATI.modifyclock"]
-
-        const url = "/api/v1/userroles";
-        SendBlaiseAPIRequest(req, res, url, "POST", data)
-            .then(([status, data]) => {
-                res.status(status).json(data);
-            });
+        return res.status(200).json(await blaiseApiClient.createUser(data));
     });
 
     return router;
 }
-

@@ -1,8 +1,8 @@
-import {Link, useLocation} from "react-router-dom";
-import React, {ReactElement} from "react";
+import { Link, useLocation } from "react-router-dom";
+import React, { ReactElement } from "react";
 
 export function NavigationLinks(): ReactElement {
-    const {pathname} = useLocation();
+    const { pathname } = useLocation();
 
     const list = [
         {
@@ -11,7 +11,7 @@ export function NavigationLinks(): ReactElement {
             link: "/users"
         }, {
             id: "roles-link",
-            title: "Manages roles",
+            title: "Manage roles",
             link: "/roles"
         },
     ];
@@ -20,14 +20,14 @@ export function NavigationLinks(): ReactElement {
         <div className="header__bottom">
             <div className="container container--gutterless@xxs@m">
                 <nav className="header-nav js-header-nav" id="main-nav" aria-label="Main menu"
-                     data-analytics="header-navigation">
+                    data-analytics="header-navigation">
                     <ul className="header-nav__list">
                         <li className={`header-nav__item  ${(pathname === "/" ? "header-nav__item--active" : "")}`}>
                             <Link to="/" id="home-link" className="header-nav__link">
                                 Home
                             </Link>
                         </li>
-                        {list.map(({id, title, link}) => {
+                        {list.map(({ id, title, link }) => {
                             return (
                                 <li key={id}
                                     className={`header-nav__item  ${(pathname.includes(link) ? "header-nav__item--active" : "")}`}>
