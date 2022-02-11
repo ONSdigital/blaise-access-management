@@ -1,18 +1,18 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {User} from "../../../Interfaces";
-import {ExternalLink, ONSErrorPanel, ONSLoadingPanel} from "blaise-design-system-react-components";
-import {getAllUsers} from "../../utilities/http";
+import React, { ReactElement, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { User } from "blaise-api-node-client";
+import { ExternalLink, ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
+import { getAllUsers } from "../../utilities/http";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import UsersTable from "./UsersTable";
 
 interface Props {
-    currentUser: User;
+    currentUser: User | undefined;
     externalCATIUrl: string;
 }
 
 
-function Users({currentUser, externalCATIUrl}: Props): ReactElement {
+function Users({ currentUser, externalCATIUrl }: Props): ReactElement {
     const [users, setUsers] = useState<User[]>([]);
     const [listError, setListError] = useState<string>("Loading ...");
     const [listLoading, setListLoading] = useState<boolean>(true);
@@ -44,9 +44,9 @@ function Users({currentUser, externalCATIUrl}: Props): ReactElement {
     return <>
         <Breadcrumbs BreadcrumbList={
             [
-                {link: "/", title: "Home"},
+                { link: "/", title: "Home" },
             ]
-        }/>
+        } />
 
         <main id="main-content" className="page__main u-mt-no">
             <h1 className="u-mb-l">Manage users</h1>
@@ -64,16 +64,16 @@ function Users({currentUser, externalCATIUrl}: Props): ReactElement {
             </ul>
             <p className="u-mt-m">
                 <ExternalLink text={"Link to CATI dashboard"}
-                              link={externalCATIUrl}
-                              id={"cati-dashboard"}/>
+                    link={externalCATIUrl}
+                    id={"cati-dashboard"} />
             </p>
-            {listError.includes("Unable") && <ONSErrorPanel/>}
+            {listError.includes("Unable") && <ONSErrorPanel />}
 
             {
                 listLoading ?
-                    <ONSLoadingPanel/>
+                    <ONSLoadingPanel />
                     :
-                    <UsersTable users={users} currentUser={currentUser} listError={listError}/>
+                    <UsersTable users={users} currentUser={currentUser} listError={listError} />
             }
         </main>
     </>;

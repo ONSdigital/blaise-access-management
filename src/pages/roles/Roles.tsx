@@ -1,13 +1,13 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {Role} from "../../../Interfaces";
-import {getAllRoles} from "../../utilities/http";
-import {Link} from "react-router-dom";
-import {ONSErrorPanel, ONSLoadingPanel} from "blaise-design-system-react-components";
+import React, { ReactElement, useEffect, useState } from "react";
+import { getAllRoles } from "../../utilities/http";
+import { Link } from "react-router-dom";
+import { ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import RolesTable from "./RolesTable";
+import { UserRole } from "blaise-api-node-client";
 
 function Roles(): ReactElement {
-    const [roles, setRoles] = useState<Role[]>([]);
+    const [roles, setRoles] = useState<UserRole[]>([]);
     const [listError, setListError] = useState<string>("Loading ...");
     const [listLoading, setListLoading] = useState<boolean>(true);
 
@@ -41,28 +41,22 @@ function Roles(): ReactElement {
         <>
             <Breadcrumbs BreadcrumbList={
                 [
-                    {link: "/", title: "Home"},
+                    { link: "/", title: "Home" },
                 ]
-            }/>
+            } />
 
             <main id="main-content" className="page__main u-mt-no">
                 <h1 className="u-mb-l">Manage roles</h1>
 
-                <ul className="list list--bare list--inline ">
-                    <li className="list__item ">
-                        <Link to={"/roles/new"}>
-                            Create new role
-                        </Link>
-                    </li>
-                </ul>
+                <ONSPanel>Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role</ONSPanel>
 
-                {listError.includes("Unable") && <ONSErrorPanel/>}
+                {listError.includes("Unable") && <ONSErrorPanel />}
 
                 {
                     listLoading ?
-                        <ONSLoadingPanel/>
+                        <ONSLoadingPanel />
                         :
-                        <RolesTable roles={roles} listError={listError}/>
+                        <RolesTable roles={roles} listError={listError} />
                 }
             </main>
         </>
