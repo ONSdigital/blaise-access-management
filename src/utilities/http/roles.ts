@@ -1,7 +1,7 @@
-import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
-import {Role} from "../../../Interfaces";
+import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
+import { UserRole } from "blaise-api-node-client";
 
-type getRolesListResponse = [boolean, Role[]];
+type getRolesListResponse = [boolean, UserRole[]];
 
 function getAllRoles(): Promise<getRolesListResponse> {
     console.log("Call to getAllRoles");
@@ -18,7 +18,7 @@ function getAllRoles(): Promise<getRolesListResponse> {
     });
 }
 
-function addNewRole(newRole: Role): Promise<boolean> {
+function addNewRole(newRole: UserRole): Promise<boolean> {
     console.log("Call to addNewRole");
 
     const url = "/api/roles";
@@ -43,4 +43,4 @@ function addNewRole(newRole: Role): Promise<boolean> {
     });
 }
 
-export {getAllRoles, addNewRole};
+export { getAllRoles, addNewRole };

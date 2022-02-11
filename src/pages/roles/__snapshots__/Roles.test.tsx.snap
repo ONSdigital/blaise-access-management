@@ -45,19 +45,15 @@ Object {
         >
           Manage roles
         </h1>
-        <ul
-          class="list list--bare list--inline "
+        <div
+          class="panel panel--info panel--no-title  u-mt-m"
         >
-          <li
-            class="list__item "
+          <div
+            class="panel__body "
           >
-            <a
-              href="/roles/new"
-            >
-              Create new role
-            </a>
-          </li>
-        </ul>
+            Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role
+          </div>
+        </div>
         <table
           class="table u-mt-m"
           id="roles-table"
@@ -183,19 +179,15 @@ Object {
       >
         Manage roles
       </h1>
-      <ul
-        class="list list--bare list--inline "
+      <div
+        class="panel panel--info panel--no-title  u-mt-m"
       >
-        <li
-          class="list__item "
+        <div
+          class="panel__body "
         >
-          <a
-            href="/roles/new"
-          >
-            Create new role
-          </a>
-        </li>
-      </ul>
+          Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role
+        </div>
+      </div>
       <table
         class="table u-mt-m"
         id="roles-table"

@@ -1,8 +1,9 @@
-import React, {ReactElement, useState} from "react";
-import {ImportUser, UploadedUser, User} from "../../../../Interfaces";
+import React, { ReactElement, useState } from "react";
+import { ImportUser, UploadedUser } from "../../../../Interfaces";
+import { NewUser } from "blaise-api-node-client";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
-import {addNewUser} from "../../../utilities/http";
+import { addNewUser } from "../../../utilities/http";
 import UsersUploadedSummary from "./UsersUploadedSummary";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import UsersUploadInProgress from "./UsersUploadInProgress";
@@ -38,7 +39,7 @@ function BulkUserUpload(): ReactElement {
             }
             numberToUpload = numberToUpload + 1;
 
-            const newUser: User = {
+            const newUser: NewUser = {
                 defaultServerPark: "",
                 serverParks: [],
                 name: user.name,
@@ -47,7 +48,7 @@ function BulkUserUpload(): ReactElement {
             };
             const created = await addNewUser(newUser);
 
-            uploadedUsersList.push({name: user.name, created: created});
+            uploadedUsersList.push({ name: user.name, created: created });
         }
 
         setUsersUploaded(usersUploaded.concat(uploadedUsersList));
@@ -60,16 +61,16 @@ function BulkUserUpload(): ReactElement {
     function returnPage(): ReactElement {
         switch (currentPage) {
             case Pages.Upload:
-                return <SelectFile setUsersToUpload={setUsersToUpload} movePageForward={MovePageToSummary}/>;
+                return <SelectFile setUsersToUpload={setUsersToUpload} movePageForward={MovePageToSummary} />;
             case Pages.ToUploadSummary:
-                return <UsersToUploadSummary statusDescriptionList={usersToUpload} uploadUsers={UploadUsers}/>;
+                return <UsersToUploadSummary statusDescriptionList={usersToUpload} uploadUsers={UploadUsers} />;
             case Pages.InProgress:
-                return <UsersUploadInProgress/>;
+                return <UsersUploadInProgress />;
             case Pages.UploadedSummary:
                 return <UsersUploadedSummary key={usersUploaded.toString()} usersUploaded={usersUploaded}
-                                             numberOfValidUsers={numberOfValidUsers}/>;
+                    numberOfValidUsers={numberOfValidUsers} />;
             default:
-                return <SelectFile setUsersToUpload={setUsersToUpload} movePageForward={MovePageToSummary}/>;
+                return <SelectFile setUsersToUpload={setUsersToUpload} movePageForward={MovePageToSummary} />;
         }
     }
 
@@ -77,9 +78,9 @@ function BulkUserUpload(): ReactElement {
         <>
             <Breadcrumbs BreadcrumbList={
                 [
-                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
+                    { link: "/", title: "Home" }, { link: "/users", title: "Manage users" }
                 ]
-            }/>
+            } />
 
             <main id="main-content" className="page__main u-mt-no">
                 {returnPage()}

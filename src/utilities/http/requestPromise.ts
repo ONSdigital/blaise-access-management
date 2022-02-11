@@ -1,11 +1,14 @@
+import { AuthManager } from "blaise-login-react-client";
+
 type PromiseResponse = [number, any];
 
 function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<PromiseResponse> {
+    const authManager = new AuthManager();
     return new Promise((resolve: (object: PromiseResponse) => void, reject: (error: string) => void) => {
         fetch(url, {
             "method": method,
             "body": body,
-            "headers": headers
+            "headers": Object.assign({}, headers, authManager.authHeader())
         })
             .then(async response => {
                 response.json().then(
@@ -26,10 +29,12 @@ function requestPromiseJson(method: string, url: string, body: any = null, heade
 type PromiseResponseList = [boolean, []];
 
 function requestPromiseJsonList(method: string, url: string, body: any = null): Promise<PromiseResponseList> {
+    const authManager = new AuthManager();
     return new Promise((resolve: (object: PromiseResponseList) => void, reject: (error: string) => void) => {
         fetch(url, {
             "method": method,
-            "body": body
+            "body": body,
+            "headers": authManager.authHeader()
         })
             .then(async response => {
                 response.json().then(
@@ -57,4 +62,4 @@ function requestPromiseJsonList(method: string, url: string, body: any = null): 
     });
 }
 
-export {requestPromiseJson, requestPromiseJsonList};
+export { requestPromiseJson, requestPromiseJsonList };
