@@ -25,7 +25,7 @@ function Users({ currentUser, externalCATIUrl }: Props): ReactElement {
         setUsers([]);
         setListLoading(true);
 
-        const [success, instrumentList] = await getAllUsers();
+        const [success, questionnaireList] = await getAllUsers();
         setListLoading(false);
 
         if (!success) {
@@ -33,11 +33,11 @@ function Users({ currentUser, externalCATIUrl }: Props): ReactElement {
             return;
         }
 
-        if (instrumentList.length === 0) {
+        if (questionnaireList.length === 0) {
             setListError("No installed users found.");
         }
 
-        setUsers(instrumentList);
+        setUsers(questionnaireList);
     }
 
 

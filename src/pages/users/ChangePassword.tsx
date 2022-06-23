@@ -41,12 +41,12 @@ function ChangePassword(): ReactElement {
                     setButtonLoading(false);
                     setRedirect(true);
                 } else {
-                    console.error("Failed to retrieve instrument list, status " + r.status);
+                    console.error("Failed to retrieve questionnaire list, status " + r.status);
                     setMessage("Set password failed");
                     setButtonLoading(false);
                 }
             }).catch(() => {
-                console.error("Failed to retrieve instrument list");
+                console.error("Failed to retrieve questionnaire list");
                 setMessage("Set password failed");
                 setButtonLoading(false);
             }
