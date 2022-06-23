@@ -4820,6 +4820,15 @@ blaise-api-node-client@ONSDigital/blaise-api-node-client:
     blaise-iap-node-provider "https://github.com/ONSdigital/blaise-iap-node-provider.git"
     typescript "~4.2.2"
 
+"blaise-api-node-client@https://github.com/ONSdigital/blaise-api-node-client":
+  version "1.0.0"
+  resolved "https://github.com/ONSdigital/blaise-api-node-client#f5f60e71df98197543a55ee14a25293a4287962b"
+  dependencies:
+    "@babel/preset-env" "^7.14.7"
+    axios "^0.21.1"
+    blaise-iap-node-provider "https://github.com/ONSdigital/blaise-iap-node-provider.git"
+    typescript "~4.2.2"
+
 blaise-design-system-react-components@ONSDigital/blaise-design-system-react-components:
   version "1.0.0"
   resolved "https://codeload.github.com/ONSDigital/blaise-design-system-react-components/tar.gz/8a8a4a65089d41392ff2cec1db27ace5ae1a225d"
