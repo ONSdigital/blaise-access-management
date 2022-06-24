@@ -40,7 +40,7 @@ Create a new .env file and add the following variables.
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
 | PORT                | **Optional variable**, specify the Port for express server to run on. If not passed in this is set as 5000 by default. <br><br>It's best not to set this as the react project will try and use the variable as well and conflict. By default, React project locally runs on port 3000. | 5009                 |
 | VM_EXTERNAL_WEB_URL | External Url used for CATI dashboard and survey links.                                                                                                                                                                                                                                 | tel-client-server.uk |
-| BLAISE_API_URL      | Url that Blaise Instrument Checker is running on to send calls to.                                                                                                                                                                                                                     | localhost:5003       |
+| BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:5003       |
 | SERVER_PARK         | Blaise Server Park Name, required for creating users in the correct server park                                                                                                                                                                                                        | gusty                |
 
 
@@ -65,14 +65,14 @@ The following run commands are available, these are all setup in the `package.js
 | Command             | Description                                                                                                                                                                              |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `yarn start-server` | Start the express server, Note: For the website to be rendered the React Project will need to be built.                                                                                  |
-| `yarn start-react`  | Starts React project in local development setup with quick reloading on making changes. Note: For instruments to be shown the server needs to be running.                                |
+| `yarn start-react`  | Starts React project in local development setup with quick reloading on making changes. Note: For questionnaires to be shown the server needs to be running.                                |
 | `yarn build-react`  | Compiles build project ready to be served by express. The build in outputted to the the `build` directory which express points to with the var `buildFolder` in `server/server.js`.      |
 | `yarn test`         | Runs all tests for server and React Components and outputs coverage statistics.                                                                                                          |
 | `gcp-build`         | [App Engine custom build step](https://cloud.google.com/appengine/docs/standard/nodejs/running-custom-build-step) which builds the react application and complies the TypeScript server. |
 
 ##### Simple setup for local development
 
-Setup express project to be call Blaise Instrument Checker. By default, will be running on PORT 5000.
+Setup express project to be call Blaise User Management. By default, will be running on PORT 5000.
 
 ```shell script
 yarn start-server
