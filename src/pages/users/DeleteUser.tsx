@@ -61,47 +61,47 @@ function DeleteUser(): ReactElement {
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList}/>
 
-            <main id="main-content" className="page__main u-mt-no">
-                <h1 className="u-mb-l">Are you sure you want to delete user <em className="highlight">{user}</em>?</h1>
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
+                <h1 className="ons-u-mb-l">Are you sure you want to delete user <em className="ons-highlight">{user}</em>?</h1>
 
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
                 </ONSPanel>
 
                 <form onSubmit={() => deleteUserConfirm()}>
-                    <fieldset className="fieldset">
-                        <legend className="fieldset__legend">
+                    <fieldset className="ons-fieldset">
+                        <legend className="ons-fieldset__legend">
                         </legend>
-                        <div className="radios__items">
-                            <p className="radios__item">
-                        <span className="radio">
+                        <div className="ons-radios__items">
+                            <p className="ons-radios__item">
+                        <span className="ons-radio">
                         <input
                             type="radio"
                             id="yes-delete-item"
-                            className="radio__input js-radio "
+                            className="ons-radio__input ons-js-radio "
                             value="True"
                             name="confirm-delete"
                             aria-label="Yes"
                             onChange={() => setConfirm(true)}
                         />
-                        <label className="radio__label " htmlFor="yes-delete-item">
+                        <label className="ons-radio__label " htmlFor="yes-delete-item">
                             Yes, delete {user}
                         </label>
                     </span>
                             </p>
                             <br/>
-                            <p className="radios__item">
-                        <span className="radio">
+                            <p className="ons-radios__item">
+                        <span className="ons-radio">
                         <input
                             type="radio"
                             id="no-delete-item"
-                            className="radio__input js-radio "
+                            className="ons-radio__input ons-js-radio "
                             value="False"
                             name="confirm-delete"
                             aria-label="No"
                             onChange={() => setConfirm(false)}
                         />
-                        <label className="radio__label " htmlFor="no-delete-item">
+                        <label className="ons-radio__label " htmlFor="no-delete-item">
                             No, do not delete {user}
                         </label>
                     </span></p>

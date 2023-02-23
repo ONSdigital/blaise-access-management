@@ -27,36 +27,36 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
 
     function failedToUploadUserTable() {
         return <>
-            <h2 className="u-mt-xl">Users that were not created</h2>
+            <h2 className="ons-u-mt-xl">Users that were not created</h2>
             <ErrorBoundary errorMessageText={"Failed to load audit logs."}>
                 {
                     usersUploaded && usersUploaded.length > 0
                         ?
-                        <table id="batch-table" className="table">
-                            <thead className="table__head u-mt-m">
-                            <tr className="table__row">
-                                <th scope="col" className="table__header ">
+                        <table id="batch-table" className="ons-table">
+                            <thead className="ons-table__head u-mt-m">
+                            <tr className="ons-table__row">
+                                <th scope="col" className="ons-table__header ">
                                     <span>Username</span>
                                 </th>
-                                <th scope="col" className="table__header ">
+                                <th scope="col" className="ons-table__header ">
                                     <span>Upload status</span>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody className="table__body">
+                            <tbody className="ons-table__body">
                             {
                                 usersUploaded.map(({name, created}: UploadedUser, index: number) => {
                                     if (!created) {
                                         return (
-                                            <tr className="table__row" key={name + index}
+                                            <tr className="ons-table__row" key={name + index}
                                                 data-testid={"batch-table-row"}>
 
-                                                <td className="table__cell ">
+                                                <td className="ons-table__cell ">
                                                     {name}
                                                 </td>
-                                                <td className="table__cell ">
+                                                <td className="ons-table__cell ">
                                                     <span
-                                                        className={`status status--${(created ? "success" : "error")}`}>
+                                                        className={`ons-status ons-status--${(created ? "success" : "error")}`}>
                                                         {
                                                             created
                                                                 ? "User created"
@@ -80,7 +80,7 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
 
     return (
         <>
-            <h1 className="u-mb-l">Uploaded <em>{converter.toWords(numberOfCreatedUsers)} of {converter.toWords(numberOfValidUsers)}</em> user{(numberOfValidUsers > 1 && "s")} successfully
+            <h1 className="ons-u-mb-l">Uploaded <em>{converter.toWords(numberOfCreatedUsers)} of {converter.toWords(numberOfValidUsers)}</em> user{(numberOfValidUsers > 1 && "s")} successfully
             </h1>
 
             {

@@ -94,11 +94,11 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
 
     return (
         <>
-            <h1 className="u-mb-l">Bulk user upload</h1>
+            <h1 className="ons-u-mb-l">Bulk user upload</h1>
 
-            <label className="label" htmlFor="react-csv-reader-input">Select CSV file
+            <label className="ons-label" htmlFor="react-csv-reader-input">Select CSV file
                 <br />
-                <span className="label__description">File type accepted is .csv only</span>
+                <span className="ons-label__description">File type accepted is .csv only</span>
             </label>
             <CSVReader
                 cssInputClass="input input--text input-type__input input--upload"
@@ -116,25 +116,25 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
                         A blank template is available to download below.
                     </p>
 
-                    <div className="download">
-                        <div className="download__image" aria-hidden="true">
-                            <a className="download__image-link"
+                    <div className="ons-download">
+                        <div className="ons-download__image" aria-hidden="true">
+                            <a className="ons-download__image-link"
                                 href="/documents/users.csv">
                                 <img src="https://ons-design-system.netlify.app/img/small/placeholder-portrait.png"
                                     alt=""
                                     loading="lazy" />
                             </a>
                         </div>
-                        <div className="download__content">
-                            <h3 className="u-fs-m u-mt-no u-mb-xs">
+                        <div className="ons-download__content">
+                            <h3 className="ons-u-fs-m ons-u-mt-no ons-u-mb-xs">
                                 <a href="/documents/users.csv">
-                                    Bulk user upload template file<span className="u-vh">,
+                                    Bulk user upload template file<span className="ons-u-vh">,
                                         CSV document download, 48 Bytes
                                     </span></a>
                             </h3>
-                            <span className="u-fs-s u-mb-xs download__meta"
+                            <span className="ons-u-fs-s ons-u-mb-xs ons-download__meta"
                                 aria-hidden="true">Poster, CSV, 48 Bytes</span>
-                            <p className="download__excerpt">Blank CSV file to upload multiple users at once.</p>
+                            <p className="ons-download__excerpt">Blank CSV file to upload multiple users at once.</p>
                         </div>
                     </div>
                 </>

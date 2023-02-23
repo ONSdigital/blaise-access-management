@@ -57,7 +57,7 @@ function App(): ReactElement {
             return <></>;
         }
         return (
-            <div style={divStyle} className="page__container container">
+            <div style={divStyle} className="ons-page__container ons-container">
                 <LoginForm authManager={authManager} setLoggedIn={setLoggedIn} />
             </div>
         );
@@ -73,7 +73,7 @@ function App(): ReactElement {
             return <></>;
         }
         return (
-            <div style={divStyle} className="page__container container">
+            <div style={divStyle} className="ons-page__container ons-container">
                 <ONSLoadingPanel />
             </div>
         );
@@ -84,7 +84,7 @@ function App(): ReactElement {
             return (
                 <>
                     <NavigationLinks />
-                    <div style={divStyle} className="page__container container">
+                    <div style={divStyle} className="ons-page__container ons-container">
                         <DefaultErrorBoundary>
                             <Switch>
                                 <Route path={"/users/upload"}>

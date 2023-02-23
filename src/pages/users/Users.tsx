@@ -48,21 +48,21 @@ function Users({ currentUser, externalCATIUrl }: Props): ReactElement {
             ]
         } />
 
-        <main id="main-content" className="page__main u-mt-no">
-            <h1 className="u-mb-l">Manage users</h1>
-            <ul className="list list--bare list--inline ">
-                <li className="list__item ">
+        <main id="main-content" className="ons-page__main ons-u-mt-no">
+            <h1 className="ons-u-mb-l">Manage users</h1>
+            <ul className="ons-list ons-list--bare ons-list--inline ">
+                <li className="ons-list__item ">
                     <Link to={"/users/new"}>
                         Create new user
                     </Link>
                 </li>
-                <li className="list__item ">
+                <li className="ons-list__item ">
                     <Link to={"/users/upload"}>
                         Bulk upload users
                     </Link>
                 </li>
             </ul>
-            <p className="u-mt-m">
+            <p className="ons-u-mt-m">
                 <ExternalLink text={"Link to CATI dashboard"}
                     link={externalCATIUrl}
                     id={"cati-dashboard"} />
