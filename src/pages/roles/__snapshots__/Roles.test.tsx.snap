@@ -7,23 +7,23 @@ Object {
     <div>
       <nav
         aria-label="Breadcrumb"
-        class="breadcrumb"
+        class="ons-breadcrumb"
       >
         <ol
-          class="breadcrumb__items u-fs-s"
+          class="ons-breadcrumb__items ons-u-fs-s"
         >
           <li
-            class="breadcrumb__item"
+            class="ons-breadcrumb__item"
             id="breadcrumb-0"
           >
             <a
-              class="breadcrumb__link"
+              class="ons-breadcrumb__link"
               href="/"
             >
               Home
             </a>
             <svg
-              class="svg-icon"
+              class="ons-svg-icon"
               focusable="false"
               viewBox="0 0 8 13"
               xmlns="http://www.w3.org/2000/svg"
@@ -37,35 +37,35 @@ Object {
         </ol>
       </nav>
       <main
-        class="page__main u-mt-no"
+        class="ons-page__main ons-u-mt-no"
         id="main-content"
       >
         <h1
-          class="u-mb-l"
+          class="ons-u-mb-l"
         >
           Manage roles
         </h1>
         <div
-          class="panel panel--info panel--no-title  u-mt-m"
+          class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
         >
           <div
-            class="panel__body "
+            class="ons-panel__body "
           >
             Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role
           </div>
         </div>
         <table
-          class="table u-mt-m"
+          class="ons-table ons-u-mt-m"
           id="roles-table"
         >
           <thead
-            class="table__head"
+            class="ons-table__head"
           >
             <tr
-              class="table__row"
+              class="ons-table__row"
             >
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -73,7 +73,7 @@ Object {
                 </span>
               </th>
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -81,7 +81,7 @@ Object {
                 </span>
               </th>
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -91,44 +91,44 @@ Object {
             </tr>
           </thead>
           <tbody
-            class="table__body"
+            class="ons-table__body"
           >
             <tr
-              class="table__row"
+              class="ons-table__row"
               data-testid="user-table-row"
             >
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 DST
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 A role
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 2
               </td>
             </tr>
             <tr
-              class="table__row"
+              class="ons-table__row"
               data-testid="user-table-row"
             >
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 BDSS
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 Another role
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 1
               </td>
@@ -141,23 +141,23 @@ Object {
   "container": <div>
     <nav
       aria-label="Breadcrumb"
-      class="breadcrumb"
+      class="ons-breadcrumb"
     >
       <ol
-        class="breadcrumb__items u-fs-s"
+        class="ons-breadcrumb__items ons-u-fs-s"
       >
         <li
-          class="breadcrumb__item"
+          class="ons-breadcrumb__item"
           id="breadcrumb-0"
         >
           <a
-            class="breadcrumb__link"
+            class="ons-breadcrumb__link"
             href="/"
           >
             Home
           </a>
           <svg
-            class="svg-icon"
+            class="ons-svg-icon"
             focusable="false"
             viewBox="0 0 8 13"
             xmlns="http://www.w3.org/2000/svg"
@@ -171,35 +171,35 @@ Object {
       </ol>
     </nav>
     <main
-      class="page__main u-mt-no"
+      class="ons-page__main ons-u-mt-no"
       id="main-content"
     >
       <h1
-        class="u-mb-l"
+        class="ons-u-mb-l"
       >
         Manage roles
       </h1>
       <div
-        class="panel panel--info panel--no-title  u-mt-m"
+        class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
       >
         <div
-          class="panel__body "
+          class="ons-panel__body "
         >
           Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role
         </div>
       </div>
       <table
-        class="table u-mt-m"
+        class="ons-table ons-u-mt-m"
         id="roles-table"
       >
         <thead
-          class="table__head"
+          class="ons-table__head"
         >
           <tr
-            class="table__row"
+            class="ons-table__row"
           >
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -207,7 +207,7 @@ Object {
               </span>
             </th>
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -215,7 +215,7 @@ Object {
               </span>
             </th>
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -225,44 +225,44 @@ Object {
           </tr>
         </thead>
         <tbody
-          class="table__body"
+          class="ons-table__body"
         >
           <tr
-            class="table__row"
+            class="ons-table__row"
             data-testid="user-table-row"
           >
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               DST
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               A role
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               2
             </td>
           </tr>
           <tr
-            class="table__row"
+            class="ons-table__row"
             data-testid="user-table-row"
           >
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               BDSS
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               Another role
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               1
             </td>
