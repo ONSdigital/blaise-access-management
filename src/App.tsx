@@ -83,7 +83,7 @@ function App(): ReactElement {
         if (loaded && loggedIn) {
             return (
                 <>
-                    <NavigationLinks />
+                    {/* <NavigationLinks /> */}
                     <div style={divStyle} className="ons-page__container ons-container">
                         <DefaultErrorBoundary>
                             <Switch>
@@ -130,7 +130,31 @@ function App(): ReactElement {
                 (window.location.hostname.includes("dev")) && <NotProductionWarning />
             }
             <BetaBanner />
-            <Header title={"Blaise User Management"} signOutButton={loggedIn} noSave={true} signOutFunction={signOut} />
+            <Header 
+                title={"Blaise User Management"} 
+                signOutButton={loggedIn} 
+                noSave={true} 
+                signOutFunction={signOut} 
+                navigationLinks={
+                    [   
+                        {
+                            id: "home-link",
+                            label: "Home",
+                            endpoint: "/"
+                        }, 
+                        {
+                            id: "users-link",
+                            label: "Manage users",
+                            endpoint: "/users"
+                        }, 
+                        {
+                            id: "roles-link",
+                            label: "Manage roles",
+                            endpoint: "/roles"
+                        },
+                    ]
+                }     
+            />
             {loading()}
             {loginPage()}
             {app()}
