@@ -38,25 +38,25 @@ const TextInput = (props: TextInputProps): ReactElement => {
     function getInput() {
         return (
             <>
-                <label className="label" htmlFor={props.name}>{props.label}
+                <label className="ons-label" htmlFor={props.name}>{props.label}
                 </label>
                 {
                     props.password &&
-                    <span className="checkbox checkbox--toggle">
+                    <span className="ons-checkbox ons-checkbox--toggle">
                     <input
                         type="checkbox"
                         id={`${props.name}-password-toggle`}
-                        className="checkbox__input"
+                        className="ons-checkbox__input"
                         name="show-password"
                         onClick={() => setShowPassword(!showPassword)}
                     />
-                    <label id="password-toggle-label" className="checkbox__label"
+                    <label id="password-toggle-label" className="ons-checkbox__label"
                            htmlFor={`${props.name}-password-toggle`}>
                         Show password
                     </label>
                 </span>
                 }
-                <input id={props.name} className="input input--text input-type__input u-mt-xs"
+                <input id={props.name} className="ons-input ons-input--text ons-input-type__input ons-u-mt-xs"
                        name={props.name}
                        autoComplete={props.password ? "current-password" : undefined}
                        type={props.password ? showPassword ? "text" : "password" : "text"}
@@ -68,13 +68,13 @@ const TextInput = (props: TextInputProps): ReactElement => {
     }
 
     return (
-        <div className="field">
-            <div className={hasError ? "panel panel--error panel--no-title u-mb-s" : ""}>
-                {hasError && <span className="u-vh">Error: </span>}
-                <div className={hasError ? "panel__body" : ""}>
+        <div className="ons-field">
+            <div className={hasError ? "ons-panel ons-panel--error ons-panel--no-title ons-u-mb-s" : ""}>
+                {hasError && <span className="ons-u-vh">Error: </span>}
+                <div className={hasError ? "ons-panel__body" : ""}>
                     {
                         hasError &&
-                        <p className="panel__error">
+                        <p className="ons-panel__error">
                             <strong>{renderErrors()}</strong>
                         </p>
                     }

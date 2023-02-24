@@ -17,21 +17,21 @@ export function NavigationLinks(): ReactElement {
     ];
 
     return (
-        <div className="header__bottom">
-            <div className="container container--gutterless@xxs@m">
-                <nav className="header-nav js-header-nav" id="main-nav" aria-label="Main menu"
+        <div className="ons-header__bottom">
+            <div className="ons-container ons-container--gutterless@xxs@m">
+                <nav className="ons-header-nav ons-js-header-nav" id="main-nav" aria-label="Main menu"
                     data-analytics="header-navigation">
-                    <ul className="header-nav__list">
-                        <li className={`header-nav__item  ${(pathname === "/" ? "header-nav__item--active" : "")}`}>
-                            <Link to="/" id="home-link" className="header-nav__link">
+                    <ul className="ons-header-nav__list">
+                        <li className={`ons-header-nav__item  ${(pathname === "/" ? "ons-header-nav__item--active" : "")}`}>
+                            <Link to="/" id="home-link" className="ons-header-nav__link">
                                 Home
                             </Link>
                         </li>
                         {list.map(({ id, title, link }) => {
                             return (
                                 <li key={id}
-                                    className={`header-nav__item  ${(pathname.includes(link) ? "header-nav__item--active" : "")}`}>
-                                    <Link to={link} id={id} className="header-nav__link">
+                                    className={`ons-header-nav__item  ${(pathname.includes(link) ? "ons-header-nav__item--active" : "")}`}>
+                                    <Link to={link} id={id} className="ons-header-nav__link">
                                         {title}
                                     </Link>
                                 </li>

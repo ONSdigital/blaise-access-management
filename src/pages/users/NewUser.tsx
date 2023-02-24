@@ -82,8 +82,8 @@ function NewUserComponent(): ReactElement {
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
 
-            <main id="main-content" className="page__main u-mt-no">
-                <h1 className="u-mb-l">Create new user</h1>
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
+                <h1 className="ons-u-mb-l">Create new user</h1>
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
                 </ONSPanel>
@@ -106,10 +106,10 @@ function NewUserComponent(): ReactElement {
                         label={"Confirm password"}
                         password={true}
                     />
-                    <p className="field">
-                        <label className="label" htmlFor="role">Role
+                    <p className="ons-field">
+                        <label className="ons-label" htmlFor="role">Role
                         </label>
-                        <select value={role} id="role" name="select" className="input input--select "
+                        <select value={role} id="role" name="select" className="ons-input ons-input--select "
                             onChange={(e: ChangeEvent<HTMLSelectElement>) => setRole(e.target.value)}>
                             {
                                 roleList.map((option: UserRole) => {
