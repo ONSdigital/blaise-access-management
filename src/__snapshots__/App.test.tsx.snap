@@ -129,59 +129,63 @@ Object {
             </div>
           </div>
         </div>
-      </header>
-      <div
-        class="ons-header__bottom"
-      >
         <div
-          class="ons-container ons-container--gutterless@xxs@m"
+          class="ons-navigation-wrapper"
         >
-          <nav
-            aria-label="Main menu"
-            class="ons-header-nav ons-js-header-nav"
-            data-analytics="header-navigation"
-            id="main-nav"
+          <div
+            class="ons-container ons-container--gutterless@xxs@l"
           >
-            <ul
-              class="ons-header-nav__list"
+            <nav
+              aria-label="Main menu"
+              class="ons-navigation ons-navigation--main ons-js-navigation"
+              data-analytics="header-navigation"
+              id="main-nav"
+              role="navigation"
             >
-              <li
-                class="ons-header-nav__item  ons-header-nav__item--active"
+              <ul
+                class="ons-navigation__list"
               >
-                <a
-                  class="ons-header-nav__link"
-                  href="/"
-                  id="home-link"
+                <li
+                  class="ons-navigation__item  "
                 >
-                  Home
-                </a>
-              </li>
-              <li
-                class="ons-header-nav__item  "
-              >
-                <a
-                  class="ons-header-nav__link"
-                  href="/users"
-                  id="users-link"
+                  <a
+                    class="ons-navigation__link"
+                    href="/"
+                    id="home-link"
+                    role="link"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li
+                  class="ons-navigation__item  "
                 >
-                  Manage users
-                </a>
-              </li>
-              <li
-                class="ons-header-nav__item  "
-              >
-                <a
-                  class="ons-header-nav__link"
-                  href="/roles"
-                  id="roles-link"
+                  <a
+                    class="ons-navigation__link"
+                    href="/users"
+                    id="users-link"
+                    role="link"
+                  >
+                    Manage users
+                  </a>
+                </li>
+                <li
+                  class="ons-navigation__item  "
                 >
-                  Manage roles
-                </a>
-              </li>
-            </ul>
-          </nav>
+                  <a
+                    class="ons-navigation__link"
+                    href="/roles"
+                    id="roles-link"
+                    role="link"
+                  >
+                    Manage roles
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
+      </header>
       <div
         class="ons-page__container ons-container"
         style="min-height: calc(67vh);"
@@ -564,59 +568,63 @@ Object {
           </div>
         </div>
       </div>
-    </header>
-    <div
-      class="ons-header__bottom"
-    >
       <div
-        class="ons-container ons-container--gutterless@xxs@m"
+        class="ons-navigation-wrapper"
       >
-        <nav
-          aria-label="Main menu"
-          class="ons-header-nav ons-js-header-nav"
-          data-analytics="header-navigation"
-          id="main-nav"
+        <div
+          class="ons-container ons-container--gutterless@xxs@l"
         >
-          <ul
-            class="ons-header-nav__list"
+          <nav
+            aria-label="Main menu"
+            class="ons-navigation ons-navigation--main ons-js-navigation"
+            data-analytics="header-navigation"
+            id="main-nav"
+            role="navigation"
           >
-            <li
-              class="ons-header-nav__item  ons-header-nav__item--active"
+            <ul
+              class="ons-navigation__list"
             >
-              <a
-                class="ons-header-nav__link"
-                href="/"
-                id="home-link"
+              <li
+                class="ons-navigation__item  "
               >
-                Home
-              </a>
-            </li>
-            <li
-              class="ons-header-nav__item  "
-            >
-              <a
-                class="ons-header-nav__link"
-                href="/users"
-                id="users-link"
+                <a
+                  class="ons-navigation__link"
+                  href="/"
+                  id="home-link"
+                  role="link"
+                >
+                  Home
+                </a>
+              </li>
+              <li
+                class="ons-navigation__item  "
               >
-                Manage users
-              </a>
-            </li>
-            <li
-              class="ons-header-nav__item  "
-            >
-              <a
-                class="ons-header-nav__link"
-                href="/roles"
-                id="roles-link"
+                <a
+                  class="ons-navigation__link"
+                  href="/users"
+                  id="users-link"
+                  role="link"
+                >
+                  Manage users
+                </a>
+              </li>
+              <li
+                class="ons-navigation__item  "
               >
-                Manage roles
-              </a>
-            </li>
-          </ul>
-        </nav>
+                <a
+                  class="ons-navigation__link"
+                  href="/roles"
+                  id="roles-link"
+                  role="link"
+                >
+                  Manage roles
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
-    </div>
+    </header>
     <div
       class="ons-page__container ons-container"
       style="min-height: calc(67vh);"

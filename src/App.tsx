@@ -9,7 +9,6 @@ import { NotProductionWarning, Footer, Header, BetaBanner, ErrorBoundary, Defaul
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
-import { NavigationLinks } from "./Components/NavigationLinks";
 import { LoginForm, AuthManager } from "blaise-login-react-client";
 import { User } from "blaise-api-node-client";
 import { getCurrentUser } from "blaise-login-react-client";
@@ -39,7 +38,7 @@ function App(): ReactElement {
                 getCurrentUser(authManager).then((user: User) => {
                     setCurrentUser(user);
                 }).catch(() => {
-                    console.log("WTF is going on");
+                    console.log("IDK what is going on");
                 });
             }
             setLoaded(true);
