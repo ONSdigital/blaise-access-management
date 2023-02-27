@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { isDevEnv } from "./Functions";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, Link } from "react-router-dom";
 import Users from "./pages/users/Users";
 import NewUserComponent from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
@@ -152,7 +152,14 @@ function App(): ReactElement {
                             endpoint: "/roles"
                         },
                     ]
-                }     
+                }
+                currentLocation={location.pathname}
+                createNavLink={(id: string, label: string, endpoint: string) => (
+                    <Link to={endpoint} id={id} className="ons-navigation__link">
+                        {label}
+                    </Link>
+                )}  
+                     
             />
             {loading()}
             {loginPage()}
