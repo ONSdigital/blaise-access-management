@@ -146,13 +146,12 @@ Object {
                 class="ons-navigation__list"
               >
                 <li
-                  class="ons-navigation__item  "
+                  class="ons-navigation__item  ons-navigation__item--active"
                 >
                   <a
                     class="ons-navigation__link"
                     href="/"
                     id="home-link"
-                    role="link"
                   >
                     Home
                   </a>
@@ -164,7 +163,6 @@ Object {
                     class="ons-navigation__link"
                     href="/users"
                     id="users-link"
-                    role="link"
                   >
                     Manage users
                   </a>
@@ -176,7 +174,6 @@ Object {
                     class="ons-navigation__link"
                     href="/roles"
                     id="roles-link"
-                    role="link"
                   >
                     Manage roles
                   </a>
@@ -585,13 +582,12 @@ Object {
               class="ons-navigation__list"
             >
               <li
-                class="ons-navigation__item  "
+                class="ons-navigation__item  ons-navigation__item--active"
               >
                 <a
                   class="ons-navigation__link"
                   href="/"
                   id="home-link"
-                  role="link"
                 >
                   Home
                 </a>
@@ -603,7 +599,6 @@ Object {
                   class="ons-navigation__link"
                   href="/users"
                   id="users-link"
-                  role="link"
                 >
                   Manage users
                 </a>
@@ -615,7 +610,6 @@ Object {
                   class="ons-navigation__link"
                   href="/roles"
                   id="roles-link"
-                  role="link"
                 >
                   Manage roles
                 </a>
