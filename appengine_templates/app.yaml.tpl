@@ -1,5 +1,5 @@
 service: bum-ui
-runtime: nodejs14
+runtime: nodejs16
 
 vpc_access_connector:
   name: projects/_PROJECT_ID/locations/europe-west2/connectors/vpcconnect

@@ -74,8 +74,8 @@ function ChangePassword(): ReactElement {
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
 
-            <main id="main-content" className="page__main u-mt-no">
-                <h1 className="u-mb-l">Change password for user <em>{user}</em></h1>
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
+                <h1 className="ons-u-mb-l">Change password for user <em>{user}</em></h1>
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
                 </ONSPanel>

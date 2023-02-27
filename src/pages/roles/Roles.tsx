@@ -45,8 +45,8 @@ function Roles(): ReactElement {
                 ]
             } />
 
-            <main id="main-content" className="page__main u-mt-no">
-                <h1 className="u-mb-l">Manage roles</h1>
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
+                <h1 className="ons-u-mb-l">Manage roles</h1>
 
                 <ONSPanel>Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role</ONSPanel>
 
