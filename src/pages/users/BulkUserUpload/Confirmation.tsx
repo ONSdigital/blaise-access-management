@@ -40,13 +40,13 @@ function Confirmation({validUsers, uploadUsers}: Props): ReactElement {
                 </ONSPanel>
             }
 
-            <form className="u-mt-s">
+            <form className="ons-u-mt-s">
                 {
                     formError === "" ?
                         confirmDeleteRadios(validUsers, setConfirm)
                         :
                         <ONSPanel status={"error"}>
-                            <p className="panel__error">
+                            <p className="ons-panel__error">
                                 <strong>{formError}</strong>
                             </p>
                             {confirmDeleteRadios(validUsers, setConfirm)}
@@ -74,39 +74,39 @@ function Confirmation({validUsers, uploadUsers}: Props): ReactElement {
 
 function confirmDeleteRadios(validUsers: number, setConfirm: (value: (((prevState: (boolean | null)) => (boolean | null)) | boolean | null)) => void) {
     return (
-        <fieldset className="fieldset">
-            <legend className="fieldset__legend">
+        <fieldset className="ons-fieldset">
+            <legend className="ons-fieldset__legend">
             </legend>
-            <div className="radios__items">
+            <div className="ons-radios__items">
 
-                <p className="radios__item">
-                        <span className="radio">
+                <p className="ons-radios__item">
+                        <span className="ons-radio">
                         <input
                             type="radio"
                             id="confirm-upload"
-                            className="radio__input js-radio "
+                            className="ons-radio__input ons-js-radio "
                             value="True"
                             name="confirm-upload"
                             aria-label="Yes"
                             onChange={() => setConfirm(true)}
                         />
-                        <label className="radio__label " htmlFor="confirm-upload">
+                        <label className="ons-radio__label " htmlFor="confirm-upload">
                             Yes, upload {converter.toWords(validUsers)} valid user{(validUsers > 1 && "s")}
                         </label>
                     </span></p>
                 <br/>
-                <p className="radios__item">
-                        <span className="radio">
+                <p className="ons-radios__item">
+                        <span className="ons-radio">
                         <input
                             type="radio"
                             id="cancel-upload"
-                            className="radio__input js-radio "
+                            className="ons-radio__input ons-js-radio "
                             value="False"
                             name="confirm-upload"
                             aria-label="No"
                             onChange={() => setConfirm(false)}
                         />
-                        <label className="radio__label " htmlFor="cancel-upload">
+                        <label className="ons-radio__label " htmlFor="cancel-upload">
                             No, do not upload any users
                         </label>
                     </span>

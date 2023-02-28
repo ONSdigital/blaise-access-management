@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { isDevEnv } from "./Functions";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, Link } from "react-router-dom";
 import Users from "./pages/users/Users";
 import NewUserComponent from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
@@ -9,7 +9,6 @@ import { NotProductionWarning, Footer, Header, BetaBanner, ErrorBoundary, Defaul
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
-import { NavigationLinks } from "./Components/NavigationLinks";
 import { LoginForm, AuthManager } from "blaise-login-react-client";
 import { User } from "blaise-api-node-client";
 import { getCurrentUser } from "blaise-login-react-client";
@@ -39,7 +38,7 @@ function App(): ReactElement {
                 getCurrentUser(authManager).then((user: User) => {
                     setCurrentUser(user);
                 }).catch(() => {
-                    console.log("WTF is going on");
+                    console.log("IDK what is going on");
                 });
             }
             setLoaded(true);
@@ -57,7 +56,7 @@ function App(): ReactElement {
             return <></>;
         }
         return (
-            <div style={divStyle} className="page__container container">
+            <div style={divStyle} className="ons-page__container ons-container">
                 <LoginForm authManager={authManager} setLoggedIn={setLoggedIn} />
             </div>
         );
@@ -73,7 +72,7 @@ function App(): ReactElement {
             return <></>;
         }
         return (
-            <div style={divStyle} className="page__container container">
+            <div style={divStyle} className="ons-page__container ons-container">
                 <ONSLoadingPanel />
             </div>
         );
@@ -83,8 +82,8 @@ function App(): ReactElement {
         if (loaded && loggedIn) {
             return (
                 <>
-                    <NavigationLinks />
-                    <div style={divStyle} className="page__container container">
+                    {/* <NavigationLinks /> */}
+                    <div style={divStyle} className="ons-page__container ons-container">
                         <DefaultErrorBoundary>
                             <Switch>
                                 <Route path={"/users/upload"}>
@@ -130,7 +129,38 @@ function App(): ReactElement {
                 (window.location.hostname.includes("dev")) && <NotProductionWarning />
             }
             <BetaBanner />
-            <Header title={"Blaise User Management"} signOutButton={loggedIn} noSave={true} signOutFunction={signOut} />
+            <Header 
+                title={"Blaise User Management"} 
+                signOutButton={loggedIn} 
+                noSave={true} 
+                signOutFunction={signOut} 
+                navigationLinks={
+                    [   
+                        {
+                            id: "home-link",
+                            label: "Home",
+                            endpoint: "/"
+                        }, 
+                        {
+                            id: "users-link",
+                            label: "Manage users",
+                            endpoint: "/users"
+                        }, 
+                        {
+                            id: "roles-link",
+                            label: "Manage roles",
+                            endpoint: "/roles"
+                        },
+                    ]
+                }
+                currentLocation={location.pathname}
+                createNavLink={(id: string, label: string, endpoint: string) => (
+                    <Link to={endpoint} id={id} className="ons-navigation__link">
+                        {label}
+                    </Link>
+                )}  
+                     
+            />
             {loading()}
             {loginPage()}
             {app()}
