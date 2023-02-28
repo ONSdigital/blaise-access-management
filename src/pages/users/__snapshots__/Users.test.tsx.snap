@@ -7,23 +7,23 @@ Object {
     <div>
       <nav
         aria-label="Breadcrumb"
-        class="breadcrumb"
+        class="ons-breadcrumb"
       >
         <ol
-          class="breadcrumb__items u-fs-s"
+          class="ons-breadcrumb__items ons-u-fs-s"
         >
           <li
-            class="breadcrumb__item"
+            class="ons-breadcrumb__item"
             id="breadcrumb-0"
           >
             <a
-              class="breadcrumb__link"
+              class="ons-breadcrumb__link"
               href="/"
             >
               Home
             </a>
             <svg
-              class="svg-icon"
+              class="ons-svg-icon"
               focusable="false"
               viewBox="0 0 8 13"
               xmlns="http://www.w3.org/2000/svg"
@@ -37,19 +37,19 @@ Object {
         </ol>
       </nav>
       <main
-        class="page__main u-mt-no"
+        class="ons-page__main ons-u-mt-no"
         id="main-content"
       >
         <h1
-          class="u-mb-l"
+          class="ons-u-mb-l"
         >
           Manage users
         </h1>
         <ul
-          class="list list--bare list--inline "
+          class="ons-list ons-list--bare ons-list--inline "
         >
           <li
-            class="list__item "
+            class="ons-list__item "
           >
             <a
               href="/users/new"
@@ -58,7 +58,7 @@ Object {
             </a>
           </li>
           <li
-            class="list__item "
+            class="ons-list__item "
           >
             <a
               href="/users/upload"
@@ -68,10 +68,10 @@ Object {
           </li>
         </ul>
         <p
-          class="u-mt-m"
+          class="ons-u-mt-m"
         >
           <a
-            class="external-link"
+            class="ons-external-link"
             href="url/"
             id="cati-dashboard"
             rel="noopener noreferrer"
@@ -79,7 +79,7 @@ Object {
           >
             Link to CATI dashboard
             <svg
-              class="svg-icon"
+              class="ons-svg-icon"
               viewBox="0 0 12 12"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -95,17 +95,17 @@ Object {
           </a>
         </p>
         <table
-          class="table u-mt-m"
+          class="ons-table ons-u-mt-m"
           id="users-table"
         >
           <thead
-            class="table__head "
+            class="ons-table__head "
           >
             <tr
-              class="table__row"
+              class="ons-table__row"
             >
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -113,7 +113,7 @@ Object {
                 </span>
               </th>
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -121,7 +121,7 @@ Object {
                 </span>
               </th>
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -129,7 +129,7 @@ Object {
                 </span>
               </th>
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -137,7 +137,7 @@ Object {
                 </span>
               </th>
               <th
-                class="table__header "
+                class="ons-table__header "
                 scope="col"
               >
                 <span>
@@ -147,29 +147,29 @@ Object {
             </tr>
           </thead>
           <tbody
-            class="table__body"
+            class="ons-table__body"
           >
             <tr
-              class="table__row"
+              class="ons-table__row"
               data-testid="users-table-row"
             >
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 TestUser123
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 DST
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 gusty
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 <a
                   href="/users/changepassword/TestUser123"
@@ -178,32 +178,32 @@ Object {
                 </a>
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 Currently signed in user
               </td>
             </tr>
             <tr
-              class="table__row"
+              class="ons-table__row"
               data-testid="users-table-row"
             >
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 SecondUser
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 BDSS
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 gusty
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 <a
                   href="/users/changepassword/SecondUser"
@@ -212,7 +212,7 @@ Object {
                 </a>
               </td>
               <td
-                class="table__cell "
+                class="ons-table__cell "
               >
                 <a
                   href="/users/delete/SecondUser"
@@ -229,23 +229,23 @@ Object {
   "container": <div>
     <nav
       aria-label="Breadcrumb"
-      class="breadcrumb"
+      class="ons-breadcrumb"
     >
       <ol
-        class="breadcrumb__items u-fs-s"
+        class="ons-breadcrumb__items ons-u-fs-s"
       >
         <li
-          class="breadcrumb__item"
+          class="ons-breadcrumb__item"
           id="breadcrumb-0"
         >
           <a
-            class="breadcrumb__link"
+            class="ons-breadcrumb__link"
             href="/"
           >
             Home
           </a>
           <svg
-            class="svg-icon"
+            class="ons-svg-icon"
             focusable="false"
             viewBox="0 0 8 13"
             xmlns="http://www.w3.org/2000/svg"
@@ -259,19 +259,19 @@ Object {
       </ol>
     </nav>
     <main
-      class="page__main u-mt-no"
+      class="ons-page__main ons-u-mt-no"
       id="main-content"
     >
       <h1
-        class="u-mb-l"
+        class="ons-u-mb-l"
       >
         Manage users
       </h1>
       <ul
-        class="list list--bare list--inline "
+        class="ons-list ons-list--bare ons-list--inline "
       >
         <li
-          class="list__item "
+          class="ons-list__item "
         >
           <a
             href="/users/new"
@@ -280,7 +280,7 @@ Object {
           </a>
         </li>
         <li
-          class="list__item "
+          class="ons-list__item "
         >
           <a
             href="/users/upload"
@@ -290,10 +290,10 @@ Object {
         </li>
       </ul>
       <p
-        class="u-mt-m"
+        class="ons-u-mt-m"
       >
         <a
-          class="external-link"
+          class="ons-external-link"
           href="url/"
           id="cati-dashboard"
           rel="noopener noreferrer"
@@ -301,7 +301,7 @@ Object {
         >
           Link to CATI dashboard
           <svg
-            class="svg-icon"
+            class="ons-svg-icon"
             viewBox="0 0 12 12"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -317,17 +317,17 @@ Object {
         </a>
       </p>
       <table
-        class="table u-mt-m"
+        class="ons-table ons-u-mt-m"
         id="users-table"
       >
         <thead
-          class="table__head "
+          class="ons-table__head "
         >
           <tr
-            class="table__row"
+            class="ons-table__row"
           >
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -335,7 +335,7 @@ Object {
               </span>
             </th>
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -343,7 +343,7 @@ Object {
               </span>
             </th>
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -351,7 +351,7 @@ Object {
               </span>
             </th>
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -359,7 +359,7 @@ Object {
               </span>
             </th>
             <th
-              class="table__header "
+              class="ons-table__header "
               scope="col"
             >
               <span>
@@ -369,29 +369,29 @@ Object {
           </tr>
         </thead>
         <tbody
-          class="table__body"
+          class="ons-table__body"
         >
           <tr
-            class="table__row"
+            class="ons-table__row"
             data-testid="users-table-row"
           >
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               TestUser123
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               DST
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               gusty
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               <a
                 href="/users/changepassword/TestUser123"
@@ -400,32 +400,32 @@ Object {
               </a>
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               Currently signed in user
             </td>
           </tr>
           <tr
-            class="table__row"
+            class="ons-table__row"
             data-testid="users-table-row"
           >
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               SecondUser
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               BDSS
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               gusty
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               <a
                 href="/users/changepassword/SecondUser"
@@ -434,7 +434,7 @@ Object {
               </a>
             </td>
             <td
-              class="table__cell "
+              class="ons-table__cell "
             >
               <a
                 href="/users/delete/SecondUser"

@@ -14,7 +14,7 @@ function BulkUserUpload(): ReactElement {
     const [numberOfValidUsers, setNumberOfValidUsers] = useState<number>(0);
     const [usersUploaded, setUsersUploaded] = useState<UploadedUser[]>([]);
 
-    document.body.className = "js-enabled";
+    document.body.className = "ons-js-enabled";
 
     const Pages = {
         Upload: "Upload",
@@ -82,7 +82,7 @@ function BulkUserUpload(): ReactElement {
                 ]
             } />
 
-            <main id="main-content" className="page__main u-mt-no">
+            <main id="main-content" className="ons-page__main ons-u-mt-no">
                 {returnPage()}
             </main>
         </>

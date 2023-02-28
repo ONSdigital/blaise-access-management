@@ -41,9 +41,9 @@
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.2",
     "blaise-api-node-client": "https://github.com/ONSdigital/blaise-api-node-client",
-    "blaise-design-system-react-components": "https://gitpkg.now.sh/ONSdigital/blaise-design-system-react-components?014a606b35c63d6fd703f7523918b8f9527bf2ff",
-    "blaise-login-react-client": "https://gitpkg.now.sh/ONSdigital/blaise-login-react/blaise-login-react-client?15349ab6f74a98e9a2cfa8a277944bc788b92c78",
-    "blaise-login-react-server": "https://gitpkg.now.sh/ONSdigital/blaise-login-react/blaise-login-react-server?554d517d94af2265c1ea9c8833dacd6f5d676ebd",
+    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.13.2",
+    "blaise-login-react-client": "https://gitpkg.now.sh/ONSdigital/blaise-login-react/blaise-login-react-client?efadd8296708d3538c01e6a1561e85ee7b5256e9",
+    "blaise-login-react-server": "https://gitpkg.now.sh/ONSdigital/blaise-login-react/blaise-login-react-server?f8f2014510b2b9944746b996135cfe96733997cc",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.7",
     "express": "^4.17.3",
@@ -72,6 +72,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.16.1",
+    "@types/pino-pretty": "^4.7.1",
     "axios-mock-adapter": "^1.19.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.2",
@@ -92,5 +93,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "@types/react": "17.0.14",
+    "@types/react-dom": "17.0.14"
   }
 }
