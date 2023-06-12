@@ -13,10 +13,6 @@ import { LoginForm, AuthManager } from "blaise-login-react-client";
 import { User } from "blaise-api-node-client";
 import { getCurrentUser } from "blaise-login-react-client";
 
-interface window extends Window {
-    VM_EXTERNAL_CLIENT_URL: string
-    CATI_DASHBOARD_URL: string
-}
 
 const divStyle = {
     minHeight: "calc(67vh)"
@@ -24,7 +20,6 @@ const divStyle = {
 
 function App(): ReactElement {
     const authManager = new AuthManager();
-    const [externalCATIUrl, setExternalCATIUrl] = useState<string>("/Blaise");
     const location = useLocation();
     const [loaded, setLoaded] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -44,12 +39,6 @@ function App(): ReactElement {
             setLoaded(true);
         });
     });
-
-
-    useEffect(function retrieveVariables() {
-        setExternalCATIUrl(isDevEnv() ?
-            process.env.REACT_APP_CATI_DASHBOARD_URL || externalCATIUrl : (window as unknown as window).CATI_DASHBOARD_URL);
-    }, [externalCATIUrl]);
 
     function loginPage(): ReactElement {
         if (loaded && loggedIn) {
@@ -105,8 +94,7 @@ function App(): ReactElement {
                                 </Route>
                                 <Route path="/users">
                                     <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
-                                        <Users currentUser={currentUser}
-                                            externalCATIUrl={externalCATIUrl} />
+                                        <Users currentUser={currentUser} />
                                     </ErrorBoundary>
                                 </Route>
                                 <Route path="/">

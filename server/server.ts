@@ -71,7 +71,7 @@ server.get("/documents/users.csv", auth.Middleware, function (req: Request, res:
 });
 
 server.get("*", function (req: Request, res: Response) {
-    res.render("index.html", { CATI_DASHBOARD_URL: config.CatiDashboardUrl });
+    res.render("index.html",{});
 });
 
 server.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

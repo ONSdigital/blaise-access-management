@@ -1,18 +1,17 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { User } from "blaise-api-node-client";
-import { ExternalLink, ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
+import { ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
 import { getAllUsers } from "../../utilities/http";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import UsersTable from "./UsersTable";
 
 interface Props {
     currentUser: User | undefined;
-    externalCATIUrl: string;
 }
 
 
-function Users({ currentUser, externalCATIUrl }: Props): ReactElement {
+function Users({ currentUser}: Props): ReactElement {
     const [users, setUsers] = useState<User[]>([]);
     const [listError, setListError] = useState<string>("Loading ...");
     const [listLoading, setListLoading] = useState<boolean>(true);
@@ -62,11 +61,6 @@ function Users({ currentUser, externalCATIUrl }: Props): ReactElement {
                     </Link>
                 </li>
             </ul>
-            <p className="ons-u-mt-m">
-                <ExternalLink text={"Link to CATI dashboard"}
-                    link={externalCATIUrl}
-                    id={"cati-dashboard"} />
-            </p>
             {listError.includes("Unable") && <ONSErrorPanel />}
 
             {

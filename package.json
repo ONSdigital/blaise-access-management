@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "start-server": "tsc --project tsconfig.server.json && node ./dist/index.js | pino-pretty -c -t",
-    "start-react": "BROWSER=none react-scripts start",
+    "start-react": "react-scripts start",
     "build-react": "react-scripts build",
     "test": "jest --coverage --watchAll=false",
     "gcp-build": "react-scripts build && tsc --project tsconfig.server.json",
