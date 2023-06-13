@@ -44,7 +44,7 @@ function NewUserComponent(): ReactElement {
     }
 
     useEffect(() => {
-        getRoleList().then(() => console.log("Call getRoleList Complete"));
+        getRoleList().then(() => console.log("Call to getRoleList API is Complete.."));
     }, []);
 
 

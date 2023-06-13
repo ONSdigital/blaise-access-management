@@ -10,9 +10,12 @@ import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import BlaiseApiClient from "blaise-api-node-client";
 import { newLoginHandler, Auth } from "blaise-login-react-server";
+import pino from "pino";
 
+
+const pinoLogger = pino();
 profiler.start({ logLevel: 4 }).catch((err: unknown) => {
-    console.log(`Failed to start profiler: ${err}`);
+    pinoLogger.error(`Failed to start profiler: ${err}`);
 });
 
 const upload = multer();
@@ -42,7 +45,7 @@ const loginHandler = newLoginHandler(auth, blaiseApiClient);
 
 // Health Check endpoint
 server.get("/bum-ui/:version/health", async function (req: Request, res: Response) {
-    console.log("Heath Check endpoint called");
+    pinoLogger.info("Heath Check endpoint called");
     res.status(200).json({ healthy: true });
 });
 

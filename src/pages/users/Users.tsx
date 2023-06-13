@@ -17,7 +17,7 @@ function Users({ currentUser}: Props): ReactElement {
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getUserList().then(() => console.log("Call getUserList Complete"));
+        getUserList().then(() => console.log("Call to getUserList API is Complete.."));
     }, []);
 
     async function getUserList() {

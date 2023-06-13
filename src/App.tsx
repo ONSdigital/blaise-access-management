@@ -13,7 +13,6 @@ import { LoginForm, AuthManager } from "blaise-login-react-client";
 import { User } from "blaise-api-node-client";
 import { getCurrentUser } from "blaise-login-react-client";
 
-
 const divStyle = {
     minHeight: "calc(67vh)"
 };
@@ -26,14 +25,13 @@ function App(): ReactElement {
     const [currentUser, setCurrentUser] = useState<User>();
 
     useEffect(() => {
-        console.log(location);
         authManager.loggedIn().then(async (isLoggedIn: boolean) => {
             setLoggedIn(isLoggedIn);
             if (loggedIn) {
                 getCurrentUser(authManager).then((user: User) => {
                     setCurrentUser(user);
-                }).catch(() => {
-                    console.log("IDK what is going on");
+                }).catch((error) => {
+                    console.error("Login failed, or session ended: "+error );
                 });
             }
             setLoaded(true);

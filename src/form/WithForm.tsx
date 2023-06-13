@@ -25,7 +25,6 @@ const withForm = (InputComponent: any) => {
     );
 
     const onChange = (val: string) => {
-      console.log(" withForm - onChange");
       setFieldValue(props.name, val);
       if (props.onChange) {
         props.onChange(val);

@@ -18,7 +18,7 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
     const [roles, setRoles] = useState<UserRole[]>([]);
 
     useEffect(() => {
-        getRolesList().then(() => console.log("Call getRolesList Complete"));
+        getRolesList().then(() => console.log("Call to getRolesList API is Complete.."));
     }, []);
 
     async function getRolesList() {
@@ -32,7 +32,6 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
     }
 
     function validateUser(user: ImportUser) {
-        console.log(user);
         user.valid = true;
         user.warnings = [];
 
@@ -68,15 +67,12 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
 
 
     function validateUpload() {
-        console.log("validateUpload()");
         setButtonLoading(true);
 
 
         uploadData.map((row) => {
             validateUser(row);
         });
-
-        console.log(uploadData);
 
         setButtonLoading(false);
 
