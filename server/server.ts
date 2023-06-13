@@ -63,16 +63,6 @@ server.use(
     express.static(path.join(__dirname, `${buildFolder}/static`)),
 );
 
-server.get("/documents/users.csv", auth.Middleware, function (req: Request, res: Response) {
-    res.download(path.join(__dirname, "../resources/users.csv"), (err) => {
-        if (err) {
-            res.status(500).send({
-                message: "Could not download the file. " + err,
-            });
-        }
-    });
-});
-
 server.get("*", function (req: Request, res: Response) {
     res.render("index.html",{});
 });

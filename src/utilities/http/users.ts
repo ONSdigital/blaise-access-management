@@ -36,7 +36,7 @@ function addNewUser(newUser: NewUser): Promise<boolean> {
 
         requestPromiseJson("POST", url, formData).then(([status, data]) => {
             logger.info(`Response from add new user API: Status ${status}, data ${data}`);
-            if (status === 201) {
+            if (status === 200 || status === 201) {
                 resolve(true);
             } else {
                 resolve(false);

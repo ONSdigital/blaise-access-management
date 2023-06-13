@@ -113,17 +113,10 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
                     </p>
 
                     <div className="ons-download">
-                        <div className="ons-download__image" aria-hidden="true">
-                            <a className="ons-download__image-link"
-                                href="/documents/users.csv">
-                                <img src="https://ons-design-system.netlify.app/img/small/placeholder-portrait.png"
-                                    alt=""
-                                    loading="lazy" />
-                            </a>
-                        </div>
+                        
                         <div className="ons-download__content">
                             <h3 className="ons-u-fs-m ons-u-mt-no ons-u-mb-xs">
-                                <a href="/documents/users.csv">
+                                <a href="../users.csv" download="users.csv" target={"_blank"} rel="noreferrer">
                                     Bulk user upload template file<span className="ons-u-vh">,
                                         CSV document download, 48 Bytes
                                     </span></a>
