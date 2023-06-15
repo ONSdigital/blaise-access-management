@@ -1,26 +1,25 @@
 import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
 import { User, NewUser } from "blaise-api-node-client";
+import pino from "pino";
 
 type getUsersListResponse = [boolean, User[]];
+const logger = pino();
 
 function getAllUsers(): Promise<getUsersListResponse> {
-    console.log("Call to getAllUsers");
     const url = "/api/users";
 
     return new Promise((resolve: (object: getUsersListResponse) => void) => {
         requestPromiseJsonList("GET", url).then(([success, data]) => {
-            console.log(`Response from get all users ${(success ? "successful" : "failed")}, data list length ${data.length}`);
+            logger.info(`Response from get all users API is ${(success ? "successful" : "failed")}, data list length ${data.length}`);
             resolve([success, data]);
         }).catch((error: Error) => {
-            console.error(`Response from get all users Failed: Error ${error}`);
+            logger.error(`Get all users API Failed: Error ${error}`);
             resolve([false, []]);
         });
     });
 }
 
 function addNewUser(newUser: NewUser): Promise<boolean> {
-    console.log("Call to addNewUser");
-
     const url = "/api/users";
 
     return new Promise((resolve: (object: boolean) => void) => {
@@ -36,22 +35,20 @@ function addNewUser(newUser: NewUser): Promise<boolean> {
         formData.append("role", newUser.role);
 
         requestPromiseJson("POST", url, formData).then(([status, data]) => {
-            console.log(`Response from add new user: Status ${status}, data ${data}`);
-            if (status === 201) {
+            logger.info(`Response from add new user API: Status ${status}, data ${data}`);
+            if (status === 200 || status === 201) {
                 resolve(true);
             } else {
                 resolve(false);
             }
         }).catch((error: Error) => {
-            console.error(`Response from add new user Failed: Error ${error}`);
+            logger.error(`Add new user Failed: Error ${error}`);
             resolve(false);
         });
     });
 }
 
 function deleteUser(username: string): Promise<boolean> {
-    console.log("Call to deleteUser");
-
     const url = "/api/users";
 
     const headers = {
@@ -61,14 +58,14 @@ function deleteUser(username: string): Promise<boolean> {
     return new Promise((resolve: (object: boolean) => void) => {
 
         requestPromiseJson("DELETE", url, null, headers).then(([status, data]) => {
-            console.log(`Response from add new user: Status ${status}, data ${data}`);
+            logger.info(`Response from deleting user API: Status ${status}, data ${data}`);
             if (status === 204) {
                 resolve(true);
             } else {
                 resolve(false);
             }
         }).catch((error: Error) => {
-            console.error(`Response from add new user Failed: Error ${error}`);
+            console.error(`Delete user Failed: Error ${error}`);
             resolve(false);
         });
     });

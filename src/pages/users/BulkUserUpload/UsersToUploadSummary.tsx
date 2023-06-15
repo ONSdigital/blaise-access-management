@@ -15,11 +15,7 @@ function UsersToUploadSummary({statusDescriptionList, uploadUsers}: Props): Reac
     const [noValidUsers, setNoValidUsers] = useState<number>(0);
 
     useEffect(() => {
-        console.log("UsersToUploadSummary started");
-
-        console.log(userList);
-
-        setupUserList().then(() => console.log("SetupUserList complete"));
+        setupUserList().then(() => console.log("SetupUserList is complete"));
     }, [statusDescriptionList]);
 
     async function setupUserList() {

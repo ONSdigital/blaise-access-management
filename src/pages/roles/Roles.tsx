@@ -12,7 +12,7 @@ function Roles(): ReactElement {
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getRolesList().then(() => console.log("Call getRolesList Complete"));
+        getRolesList().then(() => console.log("Call to getRolesList API is Complete.."));
     }, []);
 
     async function getRolesList() {
@@ -26,8 +26,6 @@ function Roles(): ReactElement {
             setListError("Unable to load roles.");
             return;
         }
-
-        console.log(roleList);
 
         if (roleList.length === 0) {
             setListError("No installed roles found.");

@@ -1,9 +1,12 @@
 import { AuthManager } from "blaise-login-react-client";
+import pino from "pino";
 
 type PromiseResponse = [number, any];
+const logger = pino();
 
 function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<PromiseResponse> {
     const authManager = new AuthManager();
+   
     return new Promise((resolve: (object: PromiseResponse) => void, reject: (error: string) => void) => {
         fetch(url, {
             "method": method,
@@ -19,7 +22,7 @@ function requestPromiseJson(method: string, url: string, body: any = null, heade
                 });
             })
             .catch(err => {
-                console.log(err);
+                logger.error(err);
                 reject(err);
             });
     });
@@ -56,7 +59,7 @@ function requestPromiseJsonList(method: string, url: string, body: any = null): 
                 });
             })
             .catch(err => {
-                console.log(err);
+                logger.error(err);
                 reject(err);
             });
     });

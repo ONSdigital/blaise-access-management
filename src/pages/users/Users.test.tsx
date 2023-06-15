@@ -30,7 +30,7 @@ describe("Manage Users page", () => {
         const history = createMemoryHistory();
         const wrapper = render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
+                <Users currentUser={signedInUser} />
             </Router>
         );
 
@@ -48,7 +48,7 @@ describe("Manage Users page", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
+                <Users currentUser={signedInUser}/>
             </Router>
         );
 
@@ -82,7 +82,7 @@ describe("Given the API returns malformed json", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
+                <Users currentUser={signedInUser}/>
             </Router>
         );
 
@@ -114,7 +114,7 @@ describe("Given the API returns an empty list", () => {
         const history = createMemoryHistory();
         render(
             <Router history={history}>
-                <Users currentUser={signedInUser} externalCATIUrl={"url/"} />
+                <Users currentUser={signedInUser} />
             </Router>
         );
 

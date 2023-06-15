@@ -10,9 +10,12 @@ import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import BlaiseApiClient from "blaise-api-node-client";
 import { newLoginHandler, Auth } from "blaise-login-react-server";
+import pino from "pino";
 
+
+const pinoLogger = pino();
 profiler.start({ logLevel: 4 }).catch((err: unknown) => {
-    console.log(`Failed to start profiler: ${err}`);
+    pinoLogger.error(`Failed to start profiler: ${err}`);
 });
 
 const upload = multer();
@@ -42,7 +45,7 @@ const loginHandler = newLoginHandler(auth, blaiseApiClient);
 
 // Health Check endpoint
 server.get("/bum-ui/:version/health", async function (req: Request, res: Response) {
-    console.log("Heath Check endpoint called");
+    pinoLogger.info("Heath Check endpoint called");
     res.status(200).json({ healthy: true });
 });
 
@@ -60,18 +63,8 @@ server.use(
     express.static(path.join(__dirname, `${buildFolder}/static`)),
 );
 
-server.get("/documents/users.csv", auth.Middleware, function (req: Request, res: Response) {
-    res.download(path.join(__dirname, "../resources/users.csv"), (err) => {
-        if (err) {
-            res.status(500).send({
-                message: "Could not download the file. " + err,
-            });
-        }
-    });
-});
-
 server.get("*", function (req: Request, res: Response) {
-    res.render("index.html", { CATI_DASHBOARD_URL: config.CatiDashboardUrl });
+    res.render("index.html",{});
 });
 
 server.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

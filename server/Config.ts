@@ -1,41 +1,35 @@
 import crypto from "crypto";
 import { AuthConfig } from "blaise-login-react-server";
+import pino from "pino";
 
 export interface Config extends AuthConfig {
     BlaiseApiUrl: string
     ProjectId: string
     ServerPark: string
-    CatiDashboardUrl: string
 }
 
 export function loadConfigFromEnv(): Config {
     let { PROJECT_ID, BLAISE_API_URL, SERVER_PARK, VM_EXTERNAL_WEB_URL, SESSION_TIMEOUT } = process.env;
     const { ROLES, SESSION_SECRET } = process.env;
-
-    const CATI_DASHBOARD_URL = "https://" + VM_EXTERNAL_WEB_URL + "/Blaise";
+    const logger = pino();
 
     if (BLAISE_API_URL === undefined) {
-        console.error("BLAISE_API_URL environment variable has not been set");
+        logger.error("BLAISE_API_URL environment variable has not been set");
         BLAISE_API_URL = "ENV_VAR_NOT_SET";
     }
 
-    if (VM_EXTERNAL_WEB_URL === undefined) {
-        console.error("VM_EXTERNAL_WEB_URL environment variable has not been set");
-        VM_EXTERNAL_WEB_URL = "VM_EXTERNAL_WEB_URL";
-    }
-
     if (PROJECT_ID === undefined) {
-        console.error("PROJECT_ID environment variable has not been set");
+        logger.error("PROJECT_ID environment variable has not been set");
         PROJECT_ID = "ENV_VAR_NOT_SET";
     }
 
     if (SERVER_PARK === undefined) {
-        console.error("SERVER_PARK environment variable has not been set");
+        logger.error("SERVER_PARK environment variable has not been set");
         SERVER_PARK = "ENV_VAR_NOT_SET";
     }
 
     if (SESSION_TIMEOUT === undefined || SESSION_TIMEOUT === "_SESSION_TIMEOUT") {
-        console.log("SESSION_TIMEOUT environment variable has not been set, using default of 12h");
+        logger.info("SESSION_TIMEOUT environment variable has not been set, using default of 12h");
         SESSION_TIMEOUT = "12h";
     }
 
@@ -43,7 +37,6 @@ export function loadConfigFromEnv(): Config {
         BlaiseApiUrl: fixURL(BLAISE_API_URL),
         ProjectId: PROJECT_ID,
         ServerPark: SERVER_PARK,
-        CatiDashboardUrl: CATI_DASHBOARD_URL,
         Roles: loadRoles(ROLES),
         SessionTimeout: SESSION_TIMEOUT,
         SessionSecret: sessionSecret(SESSION_SECRET)
