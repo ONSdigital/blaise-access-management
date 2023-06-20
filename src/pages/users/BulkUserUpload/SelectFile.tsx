@@ -116,7 +116,7 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
                         
                         <div className="ons-download__content">
                             <h3 className="ons-u-fs-m ons-u-mt-no ons-u-mb-xs">
-                                <a href="../users.csv" download="users.csv" target={"_blank"} rel="noreferrer">
+                                <a href={process.env.PUBLIC_URL + "/users.csv"} download="users.csv" target={"_blank"} rel="noreferrer">
                                     Bulk user upload template file<span className="ons-u-vh">,
                                         CSV document download, 48 Bytes
                                     </span></a>
