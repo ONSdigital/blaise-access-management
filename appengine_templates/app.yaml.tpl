@@ -18,10 +18,10 @@ basic_scaling:
   max_instances: 10
 
 handlers:
+- url: /users\.csv
+  static_files: public/users.csv
+  upload: public/users\.csv
 - url: /.*
   script: auto
   secure: always
   redirect_http_response_code: 301
-- url: /users\.csv
-  static_files: public/users.csv
-  upload: public/users\.csv
