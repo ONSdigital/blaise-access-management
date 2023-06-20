@@ -1,4 +1,4 @@
-import { AuthManager } from "blaise-login-react-client";
+import {AuthManager} from "blaise-login-react-client";
 import pino from "pino";
 
 type PromiseResponse = [number, any];
@@ -6,7 +6,7 @@ const logger = pino();
 
 function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<PromiseResponse> {
     const authManager = new AuthManager();
-   
+
     return new Promise((resolve: (object: PromiseResponse) => void, reject: (error: string) => void) => {
         fetch(url, {
             "method": method,
@@ -17,7 +17,7 @@ function requestPromiseJson(method: string, url: string, body: any = null, heade
                 response.json().then(
                     data => (resolve([response.status, data]))
                 ).catch((error) => {
-                    console.log(`Failed to read JSON from response, Error: ${error}`);
+                    logger.info("Failed to read JSON from response, Error: ${error}");
                     resolve([response.status, "Read JSON failed"]);
                 });
             })
@@ -27,7 +27,6 @@ function requestPromiseJson(method: string, url: string, body: any = null, heade
             });
     });
 }
-
 
 type PromiseResponseList = [boolean, []];
 
@@ -54,7 +53,7 @@ function requestPromiseJsonList(method: string, url: string, body: any = null): 
                         }
                     }
                 ).catch((error) => {
-                    console.log(`Failed to read JSON from response, Error: ${error}`);
+                    logger.info("Failed to read JSON from response, Error: ${error}");
                     resolve([false, []]);
                 });
             })
@@ -65,4 +64,4 @@ function requestPromiseJsonList(method: string, url: string, body: any = null): 
     });
 }
 
-export { requestPromiseJson, requestPromiseJsonList };
+export {requestPromiseJson, requestPromiseJsonList};

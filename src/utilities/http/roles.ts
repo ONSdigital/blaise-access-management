@@ -1,5 +1,5 @@
-import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
-import { UserRole } from "blaise-api-node-client";
+import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
+import {UserRole} from "blaise-api-node-client";
 import pino from "pino";
 
 type getRolesListResponse = [boolean, UserRole[]];
@@ -10,7 +10,7 @@ function getAllRoles(): Promise<getRolesListResponse> {
 
     return new Promise((resolve: (object: getRolesListResponse) => void) => {
         requestPromiseJsonList("GET", url).then(([success, data]) => {
-            console.log(`Response from get all roles ${(success ? "successful" : "failed")}, data list length ${data.length}`);
+            logger.info(`Response from get all roles ${(success ? "successful" : "failed")}, data list length ${data.length}`);
             resolve([success, data]);
         }).catch((error: Error) => {
             logger.error(`Response from get all roles API Failed: Error ${error}`);
@@ -42,4 +42,4 @@ function addNewRole(newRole: UserRole): Promise<boolean> {
     });
 }
 
-export { getAllRoles, addNewRole };
+export {getAllRoles, addNewRole};

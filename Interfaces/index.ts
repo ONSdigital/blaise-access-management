@@ -10,3 +10,9 @@ export interface ImportUser {
     valid: boolean
     warnings: string[]
 }
+
+export interface Role {
+    name: string
+    permissions: string[]
+    description: string
+}

@@ -1,9 +1,9 @@
-import React, {ReactElement, useContext, useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import PropTypes from "prop-types";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { FormContext } from "./index";
+import {FormContext} from "./index";
 import {TextInputProps} from "./TextInput";
 
 const propTypes = {
@@ -13,7 +13,7 @@ const propTypes = {
 
 const withForm = (InputComponent: any) => {
   const WrappedWithForm = (props: TextInputProps) => {
-    const { errors, data, setFieldValue, registerInput } = useContext(FormContext);
+    const {errors, data, setFieldValue, registerInput} = useContext(FormContext);
 
     useEffect(
       () =>

@@ -1,18 +1,17 @@
-import React, { ReactElement, useState } from "react";
-import { Redirect, useParams } from "react-router-dom";
-import { ONSButton, ONSPanel, ONSPasswordInput } from "blaise-design-system-react-components";
-import Breadcrumbs, { BreadcrumbItem } from "../../Components/Breadcrumbs";
-import { AuthManager } from "blaise-login-react-client";
+import React, {ReactElement, useState} from "react";
+import {Redirect, useParams} from "react-router-dom";
+import {ONSButton, ONSPanel, ONSPasswordInput} from "blaise-design-system-react-components";
+import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
+import {AuthManager} from "blaise-login-react-client";
 
 interface Parmas {
     user: string;
 }
 
-
 function ChangePassword(): ReactElement {
     // We can use the `useParams` hook here to access
     // the dynamic pieces of the URL.
-    const { user }: Parmas = useParams();
+    const {user}: Parmas = useParams();
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -33,7 +32,7 @@ function ChangePassword(): ReactElement {
         const authManager = new AuthManager();
         fetch("/api/change_password/" + user, {
             "headers": Object.assign({}, {
-                "password": password,
+                "password": password
             }, authManager.authHeader())
         })
             .then((r: Response) => {
@@ -54,8 +53,8 @@ function ChangePassword(): ReactElement {
     }
 
     const breadcrumbList: BreadcrumbItem[] = [
-        { link: "/", title: "Home" },
-        { link: "/users", title: "Manage users" },
+        {link: "/", title: "Home"},
+        {link: "/users", title: "Manage users"}
     ];
 
     return (

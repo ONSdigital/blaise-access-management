@@ -1,5 +1,5 @@
 import React, {FormEvent, useState} from "react";
-import { isEmpty } from "lodash";
+import {isEmpty} from "lodash";
 
 interface Props {
   initialValues?: any
@@ -25,7 +25,7 @@ const initState = (props: Props): State => {
 };
 
 export let FormContext: any;
-const { Provider } = (FormContext = React.createContext({}));
+const {Provider} = (FormContext = React.createContext({}));
 
 const Form = (props: Props) => {
   const [formState, setFormState] = useState<State>(initState(props));
@@ -39,7 +39,7 @@ const Form = (props: Props) => {
   };
 
   const validate = () => {
-    const { validators } = formState;
+    const {validators} = formState;
 
     // always reset form errors
     // in case there was form errors from backend
@@ -54,10 +54,9 @@ const Form = (props: Props) => {
 
     type Validators = [string, any];
 
-
     const formErrors = Object.entries(validators).reduce(
       (errors: any, [name, validators]: Validators) => {
-        const { data }: any = formState;
+        const {data}: any = formState;
         const messages = validators.reduce((result: any, validator: any) => {
           const value = data[name];
           const err = validator(value, name, data);
@@ -109,7 +108,7 @@ const Form = (props: Props) => {
     });
   };
   type Validators = {name: string, validators: any};
-  const registerInput = ({ name, validators }: Validators) => {
+  const registerInput = ({name, validators}: Validators) => {
     setFormState(state => {
       return {
         ...state,
@@ -129,7 +128,7 @@ const Form = (props: Props) => {
     return () => {
       setFormState(state => {
         // copy state to avoid mutating it
-        const { data, errors, validators: currentValidators } = { ...state };
+        const {data, errors, validators: currentValidators} = {...state};
 
         // clear field data, validations and errors
         delete data[name];

@@ -4,7 +4,6 @@ import {UploadedUser} from "../../../../Interfaces";
 import {useHistory} from "react-router-dom";
 import converter from "number-to-words";
 
-
 interface Props {
     usersUploaded: UploadedUser[]
     numberOfValidUsers: number

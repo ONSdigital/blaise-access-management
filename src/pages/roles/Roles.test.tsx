@@ -1,16 +1,16 @@
 import React from "react";
-import { render, waitFor, cleanup, screen } from "@testing-library/react";
+import {render, waitFor, cleanup, screen} from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { mock_server_request_Return_JSON } from "../../tests/utils";
-import { act } from "react-dom/test-utils";
-import { createMemoryHistory } from "history";
-import { Router } from "react-router";
-import { Role } from "../../../Interfaces";
+import {mock_server_request_Return_JSON} from "../../tests/utils";
+import {act} from "react-dom/test-utils";
+import {createMemoryHistory} from "history";
+import {Router} from "react-router";
+import {Role} from "../../../Interfaces";
 import Roles from "./Roles";
 
 const roleList: Role[] = [
-    { name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role" },
-    { name: "BDSS", permissions: ["Admin"], description: "Another role" }
+    {name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role"},
+    {name: "BDSS", permissions: ["Admin"], description: "Another role"}
 ];
 
 describe("Manage Roles page", () => {
@@ -64,11 +64,10 @@ describe("Manage Roles page", () => {
     });
 });
 
-
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
-        mock_server_request_Return_JSON(200, { text: "Hello" });
+        mock_server_request_Return_JSON(200, {text: "Hello"});
     });
 
     it("it should render with the error message displayed", async () => {
@@ -82,7 +81,6 @@ describe("Given the API returns malformed json", () => {
         await act(async () => {
             await new Promise(process.nextTick);
         });
-
 
         await waitFor(() => {
             expect(screen.getByText(/Sorry, there is a problem with this service. We are working to fix the problem. Please try again later./i)).toBeDefined();
@@ -114,7 +112,6 @@ describe("Given the API returns an empty list", () => {
         await act(async () => {
             await new Promise(process.nextTick);
         });
-
 
         await waitFor(() => {
             expect(screen.getByText(/No installed roles found./i)).toBeDefined();

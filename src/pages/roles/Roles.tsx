@@ -1,10 +1,12 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { getAllRoles } from "../../utilities/http";
-import { Link } from "react-router-dom";
-import { ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
+import React, {ReactElement, useEffect, useState} from "react";
+import {getAllRoles} from "../../utilities/http";
+import {ONSErrorPanel, ONSLoadingPanel, ONSPanel} from "blaise-design-system-react-components";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import RolesTable from "./RolesTable";
-import { UserRole } from "blaise-api-node-client";
+import {UserRole} from "blaise-api-node-client";
+import pino from "pino";
+
+const logger = pino();
 
 function Roles(): ReactElement {
     const [roles, setRoles] = useState<UserRole[]>([]);
@@ -12,7 +14,7 @@ function Roles(): ReactElement {
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getRolesList().then(() => console.log("Call to getRolesList API is Complete.."));
+        getRolesList().then(() => logger.info("Call to getRolesList API is complete..."));
     }, []);
 
     async function getRolesList() {
@@ -34,12 +36,11 @@ function Roles(): ReactElement {
         setRoles(roleList);
     }
 
-
     return (
         <>
             <Breadcrumbs BreadcrumbList={
                 [
-                    { link: "/", title: "Home" },
+                    {link: "/", title: "Home"}
                 ]
             } />
 
@@ -60,6 +61,5 @@ function Roles(): ReactElement {
         </>
     );
 }
-
 
 export default Roles;

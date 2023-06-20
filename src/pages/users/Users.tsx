@@ -1,23 +1,25 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { User } from "blaise-api-node-client";
-import { ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
-import { getAllUsers } from "../../utilities/http";
+import React, {ReactElement, useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {User} from "blaise-api-node-client";
+import {ONSErrorPanel, ONSLoadingPanel} from "blaise-design-system-react-components";
+import {getAllUsers} from "../../utilities/http";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import UsersTable from "./UsersTable";
+import pino from "pino";
+
+const logger = pino();
 
 interface Props {
     currentUser: User | undefined;
 }
 
-
-function Users({ currentUser}: Props): ReactElement {
+function Users({currentUser}: Props): ReactElement {
     const [users, setUsers] = useState<User[]>([]);
     const [listError, setListError] = useState<string>("Loading ...");
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getUserList().then(() => console.log("Call to getUserList API is Complete.."));
+        getUserList().then(() => logger.info("Call to getUserList API is complete..."));
     }, []);
 
     async function getUserList() {
@@ -39,11 +41,10 @@ function Users({ currentUser}: Props): ReactElement {
         setUsers(questionnaireList);
     }
 
-
     return <>
         <Breadcrumbs BreadcrumbList={
             [
-                { link: "/", title: "Home" },
+                {link: "/", title: "Home"}
             ]
         } />
 

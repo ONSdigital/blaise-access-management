@@ -1,5 +1,5 @@
-import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
-import { User, NewUser } from "blaise-api-node-client";
+import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
+import {User, NewUser} from "blaise-api-node-client";
 import pino from "pino";
 
 type getUsersListResponse = [boolean, User[]];
@@ -52,7 +52,7 @@ function deleteUser(username: string): Promise<boolean> {
     const url = "/api/users";
 
     const headers = {
-        "user": username,
+        "user": username
     };
 
     return new Promise((resolve: (object: boolean) => void) => {
@@ -71,4 +71,4 @@ function deleteUser(username: string): Promise<boolean> {
     });
 }
 
-export { getAllUsers, addNewUser, deleteUser };
+export {getAllUsers, addNewUser, deleteUser};

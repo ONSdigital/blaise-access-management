@@ -1,24 +1,26 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Collapsible, ONSButton } from "blaise-design-system-react-components";
+import React, {ReactElement, useEffect, useState} from "react";
+import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
-import { ImportUser } from "../../../../Interfaces";
-import { UserRole } from "blaise-api-node-client";
-import { getAllRoles } from "../../../utilities/http";
+import {ImportUser} from "../../../../Interfaces";
+import {UserRole} from "blaise-api-node-client";
+import {getAllRoles} from "../../../utilities/http";
+import pino from "pino";
+
+const logger = pino();
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
     movePageForward: () => void;
 }
 
-function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement {
+function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
 
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [uploadData, setUploadData] = useState<ImportUser[]>([]);
-    const [panelOpen, setPanelOpen] = useState<boolean>(false);
     const [roles, setRoles] = useState<UserRole[]>([]);
 
     useEffect(() => {
-        getRolesList().then(() => console.log("Call to getRolesList API is Complete.."));
+        getRolesList().then(() => logger.info("Call to getRolesList API is complete..."));
     }, []);
 
     async function getRolesList() {
@@ -34,7 +36,6 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
     function validateUser(user: ImportUser) {
         user.valid = true;
         user.warnings = [];
-
 
         if (user.name === undefined || user.name === null) {
             console.warn("user with invalid data!");
@@ -65,10 +66,8 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
         }
     }
 
-
     function validateUpload() {
         setButtonLoading(true);
-
 
         uploadData.map((row) => {
             validateUser(row);
@@ -86,7 +85,6 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
         skipEmptyLines: true,
         transformHeader: (header: string) => header.toLowerCase().replace(/\W/g, "_")
     };
-
 
     return (
         <>
@@ -113,7 +111,7 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
                     </p>
 
                     <div className="ons-download">
-                        
+
                         <div className="ons-download__content">
                             <h3 className="ons-u-fs-m ons-u-mt-no ons-u-mb-xs">
                                 <a href={process.env.PUBLIC_URL + "/users.csv"} download="users.csv" type="text/csv">

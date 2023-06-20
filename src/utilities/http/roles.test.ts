@@ -8,7 +8,6 @@ const roleList: Role[] = [
     {name: "BDSS", permissions: ["Admin"], description: "Another role"}
 ];
 
-
 describe("Function getAllRoles() ", () => {
 
     it("It should return true with data if the list is returned successfully", async () => {
@@ -36,7 +35,7 @@ describe("Function getAllRoles() ", () => {
         mock_server_request_function(jest.fn(() =>
             Promise.resolve({
                 status: 200,
-                json: () => Promise.reject("Failed"),
+                json: () => Promise.reject("Failed")
             })
         ));
         const [success, roles] = await getAllRoles();
@@ -67,7 +66,6 @@ describe("Function getAllRoles() ", () => {
         cleanup();
     });
 });
-
 
 describe("Function addNewRole(user: User) ", () => {
 
@@ -110,5 +108,3 @@ describe("Function addNewRole(user: User) ", () => {
         cleanup();
     });
 });
-
-
