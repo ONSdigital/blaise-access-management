@@ -25,17 +25,15 @@ function App(): ReactElement {
 
     useEffect(() => {
         authManager.loggedIn().then(async (isLoggedIn: boolean) => {
-            setLoggedIn(isLoggedIn);
-            if (loggedIn) {
-                getCurrentUser(authManager).then((user: User) => {
-                    setCurrentUser(user);
-                }).catch((error) => {
-                    console.error("Login failed, or session ended: "+error );
-                });
-            }
-            setLoaded(true);
+          setLoggedIn(isLoggedIn);
+          if (isLoggedIn) {
+            getCurrentUser(authManager).then((user: User) => {
+              setCurrentUser(user);
+            });
+          }
+          setLoaded(true);
         });
-    });
+      });
 
     function loginPage(): ReactElement {
         if (loaded && loggedIn) {

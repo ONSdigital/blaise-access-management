@@ -3,17 +3,14 @@ import {UserRole} from "blaise-api-node-client";
 
 type getRolesListResponse = [boolean, UserRole[]];
 
-function getAllRoles(): Promise<getRolesListResponse> {
+async function getAllRoles(): Promise<getRolesListResponse> {
+  try {
     const url = "/api/roles";
-
-    return new Promise((resolve: (object: getRolesListResponse) => void) => {
-        requestPromiseJsonList("GET", url).then(([success, data]) => {
-            resolve([success, data]);
-        }).catch((error: Error) => {
-            console.error(error);
-            resolve([false, []]);
-        });
-    });
+    const [success, data] = await requestPromiseJsonList<UserRole>("GET", url);
+    return [success, data] as getRolesListResponse;
+  } catch (error) {
+    return [false, []] as getRolesListResponse;
+  }
 }
 
 function addNewRole(newRole: UserRole): Promise<boolean> {
@@ -25,14 +22,13 @@ function addNewRole(newRole: UserRole): Promise<boolean> {
         formData.append("name", newRole.name);
         formData.append("description", newRole.description);
 
-        requestPromiseJson("POST", url, formData).then(([status, data]) => {
+        requestPromiseJson("POST", url, formData).then(([status]) => {
             if (status === 201) {
                 resolve(true);
             } else {
                 resolve(false);
             }
-        }).catch((error: Error) => {
-            console.error(error);
+        }).catch(() => {
             resolve(false);
         });
     });

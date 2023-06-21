@@ -5,10 +5,10 @@ import {mock_server_request_Return_JSON} from "../../tests/utils";
 import {act} from "react-dom/test-utils";
 import {createMemoryHistory} from "history";
 import {Router} from "react-router";
-import {Role} from "../../../Interfaces";
+import {UserRole} from "blaise-api-node-client";
 import Roles from "./Roles";
 
-const roleList: Role[] = [
+const roleList: UserRole[] = [
     {name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role"},
     {name: "BDSS", permissions: ["Admin"], description: "Another role"}
 ];
@@ -50,7 +50,7 @@ describe("Manage Roles page", () => {
         });
 
         await waitFor(() => {
-            expect(screen.getByText(/Roles are created and managed by DST/i)).toBeDefined();
+            expect(screen.getByText(/DST are responsible for creating and managing roles/i)).toBeDefined();
             expect(screen.getByText(/Manage roles/i)).toBeDefined();
             expect(screen.getAllByText(/DST/i).length).toBeGreaterThan(1);
             expect(screen.getByText(/BDSS/i)).toBeDefined();

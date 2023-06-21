@@ -57,7 +57,6 @@ describe("React homepage", () => {
 
         await waitFor(() => {
             expect(screen.getByText(/Blaise User Management/i)).toBeDefined();
-            expect(screen.getByText(/DST/i)).toBeDefined();
             expect(screen.queryAllByText(/Manage users/i)).toBeDefined();
             expect(screen.queryAllByText(/Manage roles/i)).toBeDefined();
             expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();

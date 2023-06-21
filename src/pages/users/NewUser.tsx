@@ -49,15 +49,6 @@ function NewUserComponent(): ReactElement {
 
         const [success, roleList] = await getAllRoles();
 
-        if (!success) {
-            console.error("Unable to load roles.");
-            return;
-        }
-
-        if (roleList.length === 0) {
-            console.warn("No roles found.");
-        }
-
         setRole(roleList[0].name);
         setRoleList(roleList);
     }

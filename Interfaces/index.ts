@@ -11,8 +11,3 @@ export interface ImportUser {
     warnings: string[]
 }
 
-export interface Role {
-    name: string
-    permissions: string[]
-    description: string
-}

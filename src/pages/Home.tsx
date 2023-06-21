@@ -11,7 +11,6 @@ function Home({user}: Props): ReactElement {
         <>
             <main id="main-content" className="ons-page__main ons-u-mt-no">
                 <h1 className="ons-u-mt-m ons-u-mb-l">User Management</h1>
-                <p>Signed in with user <em>{user?.name}</em> with role <em>{user?.role}</em>.</p>
 
                 <div className="ons-container ons-u-mt-l">
                     <div className="ons-grid ons-grid--column@xxs@s">

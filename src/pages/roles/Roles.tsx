@@ -44,7 +44,7 @@ function Roles(): ReactElement {
             <main id="main-content" className="ons-page__main ons-u-mt-no">
                 <h1 className="ons-u-mb-l">Manage roles</h1>
 
-                <ONSPanel>Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role</ONSPanel>
+                <ONSPanel>To ensure consistency across environments, DST are responsible for creating and managing roles. If you require a new role, please reach out to DST for assistance.</ONSPanel>
 
                 {listError.includes("Unable") && <ONSErrorPanel />}
 
