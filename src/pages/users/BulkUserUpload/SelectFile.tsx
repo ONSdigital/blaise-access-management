@@ -1,24 +1,23 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Collapsible, ONSButton } from "blaise-design-system-react-components";
+import React, {ReactElement, useEffect, useState} from "react";
+import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
-import { ImportUser } from "../../../../Interfaces";
-import { UserRole } from "blaise-api-node-client";
-import { getAllRoles } from "../../../utilities/http";
+import {ImportUser} from "../../../../Interfaces";
+import {UserRole} from "blaise-api-node-client";
+import {getAllRoles} from "../../../utilities/http";
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
     movePageForward: () => void;
 }
 
-function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement {
+function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
 
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [uploadData, setUploadData] = useState<ImportUser[]>([]);
-    const [panelOpen, setPanelOpen] = useState<boolean>(false);
     const [roles, setRoles] = useState<UserRole[]>([]);
 
     useEffect(() => {
-        getRolesList().then(() => console.log("Call getRolesList Complete"));
+        getRolesList().then(() => {return;});
     }, []);
 
     async function getRolesList() {
@@ -32,25 +31,20 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
     }
 
     function validateUser(user: ImportUser) {
-        console.log(user);
         user.valid = true;
         user.warnings = [];
 
-
         if (user.name === undefined || user.name === null) {
-            console.warn("user with invalid data!");
             user.valid = false;
             user.warnings.push("Invalid name");
         }
 
         if (user.password === undefined || user.password === null) {
-            console.warn("user with invalid data!");
             user.valid = false;
             user.warnings.push("Invalid password");
         }
 
         if (user.role === undefined || user.role === null) {
-            console.warn("user with invalid data!");
             user.warnings.push("Invalid role");
             user.valid = false;
         } else {
@@ -59,24 +53,18 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
             });
 
             if (!isValidRole) {
-                console.warn("User with invalid role!");
                 user.warnings.push("Not a valid role");
                 user.valid = false;
             }
         }
     }
 
-
     function validateUpload() {
-        console.log("validateUpload()");
         setButtonLoading(true);
-
 
         uploadData.map((row) => {
             validateUser(row);
         });
-
-        console.log(uploadData);
 
         setButtonLoading(false);
 
@@ -90,7 +78,6 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
         skipEmptyLines: true,
         transformHeader: (header: string) => header.toLowerCase().replace(/\W/g, "_")
     };
-
 
     return (
         <>
@@ -117,17 +104,10 @@ function SelectFile({ setUsersToUpload, movePageForward }: Props): ReactElement 
                     </p>
 
                     <div className="ons-download">
-                        <div className="ons-download__image" aria-hidden="true">
-                            <a className="ons-download__image-link"
-                                href="/documents/users.csv">
-                                <img src="https://ons-design-system.netlify.app/img/small/placeholder-portrait.png"
-                                    alt=""
-                                    loading="lazy" />
-                            </a>
-                        </div>
+
                         <div className="ons-download__content">
                             <h3 className="ons-u-fs-m ons-u-mt-no ons-u-mb-xs">
-                                <a href="/documents/users.csv">
+                                <a href={process.env.PUBLIC_URL + "/users.csv"} download="users.csv" type="text/csv">
                                     Bulk user upload template file<span className="ons-u-vh">,
                                         CSV document download, 48 Bytes
                                     </span></a>

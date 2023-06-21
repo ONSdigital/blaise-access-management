@@ -1,6 +1,6 @@
-import { User } from "blaise-api-node-client";
-import { Link } from "react-router-dom";
-import React, { ReactElement } from "react";
+import {User} from "blaise-api-node-client";
+import {Link} from "react-router-dom";
+import React, {ReactElement} from "react";
 
 interface UsersTableProps {
     users: User[];
@@ -8,7 +8,7 @@ interface UsersTableProps {
     listError: string;
 }
 
-function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactElement {
+function UsersTable({users, currentUser, listError}: UsersTableProps): ReactElement {
     return <>
         {
             users && users.length > 0
@@ -38,7 +38,7 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                     </thead>
                     <tbody className="ons-table__body">
                         {
-                            users.map(({ role, defaultServerPark, name }: User) => {
+                            users.map(({role, defaultServerPark, name}: User) => {
                                 return (
                                     <tr className="ons-table__row" key={name} data-testid={"users-table-row"}>
                                         <td className="ons-table__cell ">

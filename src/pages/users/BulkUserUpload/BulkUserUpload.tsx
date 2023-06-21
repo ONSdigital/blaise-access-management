@@ -1,9 +1,9 @@
-import React, { ReactElement, useState } from "react";
-import { ImportUser, UploadedUser } from "../../../../Interfaces";
-import { NewUser } from "blaise-api-node-client";
+import React, {ReactElement, useState} from "react";
+import {ImportUser, UploadedUser} from "../../../../Interfaces";
+import {NewUser} from "blaise-api-node-client";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
-import { addNewUser } from "../../../utilities/http";
+import {addNewUser} from "../../../utilities/http";
 import UsersUploadedSummary from "./UsersUploadedSummary";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import UsersUploadInProgress from "./UsersUploadInProgress";
@@ -48,7 +48,7 @@ function BulkUserUpload(): ReactElement {
             };
             const created = await addNewUser(newUser);
 
-            uploadedUsersList.push({ name: user.name, created: created });
+            uploadedUsersList.push({name: user.name, created: created});
         }
 
         setUsersUploaded(usersUploaded.concat(uploadedUsersList));
@@ -78,7 +78,7 @@ function BulkUserUpload(): ReactElement {
         <>
             <Breadcrumbs BreadcrumbList={
                 [
-                    { link: "/", title: "Home" }, { link: "/users", title: "Manage users" }
+                    {link: "/", title: "Home"}, {link: "/users", title: "Manage users"}
                 ]
             } />
 

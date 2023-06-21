@@ -1,10 +1,9 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { getAllRoles } from "../../utilities/http";
-import { Link } from "react-router-dom";
-import { ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
+import React, {ReactElement, useEffect, useState} from "react";
+import {getAllRoles} from "../../utilities/http";
+import {ONSErrorPanel, ONSLoadingPanel, ONSPanel} from "blaise-design-system-react-components";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import RolesTable from "./RolesTable";
-import { UserRole } from "blaise-api-node-client";
+import {UserRole} from "blaise-api-node-client";
 
 function Roles(): ReactElement {
     const [roles, setRoles] = useState<UserRole[]>([]);
@@ -12,7 +11,7 @@ function Roles(): ReactElement {
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getRolesList().then(() => console.log("Call getRolesList Complete"));
+        getRolesList().then(() => {return;});
     }, []);
 
     async function getRolesList() {
@@ -27,8 +26,6 @@ function Roles(): ReactElement {
             return;
         }
 
-        console.log(roleList);
-
         if (roleList.length === 0) {
             setListError("No installed roles found.");
         }
@@ -36,19 +33,18 @@ function Roles(): ReactElement {
         setRoles(roleList);
     }
 
-
     return (
         <>
             <Breadcrumbs BreadcrumbList={
                 [
-                    { link: "/", title: "Home" },
+                    {link: "/", title: "Home"}
                 ]
             } />
 
             <main id="main-content" className="ons-page__main ons-u-mt-no">
                 <h1 className="ons-u-mb-l">Manage roles</h1>
 
-                <ONSPanel>Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role</ONSPanel>
+                <ONSPanel>To ensure consistency across environments, DST are responsible for creating and managing roles. If you require a new role, please reach out to DST for assistance.</ONSPanel>
 
                 {listError.includes("Unable") && <ONSErrorPanel />}
 
@@ -62,6 +58,5 @@ function Roles(): ReactElement {
         </>
     );
 }
-
 
 export default Roles;

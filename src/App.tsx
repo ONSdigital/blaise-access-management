@@ -1,22 +1,16 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { isDevEnv } from "./Functions";
-import { Switch, Route, useLocation, Link } from "react-router-dom";
+import React, {ReactElement, useEffect, useState} from "react";
+import {Switch, Route, useLocation, Link} from "react-router-dom";
 import Users from "./pages/users/Users";
 import NewUserComponent from "./pages/users/NewUser";
 import ChangePassword from "./pages/users/ChangePassword";
 import DeleteUser from "./pages/users/DeleteUser";
-import { NotProductionWarning, Footer, Header, BetaBanner, ErrorBoundary, DefaultErrorBoundary, ONSLoadingPanel } from "blaise-design-system-react-components";
+import {NotProductionWarning, Footer, Header, BetaBanner, ErrorBoundary, DefaultErrorBoundary, ONSLoadingPanel} from "blaise-design-system-react-components";
 import Roles from "./pages/roles/Roles";
 import BulkUserUpload from "./pages/users/BulkUserUpload/BulkUserUpload";
 import Home from "./pages/Home";
-import { LoginForm, AuthManager } from "blaise-login-react-client";
-import { User } from "blaise-api-node-client";
-import { getCurrentUser } from "blaise-login-react-client";
-
-interface window extends Window {
-    VM_EXTERNAL_CLIENT_URL: string
-    CATI_DASHBOARD_URL: string
-}
+import {LoginForm, AuthManager} from "blaise-login-react-client";
+import {User} from "blaise-api-node-client";
+import {getCurrentUser} from "blaise-login-react-client";
 
 const divStyle = {
     minHeight: "calc(67vh)"
@@ -24,32 +18,22 @@ const divStyle = {
 
 function App(): ReactElement {
     const authManager = new AuthManager();
-    const [externalCATIUrl, setExternalCATIUrl] = useState<string>("/Blaise");
     const location = useLocation();
     const [loaded, setLoaded] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState<User>();
 
     useEffect(() => {
-        console.log(location);
         authManager.loggedIn().then(async (isLoggedIn: boolean) => {
-            setLoggedIn(isLoggedIn);
-            if (loggedIn) {
-                getCurrentUser(authManager).then((user: User) => {
-                    setCurrentUser(user);
-                }).catch(() => {
-                    console.log("IDK what is going on");
-                });
-            }
-            setLoaded(true);
+          setLoggedIn(isLoggedIn);
+          if (isLoggedIn) {
+            getCurrentUser(authManager).then((user: User) => {
+              setCurrentUser(user);
+            });
+          }
+          setLoaded(true);
         });
-    });
-
-
-    useEffect(function retrieveVariables() {
-        setExternalCATIUrl(isDevEnv() ?
-            process.env.REACT_APP_CATI_DASHBOARD_URL || externalCATIUrl : (window as unknown as window).CATI_DASHBOARD_URL);
-    }, [externalCATIUrl]);
+      });
 
     function loginPage(): ReactElement {
         if (loaded && loggedIn) {
@@ -105,8 +89,7 @@ function App(): ReactElement {
                                 </Route>
                                 <Route path="/users">
                                     <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
-                                        <Users currentUser={currentUser}
-                                            externalCATIUrl={externalCATIUrl} />
+                                        <Users currentUser={currentUser} />
                                     </ErrorBoundary>
                                 </Route>
                                 <Route path="/">
@@ -129,28 +112,28 @@ function App(): ReactElement {
                 (window.location.hostname.includes("dev")) && <NotProductionWarning />
             }
             <BetaBanner />
-            <Header 
-                title={"Blaise User Management"} 
-                signOutButton={loggedIn} 
-                noSave={true} 
-                signOutFunction={signOut} 
+            <Header
+                title={"Blaise User Management"}
+                signOutButton={loggedIn}
+                noSave={true}
+                signOutFunction={signOut}
                 navigationLinks={
-                    [   
+                    [
                         {
                             id: "home-link",
                             label: "Home",
                             endpoint: "/"
-                        }, 
+                        },
                         {
                             id: "users-link",
                             label: "Manage users",
                             endpoint: "/users"
-                        }, 
+                        },
                         {
                             id: "roles-link",
                             label: "Manage roles",
                             endpoint: "/roles"
-                        },
+                        }
                     ]
                 }
                 currentLocation={location.pathname}
@@ -158,8 +141,8 @@ function App(): ReactElement {
                     <Link to={endpoint} id={id} className="ons-navigation__link">
                         {label}
                     </Link>
-                )}  
-                     
+                )}
+
             />
             {loading()}
             {loginPage()}
