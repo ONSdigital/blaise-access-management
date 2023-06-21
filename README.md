@@ -39,17 +39,19 @@ Create a new .env file and add the following variables.
 | Variable            | Description                                                                                                                                                                                                                                                                            | Var Example          |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
 | PORT                | **Optional variable**, specify the Port for express server to run on. If not passed in this is set as 5000 by default. <br><br>It's best not to set this as the react project will try and use the variable as well and conflict. By default, React project locally runs on port 3000. | 5009                 |
-| VM_EXTERNAL_WEB_URL | External Url used for CATI dashboard and survey links.                                                                                                                                                                                                                                 | tel-client-server.uk |
-| BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:5003       |
+| BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:5011       |
 | SERVER_PARK         | Blaise Server Park Name, required for creating users in the correct server park                                                                                                                                                                                                        | gusty                |
+| PROJECT_ID      | Variable to set up the project id to be used, mostly it should be set up to your sandbox id, like example string appended with your sandbox suffix                                                                                                                                                                                                                     | ons-blaise-v2-dev-*****       |
+| SESSION_TIMEOUT      | **Optional variable**, Variable to set up the session timeout, If not set up, it defaults to 12h                                                                                                                                                                                                                     |  12h       |
 
 
 The .env file should be setup as below
 
 ```.env
-VM_EXTERNAL_WEB_URL='tel-client-server.uk'
-BLAISE_API_URL='localhost:5003'
+BLAISE_API_URL='localhost:5011'
 SERVER_PARK=gusty
+PROJECT_ID='ons-blaise-v2-dev-****'
+SESSION_TIMEOUT=12h
 ```
 
 Install required modules
@@ -97,6 +99,19 @@ at [http://localhost:5000/](http://localhost:5000/)
 ```shell script
 yarn build-react
 ```
+
+##### Simple command to set up and run both server and react app
+
+Setup express project to be call Blaise User Management. By default, it will open a browser window at http://localhost:3000/
+
+```shell script
+yarn dev
+```
+
+> ⚠ :warning: **If you are running locally**: Ignore the following error when you start the server with either yarn -start-server command or yarn dev!
+"Failed to start profiler: Error: Service must be specified in the configuration" It is related to google Cloud Profiler API that is enabled to measure code performance in production environment.
+
+
 
 ### Tests
 

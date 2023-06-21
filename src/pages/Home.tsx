@@ -1,17 +1,16 @@
-import React, { ReactElement } from "react";
-import { User } from "blaise-api-node-client";
-import { Link } from "react-router-dom";
+import React, {ReactElement} from "react";
+import {User} from "blaise-api-node-client";
+import {Link} from "react-router-dom";
 
 interface Props {
     user: User | undefined;
 }
 
-function Home({ user }: Props): ReactElement {
+function Home({user}: Props): ReactElement {
     return (
         <>
             <main id="main-content" className="ons-page__main ons-u-mt-no">
                 <h1 className="ons-u-mt-m ons-u-mb-l">User Management</h1>
-                <p>Signed in with user <em>{user?.name}</em> with role <em>{user?.role}</em>.</p>
 
                 <div className="ons-container ons-u-mt-l">
                     <div className="ons-grid ons-grid--column@xxs@s">

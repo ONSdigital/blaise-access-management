@@ -1,26 +1,19 @@
-import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
-import { UserRole } from "blaise-api-node-client";
+import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
+import {UserRole} from "blaise-api-node-client";
 
 type getRolesListResponse = [boolean, UserRole[]];
 
-function getAllRoles(): Promise<getRolesListResponse> {
-    console.log("Call to getAllRoles");
+async function getAllRoles(): Promise<getRolesListResponse> {
+  try {
     const url = "/api/roles";
-
-    return new Promise((resolve: (object: getRolesListResponse) => void) => {
-        requestPromiseJsonList("GET", url).then(([success, data]) => {
-            console.log(`Response from get all roles ${(success ? "successful" : "failed")}, data list length ${data.length}`);
-            resolve([success, data]);
-        }).catch((error: Error) => {
-            console.error(`Response from get all roles Failed: Error ${error}`);
-            resolve([false, []]);
-        });
-    });
+    const [success, data] = await requestPromiseJsonList<UserRole>("GET", url);
+    return [success, data] as getRolesListResponse;
+  } catch (error) {
+    return [false, []] as getRolesListResponse;
+  }
 }
 
 function addNewRole(newRole: UserRole): Promise<boolean> {
-    console.log("Call to addNewRole");
-
     const url = "/api/roles";
 
     return new Promise((resolve: (object: boolean) => void) => {
@@ -29,18 +22,16 @@ function addNewRole(newRole: UserRole): Promise<boolean> {
         formData.append("name", newRole.name);
         formData.append("description", newRole.description);
 
-        requestPromiseJson("POST", url, formData).then(([status, data]) => {
-            console.log(`Response from add new role: Status ${status}, data ${data}`);
+        requestPromiseJson("POST", url, formData).then(([status]) => {
             if (status === 201) {
                 resolve(true);
             } else {
                 resolve(false);
             }
-        }).catch((error: Error) => {
-            console.error(`Response from add new role Failed: Error ${error}`);
+        }).catch(() => {
             resolve(false);
         });
     });
 }
 
-export { getAllRoles, addNewRole };
+export {getAllRoles, addNewRole};

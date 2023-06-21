@@ -7,7 +7,7 @@ const PinoLevelToSeverityLookup = {
     info: "INFO",
     warn: "WARNING",
     error: "ERROR",
-    fatal: "CRITICAL",
+    fatal: "CRITICAL"
 };
 
 const defaultPinoConf = {
@@ -18,22 +18,21 @@ const defaultPinoConf = {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 severity: PinoLevelToSeverityLookup[label] || PinoLevelToSeverityLookup["info"],
-                level: number,
+                level: number
             };
         },
         log(info: never) {
             return {info};
-        },
+        }
     },
     serializers: {
         req: (req: any) => ({
             method: req.method,
             url: req.url,
             user: req.raw.user
-        }),
-    },
+        })
+    }
 };
-
 
 export default function createLogger(options: any = {autoLogging: false})  {
     let pinoConfig = {};

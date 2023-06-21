@@ -1,9 +1,8 @@
 import React, {ReactElement, useState} from "react";
-import {Link, Redirect, useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import {ONSButton, ONSPanel} from "blaise-design-system-react-components";
 import {deleteUser} from "../../utilities/http";
 import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
-
 
 interface ReturnPanel {
     visible: boolean
@@ -14,7 +13,6 @@ interface ReturnPanel {
 interface Parmas {
     user: string
 }
-
 
 function DeleteUser(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -32,10 +30,9 @@ function DeleteUser(): ReactElement {
             return;
         }
 
-        const created = await deleteUser(user);
+        const deleted = await deleteUser(user);
 
-        if (!created) {
-            console.error("Failed to delete user");
+        if (!deleted) {
             setMessage("Failed to delete user");
             setButtonLoading(false);
             return;
@@ -45,10 +42,9 @@ function DeleteUser(): ReactElement {
         setRedirect(true);
     }
 
-
     const breadcrumbList: BreadcrumbItem[] = [
         {link: "/", title: "Home"},
-        {link: "/users", title: "Manage users"},
+        {link: "/users", title: "Manage users"}
     ];
 
     return (

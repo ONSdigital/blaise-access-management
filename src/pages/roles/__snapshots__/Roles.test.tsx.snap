@@ -51,7 +51,7 @@ Object {
           <div
             class="ons-panel__body "
           >
-            Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role
+            To ensure consistency across environments, DST are responsible for creating and managing roles. If you require a new role, please reach out to DST for assistance.
           </div>
         </div>
         <table
@@ -185,7 +185,7 @@ Object {
         <div
           class="ons-panel__body "
         >
-          Roles are created and managed by DST to ensure consistency across environments, please contact DST if you need a new role
+          To ensure consistency across environments, DST are responsible for creating and managing roles. If you require a new role, please reach out to DST for assistance.
         </div>
       </div>
       <table

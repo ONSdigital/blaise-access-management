@@ -1,4 +1,4 @@
-import { ONSLoadingPanel } from "blaise-design-system-react-components";
+import {ONSLoadingPanel} from "blaise-design-system-react-components";
 import React, {ReactElement} from "react";
 
 const UsersUploadInProgress = (): ReactElement => {

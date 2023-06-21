@@ -1,16 +1,14 @@
 import React from "react";
-import { render, waitFor, cleanup, screen } from "@testing-library/react";
+import {render, waitFor, cleanup, screen} from "@testing-library/react";
 import App from "./App";
 import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
-import { createMemoryHistory } from "history";
-import { Router } from "react-router";
-import { AuthManager } from "blaise-login-react-client";
+import {act} from "react-dom/test-utils";
+import {createMemoryHistory} from "history";
+import {Router} from "react-router";
+import {AuthManager} from "blaise-login-react-client";
 import * as loginReactClient from "blaise-login-react-client";
-import userEvent from "@testing-library/user-event";
 
 jest.mock("blaise-login-react-client");
-
 
 AuthManager.prototype.loggedIn = jest.fn().mockImplementation(() => {
     return Promise.resolve(true);
@@ -59,7 +57,6 @@ describe("React homepage", () => {
 
         await waitFor(() => {
             expect(screen.getByText(/Blaise User Management/i)).toBeDefined();
-            expect(screen.getByText(/DST/i)).toBeDefined();
             expect(screen.queryAllByText(/Manage users/i)).toBeDefined();
             expect(screen.queryAllByText(/Manage roles/i)).toBeDefined();
             expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
