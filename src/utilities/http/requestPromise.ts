@@ -1,68 +1,51 @@
-import { AuthManager } from "blaise-login-react-client";
-import pino from "pino";
+import {AuthManager} from "blaise-login-react-client";
 
-type PromiseResponse = [number, any];
-const logger = pino();
+async function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<[number, JSON]> {
+  const authManager = new AuthManager();
 
-function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<PromiseResponse> {
-    const authManager = new AuthManager();
-   
-    return new Promise((resolve: (object: PromiseResponse) => void, reject: (error: string) => void) => {
-        fetch(url, {
-            "method": method,
-            "body": body,
-            "headers": Object.assign({}, headers, authManager.authHeader())
-        })
-            .then(async response => {
-                response.json().then(
-                    data => (resolve([response.status, data]))
-                ).catch((error) => {
-                    console.log(`Failed to read JSON from response, Error: ${error}`);
-                    resolve([response.status, "Read JSON failed"]);
-                });
-            })
-            .catch(err => {
-                logger.error(err);
-                reject(err);
-            });
+  try {
+    const response = await fetch(url, {
+      method,
+      body,
+      headers: Object.assign({}, headers, authManager.authHeader())
     });
+
+    if (response.status === 204) {
+      return [response.status, JSON.parse("{}")];
+    } else {
+      const data = await response.json();
+      return [response.status, data];
+    }
+  } catch (error) {
+    return [0, JSON.parse("{}")];
+  }
 }
 
+async function requestPromiseJsonList<T>(method: string, url: string, body: any = null): Promise<[boolean, T[]]> {
+  const authManager = new AuthManager();
 
-type PromiseResponseList = [boolean, []];
-
-function requestPromiseJsonList(method: string, url: string, body: any = null): Promise<PromiseResponseList> {
-    const authManager = new AuthManager();
-    return new Promise((resolve: (object: PromiseResponseList) => void, reject: (error: string) => void) => {
-        fetch(url, {
-            "method": method,
-            "body": body,
-            "headers": authManager.authHeader()
-        })
-            .then(async response => {
-                response.json().then(
-                    data => {
-                        if (response.status === 200) {
-                            if (!Array.isArray(data)) {
-                                resolve([false, []]);
-                            }
-                            resolve([true, data]);
-                        } else if (response.status === 404) {
-                            resolve([true, data]);
-                        } else {
-                            resolve([false, []]);
-                        }
-                    }
-                ).catch((error) => {
-                    console.log(`Failed to read JSON from response, Error: ${error}`);
-                    resolve([false, []]);
-                });
-            })
-            .catch(err => {
-                logger.error(err);
-                reject(err);
-            });
+  try {
+    const response = await fetch(url, {
+      method,
+      body,
+      headers: authManager.authHeader()
     });
+
+    const data = await response.json();
+
+    if (response.status === 200) {
+      if (!Array.isArray(data)) {
+        return [false, []];
+      }
+      return [true, data];
+    } else if (response.status === 404) {
+      return [true, data];
+    } else {
+      return [false, []];
+    }
+  } catch (error) {
+    return [false, []];
+  }
 }
 
-export { requestPromiseJson, requestPromiseJsonList };
+export {requestPromiseJson, requestPromiseJsonList};

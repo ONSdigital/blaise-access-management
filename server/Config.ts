@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { AuthConfig } from "blaise-login-react-server";
+import {AuthConfig} from "blaise-login-react-server";
 import pino from "pino";
 
 export interface Config extends AuthConfig {
@@ -9,8 +9,8 @@ export interface Config extends AuthConfig {
 }
 
 export function loadConfigFromEnv(): Config {
-    let { PROJECT_ID, BLAISE_API_URL, SERVER_PARK, VM_EXTERNAL_WEB_URL, SESSION_TIMEOUT } = process.env;
-    const { ROLES, SESSION_SECRET } = process.env;
+    let {PROJECT_ID, BLAISE_API_URL, SERVER_PARK, SESSION_TIMEOUT} = process.env;
+    const {ROLES, SESSION_SECRET} = process.env;
     const logger = pino();
 
     if (BLAISE_API_URL === undefined) {
@@ -56,7 +56,6 @@ function loadRoles(roles: string | undefined): string[] {
     }
     return roles.split(",");
 }
-
 
 function sessionSecret(secret: string | undefined): string {
     if (!secret || secret === "" || secret === "_SESSION_SECRET") {

@@ -1,6 +1,6 @@
-import express, { Request, Response, Router } from "express";
-import { Config } from "../Config";
-import { Auth } from "blaise-login-react-server";
+import express, {Request, Response, Router} from "express";
+import {Config} from "../Config";
+import {Auth} from "blaise-login-react-server";
 import BlaiseApiClient from "blaise-api-node-client";
 
 export default function BlaiseAPIRouter(config: Config, auth: Auth, blaiseApiClient: BlaiseApiClient): Router {
@@ -15,7 +15,7 @@ export default function BlaiseAPIRouter(config: Config, auth: Auth, blaiseApiCli
     });
 
     router.get("/api/change_password/:user", auth.Middleware, async function (req: Request, res: Response) {
-        let { password } = req.headers;
+        let {password} = req.headers;
 
         if (Array.isArray(password)) {
             password = password.join("");
@@ -34,7 +34,7 @@ export default function BlaiseAPIRouter(config: Config, auth: Auth, blaiseApiCli
     });
 
     router.delete("/api/users", auth.Middleware, async function (req: Request, res: Response) {
-        let { user } = req.headers;
+        let {user} = req.headers;
 
         if (Array.isArray(user)) {
             user = user.join("");
@@ -49,7 +49,6 @@ export default function BlaiseAPIRouter(config: Config, auth: Auth, blaiseApiCli
         const data = req.body;
         data.serverParks = [config.ServerPark];
         data.defaultServerPark = config.ServerPark;
-
 
         return res.status(200).json(await blaiseApiClient.createUser(data));
     });

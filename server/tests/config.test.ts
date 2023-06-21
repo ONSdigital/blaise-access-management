@@ -1,4 +1,4 @@
-import { loadConfigFromEnv } from "../Config";
+import {loadConfigFromEnv} from "../Config";
 
 describe("Config setup", () => {
     afterEach(() => {
@@ -8,7 +8,6 @@ describe("Config setup", () => {
 
     it("should return the correct environment variables", () => {
         const config = loadConfigFromEnv();
-
 
         expect(config.ProjectId).toBe("mock-project");
         expect(config.ServerPark).toBe("mock-server-park");
@@ -23,7 +22,6 @@ describe("Config setup", () => {
         });
 
         const config = loadConfigFromEnv();
-
 
         expect(config.ProjectId).toBe("ENV_VAR_NOT_SET");
         expect(config.ServerPark).toBe("ENV_VAR_NOT_SET");

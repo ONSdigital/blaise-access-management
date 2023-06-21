@@ -15,10 +15,10 @@ function UsersToUploadSummary({statusDescriptionList, uploadUsers}: Props): Reac
     const [noValidUsers, setNoValidUsers] = useState<number>(0);
 
     useEffect(() => {
-        setupUserList().then(() => console.log("SetupUserList is complete"));
-    }, [statusDescriptionList]);
+        setupUserList();
+    }, []);
 
-    async function setupUserList() {
+    function setupUserList() {
         setListError("Loading ...");
 
         let noValid = 0;
@@ -35,9 +35,8 @@ function UsersToUploadSummary({statusDescriptionList, uploadUsers}: Props): Reac
             setListError("No users found to upload");
         }
 
-        await setUserList(statusDescriptionList);
+        setUserList(statusDescriptionList);
     }
-
 
     return (
         <>

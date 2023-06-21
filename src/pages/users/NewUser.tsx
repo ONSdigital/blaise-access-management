@@ -1,13 +1,13 @@
-import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
-import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
-import { addNewUser, getAllRoles } from "../../utilities/http";
-import { UserRole } from "blaise-api-node-client";
-import { NewUser } from "blaise-api-node-client";
+import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
+import {Redirect} from "react-router-dom";
+import {ONSPanel, ONSButton} from "blaise-design-system-react-components";
+import {addNewUser, getAllRoles} from "../../utilities/http";
+import {UserRole} from "blaise-api-node-client";
+import {NewUser} from "blaise-api-node-client";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
-import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
-import Breadcrumbs, { BreadcrumbItem } from "../../Components/Breadcrumbs";
+import {passwordMatchedValidator, requiredValidator} from "../../form/FormValidators";
+import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -16,8 +16,6 @@ function NewUserComponent(): ReactElement {
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
     const [roleList, setRoleList] = useState<UserRole[]>([]);
-    const [listError, setListError] = useState<string>("");
-
 
     async function createNewUser(formData: any) {
         setUsername(formData.username);
@@ -34,7 +32,6 @@ function NewUserComponent(): ReactElement {
         const created = await addNewUser(newUser);
 
         if (!created) {
-            console.error("Failed to create new user");
             setMessage("Failed to create new user");
             setButtonLoading(false);
             return;
@@ -44,32 +41,21 @@ function NewUserComponent(): ReactElement {
     }
 
     useEffect(() => {
-        getRoleList().then(() => console.log("Call to getRoleList API is Complete.."));
+        getRoleList().then(() => {return;});
     }, []);
-
 
     async function getRoleList() {
         setRoleList([]);
 
         const [success, roleList] = await getAllRoles();
 
-        if (!success) {
-            setListError("Unable to load roles");
-            return;
-        }
-
-        if (roleList.length === 0) {
-            setListError("No roles found.");
-        }
-
         setRole(roleList[0].name);
         setRoleList(roleList);
     }
 
-
     const breadcrumbList: BreadcrumbItem[] = [
-        { link: "/", title: "Home" },
-        { link: "/users", title: "Manage users" },
+        {link: "/", title: "Home"},
+        {link: "/users", title: "Manage users"}
     ];
 
     return (
@@ -77,7 +63,7 @@ function NewUserComponent(): ReactElement {
             {
                 redirect && <Redirect to={{
                     pathname: "/users",
-                    state: { updatedPanel: { visible: true, message: "User " + username + " created", status: "success" } }
+                    state: {updatedPanel: {visible: true, message: "User " + username + " created", status: "success"}}
                 }} />
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />

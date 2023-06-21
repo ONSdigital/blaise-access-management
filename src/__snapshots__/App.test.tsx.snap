@@ -196,17 +196,6 @@ Object {
           >
             User Management
           </h1>
-          <p>
-            Signed in with user 
-            <em>
-              Blaise User
-            </em>
-             with role 
-            <em>
-              DST
-            </em>
-            .
-          </p>
           <div
             class="ons-container ons-u-mt-l"
           >
@@ -632,17 +621,6 @@ Object {
         >
           User Management
         </h1>
-        <p>
-          Signed in with user 
-          <em>
-            Blaise User
-          </em>
-           with role 
-          <em>
-            DST
-          </em>
-          .
-        </p>
         <div
           class="ons-container ons-u-mt-l"
         >

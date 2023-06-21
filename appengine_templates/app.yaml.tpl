@@ -6,7 +6,6 @@ vpc_access_connector:
 
 env_variables:
   PROJECT_ID: _PROJECT_ID
-  VM_EXTERNAL_WEB_URL: _VM_EXTERNAL_WEB_URL
   SERVER_PARK: _SERVER_PARK
   BLAISE_API_URL: _BLAISE_API_URL
   SESSION_TIMEOUT: _SESSION_TIMEOUT
@@ -18,6 +17,9 @@ basic_scaling:
   max_instances: 10
 
 handlers:
+- url: /users\.csv
+  static_files: public/users.csv
+  upload: public/users\.csv
 - url: /.*
   script: auto
   secure: always
