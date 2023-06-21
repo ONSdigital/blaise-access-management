@@ -5,9 +5,6 @@ import {ONSErrorPanel, ONSLoadingPanel} from "blaise-design-system-react-compone
 import {getAllUsers} from "../../utilities/http";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import UsersTable from "./UsersTable";
-import pino from "pino";
-
-const logger = pino();
 
 interface Props {
     currentUser: User | undefined;
@@ -19,14 +16,14 @@ function Users({currentUser}: Props): ReactElement {
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getUserList().then(() => logger.info("Call to getUserList API is complete..."));
+        getUserList().then(() => {return;});
     }, []);
 
     async function getUserList() {
         setUsers([]);
         setListLoading(true);
 
-        const [success, questionnaireList] = await getAllUsers();
+        const [success, usersList] = await getAllUsers();
         setListLoading(false);
 
         if (!success) {
@@ -34,11 +31,11 @@ function Users({currentUser}: Props): ReactElement {
             return;
         }
 
-        if (questionnaireList.length === 0) {
+        if (usersList.length === 0) {
             setListError("No installed users found.");
         }
 
-        setUsers(questionnaireList);
+        setUsers(usersList);
     }
 
     return <>

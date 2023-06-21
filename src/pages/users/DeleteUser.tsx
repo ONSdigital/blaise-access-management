@@ -33,7 +33,6 @@ function DeleteUser(): ReactElement {
         const created = await deleteUser(user);
 
         if (!created) {
-            console.error("Failed to delete user");
             setMessage("Failed to delete user");
             setButtonLoading(false);
             return;

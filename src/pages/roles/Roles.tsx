@@ -4,9 +4,6 @@ import {ONSErrorPanel, ONSLoadingPanel, ONSPanel} from "blaise-design-system-rea
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import RolesTable from "./RolesTable";
 import {UserRole} from "blaise-api-node-client";
-import pino from "pino";
-
-const logger = pino();
 
 function Roles(): ReactElement {
     const [roles, setRoles] = useState<UserRole[]>([]);
@@ -14,7 +11,7 @@ function Roles(): ReactElement {
     const [listLoading, setListLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getRolesList().then(() => logger.info("Call to getRolesList API is complete..."));
+        getRolesList().then(() => {return;});
     }, []);
 
     async function getRolesList() {

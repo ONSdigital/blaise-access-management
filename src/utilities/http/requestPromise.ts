@@ -1,8 +1,6 @@
 import {AuthManager} from "blaise-login-react-client";
-import pino from "pino";
 
 type PromiseResponse = [number, any];
-const logger = pino();
 
 function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<PromiseResponse> {
     const authManager = new AuthManager();
@@ -17,12 +15,11 @@ function requestPromiseJson(method: string, url: string, body: any = null, heade
                 response.json().then(
                     data => (resolve([response.status, data]))
                 ).catch((error) => {
-                    logger.info("Failed to read JSON from response, Error: ${error}");
                     resolve([response.status, "Read JSON failed"]);
                 });
             })
             .catch(err => {
-                logger.error(err);
+                console.error(err);
                 reject(err);
             });
     });
@@ -53,12 +50,11 @@ function requestPromiseJsonList(method: string, url: string, body: any = null): 
                         }
                     }
                 ).catch((error) => {
-                    logger.info("Failed to read JSON from response, Error: ${error}");
+                    console.error(error);
                     resolve([false, []]);
                 });
             })
             .catch(err => {
-                logger.error(err);
                 reject(err);
             });
     });

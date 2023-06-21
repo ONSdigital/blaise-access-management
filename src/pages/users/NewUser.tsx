@@ -8,9 +8,6 @@ import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import {passwordMatchedValidator, requiredValidator} from "../../form/FormValidators";
 import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
-import pino from "pino";
-
-const logger = pino();
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -35,7 +32,6 @@ function NewUserComponent(): ReactElement {
         const created = await addNewUser(newUser);
 
         if (!created) {
-            console.error("Failed to create new user");
             setMessage("Failed to create new user");
             setButtonLoading(false);
             return;
@@ -45,7 +41,7 @@ function NewUserComponent(): ReactElement {
     }
 
     useEffect(() => {
-        getRoleList().then(() => logger.info("Call to getRoleList API is complete..."));
+        getRoleList().then(() => {return;});
     }, []);
 
     async function getRoleList() {
@@ -54,12 +50,12 @@ function NewUserComponent(): ReactElement {
         const [success, roleList] = await getAllRoles();
 
         if (!success) {
-            logger.error("Unable to load roles.");
+            console.error("Unable to load roles.");
             return;
         }
 
         if (roleList.length === 0) {
-            logger.warn("No roles found.");
+            console.warn("No roles found.");
         }
 
         setRole(roleList[0].name);

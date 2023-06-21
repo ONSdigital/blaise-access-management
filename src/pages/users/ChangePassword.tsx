@@ -40,12 +40,10 @@ function ChangePassword(): ReactElement {
                     setButtonLoading(false);
                     setRedirect(true);
                 } else {
-                    console.error("Failed to retrieve questionnaire list, status " + r.status);
                     setMessage("Set password failed");
                     setButtonLoading(false);
                 }
             }).catch(() => {
-                console.error("Failed to retrieve questionnaire list");
                 setMessage("Set password failed");
                 setButtonLoading(false);
             }

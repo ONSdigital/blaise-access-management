@@ -3,9 +3,6 @@ import {ErrorBoundary, ONSPanel} from "blaise-design-system-react-components";
 import {ImportUser} from "../../../../Interfaces";
 import Confirmation from "./Confirmation";
 import converter from "number-to-words";
-import pino from "pino";
-
-const logger = pino();
 
 interface Props {
     statusDescriptionList: ImportUser[]
@@ -18,10 +15,10 @@ function UsersToUploadSummary({statusDescriptionList, uploadUsers}: Props): Reac
     const [noValidUsers, setNoValidUsers] = useState<number>(0);
 
     useEffect(() => {
-        setupUserList().then(() => logger.info("SetupUserList is complete"));
-    }, [statusDescriptionList]);
+        setupUserList();
+    }, []);
 
-    async function setupUserList() {
+    function setupUserList() {
         setListError("Loading ...");
 
         let noValid = 0;
@@ -38,7 +35,7 @@ function UsersToUploadSummary({statusDescriptionList, uploadUsers}: Props): Reac
             setListError("No users found to upload");
         }
 
-        await setUserList(statusDescriptionList);
+        setUserList(statusDescriptionList);
     }
 
     return (

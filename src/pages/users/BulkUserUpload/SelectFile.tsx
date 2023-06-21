@@ -4,9 +4,6 @@ import CSVReader from "react-csv-reader";
 import {ImportUser} from "../../../../Interfaces";
 import {UserRole} from "blaise-api-node-client";
 import {getAllRoles} from "../../../utilities/http";
-import pino from "pino";
-
-const logger = pino();
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
@@ -20,7 +17,7 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
     const [roles, setRoles] = useState<UserRole[]>([]);
 
     useEffect(() => {
-        getRolesList().then(() => logger.info("Call to getRolesList API is complete..."));
+        getRolesList().then(() => {return;});
     }, []);
 
     async function getRolesList() {
@@ -38,19 +35,16 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
         user.warnings = [];
 
         if (user.name === undefined || user.name === null) {
-            console.warn("user with invalid data!");
             user.valid = false;
             user.warnings.push("Invalid name");
         }
 
         if (user.password === undefined || user.password === null) {
-            console.warn("user with invalid data!");
             user.valid = false;
             user.warnings.push("Invalid password");
         }
 
         if (user.role === undefined || user.role === null) {
-            console.warn("user with invalid data!");
             user.warnings.push("Invalid role");
             user.valid = false;
         } else {
@@ -59,7 +53,6 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
             });
 
             if (!isValidRole) {
-                console.warn("User with invalid role!");
                 user.warnings.push("Not a valid role");
                 user.valid = false;
             }
