@@ -13,56 +13,92 @@ This project is a React application which when built is rendered by a Node.js ex
 
 ![React and NodeJS server setup diagram](.github/ReactNodeJSDiagram.jpg)
 
-### Setup
+### Local Setup
 
-#### Prerequisites
-To run Blaise User Management locally, you'll need to have [Node installed](https://nodejs.org/en/), as well as [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable).
+Prerequisites
+- [Node.js](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/)
+- [Cloud SDK](https://cloud.google.com/sdk/)
 
-To have the list of users and roles load on the page, you'll need to have [Blaise Rest API](https://github.com/ONSdigital/blaise-api-rest) running locally (On a Windows machine), or you 
-can [create an Identity-Aware Proxy (IAP) tunnel](https://cloud.google.com/sdk/gcloud/reference/compute/start-iap-tunnel) from a GCP Compute
-Instance running the rest API in a sandbox. An example command to connect to the rest api VM on local port `5011`:
-
-```shell
-gcloud compute start-iap-tunnel restapi-1 80 --local-host-port=localhost:5011 --zone europe-west2-a
-```
-
-#### Setup locally steps
-
-Clone the Repo
+Clone the repository:
 
 ```shell script
 git clone https://github.com/ONSdigital/blaise-user-management.git
 ```
 
-Create a new .env file and add the following variables.
+Create an .env file in the root of the project and add the following variables:
 
 | Variable            | Description                                                                                                                                                                                                                                                                            | Var Example          |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
 | PORT                | **Optional variable**, specify the Port for express server to run on. If not passed in this is set as 5000 by default. <br><br>It's best not to set this as the react project will try and use the variable as well and conflict. By default, React project locally runs on port 3000. | 5009                 |
 | BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:5011       |
 | SERVER_PARK         | Blaise Server Park Name, required for creating users in the correct server park                                                                                                                                                                                                        | gusty                |
-| PROJECT_ID      | Variable to set up the project id to be used, mostly it should be set up to your sandbox id, like example string appended with your sandbox suffix                                                                                                                                                                                                                     | ons-blaise-v2-dev-*****       |
+| PROJECT_ID      | Variable to set up the project id to be used, mostly it should be set up to your sandbox id, like example string appended with your sandbox suffix                                                                                                                                                                                                                     | ons-blaise-v2-dev-<sandbox-suffix>       |
 | SESSION_TIMEOUT      | **Optional variable**, Variable to set up the session timeout, If not set up, it defaults to 12h                                                                                                                                                                                                                     |  12h       |
 
 
-The .env file should be setup as below
+Example .env file:
 
 ```.env
 BLAISE_API_URL='localhost:5011'
 SERVER_PARK=gusty
-PROJECT_ID='ons-blaise-v2-dev-<your-suffix>'
+PROJECT_ID='ons-blaise-v2-dev-<sandbox-suffix>'
 SESSION_TIMEOUT=12h
 ```
 
-Install required modules
+Install the project dependencies:
 
 ```shell script
 yarn
 ```
 
+Authenticate with GCP:
+```shell
+gcloud auth login
+```
+
+Set your GCP project:
+```shell
+gcloud config set project ons-blaise-v2-dev-<sandbox-suffix>
+```
+
+Open a tunnel to our Blaise RESTful API in your GCP project:
+```shell
+gcloud compute start-iap-tunnel restapi-1 80 --local-host-port=localhost:8011 --zone europe-west2-a
+```
+
+Ensure the proxy is configured to the correct port in the 'package.json'
+
+```.json
+"proxy": "http://localhost:5000",
+```
+
+In a new terminal, run Node.js server and React.js client via the following package.json script
+
+```shell script
+yarn dev
+```
+
+The UI should now be accessible via:
+
+http://localhost:3000/
+
+Tests can be run via the following package.json script:
+
+```shell script
+yarn test
+```
+
+Test snapshots can be updated via:
+
+```shell script
+yarn test -u
+```
+
+
 ##### Run commands
 
-The following run commands are available, these are all setup in the `package.json` under `scripts`.
+The following run commands are available. These are all setup in the `package.json` under `scripts`.
 
 | Command             | Description                                                                                                                                                                              |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -72,66 +108,5 @@ The following run commands are available, these are all setup in the `package.js
 | `yarn test`         | Runs all tests for server and React Components and outputs coverage statistics.                                                                                                          |
 | `gcp-build`         | [App Engine custom build step](https://cloud.google.com/appengine/docs/standard/nodejs/running-custom-build-step) which builds the react application and complies the TypeScript server. |
 
-##### Simple setup for local development
-
-Setup express project to be call Blaise User Management. By default, will be running on PORT 5000.
-
-```shell script
-yarn start-server
-```
-
-Next, to make sure the React project make requests the Express server make sure the proxy option is set to the right port
-in the 'package.json'
-
-```.json
-"proxy": "http://localhost:5000",
-```
-
-Run the React project for local development. By default, this will be running on PORT 3000
-
-```shell script
-yarn start-server
-```
-
-To test express sever serving the React project, you need to compile the React project, then you can see it running
-at [http://localhost:5000/](http://localhost:5000/)
-
-```shell script
-yarn build-react
-```
-
-##### Simple command to set up and run both server and react app
-
-Setup express project to be call Blaise User Management. By default, it will open a browser window at http://localhost:3000/
-
-```shell script
-yarn dev
-```
-
 > ⚠ :warning: **If you are running locally**: Ignore the following error when you start the server with either yarn -start-server command or yarn dev!
 "Failed to start profiler: Error: Service must be specified in the configuration" It is related to google Cloud Profiler API that is enabled to measure code performance in production environment.
-
-
-
-### Tests
-
-The [Jest testing framework](https://jestjs.io/en/) has been setup in this project, all tests currently reside in
-the `tests` directory. This is currently only running tests on the health check endpoint, haven't got the hang of mocking
-Axios yet.
-
-To run all tests run
-
-```shell script
-yarn test
-```
-
-Other test command can be seen in the Run Commands section above.
-
-### Manually deploying to app engine
-
-To deploy the locally edited service to app engine in your environment, you can run the cloubuild trigger with
-the following line, changing the environment variables as needed.
-
-```.shell
-gcloud builds submit --substitutions=_PROJECT_ID=ons-blaise-v2-dev-matt-54,_VM_EXTERNAL_WEB_URL=test,_BLAISE_API_URL=/,_SERVER_PARK=gusty
-```
