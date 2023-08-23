@@ -23,7 +23,7 @@ can [create an Identity-Aware Proxy (IAP) tunnel](https://cloud.google.com/sdk/g
 Instance running the rest API in a sandbox. An example command to connect to the rest api VM on local port `5011`:
 
 ```shell
-sudo gcloud compute start-iap-tunnel restapi-1 80 --local-host-port=localhost:5011 --zone europe-west2-a
+gcloud compute start-iap-tunnel restapi-1 80 --local-host-port=localhost:5011 --zone europe-west2-a
 ```
 
 #### Setup locally steps
@@ -50,14 +50,14 @@ The .env file should be setup as below
 ```.env
 BLAISE_API_URL='localhost:5011'
 SERVER_PARK=gusty
-PROJECT_ID='ons-blaise-v2-dev-****'
+PROJECT_ID='ons-blaise-v2-dev-<your-suffix>'
 SESSION_TIMEOUT=12h
 ```
 
 Install required modules
 
 ```shell script
-yarn install
+yarn
 ```
 
 ##### Run commands
