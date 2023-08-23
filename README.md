@@ -31,7 +31,7 @@ Create an .env file in the root of the project and add the following variables:
 | Variable            | Description                                                                                                                                                                                                                                                                            | Var Example          |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
 | PORT                | **Optional variable**, specify the Port for express server to run on. If not passed in this is set as 5000 by default. <br><br>It's best not to set this as the react project will try and use the variable as well and conflict. By default, React project locally runs on port 3000. | 5009                 |
-| BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:5011       |
+| BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:8011       |
 | SERVER_PARK         | Blaise Server Park Name, required for creating users in the correct server park                                                                                                                                                                                                        | gusty                |
 | PROJECT_ID      | Variable to set up the project id to be used, mostly it should be set up to your sandbox id, like example string appended with your sandbox suffix                                                                                                                                                                                                                     | ons-blaise-v2-dev-<sandbox-suffix>       |
 | SESSION_TIMEOUT      | **Optional variable**, Variable to set up the session timeout, If not set up, it defaults to 12h                                                                                                                                                                                                                     |  12h       |
@@ -40,7 +40,7 @@ Create an .env file in the root of the project and add the following variables:
 Example .env file:
 
 ```.env
-BLAISE_API_URL='localhost:5011'
+BLAISE_API_URL='localhost:8011'
 SERVER_PARK=gusty
 PROJECT_ID='ons-blaise-v2-dev-<sandbox-suffix>'
 SESSION_TIMEOUT=12h
