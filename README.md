@@ -52,6 +52,12 @@ Install the project dependencies:
 yarn
 ```
 
+Running yarn or yarn install will install the required modules specified in the yarn.lock file.
+
+The versions of theses modules are fixed in the yarn.lock files, so to avoid unwanted upgrades or instability caused by incorrect modifications, DO NOT DELETE THE LOCK FILE.
+
+More information about yarn (https://confluence.ons.gov.uk/x/zdwACQ)
+
 Authenticate with GCP:
 ```shell
 gcloud auth login
