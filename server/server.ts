@@ -43,7 +43,7 @@ const blaiseApiClient = new BlaiseApiClient(config.BlaiseApiUrl);
 const loginHandler = newLoginHandler(auth, blaiseApiClient);
 
 // Health Check endpoint
-server.get("/bum-ui/:version/health", async function (req: Request, res: Response) {
+server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
     pinoLogger.info("Heath Check endpoint called");
     res.status(200).json({healthy: true});
 });

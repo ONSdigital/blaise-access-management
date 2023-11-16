@@ -1,4 +1,4 @@
-service: bum-ui
+service: bam-ui
 runtime: nodejs16
 
 vpc_access_connector:
