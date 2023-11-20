@@ -10,7 +10,7 @@ function Home({user}: Props): ReactElement {
     return (
         <>
             <main id="main-content" className="ons-page__main ons-u-mt-no">
-                <h1 className="ons-u-mt-m ons-u-mb-l">User Management</h1>
+                <h1 className="ons-u-mt-m ons-u-mb-l">Access Management</h1>
 
                 <div className="ons-container ons-u-mt-l">
                     <div className="ons-grid ons-grid--column@xxs@s">
