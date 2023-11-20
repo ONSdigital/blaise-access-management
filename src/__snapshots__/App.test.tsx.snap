@@ -88,7 +88,7 @@ Object {
                 <div
                   class="ons-header__title"
                 >
-                  Blaise User Management
+                  Blaise Access Management
                 </div>
               </div>
               <div
@@ -194,7 +194,7 @@ Object {
           <h1
             class="ons-u-mt-m ons-u-mb-l"
           >
-            User Management
+            Access Management
           </h1>
           <div
             class="ons-container ons-u-mt-l"
@@ -513,7 +513,7 @@ Object {
               <div
                 class="ons-header__title"
               >
-                Blaise User Management
+                Blaise Access Management
               </div>
             </div>
             <div
@@ -619,7 +619,7 @@ Object {
         <h1
           class="ons-u-mt-m ons-u-mb-l"
         >
-          User Management
+          Access Management
         </h1>
         <div
           class="ons-container ons-u-mt-l"
