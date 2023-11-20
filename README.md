@@ -1,11 +1,11 @@
-# Blaise User Management
+# Blaise Access Management
 
-[![codecov](https://codecov.io/gh/ONSdigital/blaise-user-management/branch/main/graph/badge.svg)](https://codecov.io/gh/ONSdigital/blaise-user-management)
-[![CI status](https://github.com/ONSdigital/blaise-user-management/workflows/Test%20coverage%20report/badge.svg)](https://github.com/ONSdigital/blaise-user-management/workflows/Test%20coverage%20report/badge.svg)
-<img src="https://img.shields.io/github/release/ONSdigital/blaise-user-management.svg?style=flat-square" alt="Nisra Case Mover release verison">
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/ONSdigital/blaise-user-management.svg)](https://github.com/ONSdigital/blaise-user-management/pulls)
-[![Github last commit](https://img.shields.io/github/last-commit/ONSdigital/blaise-user-management.svg)](https://github.com/ONSdigital/blaise-user-management/commits)
-[![Github contributors](https://img.shields.io/github/contributors/ONSdigital/blaise-user-management.svg)](https://github.com/ONSdigital/blaise-user-management/graphs/contributors)
+[![codecov](https://codecov.io/gh/ONSdigital/blaise-access-management/branch/main/graph/badge.svg)](https://codecov.io/gh/ONSdigital/blaise-access-management)
+[![CI status](https://github.com/ONSdigital/blaise-access-management/workflows/Test%20coverage%20report/badge.svg)](https://github.com/ONSdigital/blaise-access-management/workflows/Test%20coverage%20report/badge.svg)
+<img src="https://img.shields.io/github/release/ONSdigital/blaise-access-management.svg?style=flat-square" alt="Nisra Case Mover release verison">
+[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/ONSdigital/blaise-access-management.svg)](https://github.com/ONSdigital/blaise-access-management/pulls)
+[![Github last commit](https://img.shields.io/github/last-commit/ONSdigital/blaise-access-management.svg)](https://github.com/ONSdigital/blaise-access-management/commits)
+[![Github contributors](https://img.shields.io/github/contributors/ONSdigital/blaise-access-management.svg)](https://github.com/ONSdigital/blaise-access-management/graphs/contributors)
 
 Dashboard for managing Blaise users.
 

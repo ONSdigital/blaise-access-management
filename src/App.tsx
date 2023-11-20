@@ -113,7 +113,7 @@ function App(): ReactElement {
             }
             <BetaBanner />
             <Header
-                title={"Blaise User Management"}
+                title={"Blaise Access Management"}
                 signOutButton={loggedIn}
                 noSave={true}
                 signOutFunction={signOut}
