@@ -49,14 +49,14 @@ describe("React homepage", () => {
                 <App />
             </Router>
         );
-        expect(screen.getByText(/Blaise User Management/i)).toBeDefined();
+        expect(screen.getByText(/Blaise Access Management/i)).toBeDefined();
 
         await act(async () => {
             await new Promise(process.nextTick);
         });
 
         await waitFor(() => {
-            expect(screen.getByText(/Blaise User Management/i)).toBeDefined();
+            expect(screen.getByText(/Blaise Access Management/i)).toBeDefined();
             expect(screen.queryAllByText(/Manage users/i)).toBeDefined();
             expect(screen.queryAllByText(/Manage roles/i)).toBeDefined();
             expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();

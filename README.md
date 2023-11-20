@@ -1,4 +1,4 @@
-# Blaise User Management
+# Blaise Access Management
 
 [![codecov](https://codecov.io/gh/ONSdigital/blaise-user-management/branch/main/graph/badge.svg)](https://codecov.io/gh/ONSdigital/blaise-user-management)
 [![CI status](https://github.com/ONSdigital/blaise-user-management/workflows/Test%20coverage%20report/badge.svg)](https://github.com/ONSdigital/blaise-user-management/workflows/Test%20coverage%20report/badge.svg)
