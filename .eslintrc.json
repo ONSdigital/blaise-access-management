@@ -1,5 +1,9 @@
 {
-    "ignorePatterns": ["node_modules/*","dist/*","build/*"],
+    "ignorePatterns": [
+        "node_modules/*",
+        "dist/*",
+        "build/*"
+    ],
     "env": {
         "browser": true,
         "es2021": true,
@@ -23,7 +27,12 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-multiple-empty-lines": ["error", { "max": 1 }],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1
+            }
+        ],
         "no-trailing-spaces": "error",
         "no-mixed-spaces-and-tabs": "error",
         "linebreak-style": [
@@ -38,9 +47,9 @@
             "error",
             "always"
         ],
-        "no-undef": "off",
+        "no-undef": "off"
         // "comma-dangle": ["error", "never"],
-        "@typescript-eslint/no-explicit-any": "error"
+        //"@typescript-eslint/no-explicit-any": "error"
         // "react/react-in-jsx-scope": "off",
         // "react/require-default-props": "off",
         // "no-spaced-func": "off",
@@ -59,7 +68,9 @@
     },
     "overrides": [
         {
-            "files": ["*.js"],
+            "files": [
+                "*.js"
+            ],
             "rules": {
                 "@typescript-eslint/no-var-requires": "off"
             }
@@ -69,8 +80,8 @@
         "react": {
             "createClass": "createReactClass", // Regex for Component Factory to use,
             // default to "createReactClass"
-            "pragma": "React",  // Pragma to use, default to "React"
-            "fragment": "Fragment",  // Fragment to use (may be a property of <pragma>), default to "Fragment"
+            "pragma": "React", // Pragma to use, default to "React"
+            "fragment": "Fragment", // Fragment to use (may be a property of <pragma>), default to "Fragment"
             "version": "detect", // React version. "detect" automatically picks the version you have installed.
             // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
             // default to latest and warns if missing

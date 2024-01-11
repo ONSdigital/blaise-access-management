@@ -11,3 +11,16 @@ export interface ImportUser {
     warnings: string[]
 }
 
+type JSONValue =
+    | string
+    | { [x: string]: JSONValue };
+
+
+export interface JSONObject {
+    [x: string]: JSONValue;
+}
+
+export interface Validator {
+    name?: string
+    validators?: ((val: string, name: string, formData?: any) => string[])[];
+}
