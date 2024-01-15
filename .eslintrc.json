@@ -24,7 +24,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "import"
     ],
     "rules": {
         "no-multiple-empty-lines": [
@@ -47,24 +48,24 @@
             "error",
             "always"
         ],
-        "no-undef": "off"
-        // "comma-dangle": ["error", "never"],
+        "no-undef": "off",
+        "comma-dangle": ["error", "never"],
         //"@typescript-eslint/no-explicit-any": "error"
-        // "react/react-in-jsx-scope": "off",
-        // "react/require-default-props": "off",
-        // "no-spaced-func": "off",
-        // "max-len": [
-        //     "error",
-        //     {
-        //         "code": 200
-        //     }
-        // ],
-        // "import/no-extraneous-dependencies": [
-        //     "error",
-        //     {
-        //         "devDependencies": true
-        //     }
-        // ]
+        "react/react-in-jsx-scope": "off",
+        "react/require-default-props": "off",
+        "no-spaced-func": "off",
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ],
+        "max-len": [
+            "error",
+            {
+                "code": 200
+            }
+        ]
     },
     "overrides": [
         {
