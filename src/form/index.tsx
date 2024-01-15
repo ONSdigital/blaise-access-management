@@ -1,26 +1,18 @@
 import React, { FormEvent, useState } from "react";
 import { isEmpty } from "lodash";
-import { JSONObject, Validator } from "../../Interfaces";
+import { UserForm } from "../../Interfaces";
 
-interface IObjectKeys {
-  [key: string]: string | undefined;
-}
-interface User extends IObjectKeys {
-  name?: string;
-  password?: string;
-  confirm_password?: string;
-}
 interface Props {
-  initialValues?: User
-  onSubmit?: (data: User) => void
+  initialValues?: { [key: string]: string }
+  onSubmit?: (data: { [key: string]: string }) => void
   onReset?: () => FormEvent<HTMLFormElement>
   children: React.ReactNode
 }
 
 interface State {
-  data: User
-  validators: any
-  errors: any
+  data: { [key: string]: string }
+  validators: { [key: string]: ((val: string, name: string, formData: UserForm) => string[])[] | unknown }
+  errors: { [key: string]: string[] }
 }
 
 const initState = (props: Props): State => {
@@ -68,7 +60,7 @@ const Form = (props: Props) => {
         if (validators && validators instanceof Array) {
           const { data } = formState;
           const messages = validators.reduce((result: any, validator: any) => {
-            const value = data[name];
+            const value = data.username;
             const err = validator(value, name, data);
             return [...result, ...err];
           }, []);
@@ -119,7 +111,8 @@ const Form = (props: Props) => {
       };
     });
   };
-  type Validators = { name: string, validators: any };
+
+  type Validators = { name: string, validators: ((val: string, name: string, formData: { [key: string]: string }) => string[])[] };
   const registerInput = ({ name, validators }: Validators) => {
     setFormState(state => {
       return {

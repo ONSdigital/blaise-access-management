@@ -19,7 +19,8 @@ export interface JSONObject {
     [x: string]: JSONValue;
 }
 
-export interface Validator {
-    name?: string
-    validators?: ((val: string, name: string, formData?: any) => string[])[];
+export interface UserForm {
+    username?: string
+    password?: string
+    confirm_password?: string
 }
