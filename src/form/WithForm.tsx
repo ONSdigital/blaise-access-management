@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {FormContext} from "./index";
-import {TextInputProps} from "./TextInput";
+import {TextInput, TextInputProps} from "./TextInput";
 
 const propTypes = {
   name: PropTypes.string.isRequired,
   validators: PropTypes.arrayOf(PropTypes.func)
 };
 
-const withForm = (InputComponent: any) => {
+const withForm = (InputComponent: typeof TextInput) => {
   const WrappedWithForm = (props: TextInputProps) => {
     const {errors, data, setFieldValue, registerInput} = useContext(FormContext);
 

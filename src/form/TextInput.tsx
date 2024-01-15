@@ -9,7 +9,7 @@ export interface TextInputProps {
     label: string
     type?: string
     errors?: string[]
-    onChange?: (val: string) => any
+    onChange?: (val: string) => void
     validators: ((val: string, name: string, formData: any) => string[])[]
     password?: boolean
 }

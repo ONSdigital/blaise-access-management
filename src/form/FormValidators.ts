@@ -1,4 +1,4 @@
-const requiredValidator = (val: string, name: string) => {
+const requiredValidator = (val: string, name: string): string[] => {
     if (!val) {
         return [`Enter ${name.replace("_", " ")}`];
     }
@@ -6,7 +6,7 @@ const requiredValidator = (val: string, name: string) => {
     return [];
 };
 
-const passwordMatchedValidator = (val: string, name: string, formData: any) => {
+const passwordMatchedValidator = (val: string, name: string, formData: any): string[] => {
     if (val !== formData.password) {
         return ["Must match password"];
     }

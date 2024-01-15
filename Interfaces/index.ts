@@ -15,7 +15,6 @@ type JSONValue =
     | string
     | { [x: string]: JSONValue };
 
-
 export interface JSONObject {
     [x: string]: JSONValue;
 }
