@@ -10,6 +10,6 @@ export function mock_server_request_Return_JSON(returnedStatus: number, returned
     );
 }
 
-export function mock_server_request_function(mock_function: any): void {
+export function mock_server_request_function(mock_function: <Type>() => Type): void {
     global.fetch = mock_function();
 }

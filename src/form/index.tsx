@@ -52,16 +52,16 @@ const Form = (props: Props) => {
       return true;
     }
 
-    type Validators = [string, ((val: string, name: string, formData?: any) => string[])[] | unknown];
+    type Validators = [string, ((val: string, name: string, formData?: UserForm) => string[])[] | unknown];
 
     const formErrors = Object.entries(validators).reduce(
       (errors: any, [name, validators]: Validators) => {
 
         if (validators && validators instanceof Array) {
           const { data } = formState;
-          const messages = validators.reduce((result: any, validator: any) => {
-            const value = data.username;
-            const err = validator(value, name, data);
+          const messages = validators.reduce((result: string[], validator: (val: string, name: string, formData?: UserForm) => string[]) => {
+          const value = data[name];
+          const err = validator(value, name, data);
             return [...result, ...err];
           }, []);
 
