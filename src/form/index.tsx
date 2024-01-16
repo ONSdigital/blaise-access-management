@@ -1,7 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { isEmpty } from "lodash";
-import { UserForm } from "../../Interfaces";
-
+import { ContextProviderType, UserForm, ValidatorType } from "../../Interfaces";
 interface Props {
   initialValues?: { [key: string]: string }
   onSubmit?: (data: { [key: string]: string }) => void
@@ -14,7 +13,6 @@ interface State {
   validators: { [key: string]: ((val: string, name: string, formData: UserForm) => string[])[] | unknown }
   errors: { [key: string]: string[] }
 }
-
 const initState = (props: Props): State => {
   return {
     data: {
@@ -24,21 +22,30 @@ const initState = (props: Props): State => {
     errors: {}
   };
 };
+//export let FormContext: React.Context<Record<string, unknown>>;
+const defaultValue: ContextProviderType = {
+  errors: {},
+  data: {},
+  setFieldValue: function (name: string, value: string): void {
+    throw new Error("Function not implemented.");
+  },
+  registerInput: function ({ name, validators }: ValidatorType): () => void {
+    throw new Error("Function not implemented.");
+  }
+};
 
-export let FormContext: any;
-const { Provider } = (FormContext = React.createContext({}));
+export const FormContext = React.createContext(defaultValue);
+//const { Provider } = (FormContext = React.createContext({}));
+const { Provider } = (FormContext);
 
 const Form = (props: Props) => {
   const [formState, setFormState] = useState<State>(initState(props));
-
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-
     if (validate()) {
       if (props.onSubmit !== undefined) props.onSubmit(formState.data);
     }
   };
-
   const validate = () => {
     const { validators } = formState;
     // always reset form errors
@@ -47,47 +54,39 @@ const Form = (props: Props) => {
       ...state,
       errors: {}
     }));
-
     if (isEmpty(validators)) {
       return true;
     }
-
     type Validators = [string, ((val: string, name: string, formData?: UserForm) => string[])[] | unknown];
+    type UserFormKeys = keyof UserForm;
 
     const formErrors = Object.entries(validators).reduce(
-      (errors: any, [name, validators]: Validators) => {
-
+      (errors: { [key in UserFormKeys]: string[] }, [name, validators]: Validators) => {
         if (validators && validators instanceof Array) {
           const { data } = formState;
           const messages = validators.reduce((result: string[], validator: (val: string, name: string, formData?: UserForm) => string[]) => {
-          const value = data[name];
-          const err = validator(value, name, data);
+            const value = data[name as UserFormKeys];
+            const err = validator(value, name, data);
             return [...result, ...err];
           }, []);
-
           if (messages.length > 0) {
-            errors[name] = messages;
+            errors[name as UserFormKeys] = messages;
           }
-
           return errors;
         }
-
+        return errors;
       },
-      {}
+      {} as { [key in UserFormKeys]: string[] }
     );
-
     if (isEmpty(formErrors)) {
       return true;
     }
-
     setFormState(state => ({
       ...state,
       errors: formErrors
     }));
-
     return false;
   };
-
   const onReset = (e: FormEvent) => {
     e.preventDefault();
     setFormState(initState(props));
@@ -95,7 +94,6 @@ const Form = (props: Props) => {
       props.onReset();
     }
   };
-
   const setFieldValue = (name: string, value: string) => {
     setFormState(state => {
       return {
@@ -111,7 +109,6 @@ const Form = (props: Props) => {
       };
     });
   };
-
   type Validators = { name: string, validators: ((val: string, name: string, formData: { [key: string]: string }) => string[])[] };
   const registerInput = ({ name, validators }: Validators) => {
     setFormState(state => {
@@ -128,18 +125,15 @@ const Form = (props: Props) => {
         }
       };
     });
-
     // returning unregister method
     return () => {
       setFormState(state => {
         // copy state to avoid mutating it
         const { data, errors, validators: currentValidators } = { ...state };
-
         // clear field data, validations and errors
         delete data[name];
         delete errors[name];
         delete currentValidators[name];
-
         return {
           data,
           errors,
@@ -148,22 +142,18 @@ const Form = (props: Props) => {
       });
     };
   };
-
   const providerValue = {
     errors: formState.errors,
     data: formState.data,
     setFieldValue,
     registerInput
   };
-
   const errorList = [];
-
   for (const key in formState.errors) {
     if (formState.errors[key].length) {
       errorList.push({ fieldID: key, errorMessage: formState.errors[key] });
     }
   }
-
   return (
     <Provider value={providerValue}>
       {
@@ -190,7 +180,6 @@ const Form = (props: Props) => {
           </div>
         </div>
       }
-
       <form
         onSubmit={onSubmit}
         onReset={onReset}
@@ -201,5 +190,4 @@ const Form = (props: Props) => {
     </Provider>
   );
 };
-
 export default Form;

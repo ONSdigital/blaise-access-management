@@ -49,8 +49,11 @@
             "always"
         ],
         "no-undef": "off",
-        "comma-dangle": ["error", "never"],
-        //"@typescript-eslint/no-explicit-any": "error",
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "@typescript-eslint/no-explicit-any": "error",
         "react/react-in-jsx-scope": "off",
         "react/require-default-props": "off",
         "no-spaced-func": "off",
