@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import axios from "axios";
 import path from "path";
 import ejs from "ejs";
@@ -65,7 +65,7 @@ server.get("*", function (req: Request, res: Response) {
     res.render("index.html", {});
 });
 
-server.use(function (err: Error, req: Request, res: Response) {
+server.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
     console.error(err.stack);
     res.render("../views/500.html", {});
 });
