@@ -1,19 +1,19 @@
-import express, {NextFunction, Request, Response} from "express";
+import express, { NextFunction, Request, Response } from "express";
 import axios from "axios";
 import path from "path";
 import ejs from "ejs";
 import dotenv from "dotenv";
-import {loadConfigFromEnv} from "./Config";
+import { loadConfigFromEnv } from "./Config";
 import createLogger from "./pino";
 import BlaiseAPIRouter from "./BlaiseAPI";
 import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import BlaiseApiClient from "blaise-api-node-client";
-import {newLoginHandler, Auth} from "blaise-login-react-server";
+import { newLoginHandler, Auth } from "blaise-login-react-server";
 import pino from "pino";
 
 const pinoLogger = pino();
-profiler.start({logLevel: 4}).catch((err: unknown) => {
+profiler.start({ logLevel: 4 }).catch((err: unknown) => {
     pinoLogger.error(`Failed to start profiler: ${err}`);
 });
 
@@ -45,7 +45,7 @@ const loginHandler = newLoginHandler(auth, blaiseApiClient);
 // Health Check endpoint
 server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
     pinoLogger.info("Heath Check endpoint called");
-    res.status(200).json({healthy: true});
+    res.status(200).json({ healthy: true });
 });
 
 server.use("/", loginHandler);
@@ -62,7 +62,7 @@ server.use(
 );
 
 server.get("*", function (req: Request, res: Response) {
-    res.render("index.html",{});
+    res.render("index.html", {});
 });
 
 server.use(function (err: Error, req: Request, res: Response, next: NextFunction) {

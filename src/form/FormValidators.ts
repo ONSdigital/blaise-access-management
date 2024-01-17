@@ -1,4 +1,6 @@
-const requiredValidator = (val: string, name: string) => {
+import { UserForm } from "../../Interfaces";
+
+const requiredValidator = (val: string, name: string): string[] => {
     if (!val) {
         return [`Enter ${name.replace("_", " ")}`];
     }
@@ -6,7 +8,7 @@ const requiredValidator = (val: string, name: string) => {
     return [];
 };
 
-const passwordMatchedValidator = (val: string, name: string, formData: any) => {
+const passwordMatchedValidator = (val: string, name: string, formData: UserForm): string[] => {
     if (val !== formData.password) {
         return ["Must match password"];
     }
@@ -14,4 +16,4 @@ const passwordMatchedValidator = (val: string, name: string, formData: any) => {
     return [];
 };
 
-export {requiredValidator, passwordMatchedValidator};
+export { requiredValidator, passwordMatchedValidator };
