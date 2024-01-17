@@ -11,3 +11,29 @@ export interface ImportUser {
     warnings: string[]
 }
 
+type JSONValue =
+    | string
+    | { [x: string]: JSONValue };
+
+export interface JSONObject {
+    [x: string]: JSONValue;
+}
+
+export interface UserForm {
+    username?: string
+    password?: string
+    confirm_password?: string
+}
+
+export interface ValidatorType { name: string, validators: ((val: string, name: string, formData: { [key: string]: string }) => string[])[] }
+
+export interface ContextProviderType {
+    errors: {
+        [key: string]: string[];
+    };
+    data: {
+        [key: string]: string;
+    };
+    setFieldValue: (name: string, value: string) => void;
+    registerInput: ({ name, validators }: ValidatorType) => () => void;
+}

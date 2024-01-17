@@ -1,47 +1,49 @@
-import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
-import {Redirect} from "react-router-dom";
-import {ONSPanel, ONSButton} from "blaise-design-system-react-components";
-import {addNewUser, getAllRoles} from "../../utilities/http";
-import {UserRole} from "blaise-api-node-client";
-import {NewUser} from "blaise-api-node-client";
+import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
+import { addNewUser, getAllRoles } from "../../utilities/http";
+import { UserRole } from "blaise-api-node-client";
+import { NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
-import {passwordMatchedValidator, requiredValidator} from "../../form/FormValidators";
-import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
+import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
+import Breadcrumbs, { BreadcrumbItem } from "../../Components/Breadcrumbs";
+import { UserForm } from "../../../Interfaces";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
-    const [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState<string | undefined>("");
     const [role, setRole] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
     const [roleList, setRoleList] = useState<UserRole[]>([]);
 
-    async function createNewUser(formData: any) {
+    async function createNewUser(formData: UserForm) {
         setUsername(formData.username);
+        if (formData.username && formData.password) {
+            const newUser: NewUser = {
+                name: formData.username,
+                password: formData.password,
+                role: role,
+                defaultServerPark: "gusty",
+                serverParks: ["gusty"]
+            };
 
-        const newUser: NewUser = {
-            name: formData.username,
-            password: formData.password,
-            role: role,
-            defaultServerPark: "gusty",
-            serverParks: ["gusty"]
-        };
+            setButtonLoading(true);
+            const created = await addNewUser(newUser);
 
-        setButtonLoading(true);
-        const created = await addNewUser(newUser);
+            if (!created) {
+                setMessage("Failed to create new user");
+                setButtonLoading(false);
+                return;
+            }
 
-        if (!created) {
-            setMessage("Failed to create new user");
-            setButtonLoading(false);
-            return;
+            setRedirect(true);
         }
-
-        setRedirect(true);
     }
 
     useEffect(() => {
-        getRoleList().then(() => {return;});
+        getRoleList().then(() => { return; });
     }, []);
 
     async function getRoleList() {
@@ -54,8 +56,8 @@ function NewUserComponent(): ReactElement {
     }
 
     const breadcrumbList: BreadcrumbItem[] = [
-        {link: "/", title: "Home"},
-        {link: "/users", title: "Manage users"}
+        { link: "/", title: "Home" },
+        { link: "/users", title: "Manage users" }
     ];
 
     return (
@@ -63,7 +65,7 @@ function NewUserComponent(): ReactElement {
             {
                 redirect && <Redirect to={{
                     pathname: "/users",
-                    state: {updatedPanel: {visible: true, message: "User " + username + " created", status: "success"}}
+                    state: { updatedPanel: { visible: true, message: "User " + username + " created", status: "success" } }
                 }} />
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
