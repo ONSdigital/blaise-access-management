@@ -65,7 +65,7 @@ const Form = (props: Props) => {
         if (validators && validators instanceof Array) {
           const { data } = formState;
           const messages = validators.reduce((result: string[], validator: (val: string, name: string, formData?: UserForm) => string[]) => {
-            const value = data[name as UserFormKeys];
+            const value = data[name];
             const err = validator(value, name, data);
             return [...result, ...err];
           }, []);
