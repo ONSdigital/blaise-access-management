@@ -6,6 +6,6 @@ process.env = Object.assign(process.env, {
 
 module.exports = {
     moduleNameMapper: {
-        axios: 'axios/dist/node/axios.cjs',
-    },
+        axios: "axios/dist/node/axios.cjs"
+    }
 };

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-export function mock_server_request_Return_JSON(returnedStatus: number, returnedJSON: unknown) {
+export function mock_server_request_Return_JSON(returnedStatus: number, returnedJSON: unknown): void {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     global.fetch = jest.fn(() =>
@@ -10,6 +10,6 @@ export function mock_server_request_Return_JSON(returnedStatus: number, returned
     );
 }
 
-export function mock_server_request_function(mock_function: any) {
+export function mock_server_request_function(mock_function: <Type>() => Type): void {
     global.fetch = mock_function();
 }

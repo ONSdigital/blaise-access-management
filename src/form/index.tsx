@@ -1,19 +1,18 @@
-import React, {FormEvent, useState} from "react";
-import {isEmpty} from "lodash";
-
+import React, { FormEvent, useState } from "react";
+import { isEmpty } from "lodash";
+import { ContextProviderType, UserForm, ValidatorType } from "../../Interfaces";
 interface Props {
-  initialValues?: any
-  onSubmit?: (data: any) => any
-  onReset?: () => any
+  initialValues?: { [key: string]: string }
+  onSubmit?: (data: { [key: string]: string }) => void
+  onReset?: () => FormEvent<HTMLFormElement>
   children: React.ReactNode
 }
 
 interface State {
-  data: any
-  validators: any
-  errors: any
+  data: { [key: string]: string }
+  validators: { [key: string]: ((val: string, name: string, formData: UserForm) => string[])[] | unknown }
+  errors: { [key: string]: string[] }
 }
-
 const initState = (props: Props): State => {
   return {
     data: {
@@ -23,67 +22,71 @@ const initState = (props: Props): State => {
     errors: {}
   };
 };
+//export let FormContext: React.Context<Record<string, unknown>>;
+const defaultValue: ContextProviderType = {
+  errors: {},
+  data: {},
+  setFieldValue: function (name: string, value: string): void {
+    throw new Error("Function not implemented.");
+  },
+  registerInput: function ({ name, validators }: ValidatorType): () => void {
+    throw new Error("Function not implemented.");
+  }
+};
 
-export let FormContext: any;
-const {Provider} = (FormContext = React.createContext({}));
+export const FormContext = React.createContext(defaultValue);
+//const { Provider } = (FormContext = React.createContext({}));
+const { Provider } = (FormContext);
 
 const Form = (props: Props) => {
   const [formState, setFormState] = useState<State>(initState(props));
-
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-
     if (validate()) {
       if (props.onSubmit !== undefined) props.onSubmit(formState.data);
     }
   };
-
   const validate = () => {
-    const {validators} = formState;
-
+    const { validators } = formState;
     // always reset form errors
     // in case there was form errors from backend
     setFormState(state => ({
       ...state,
       errors: {}
     }));
-
     if (isEmpty(validators)) {
       return true;
     }
-
-    type Validators = [string, any];
+    type Validators = [string, ((val: string, name: string, formData?: UserForm) => string[])[] | unknown];
+    type UserFormKeys = keyof UserForm;
 
     const formErrors = Object.entries(validators).reduce(
-      (errors: any, [name, validators]: Validators) => {
-        const {data}: any = formState;
-        const messages = validators.reduce((result: any, validator: any) => {
-          const value = data[name];
-          const err = validator(value, name, data);
-          return [...result, ...err];
-        }, []);
-
-        if (messages.length > 0) {
-          errors[name] = messages;
+      (errors: { [key in UserFormKeys]: string[] }, [name, validators]: Validators) => {
+        if (validators && validators instanceof Array) {
+          const { data } = formState;
+          const messages = validators.reduce((result: string[], validator: (val: string, name: string, formData?: UserForm) => string[]) => {
+            const value = data[name];
+            const err = validator(value, name, data);
+            return [...result, ...err];
+          }, []);
+          if (messages.length > 0) {
+            errors[name as UserFormKeys] = messages;
+          }
+          return errors;
         }
-
         return errors;
       },
-      {}
+      {} as { [key in UserFormKeys]: string[] }
     );
-
     if (isEmpty(formErrors)) {
       return true;
     }
-
     setFormState(state => ({
       ...state,
       errors: formErrors
     }));
-
     return false;
   };
-
   const onReset = (e: FormEvent) => {
     e.preventDefault();
     setFormState(initState(props));
@@ -91,7 +94,6 @@ const Form = (props: Props) => {
       props.onReset();
     }
   };
-
   const setFieldValue = (name: string, value: string) => {
     setFormState(state => {
       return {
@@ -107,8 +109,8 @@ const Form = (props: Props) => {
       };
     });
   };
-  type Validators = {name: string, validators: any};
-  const registerInput = ({name, validators}: Validators) => {
+  type Validators = { name: string, validators: ((val: string, name: string, formData: { [key: string]: string }) => string[])[] };
+  const registerInput = ({ name, validators }: Validators) => {
     setFormState(state => {
       return {
         ...state,
@@ -123,18 +125,15 @@ const Form = (props: Props) => {
         }
       };
     });
-
     // returning unregister method
     return () => {
       setFormState(state => {
         // copy state to avoid mutating it
-        const {data, errors, validators: currentValidators} = {...state};
-
+        const { data, errors, validators: currentValidators } = { ...state };
         // clear field data, validations and errors
         delete data[name];
         delete errors[name];
         delete currentValidators[name];
-
         return {
           data,
           errors,
@@ -143,28 +142,24 @@ const Form = (props: Props) => {
       });
     };
   };
-
   const providerValue = {
     errors: formState.errors,
     data: formState.data,
     setFieldValue,
     registerInput
   };
-
   const errorList = [];
-
   for (const key in formState.errors) {
     if (formState.errors[key].length) {
-      errorList.push({fieldID: key, errorMessage: formState.errors[key]});
+      errorList.push({ fieldID: key, errorMessage: formState.errors[key] });
     }
   }
-
   return (
     <Provider value={providerValue}>
       {
         errorList.length > 0 &&
         <div aria-labelledby="error-summary-title" role="alert"
-             className="ons-panel panel--error">
+          className="ons-panel panel--error">
           <div className="ons-panel__header">
             <h2 id="error-summary-title" data-qa="error-header" className="ons-panel__title ons-u-fs-r--b">There
               are {errorList.length} problems with your answer</h2>
@@ -172,12 +167,12 @@ const Form = (props: Props) => {
           <div className="ons-panel__body">
             <ol className="ons-list">
               {
-                errorList.map(({fieldID, errorMessage}) => {
+                errorList.map(({ fieldID, errorMessage }) => {
                   return (
-                      <li key={fieldID} className="ons-list__item">
-                        <a href={`#${fieldID}`}
-                           className="ons-list__link ons-js-inpagelink">{errorMessage[0]}</a>
-                      </li>
+                    <li key={fieldID} className="ons-list__item">
+                      <a href={`#${fieldID}`}
+                        className="ons-list__link ons-js-inpagelink">{errorMessage[0]}</a>
+                    </li>
                   );
                 })
               }
@@ -185,7 +180,6 @@ const Form = (props: Props) => {
           </div>
         </div>
       }
-
       <form
         onSubmit={onSubmit}
         onReset={onReset}
@@ -196,5 +190,4 @@ const Form = (props: Props) => {
     </Provider>
   );
 };
-
 export default Form;

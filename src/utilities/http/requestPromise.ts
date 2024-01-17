@@ -1,6 +1,8 @@
 import {AuthManager} from "blaise-login-react-client";
 
-async function requestPromiseJson(method: string, url: string, body: any = null, headers: any = {}): Promise<[number, JSON]> {
+type HeadersObject = Record<string, string>;
+
+async function requestPromiseJson(method: string, url: string, body: FormData | null = null, headers: HeadersObject = {}): Promise<[number, JSON]> {
   const authManager = new AuthManager();
 
   try {
@@ -21,7 +23,7 @@ async function requestPromiseJson(method: string, url: string, body: any = null,
   }
 }
 
-async function requestPromiseJsonList<T>(method: string, url: string, body: any = null): Promise<[boolean, T[]]> {
+async function requestPromiseJsonList<T>(method: string, url: string, body = null): Promise<[boolean, T[]]> {
   const authManager = new AuthManager();
 
   try {

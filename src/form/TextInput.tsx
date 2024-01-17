@@ -1,5 +1,6 @@
-import React, {ChangeEvent, ReactElement, useState} from "react";
-import {isEmpty} from "lodash";
+import React, { ChangeEvent, ReactElement, useState } from "react";
+import { UserForm } from "../../Interfaces";
+import { isEmpty } from "lodash";
 import withForm from "./WithForm";
 
 export interface TextInputProps {
@@ -9,8 +10,8 @@ export interface TextInputProps {
     label: string
     type?: string
     errors?: string[]
-    onChange?: (val: string) => any
-    validators: ((val: string, name: string, formData: any) => string[])[]
+    onChange?: (val: string) => void
+    validators: ((val: string, name: string, formData: UserForm) => string[])[]
     password?: boolean
 }
 
@@ -43,25 +44,25 @@ const TextInput = (props: TextInputProps): ReactElement => {
                 {
                     props.password &&
                     <span className="ons-checkbox ons-checkbox--toggle">
-                    <input
-                        type="checkbox"
-                        id={`${props.name}-password-toggle`}
-                        className="ons-checkbox__input"
-                        name="show-password"
-                        onClick={() => setShowPassword(!showPassword)}
-                    />
-                    <label id="password-toggle-label" className="ons-checkbox__label"
-                           htmlFor={`${props.name}-password-toggle`}>
-                        Show password
-                    </label>
-                </span>
+                        <input
+                            type="checkbox"
+                            id={`${props.name}-password-toggle`}
+                            className="ons-checkbox__input"
+                            name="show-password"
+                            onClick={() => setShowPassword(!showPassword)}
+                        />
+                        <label id="password-toggle-label" className="ons-checkbox__label"
+                            htmlFor={`${props.name}-password-toggle`}>
+                            Show password
+                        </label>
+                    </span>
                 }
                 <input id={props.name} className="ons-input ons-input--text ons-input-type__input ons-u-mt-xs"
-                       name={props.name}
-                       autoComplete={props.password ? "current-password" : undefined}
-                       type={props.password ? showPassword ? "text" : "password" : "text"}
-                       placeholder={props.placeholder}
-                       onChange={onChange}
+                    name={props.name}
+                    autoComplete={props.password ? "current-password" : undefined}
+                    type={props.password ? showPassword ? "text" : "password" : "text"}
+                    placeholder={props.placeholder}
+                    onChange={onChange}
                 />
             </>
         );
@@ -87,5 +88,5 @@ const TextInput = (props: TextInputProps): ReactElement => {
 
 const FormTextInput = withForm(TextInput);
 
-export {TextInput};
+export { TextInput };
 export default FormTextInput;
