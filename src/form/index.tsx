@@ -34,7 +34,6 @@ const defaultValue: ContextProviderType = {
   }
 };
 
-
 export const FormContext = React.createContext(defaultValue);
 //const { Provider } = (FormContext = React.createContext({}));
 const { Provider } = (FormContext);
