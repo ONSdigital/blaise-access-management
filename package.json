@@ -9,7 +9,7 @@
     "start-react": "react-scripts start",
     "build-react": "react-scripts --openssl-legacy-provider build",
     "test": "jest --coverage --watchAll=false",
-    "gcp-build": "react-scripts build && tsc --project tsconfig.server.json",
+    "gcp-build": "react-scripts --openssl-legacy-provider build && tsc --project tsconfig.server.json",
     "lint-fix": "node_modules/.bin/eslint . --fix",
     "lint": "yarn eslint .",
     "dev": "concurrently --kill-others-on-fail \"yarn start-server\" \"yarn start-react\""
