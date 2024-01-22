@@ -1,5 +1,5 @@
 service: bam-ui
-runtime: nodejs16
+runtime: nodejs18
 
 vpc_access_connector:
   name: projects/_PROJECT_ID/locations/europe-west2/connectors/vpcconnect
