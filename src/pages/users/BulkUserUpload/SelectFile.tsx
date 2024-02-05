@@ -1,9 +1,8 @@
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useState} from "react";
 import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
 import {ImportUser} from "../../../../Interfaces";
-import {UserRole} from "blaise-api-node-client";
-import {getAllRoles, validateUser} from "../../../utilities/http";
+
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
@@ -14,37 +13,12 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
 
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [uploadData, setUploadData] = useState<ImportUser[]>([]);
-    const [roles, setRoles] = useState<UserRole[]>([]);
 
-    useEffect(() => {
-        getRolesList().then(() => {return;});
-    }, []);
-
-    function getUsersToUpload() {
-        return uploadData;
-    }
-
-    async function getRolesList() {
-        setRoles([]);
-
-        const [success, roleList] = await getAllRoles();
-        if (!success) {
-            return;
-        }
-        setRoles(roleList);
-    }
-
-    function validateUpload() {
+    function uploadUsers() {
         setButtonLoading(true);
-
-        var users = getUsersToUpload();
-        users.map((user) => {
-            validateUser(user, roles);
-        });
-
+        setUsersToUpload(uploadData);
         setButtonLoading(false);
 
-        setUsersToUpload(uploadData);
         movePageForward();
     }
 
@@ -70,7 +44,7 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
             />
 
             <br />
-            <ONSButton label={"Upload"} primary={true} onClick={() => validateUpload()} loading={buttonLoading} />
+            <ONSButton label={"Upload"} primary={true} onClick={() => uploadUsers()} loading={buttonLoading} />
 
             <Collapsible title="What format should the bulk upload file be?">
                 <>
