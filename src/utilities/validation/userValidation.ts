@@ -1,17 +1,17 @@
 import { UserRole } from "blaise-api-node-client";
 import { ImportUser } from "../../../Interfaces";
 
-function validateUsers(users: ImportUser[], validRoles: UserRole[]) {
+function validateUsers(users: ImportUser[], validRoles: UserRole[]): void {
     users.map((user) => {
         validateUser(user, validRoles);
         if (users.filter((u) => u.name===user.name).length > 1) {
             user.valid = false;
-            user.warnings.push("User exists multiple times"); 
+            user.warnings.push("User exists multiple times");
         }
     });
 }
 
-function validateUser(user: ImportUser, validRoles: UserRole[]) {
+function validateUser(user: ImportUser, validRoles: UserRole[]): void  {
     user.valid = true;
     user.warnings = [];
 

@@ -4,42 +4,42 @@ import { validateUser, validateUsers } from "./userValidation";
 
 describe("Function validateUsers", () => {
 
-    var validRoles: UserRole[] = [
-        { 
-            name: "BDSS", 
+    const validRoles: UserRole[] = [
+        {
+            name: "BDSS",
             description: "",
             permissions: []
         },
-        { 
-            name: "DST", 
+        {
+            name: "DST",
             description: "",
             permissions: []
-        }            
-    ]
+        }
+    ];
 
-    var userList: ImportUser[] = [
+    const userList: ImportUser[] = [
         {
-            name:'Jamie',
-            password:'pass',
-            role:'BDSS',
+            name:"Jamie",
+            password:"pass",
+            role:"BDSS",
             valid:true,
             warnings:[]
         },
         {
-            name:'Rob',
-            password:'pass2',
-            role:'DST',
+            name:"Rob",
+            password:"pass2",
+            role:"DST",
             valid:true,
             warnings:[]
-        },    
+        },
         {
-            name:'Jamie',
-            password:'pass',
-            role:'BDSS',
+            name:"Jamie",
+            password:"pass",
+            role:"BDSS",
             valid:true,
             warnings:[]
-        },       
-        ]
+        }
+        ];
 
     it("It should mark the valid status to false if a user is in multiple times", async () => {
         // act
@@ -56,39 +56,38 @@ describe("Function validateUsers", () => {
         validateUsers(userList, validRoles);
 
         // assert
-        expect(userList[0].warnings).toEqual(['User exists multiple times']);
+        expect(userList[0].warnings).toEqual(["User exists multiple times"]);
         expect(userList[1].warnings).toEqual([]);
-        expect(userList[2].warnings).toEqual(['User exists multiple times']);
-    });    
+        expect(userList[2].warnings).toEqual(["User exists multiple times"]);
+    });
 });
-
 
 describe("Function validateUser", () => {
 
-    var validRoles: UserRole[] = [
-        { 
-            name: "BDSS", 
+    const validRoles: UserRole[] = [
+        {
+            name: "BDSS",
             description: "",
             permissions: []
         },
-        { 
-            name: "DST", 
+        {
+            name: "DST",
             description: "",
             permissions: []
-        }            
-    ]
+        }
+    ];
 
     it("The valid property should be set to true if the user is valid", async () => {
         // arrange
 
-        var validUser: ImportUser =
+        const validUser: ImportUser =
             {
-                name:'Jamie',
-                password:'pass',
-                role:'BDSS',
+                name:"Jamie",
+                password:"pass",
+                role:"BDSS",
                 valid:false, // set to opposite of we want to ensure test intregrity
                 warnings:[]
-            }    
+            };
 
         // act
         validateUser(validUser, validRoles);
@@ -100,19 +99,19 @@ describe("Function validateUser", () => {
     it("The valid property should be set to false if the password is not supplied", async () => {
         // arrange
 
-        var validUser: ImportUser =
+        const validUser: ImportUser =
             {
-                name:'Jamie',
+                name:"Jamie",
                 password:undefined,
-                role:'BDSS',
+                role:"BDSS",
                 valid:true, // set to opposite of we want to ensure test intregrity
                 warnings:[]
-            }       
+            };
 
         // act
         validateUser(validUser, validRoles);
 
         // assert
         expect(validUser.valid).toBeFalsy();
-    });    
+    });
 });

@@ -3,7 +3,6 @@ import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
 import {ImportUser} from "../../../../Interfaces";
 
-
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
     movePageForward: () => void;

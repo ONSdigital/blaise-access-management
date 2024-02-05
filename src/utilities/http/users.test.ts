@@ -1,9 +1,7 @@
 import {cleanup} from "@testing-library/react";
 import {mock_server_request_function, mock_server_request_Return_JSON} from "../../tests/utils";
 import {addNewUser, deleteUser, getAllUsers} from "./users";
-import {User, UserRole} from "blaise-api-node-client";
-import { ImportUser } from "../../../Interfaces";
-import { assert } from "console";
+import {User} from "blaise-api-node-client";
 
 const userList: User[] = [
     {defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"]},
