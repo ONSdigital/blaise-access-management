@@ -25,7 +25,6 @@ function UsersToUploadSummary({usersToImport, uploadUsers}: Props): ReactElement
 
         const [success, roleList] = await getAllRoles();
         if (success) {
-            console.debug("validating users");
             validateUsers(usersToImport, roleList);
         }
 
@@ -80,7 +79,7 @@ function UsersToUploadSummary({usersToImport, uploadUsers}: Props): ReactElement
 
                                     return (
                                         <tr className="ons-table__row" key={name + index}
-                                            data-testid={"batch-table-row"}>
+                                            data-testid={"user-table-row-" + index}>
 
                                             <td className="ons-table__cell ">
                                                 {name}

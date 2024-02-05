@@ -38,51 +38,6 @@ describe("Upload summary tests", () => {
         getAllRolesMock.mockImplementation(() => Promise.resolve(roles));
       });
 
-
-    it("view users page matches Snapshot", async () => {
-        //arrange
-        var userList: ImportUser[] = [
-            {
-                name:'Jamie',
-                password:'pass',
-                role:'BDSS',
-                valid:false,
-                warnings:[]
-            },
-            {
-                name:'Rob',
-                password:'pass2',
-                role:'DST',
-                valid:false,
-                warnings:[]
-            },    
-            {
-                name:'Jamie',
-                password:'pass',
-                role:'BDSS',
-                valid:false,
-                warnings:[]
-            },       
-            ]
-
-        const history = createMemoryHistory();
-        const view = render(
-            <Router history={history}>
-                <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
-            </Router>
-        );
-
-        // act
-        await act(async () => {
-            await new Promise(process.nextTick);
-        });
-
-        // assert
-        await waitFor(() => {
-            expect(view).toMatchSnapshot();
-        });
-    });
-
     it("Upload summary pages for three valid users matches Snapshot", async () => {
         //arrange
         var userList: ImportUser[] = [
@@ -112,7 +67,7 @@ describe("Upload summary tests", () => {
         // act
         await act(async () => {
             const history = createMemoryHistory();
-            const view = render(
+            view = render(
                 <Router history={history}>
                     <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
                 </Router>
@@ -156,7 +111,7 @@ describe("Upload summary tests", () => {
         // act
         await act(async () => {
             const history = createMemoryHistory();
-            const view = render(
+            view = render(
                 <Router history={history}>
                     <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
                 </Router>
@@ -164,8 +119,222 @@ describe("Upload summary tests", () => {
         });
 
         // assert
-        expect(screen.getByText(/3 of 3 users are valid and will be uploaded/i)).toBeDefined();        
+        const summary = view.getByTestId('summary-panel');
+        expect(summary).toHaveTextContent('3 of 3 users are valid and will be uploaded');     
+        
+        const user1Summary = view.getByTestId('user-table-row-0');
+        expect(user1Summary).toHaveTextContent('Jamie');          
+        expect(user1Summary).toHaveTextContent('BDSS');       
+        expect(user1Summary).toHaveTextContent('Valid User');        
+
+        const user2Summary = view.getByTestId('user-table-row-1');
+        expect(user2Summary).toHaveTextContent('Rob');          
+        expect(user2Summary).toHaveTextContent('DST');       
+        expect(user2Summary).toHaveTextContent('Valid User');  
+
+        const user3Summary = view.getByTestId('user-table-row-2');
+        expect(user3Summary).toHaveTextContent('Rich');          
+        expect(user3Summary).toHaveTextContent('BDSS');       
+        expect(user3Summary).toHaveTextContent('Valid User');                
     });    
+
+    it("Upload summary pages for two valid and one invalid users matches Snapshot", async () => {
+        //arrange
+        var userList: ImportUser[] = [
+            {
+                name:'Jamie',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },
+            {
+                name:'Rob',
+                password:'pass2',
+                role:'BOB', // invalid role
+                valid:false,
+                warnings:[]
+            },    
+            {
+                name:'Rich',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },       
+            ]
+
+        // act
+        await act(async () => {
+            const history = createMemoryHistory();
+            view = render(
+                <Router history={history}>
+                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
+                </Router>
+            );
+        });
+
+        // assert
+        await waitFor(() => {
+            expect(view).toMatchSnapshot();
+        });
+    });    
+
+    it("Upload summary pages for two valid and one invalid users displays correct summary", async () => {
+        //arrange
+        var userList: ImportUser[] = [
+            {
+                name:'Jamie',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },
+            {
+                name:'Rob',
+                password:'pass2',
+                role:'BOB', // invalid role
+                valid:false,
+                warnings:[]
+            },    
+            {
+                name:'Rich',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },       
+            ]
+
+        // act
+        await act(async () => {
+            const history = createMemoryHistory();
+            view = render(
+                <Router history={history}>
+                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
+                </Router>
+            );
+        });
+
+        // assert
+        const summary = view.getByTestId('summary-panel');
+        expect(summary).toHaveTextContent('2 of 3 users are valid and will be uploaded');     
+        
+        const user1Summary = view.getByTestId('user-table-row-0');
+        expect(user1Summary).toHaveTextContent('Rob');          
+        expect(user1Summary).toHaveTextContent('BOB');       
+        expect(user1Summary).toHaveTextContent('Not a valid role'); 
+
+        const user2Summary = view.getByTestId('user-table-row-1');
+        expect(user2Summary).toHaveTextContent('Jamie');          
+        expect(user2Summary).toHaveTextContent('BDSS');       
+        expect(user2Summary).toHaveTextContent('Valid User');        
+
+        const user3Summary = view.getByTestId('user-table-row-2');
+        expect(user3Summary).toHaveTextContent('Rich');          
+        expect(user3Summary).toHaveTextContent('BDSS');       
+        expect(user3Summary).toHaveTextContent('Valid User');   
+    });        
+
+    it("Upload summary pages for two users with the same name matches Snapshot", async () => {
+        //arrange
+        var userList: ImportUser[] = [
+            {
+                name:'Jamie',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },
+            {
+                name:'Rich',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },     
+            {
+                name:'Jamie',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },       
+            ]
+
+        // act
+        await act(async () => {
+            const history = createMemoryHistory();
+            view = render(
+                <Router history={history}>
+                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
+                </Router>
+            );
+        });
+
+        // assert
+        await waitFor(() => {
+            expect(view).toMatchSnapshot();
+        });
+    });    
+
+    it("Upload summary pages for two users with the same name displays correct summary", async () => {
+        //arrange
+        var userList: ImportUser[] = [
+            {
+                name:'Jamie',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },
+            {
+                name:'Rich',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },  
+            {
+                name:'Jamie',
+                password:'pass',
+                role:'BDSS',
+                valid:false,
+                warnings:[]
+            },       
+            ]
+
+        // act
+        await act(async () => {
+            const history = createMemoryHistory();
+            view = render(
+                <Router history={history}>
+                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {}}/>
+                </Router>
+            );
+        });
+
+        // assert
+        const summary = view.getByTestId('summary-panel');
+        expect(summary).toHaveTextContent('1 of 3 users are valid and will be uploaded');     
+        
+        const user1Summary = view.getByTestId('user-table-row-0');
+        expect(user1Summary).toHaveTextContent('Jamie');          
+        expect(user1Summary).toHaveTextContent('BDSS');       
+        expect(user1Summary).toHaveTextContent('User exists multiple times');        
+
+        const user2Summary = view.getByTestId('user-table-row-1');
+        expect(user2Summary).toHaveTextContent('Jamie');          
+        expect(user2Summary).toHaveTextContent('BDSS');       
+        expect(user2Summary).toHaveTextContent('User exists multiple times');   
+
+        const user3Summary = view.getByTestId('user-table-row-2');
+        expect(user3Summary).toHaveTextContent('Rich');          
+        expect(user3Summary).toHaveTextContent('BDSS');       
+        expect(user3Summary).toHaveTextContent('Valid User');  
+
+
+    }); 
 
     afterAll(() => {
         jest.clearAllMocks();
