@@ -1,5 +1,5 @@
 import React from "react";
-import {render, waitFor, cleanup, screen} from "@testing-library/react";
+import {render, waitFor, cleanup, screen, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import {act} from "react-dom/test-utils";
 import {createMemoryHistory} from "history";
@@ -7,21 +7,42 @@ import {Router} from "react-router";
 import { ImportUser } from "../../../../Interfaces";
 import BulkUserUpload from "./BulkUserUpload";
 
-
 describe("Upload summary tests", () => {
 
-    beforeAll(() => {
+    var userList: ImportUser[] = [
+    {
+        name:'Jamie',
+        password:'pass',
+        role:'BDSS',
+        valid:true,
+        warnings:[]
+    },
+    {
+        name:'Rob',
+        password:'pass2',
+        role:'DST',
+        valid:true,
+        warnings:[]
+    },    
+    {
+        name:'Jamie',
+        password:'pass',
+        role:'BDSS',
+        valid:true,
+        warnings:[]
+    },       
+    ]
+
+    beforeAll(() => {        
+        // @ts-ignore`
+        jest.spyOn(BulkUserUpload.prototype, 'getusersToUpload').mockReturnValue(userList);
        
     });
 
     it("view users page matches Snapshot", async () => {
         //arrange
-        var users: ImportUser[] = []
-        // try to mock the setUploadData state var in the selectfile.tsx. Failing that can we mock the CSVReader to use our list of users
-        // click the upload button and see if it takes you to the summary screen 
-
         const history = createMemoryHistory();
-        const wrapper = render(
+        const view = render(
             <Router history={history}>
                 <BulkUserUpload />
             </Router>
@@ -29,12 +50,14 @@ describe("Upload summary tests", () => {
 
         // act
         await act(async () => {
+            const uploadButton = view.getByTestId(`button`);
+            fireEvent.click(uploadButton);
             await new Promise(process.nextTick);
         });
 
         // assert
         await waitFor(() => {
-            expect(wrapper).toMatchSnapshot();
+            expect(view).toMatchSnapshot();
         });
 
     });

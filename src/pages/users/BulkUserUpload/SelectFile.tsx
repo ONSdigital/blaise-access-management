@@ -3,7 +3,7 @@ import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
 import {ImportUser} from "../../../../Interfaces";
 import {UserRole} from "blaise-api-node-client";
-import {getAllRoles} from "../../../utilities/http";
+import {getAllRoles, validateUser} from "../../../utilities/http";
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
@@ -20,6 +20,10 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
         getRolesList().then(() => {return;});
     }, []);
 
+    function getUsersToUpload() {
+        return uploadData;
+    }
+
     async function getRolesList() {
         setRoles([]);
 
@@ -30,40 +34,12 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
         setRoles(roleList);
     }
 
-    function validateUser(user: ImportUser) {
-        user.valid = true;
-        user.warnings = [];
-
-        if (user.name === undefined || user.name === null) {
-            user.valid = false;
-            user.warnings.push("Invalid name");
-        }
-
-        if (user.password === undefined || user.password === null) {
-            user.valid = false;
-            user.warnings.push("Invalid password");
-        }
-
-        if (user.role === undefined || user.role === null) {
-            user.warnings.push("Invalid role");
-            user.valid = false;
-        } else {
-            const isValidRole = roles.some(function (el) {
-                return el.name === user.role;
-            });
-
-            if (!isValidRole) {
-                user.warnings.push("Not a valid role");
-                user.valid = false;
-            }
-        }
-    }
-
     function validateUpload() {
         setButtonLoading(true);
 
-        uploadData.map((row) => {
-            validateUser(row);
+        var users = getUsersToUpload();
+        users.map((user) => {
+            validateUser(user, roles);
         });
 
         setButtonLoading(false);
