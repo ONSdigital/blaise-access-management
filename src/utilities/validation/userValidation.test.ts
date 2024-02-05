@@ -44,11 +44,11 @@ describe("Function validateUsers", () => {
     it("It should mark the valid status to false if a user is in multiple times", async () => {
         // act
         validateUsers(userList, validRoles);
-
+        console.debug(userList);
         // assert
-        expect(userList[0].valid).tobeFalsy();
+        expect(userList[0].valid).toBeFalsy();
         expect(userList[1].valid).toBeTruthy();
-        expect(userList[2].valid).tobeFalsy();
+        expect(userList[2].valid).toBeFalsy();
     });
 
     it("It should set an appropriate warning message if a user is in multiple times", async () => {
@@ -57,8 +57,8 @@ describe("Function validateUsers", () => {
 
         // assert
         expect(userList[0].warnings).toEqual(['User exists multiple times']);
-        expect(userList[1].valid).toEqual([]);
-        expect(userList[2].valid).toEqual(['User exists multiple times']);
+        expect(userList[1].warnings).toEqual([]);
+        expect(userList[2].warnings).toEqual(['User exists multiple times']);
     });    
 });
 
@@ -97,13 +97,13 @@ describe("Function validateUser", () => {
         expect(validUser.valid).toBeTruthy();
     });
 
-    it("The valid property should be set to false if the password is empty", async () => {
+    it("The valid property should be set to false if the password is not supplied", async () => {
         // arrange
 
         var validUser: ImportUser =
             {
                 name:'Jamie',
-                password:'',
+                password:undefined,
                 role:'BDSS',
                 valid:true, // set to opposite of we want to ensure test intregrity
                 warnings:[]

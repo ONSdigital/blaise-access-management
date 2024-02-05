@@ -545,10 +545,9 @@ Object {
       >
         Bulk upload 
         <em>
-          three
+          one
         </em>
          user
-        s
         ?
       </h1>
       <div
@@ -559,7 +558,7 @@ Object {
           class="ons-panel__body "
         >
           <p>
-            3
+            1
              of 
             3
              users are valid and will be uploaded. 
@@ -601,9 +600,8 @@ Object {
                   for="confirm-upload"
                 >
                   Yes, upload 
-                  three
+                  one
                    valid user
-                  s
                 </label>
               </span>
             </p>
@@ -720,9 +718,9 @@ Object {
               class="ons-table__cell "
             >
               <span
-                class="ons-status ons-status--success"
+                class="ons-status ons-status--error"
               >
-                Valid User
+                User exists multiple times. 
               </span>
             </td>
           </tr>
@@ -733,7 +731,7 @@ Object {
             <td
               class="ons-table__cell "
             >
-              Rich
+              Jamie
             </td>
             <td
               class="ons-table__cell "
@@ -744,9 +742,9 @@ Object {
               class="ons-table__cell "
             >
               <span
-                class="ons-status ons-status--success"
+                class="ons-status ons-status--error"
               >
-                Valid User
+                User exists multiple times. 
               </span>
             </td>
           </tr>
@@ -757,7 +755,7 @@ Object {
             <td
               class="ons-table__cell "
             >
-              Jamie
+              Rich
             </td>
             <td
               class="ons-table__cell "
@@ -784,10 +782,9 @@ Object {
     >
       Bulk upload 
       <em>
-        three
+        one
       </em>
        user
-      s
       ?
     </h1>
     <div
@@ -798,7 +795,7 @@ Object {
         class="ons-panel__body "
       >
         <p>
-          3
+          1
            of 
           3
            users are valid and will be uploaded. 
@@ -840,9 +837,8 @@ Object {
                 for="confirm-upload"
               >
                 Yes, upload 
-                three
+                one
                  valid user
-                s
               </label>
             </span>
           </p>
@@ -959,9 +955,9 @@ Object {
             class="ons-table__cell "
           >
             <span
-              class="ons-status ons-status--success"
+              class="ons-status ons-status--error"
             >
-              Valid User
+              User exists multiple times. 
             </span>
           </td>
         </tr>
@@ -972,7 +968,7 @@ Object {
           <td
             class="ons-table__cell "
           >
-            Rich
+            Jamie
           </td>
           <td
             class="ons-table__cell "
@@ -983,9 +979,9 @@ Object {
             class="ons-table__cell "
           >
             <span
-              class="ons-status ons-status--success"
+              class="ons-status ons-status--error"
             >
-              Valid User
+              User exists multiple times. 
             </span>
           </td>
         </tr>
@@ -996,7 +992,7 @@ Object {
           <td
             class="ons-table__cell "
           >
-            Jamie
+            Rich
           </td>
           <td
             class="ons-table__cell "

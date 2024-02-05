@@ -4,6 +4,10 @@ import { ImportUser } from "../../../Interfaces";
 function validateUsers(users: ImportUser[], validRoles: UserRole[]) {
     users.map((user) => {
         validateUser(user, validRoles);
+        if (users.filter((u) => u.name===user.name).length > 1) {
+            user.valid = false;
+            user.warnings.push("User exists multiple times"); 
+        }
     });
 }
 
