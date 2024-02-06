@@ -6,18 +6,45 @@ import {createMemoryHistory} from "history";
 import {Router} from "react-router";
 import { ImportUser } from "../../../../Interfaces";
 import UsersToUploadSummary from "./UsersToUploadSummary";
-import { getAllRoles } from "../../../utilities/http";
-import { UserRole } from "blaise-api-node-client";
+import { getAllRoles, getAllUsers } from "../../../utilities/http";
+import { User, UserRole } from "blaise-api-node-client";
 
 // set global vars
 let view:RenderResult;
 
 // set mocks
 type getRolesListResponse = [boolean, UserRole[]];
+type getUsersListResponse = [boolean, User[]];
+
 jest.mock("../../../utilities/http");
+
 const getAllRolesMock = getAllRoles as jest.Mock<Promise<getRolesListResponse>>;
+const getAllUsersMock = getAllUsers as jest.Mock<Promise<getUsersListResponse>>;
 
 describe("Upload summary tests", () => {
+    const importedUsers: ImportUser[] = [
+        {
+            name:"Jamie",
+            password:"pass",
+            role:"BDSS",
+            valid:false,
+            warnings:[]
+        },
+        {
+            name:"Rob",
+            password:"pass2",
+            role:"DST",
+            valid:false,
+            warnings:[]
+        },
+        {
+            name:"Rich",
+            password:"pass",
+            role:"BDSS",
+            valid:false,
+            warnings:[]
+        }
+        ];
 
     const roles: getRolesListResponse = [
         true,
@@ -34,42 +61,25 @@ describe("Upload summary tests", () => {
         }
     ]];
 
+    const existingUsers: getUsersListResponse = [
+        true,
+        []
+    ];
+
     beforeEach(() => {
         getAllRolesMock.mockImplementation(() => Promise.resolve(roles));
+        getAllUsersMock.mockImplementation(() => Promise.resolve(existingUsers));
       });
 
-    it("Upload summary pages for three valid users matches Snapshot", async () => {
+    it("Upload summary pages for valid imported users matches Snapshot", async () => {
         //arrange
-        const userList: ImportUser[] = [
-            {
-                name:"Jamie",
-                password:"pass",
-                role:"BDSS",
-                valid:false,
-                warnings:[]
-            },
-            {
-                name:"Rob",
-                password:"pass2",
-                role:"DST",
-                valid:false,
-                warnings:[]
-            },
-            {
-                name:"Rich",
-                password:"pass",
-                role:"BDSS",
-                valid:false,
-                warnings:[]
-            }
-            ];
 
         // act
         await act(async () => {
             const history = createMemoryHistory();
             view = render(
                 <Router history={history}>
-                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {return;}}/>
+                    <UsersToUploadSummary usersToImport={importedUsers} uploadUsers={() => {return;}}/>
                 </Router>
             );
         });
@@ -81,39 +91,15 @@ describe("Upload summary tests", () => {
 
     });
 
-    it("Upload summary pages for three valid users displays correct summary", async () => {
+    it("Upload summary pages for valid imported users displays correct summary", async () => {
         //arrange
-        const userList: ImportUser[] = [
-            {
-                name:"Jamie",
-                password:"pass",
-                role:"BDSS",
-                valid:false,
-                warnings:[]
-            },
-            {
-                name:"Rob",
-                password:"pass2",
-                role:"DST",
-                valid:false,
-                warnings:[]
-            },
-            {
-                name:"Rich",
-                password:"pass",
-                role:"BDSS",
-                valid:false,
-                warnings:[]
-            }
-            ];
 
-        // act
         // act
         await act(async () => {
             const history = createMemoryHistory();
             view = render(
                 <Router history={history}>
-                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {return;}}/>
+                    <UsersToUploadSummary usersToImport={importedUsers} uploadUsers={() => {return;}}/>
                 </Router>
             );
         });
@@ -140,7 +126,7 @@ describe("Upload summary tests", () => {
 
     it("Upload summary pages for two valid and one invalid users matches Snapshot", async () => {
         //arrange
-        const userList: ImportUser[] = [
+        const invalidImportedUsers: ImportUser[] = [
             {
                 name:"Jamie",
                 password:"pass",
@@ -169,7 +155,7 @@ describe("Upload summary tests", () => {
             const history = createMemoryHistory();
             view = render(
                 <Router history={history}>
-                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {return;}}/>
+                    <UsersToUploadSummary usersToImport={invalidImportedUsers} uploadUsers={() => {return;}}/>
                 </Router>
             );
         });
@@ -182,7 +168,7 @@ describe("Upload summary tests", () => {
 
     it("Upload summary pages for two valid and one invalid users displays correct summary", async () => {
         //arrange
-        const userList: ImportUser[] = [
+        const invalidImportedUsers: ImportUser[] = [
             {
                 name:"Jamie",
                 password:"pass",
@@ -211,7 +197,7 @@ describe("Upload summary tests", () => {
             const history = createMemoryHistory();
             view = render(
                 <Router history={history}>
-                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {return;}}/>
+                    <UsersToUploadSummary usersToImport={invalidImportedUsers} uploadUsers={() => {return;}}/>
                 </Router>
             );
         });
@@ -236,38 +222,56 @@ describe("Upload summary tests", () => {
         expect(user3Summary).toHaveTextContent("Valid User");
     });
 
-    it("Upload summary pages for two users with the same name matches Snapshot", async () => {
+    it("Upload summary pages for an imported users that already exist matches Snapshot", async () => {
         //arrange
-        const userList: ImportUser[] = [
+        const importedUsersIncludingExisting: ImportUser[] = [
             {
-                name:"Jamie",
+                name:"Jamie", // user already exists
                 password:"pass",
                 role:"BDSS",
                 valid:false,
                 warnings:[]
             },
             {
-                name:"Rich",
-                password:"pass",
-                role:"BDSS",
+                name:"Rob",
+                password:"pass2",
+                role:"DST",
                 valid:false,
                 warnings:[]
             },
             {
-                name:"Jamie",
-                password:"pass",
+                name:"Rich", // user already exists
+                password:"pass3",
                 role:"BDSS",
                 valid:false,
                 warnings:[]
             }
             ];
 
+        const matchingExistingUsers: getUsersListResponse = [
+            true,
+            [{
+                name:"Jamie",
+                role:"BDSS",
+                serverParks:[],
+                defaultServerPark:""
+            },
+            {
+                name:"Rich",
+                role:"BDSS",
+                serverParks:[],
+                defaultServerPark:""
+            }]
+        ];
+
+        getAllUsersMock.mockImplementation(() => Promise.resolve(matchingExistingUsers));
+
         // act
         await act(async () => {
             const history = createMemoryHistory();
             view = render(
                 <Router history={history}>
-                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {return;}}/>
+                    <UsersToUploadSummary usersToImport={importedUsersIncludingExisting} uploadUsers={() => {return;}}/>
                 </Router>
             );
         });
@@ -280,36 +284,54 @@ describe("Upload summary tests", () => {
 
     it("Upload summary pages for two users with the same name displays correct summary", async () => {
         //arrange
-        const userList: ImportUser[] = [
+        const importedUsersIncludingExisting: ImportUser[] = [
             {
-                name:"Jamie",
+                name:"Jamie", // user already exists
                 password:"pass",
                 role:"BDSS",
                 valid:false,
                 warnings:[]
             },
             {
-                name:"Rich",
-                password:"pass",
-                role:"BDSS",
+                name:"Rob",
+                password:"pass2",
+                role:"DST",
                 valid:false,
                 warnings:[]
             },
             {
-                name:"Jamie",
-                password:"pass",
+                name:"Rich", // user already exists
+                password:"pass3",
                 role:"BDSS",
                 valid:false,
                 warnings:[]
             }
             ];
 
+        const matchingExistingUsers: getUsersListResponse = [
+            true,
+            [{
+                name:"Jamie",
+                role:"BDSS",
+                serverParks:[],
+                defaultServerPark:""
+            },
+            {
+                name:"Rich",
+                role:"BDSS",
+                serverParks:[],
+                defaultServerPark:""
+            }]
+        ];
+
+        getAllUsersMock.mockImplementation(() => Promise.resolve(matchingExistingUsers));
+
         // act
         await act(async () => {
             const history = createMemoryHistory();
             view = render(
                 <Router history={history}>
-                    <UsersToUploadSummary usersToImport={userList} uploadUsers={() => {return;}}/>
+                    <UsersToUploadSummary usersToImport={importedUsersIncludingExisting} uploadUsers={() => {return;}}/>
                 </Router>
             );
         });
@@ -321,16 +343,16 @@ describe("Upload summary tests", () => {
         const user1Summary = view.getByTestId("user-table-row-0");
         expect(user1Summary).toHaveTextContent("Jamie");
         expect(user1Summary).toHaveTextContent("BDSS");
-        expect(user1Summary).toHaveTextContent("User exists multiple times");
+        expect(user1Summary).toHaveTextContent("User already exists");
 
         const user2Summary = view.getByTestId("user-table-row-1");
-        expect(user2Summary).toHaveTextContent("Jamie");
+        expect(user2Summary).toHaveTextContent("Rich");
         expect(user2Summary).toHaveTextContent("BDSS");
-        expect(user2Summary).toHaveTextContent("User exists multiple times");
+        expect(user2Summary).toHaveTextContent("User already exists");
 
         const user3Summary = view.getByTestId("user-table-row-2");
-        expect(user3Summary).toHaveTextContent("Rich");
-        expect(user3Summary).toHaveTextContent("BDSS");
+        expect(user3Summary).toHaveTextContent("Rob");
+        expect(user3Summary).toHaveTextContent("DST");
         expect(user3Summary).toHaveTextContent("Valid User");
 
     });

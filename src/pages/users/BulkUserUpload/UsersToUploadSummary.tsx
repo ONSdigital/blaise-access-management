@@ -3,8 +3,7 @@ import {ErrorBoundary, ONSPanel} from "blaise-design-system-react-components";
 import {ImportUser} from "../../../../Interfaces";
 import Confirmation from "./Confirmation";
 import converter from "number-to-words";
-import { getAllRoles } from "../../../utilities/http";
-import { validateUsers } from "../../../utilities/validation/userValidation";
+import { validateImportedUsers } from "../../../utilities/validation/userValidation";
 
 interface Props {
     usersToImport: ImportUser[]
@@ -20,13 +19,9 @@ function UsersToUploadSummary({usersToImport, uploadUsers}: Props): ReactElement
         setupUserList().then(() => {return;});
     }, []);
 
-    async function  setupUserList() {
+    async function setupUserList() {
         setListError("Loading ...");
-
-        const [success, roleList] = await getAllRoles();
-        if (success) {
-            validateUsers(usersToImport, roleList);
-        }
+        await validateImportedUsers(usersToImport);
 
         let noValid = 0;
         usersToImport.map((user: ImportUser) => {

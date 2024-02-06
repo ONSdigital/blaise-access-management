@@ -1,541 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Upload summary tests Upload summary pages for three valid users matches Snapshot 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <h1
-        class="ons-u-mb-l"
-      >
-        Bulk upload 
-        <em>
-          three
-        </em>
-         user
-        s
-        ?
-      </h1>
-      <div
-        class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
-        data-testid="summary-panel"
-      >
-        <div
-          class="ons-panel__body "
-        >
-          <p>
-            3
-             of 
-            3
-             users are valid and will be uploaded. 
-            <em>
-              Invalid users will not be uploaded.
-            </em>
-             You can review any issues in the table below.
-          </p>
-        </div>
-      </div>
-      <form
-        class="ons-u-mt-s"
-      >
-        <fieldset
-          class="ons-fieldset"
-        >
-          <legend
-            class="ons-fieldset__legend"
-          />
-          <div
-            class="ons-radios__items"
-          >
-            <p
-              class="ons-radios__item"
-            >
-              <span
-                class="ons-radio"
-              >
-                <input
-                  aria-label="Yes"
-                  class="ons-radio__input ons-js-radio "
-                  id="confirm-upload"
-                  name="confirm-upload"
-                  type="radio"
-                  value="True"
-                />
-                <label
-                  class="ons-radio__label "
-                  for="confirm-upload"
-                >
-                  Yes, upload 
-                  three
-                   valid user
-                  s
-                </label>
-              </span>
-            </p>
-            <br />
-            <p
-              class="ons-radios__item"
-            >
-              <span
-                class="ons-radio"
-              >
-                <input
-                  aria-label="No"
-                  class="ons-radio__input ons-js-radio "
-                  id="cancel-upload"
-                  name="confirm-upload"
-                  type="radio"
-                  value="False"
-                />
-                <label
-                  class="ons-radio__label "
-                  for="cancel-upload"
-                >
-                  No, do not upload any users
-                </label>
-              </span>
-            </p>
-          </div>
-        </fieldset>
-        <br />
-        <button
-          class="ons-btn "
-          data-testid="button"
-          id="confirm-continue"
-          type="button"
-        >
-          <span
-            class="ons-btn__inner"
-          >
-            Continue
-          </span>
-        </button>
-        <button
-          class="ons-btn  ons-btn--secondary"
-          data-testid="button"
-          id="cancel-overwrite"
-          type="button"
-        >
-          <span
-            class="ons-btn__inner"
-          >
-            Cancel
-          </span>
-        </button>
-      </form>
-      <h2
-        class="ons-u-mt-xl"
-      >
-        Users to upload
-      </h2>
-      <table
-        class="ons-table"
-        id="batch-table"
-      >
-        <thead
-          class="ons-table__head ons-u-mt-m"
-        >
-          <tr
-            class="ons-table__row"
-          >
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Username
-              </span>
-            </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Role
-              </span>
-            </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                User validity
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          class="ons-table__body"
-        >
-          <tr
-            class="ons-table__row"
-            data-testid="user-table-row-0"
-          >
-            <td
-              class="ons-table__cell "
-            >
-              Jamie
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              BDSS
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              <span
-                class="ons-status ons-status--success"
-              >
-                Valid User
-              </span>
-            </td>
-          </tr>
-          <tr
-            class="ons-table__row"
-            data-testid="user-table-row-1"
-          >
-            <td
-              class="ons-table__cell "
-            >
-              Rob
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              DST
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              <span
-                class="ons-status ons-status--success"
-              >
-                Valid User
-              </span>
-            </td>
-          </tr>
-          <tr
-            class="ons-table__row"
-            data-testid="user-table-row-2"
-          >
-            <td
-              class="ons-table__cell "
-            >
-              Rich
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              BDSS
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              <span
-                class="ons-status ons-status--success"
-              >
-                Valid User
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </body>,
-  "container": <div>
-    <h1
-      class="ons-u-mb-l"
-    >
-      Bulk upload 
-      <em>
-        three
-      </em>
-       user
-      s
-      ?
-    </h1>
-    <div
-      class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
-      data-testid="summary-panel"
-    >
-      <div
-        class="ons-panel__body "
-      >
-        <p>
-          3
-           of 
-          3
-           users are valid and will be uploaded. 
-          <em>
-            Invalid users will not be uploaded.
-          </em>
-           You can review any issues in the table below.
-        </p>
-      </div>
-    </div>
-    <form
-      class="ons-u-mt-s"
-    >
-      <fieldset
-        class="ons-fieldset"
-      >
-        <legend
-          class="ons-fieldset__legend"
-        />
-        <div
-          class="ons-radios__items"
-        >
-          <p
-            class="ons-radios__item"
-          >
-            <span
-              class="ons-radio"
-            >
-              <input
-                aria-label="Yes"
-                class="ons-radio__input ons-js-radio "
-                id="confirm-upload"
-                name="confirm-upload"
-                type="radio"
-                value="True"
-              />
-              <label
-                class="ons-radio__label "
-                for="confirm-upload"
-              >
-                Yes, upload 
-                three
-                 valid user
-                s
-              </label>
-            </span>
-          </p>
-          <br />
-          <p
-            class="ons-radios__item"
-          >
-            <span
-              class="ons-radio"
-            >
-              <input
-                aria-label="No"
-                class="ons-radio__input ons-js-radio "
-                id="cancel-upload"
-                name="confirm-upload"
-                type="radio"
-                value="False"
-              />
-              <label
-                class="ons-radio__label "
-                for="cancel-upload"
-              >
-                No, do not upload any users
-              </label>
-            </span>
-          </p>
-        </div>
-      </fieldset>
-      <br />
-      <button
-        class="ons-btn "
-        data-testid="button"
-        id="confirm-continue"
-        type="button"
-      >
-        <span
-          class="ons-btn__inner"
-        >
-          Continue
-        </span>
-      </button>
-      <button
-        class="ons-btn  ons-btn--secondary"
-        data-testid="button"
-        id="cancel-overwrite"
-        type="button"
-      >
-        <span
-          class="ons-btn__inner"
-        >
-          Cancel
-        </span>
-      </button>
-    </form>
-    <h2
-      class="ons-u-mt-xl"
-    >
-      Users to upload
-    </h2>
-    <table
-      class="ons-table"
-      id="batch-table"
-    >
-      <thead
-        class="ons-table__head ons-u-mt-m"
-      >
-        <tr
-          class="ons-table__row"
-        >
-          <th
-            class="ons-table__header "
-            scope="col"
-          >
-            <span>
-              Username
-            </span>
-          </th>
-          <th
-            class="ons-table__header "
-            scope="col"
-          >
-            <span>
-              Role
-            </span>
-          </th>
-          <th
-            class="ons-table__header "
-            scope="col"
-          >
-            <span>
-              User validity
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody
-        class="ons-table__body"
-      >
-        <tr
-          class="ons-table__row"
-          data-testid="user-table-row-0"
-        >
-          <td
-            class="ons-table__cell "
-          >
-            Jamie
-          </td>
-          <td
-            class="ons-table__cell "
-          >
-            BDSS
-          </td>
-          <td
-            class="ons-table__cell "
-          >
-            <span
-              class="ons-status ons-status--success"
-            >
-              Valid User
-            </span>
-          </td>
-        </tr>
-        <tr
-          class="ons-table__row"
-          data-testid="user-table-row-1"
-        >
-          <td
-            class="ons-table__cell "
-          >
-            Rob
-          </td>
-          <td
-            class="ons-table__cell "
-          >
-            DST
-          </td>
-          <td
-            class="ons-table__cell "
-          >
-            <span
-              class="ons-status ons-status--success"
-            >
-              Valid User
-            </span>
-          </td>
-        </tr>
-        <tr
-          class="ons-table__row"
-          data-testid="user-table-row-2"
-        >
-          <td
-            class="ons-table__cell "
-          >
-            Rich
-          </td>
-          <td
-            class="ons-table__cell "
-          >
-            BDSS
-          </td>
-          <td
-            class="ons-table__cell "
-          >
-            <span
-              class="ons-status ons-status--success"
-            >
-              Valid User
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
-`;
-
-exports[`Upload summary tests Upload summary pages for two users with the same name matches Snapshot 1`] = `
+exports[`Upload summary tests Upload summary pages for an imported users that already exist matches Snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
@@ -720,7 +185,7 @@ Object {
               <span
                 class="ons-status ons-status--error"
               >
-                User exists multiple times. 
+                User already exists. 
               </span>
             </td>
           </tr>
@@ -731,7 +196,7 @@ Object {
             <td
               class="ons-table__cell "
             >
-              Jamie
+              Rich
             </td>
             <td
               class="ons-table__cell "
@@ -744,7 +209,7 @@ Object {
               <span
                 class="ons-status ons-status--error"
               >
-                User exists multiple times. 
+                User already exists. 
               </span>
             </td>
           </tr>
@@ -755,12 +220,12 @@ Object {
             <td
               class="ons-table__cell "
             >
-              Rich
+              Rob
             </td>
             <td
               class="ons-table__cell "
             >
-              BDSS
+              DST
             </td>
             <td
               class="ons-table__cell "
@@ -957,7 +422,7 @@ Object {
             <span
               class="ons-status ons-status--error"
             >
-              User exists multiple times. 
+              User already exists. 
             </span>
           </td>
         </tr>
@@ -968,7 +433,7 @@ Object {
           <td
             class="ons-table__cell "
           >
-            Jamie
+            Rich
           </td>
           <td
             class="ons-table__cell "
@@ -981,7 +446,7 @@ Object {
             <span
               class="ons-status ons-status--error"
             >
-              User exists multiple times. 
+              User already exists. 
             </span>
           </td>
         </tr>
@@ -992,12 +457,12 @@ Object {
           <td
             class="ons-table__cell "
           >
-            Rich
+            Rob
           </td>
           <td
             class="ons-table__cell "
           >
-            BDSS
+            DST
           </td>
           <td
             class="ons-table__cell "
@@ -1509,6 +974,541 @@ Object {
             class="ons-table__cell "
           >
             BDSS
+          </td>
+          <td
+            class="ons-table__cell "
+          >
+            <span
+              class="ons-status ons-status--success"
+            >
+              Valid User
+            </span>
+          </td>
+        </tr>
+        <tr
+          class="ons-table__row"
+          data-testid="user-table-row-2"
+        >
+          <td
+            class="ons-table__cell "
+          >
+            Rich
+          </td>
+          <td
+            class="ons-table__cell "
+          >
+            BDSS
+          </td>
+          <td
+            class="ons-table__cell "
+          >
+            <span
+              class="ons-status ons-status--success"
+            >
+              Valid User
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Upload summary tests Upload summary pages for valid imported users matches Snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <h1
+        class="ons-u-mb-l"
+      >
+        Bulk upload 
+        <em>
+          three
+        </em>
+         user
+        s
+        ?
+      </h1>
+      <div
+        class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
+        data-testid="summary-panel"
+      >
+        <div
+          class="ons-panel__body "
+        >
+          <p>
+            3
+             of 
+            3
+             users are valid and will be uploaded. 
+            <em>
+              Invalid users will not be uploaded.
+            </em>
+             You can review any issues in the table below.
+          </p>
+        </div>
+      </div>
+      <form
+        class="ons-u-mt-s"
+      >
+        <fieldset
+          class="ons-fieldset"
+        >
+          <legend
+            class="ons-fieldset__legend"
+          />
+          <div
+            class="ons-radios__items"
+          >
+            <p
+              class="ons-radios__item"
+            >
+              <span
+                class="ons-radio"
+              >
+                <input
+                  aria-label="Yes"
+                  class="ons-radio__input ons-js-radio "
+                  id="confirm-upload"
+                  name="confirm-upload"
+                  type="radio"
+                  value="True"
+                />
+                <label
+                  class="ons-radio__label "
+                  for="confirm-upload"
+                >
+                  Yes, upload 
+                  three
+                   valid user
+                  s
+                </label>
+              </span>
+            </p>
+            <br />
+            <p
+              class="ons-radios__item"
+            >
+              <span
+                class="ons-radio"
+              >
+                <input
+                  aria-label="No"
+                  class="ons-radio__input ons-js-radio "
+                  id="cancel-upload"
+                  name="confirm-upload"
+                  type="radio"
+                  value="False"
+                />
+                <label
+                  class="ons-radio__label "
+                  for="cancel-upload"
+                >
+                  No, do not upload any users
+                </label>
+              </span>
+            </p>
+          </div>
+        </fieldset>
+        <br />
+        <button
+          class="ons-btn "
+          data-testid="button"
+          id="confirm-continue"
+          type="button"
+        >
+          <span
+            class="ons-btn__inner"
+          >
+            Continue
+          </span>
+        </button>
+        <button
+          class="ons-btn  ons-btn--secondary"
+          data-testid="button"
+          id="cancel-overwrite"
+          type="button"
+        >
+          <span
+            class="ons-btn__inner"
+          >
+            Cancel
+          </span>
+        </button>
+      </form>
+      <h2
+        class="ons-u-mt-xl"
+      >
+        Users to upload
+      </h2>
+      <table
+        class="ons-table"
+        id="batch-table"
+      >
+        <thead
+          class="ons-table__head ons-u-mt-m"
+        >
+          <tr
+            class="ons-table__row"
+          >
+            <th
+              class="ons-table__header "
+              scope="col"
+            >
+              <span>
+                Username
+              </span>
+            </th>
+            <th
+              class="ons-table__header "
+              scope="col"
+            >
+              <span>
+                Role
+              </span>
+            </th>
+            <th
+              class="ons-table__header "
+              scope="col"
+            >
+              <span>
+                User validity
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="ons-table__body"
+        >
+          <tr
+            class="ons-table__row"
+            data-testid="user-table-row-0"
+          >
+            <td
+              class="ons-table__cell "
+            >
+              Jamie
+            </td>
+            <td
+              class="ons-table__cell "
+            >
+              BDSS
+            </td>
+            <td
+              class="ons-table__cell "
+            >
+              <span
+                class="ons-status ons-status--success"
+              >
+                Valid User
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="ons-table__row"
+            data-testid="user-table-row-1"
+          >
+            <td
+              class="ons-table__cell "
+            >
+              Rob
+            </td>
+            <td
+              class="ons-table__cell "
+            >
+              DST
+            </td>
+            <td
+              class="ons-table__cell "
+            >
+              <span
+                class="ons-status ons-status--success"
+              >
+                Valid User
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="ons-table__row"
+            data-testid="user-table-row-2"
+          >
+            <td
+              class="ons-table__cell "
+            >
+              Rich
+            </td>
+            <td
+              class="ons-table__cell "
+            >
+              BDSS
+            </td>
+            <td
+              class="ons-table__cell "
+            >
+              <span
+                class="ons-status ons-status--success"
+              >
+                Valid User
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>,
+  "container": <div>
+    <h1
+      class="ons-u-mb-l"
+    >
+      Bulk upload 
+      <em>
+        three
+      </em>
+       user
+      s
+      ?
+    </h1>
+    <div
+      class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
+      data-testid="summary-panel"
+    >
+      <div
+        class="ons-panel__body "
+      >
+        <p>
+          3
+           of 
+          3
+           users are valid and will be uploaded. 
+          <em>
+            Invalid users will not be uploaded.
+          </em>
+           You can review any issues in the table below.
+        </p>
+      </div>
+    </div>
+    <form
+      class="ons-u-mt-s"
+    >
+      <fieldset
+        class="ons-fieldset"
+      >
+        <legend
+          class="ons-fieldset__legend"
+        />
+        <div
+          class="ons-radios__items"
+        >
+          <p
+            class="ons-radios__item"
+          >
+            <span
+              class="ons-radio"
+            >
+              <input
+                aria-label="Yes"
+                class="ons-radio__input ons-js-radio "
+                id="confirm-upload"
+                name="confirm-upload"
+                type="radio"
+                value="True"
+              />
+              <label
+                class="ons-radio__label "
+                for="confirm-upload"
+              >
+                Yes, upload 
+                three
+                 valid user
+                s
+              </label>
+            </span>
+          </p>
+          <br />
+          <p
+            class="ons-radios__item"
+          >
+            <span
+              class="ons-radio"
+            >
+              <input
+                aria-label="No"
+                class="ons-radio__input ons-js-radio "
+                id="cancel-upload"
+                name="confirm-upload"
+                type="radio"
+                value="False"
+              />
+              <label
+                class="ons-radio__label "
+                for="cancel-upload"
+              >
+                No, do not upload any users
+              </label>
+            </span>
+          </p>
+        </div>
+      </fieldset>
+      <br />
+      <button
+        class="ons-btn "
+        data-testid="button"
+        id="confirm-continue"
+        type="button"
+      >
+        <span
+          class="ons-btn__inner"
+        >
+          Continue
+        </span>
+      </button>
+      <button
+        class="ons-btn  ons-btn--secondary"
+        data-testid="button"
+        id="cancel-overwrite"
+        type="button"
+      >
+        <span
+          class="ons-btn__inner"
+        >
+          Cancel
+        </span>
+      </button>
+    </form>
+    <h2
+      class="ons-u-mt-xl"
+    >
+      Users to upload
+    </h2>
+    <table
+      class="ons-table"
+      id="batch-table"
+    >
+      <thead
+        class="ons-table__head ons-u-mt-m"
+      >
+        <tr
+          class="ons-table__row"
+        >
+          <th
+            class="ons-table__header "
+            scope="col"
+          >
+            <span>
+              Username
+            </span>
+          </th>
+          <th
+            class="ons-table__header "
+            scope="col"
+          >
+            <span>
+              Role
+            </span>
+          </th>
+          <th
+            class="ons-table__header "
+            scope="col"
+          >
+            <span>
+              User validity
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="ons-table__body"
+      >
+        <tr
+          class="ons-table__row"
+          data-testid="user-table-row-0"
+        >
+          <td
+            class="ons-table__cell "
+          >
+            Jamie
+          </td>
+          <td
+            class="ons-table__cell "
+          >
+            BDSS
+          </td>
+          <td
+            class="ons-table__cell "
+          >
+            <span
+              class="ons-status ons-status--success"
+            >
+              Valid User
+            </span>
+          </td>
+        </tr>
+        <tr
+          class="ons-table__row"
+          data-testid="user-table-row-1"
+        >
+          <td
+            class="ons-table__cell "
+          >
+            Rob
+          </td>
+          <td
+            class="ons-table__cell "
+          >
+            DST
           </td>
           <td
             class="ons-table__cell "

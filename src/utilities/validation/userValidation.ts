@@ -1,19 +1,43 @@
-import { UserRole } from "blaise-api-node-client";
+import { User, UserRole } from "blaise-api-node-client";
 import { ImportUser } from "../../../Interfaces";
+import { getAllRoles, getAllUsers } from "../http";
 
-function validateUsers(users: ImportUser[], validRoles: UserRole[]): void {
+async function getRoles(): Promise<UserRole[]> {
+    const [success, roles] = await getAllRoles();
+    if (success) {
+        return roles;
+    }
+
+    return [];
+}
+
+async function getExistingUsers(): Promise<User[]> {
+    const [success, users] = await getAllUsers();
+    if (success) {
+        return users;
+    }
+
+    return [];
+}
+
+async function validateImportedUsers(users: ImportUser[]): Promise<void> {
+    const validRoles = await getRoles();
+    const existingUsers = await getExistingUsers();
+
     users.map((user) => {
-        validateUser(user, validRoles);
-        if (users.filter((u) => u.name===user.name).length > 1) {
-            user.valid = false;
-            user.warnings.push("User exists multiple times");
-        }
+        validateUser(user, validRoles, existingUsers);
+        console.debug(user);
     });
 }
 
-function validateUser(user: ImportUser, validRoles: UserRole[]): void  {
+function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: User[]): void  {
     user.valid = true;
     user.warnings = [];
+
+    if(existingUsers.find(existingUser => existingUser.name===user.name)) {
+        user.valid = false;
+        user.warnings.push("User already exists");
+    }
 
     if (user.name === undefined || user.name === null) {
         user.valid = false;
@@ -40,4 +64,4 @@ function validateUser(user: ImportUser, validRoles: UserRole[]): void  {
     }
 }
 
-export { validateUsers, validateUser };
+export { validateImportedUsers, validateUser };
