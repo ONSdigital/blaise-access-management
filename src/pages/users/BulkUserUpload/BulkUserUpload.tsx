@@ -63,7 +63,7 @@ function BulkUserUpload(): ReactElement {
             case Pages.Upload:
                 return <SelectFile setUsersToUpload={setUsersToUpload} movePageForward={MovePageToSummary} />;
             case Pages.ToUploadSummary:
-                return <UsersToUploadSummary statusDescriptionList={usersToUpload} uploadUsers={UploadUsers} />;
+                return <UsersToUploadSummary usersToImport={usersToUpload} uploadUsers={UploadUsers} />;
             case Pages.InProgress:
                 return <UsersUploadInProgress />;
             case Pages.UploadedSummary:

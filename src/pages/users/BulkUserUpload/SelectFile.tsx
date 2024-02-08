@@ -1,9 +1,7 @@
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useState} from "react";
 import {Collapsible, ONSButton} from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
 import {ImportUser} from "../../../../Interfaces";
-import {UserRole} from "blaise-api-node-client";
-import {getAllRoles} from "../../../utilities/http";
 
 interface Props {
     setUsersToUpload: (users: ImportUser[]) => void;
@@ -14,61 +12,12 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
 
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [uploadData, setUploadData] = useState<ImportUser[]>([]);
-    const [roles, setRoles] = useState<UserRole[]>([]);
 
-    useEffect(() => {
-        getRolesList().then(() => {return;});
-    }, []);
-
-    async function getRolesList() {
-        setRoles([]);
-
-        const [success, roleList] = await getAllRoles();
-        if (!success) {
-            return;
-        }
-        setRoles(roleList);
-    }
-
-    function validateUser(user: ImportUser) {
-        user.valid = true;
-        user.warnings = [];
-
-        if (user.name === undefined || user.name === null) {
-            user.valid = false;
-            user.warnings.push("Invalid name");
-        }
-
-        if (user.password === undefined || user.password === null) {
-            user.valid = false;
-            user.warnings.push("Invalid password");
-        }
-
-        if (user.role === undefined || user.role === null) {
-            user.warnings.push("Invalid role");
-            user.valid = false;
-        } else {
-            const isValidRole = roles.some(function (el) {
-                return el.name === user.role;
-            });
-
-            if (!isValidRole) {
-                user.warnings.push("Not a valid role");
-                user.valid = false;
-            }
-        }
-    }
-
-    function validateUpload() {
+    function uploadUsers() {
         setButtonLoading(true);
-
-        uploadData.map((row) => {
-            validateUser(row);
-        });
-
+        setUsersToUpload(uploadData);
         setButtonLoading(false);
 
-        setUsersToUpload(uploadData);
         movePageForward();
     }
 
@@ -94,7 +43,7 @@ function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
             />
 
             <br />
-            <ONSButton label={"Upload"} primary={true} onClick={() => validateUpload()} loading={buttonLoading} />
+            <ONSButton label={"Upload"} primary={true} onClick={() => uploadUsers()} loading={buttonLoading} />
 
             <Collapsible title="What format should the bulk upload file be?">
                 <>
