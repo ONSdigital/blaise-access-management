@@ -12,9 +12,10 @@ env_variables:
   SESSION_SECRET: _SESSION_SECRET
   ROLES: _ROLES
 
-basic_scaling:
-  idle_timeout: 60s
-  max_instances: 10
+automatic_scaling:
+  min_instances: _MAX_INSTANCES
+  max_instances: _MAX_INSTANCES
+  target_cpu_utilization: _TARGET_CPU_UTILIZATION
 
 handlers:
 - url: /users\.csv
