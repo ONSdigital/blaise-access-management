@@ -13,7 +13,7 @@ env_variables:
   ROLES: _ROLES
 
 automatic_scaling:
-  min_instances: _MAX_INSTANCES
+  min_instances: _MIN_INSTANCES
   max_instances: _MAX_INSTANCES
   target_cpu_utilization: _TARGET_CPU_UTILIZATION
 
