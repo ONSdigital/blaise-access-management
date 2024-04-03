@@ -4,7 +4,7 @@ import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { deleteUser } from "../../utilities/http";
 import { ReturnPanel, UserRouteParams } from "../../../interfaces/usersPage";
 import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import Breadcrumbs from "../../components/breadcrumbs";
 
 function DeleteUser(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);

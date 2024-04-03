@@ -4,7 +4,7 @@ import { ONSButton, ONSPanel, ONSPasswordInput } from "blaise-design-system-reac
 import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
 import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import { UserRouteParams } from "../../../interfaces/usersPage";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import Breadcrumbs from "../../components/breadcrumbs";
 
 function ChangePassword(): ReactElement {
     const { user }: UserRouteParams = useParams() as unknown as UserRouteParams;

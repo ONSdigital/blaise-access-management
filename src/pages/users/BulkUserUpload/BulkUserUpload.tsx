@@ -5,7 +5,7 @@ import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
 import { addNewUser } from "../../../utilities/http";
 import UsersUploadedSummary from "./UsersUploadedSummary";
-import Breadcrumbs from "../../../components/Breadcrumbs";
+import Breadcrumbs from "../../../components/breadcrumbs";
 import UsersUploadInProgress from "./UsersUploadInProgress";
 
 function BulkUserUpload(): ReactElement {
