@@ -1,11 +1,11 @@
-import {cleanup} from "@testing-library/react";
-import {mock_server_request_function, mock_server_request_Return_JSON} from "../../tests/utils";
-import {addNewRole, getAllRoles} from "./roles";
-import {Role} from "../../../Interfaces";
+import { cleanup } from "@testing-library/react";
+import { mock_server_request_function, mock_server_request_Return_JSON } from "../../tests/utils";
+import { addNewRole, getAllRoles } from "./roles";
+import { UserRole } from "blaise-api-node-client";
 
-const roleList: Role[] = [
-    {name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role"},
-    {name: "BDSS", permissions: ["Admin"], description: "Another role"}
+const roleList: UserRole[] = [
+    { name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role" },
+    { name: "BDSS", permissions: ["Admin"], description: "Another role" }
 ];
 
 describe("Function getAllRoles() ", () => {
@@ -44,7 +44,7 @@ describe("Function getAllRoles() ", () => {
     });
 
     it("It should return false with an empty list if request JSON is invalid", async () => {
-        mock_server_request_Return_JSON(200, {name: "NAME"});
+        mock_server_request_Return_JSON(200, { name: "NAME" });
         const [success, roles] = await getAllRoles();
         expect(success).toBeFalsy();
         expect(roles).toEqual([]);

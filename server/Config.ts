@@ -1,16 +1,10 @@
 import crypto from "crypto";
-import {AuthConfig} from "blaise-login-react-server";
 import pino from "pino";
+import { CustomConfig } from "../interfaces/server";
 
-export interface Config extends AuthConfig {
-    BlaiseApiUrl: string
-    ProjectId: string
-    ServerPark: string
-}
-
-export function loadConfigFromEnv(): Config {
-    let {PROJECT_ID, BLAISE_API_URL, SERVER_PARK, SESSION_TIMEOUT} = process.env;
-    const {ROLES, SESSION_SECRET} = process.env;
+export function loadConfigFromEnv(): CustomConfig {
+    let { PROJECT_ID, BLAISE_API_URL, SERVER_PARK, SESSION_TIMEOUT } = process.env;
+    const { ROLES, SESSION_SECRET } = process.env;
     const logger = pino();
 
     if (BLAISE_API_URL === undefined) {

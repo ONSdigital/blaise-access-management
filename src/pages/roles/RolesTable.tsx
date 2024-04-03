@@ -1,12 +1,8 @@
-import {UserRole} from "blaise-api-node-client";
-import React, {ReactElement} from "react";
+import React, { ReactElement } from "react";
+import { RolesTableProps } from "../../../interfaces/RolesPage";
+import { UserRole } from "blaise-api-node-client";
 
-interface RolesTableProps {
-    roles: UserRole[];
-    listError: string;
-}
-
-function RolesTable({roles, listError}: RolesTableProps): ReactElement {
+function RolesTable({ roles, listError }: RolesTableProps): ReactElement {
     return (
         <>
             {
@@ -28,7 +24,7 @@ function RolesTable({roles, listError}: RolesTableProps): ReactElement {
                         </thead>
                         <tbody className="ons-table__body">
                             {
-                                roles.map(({description, name, permissions}: UserRole) => {
+                                roles.map(({ description, name, permissions }: UserRole) => {
                                     return (
                                         <tr className="ons-table__row" key={name} data-testid={"user-table-row"}>
                                             <td className="ons-table__cell ">

@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { FormContext } from "./index";
-import { TextInput, TextInputProps } from "./TextInput";
+import { TextInput } from "./TextInput";
+import { TextInputProps } from "../../interfaces/form";
 
 const propTypes = {
   name: PropTypes.string.isRequired,

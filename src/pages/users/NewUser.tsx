@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
 import { addNewUser, getAllRoles } from "../../utilities/http";
 import { UserRole } from "blaise-api-node-client";
@@ -7,8 +7,9 @@ import { NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
-import Breadcrumbs, { BreadcrumbItem } from "../../Components/Breadcrumbs";
-import { UserForm } from "../../../Interfaces";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { UserForm } from "../../../interfaces";
+import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -48,8 +49,8 @@ function NewUserComponent(): ReactElement {
 
     async function getRoleList() {
         setRoleList([]);
-
-        const [success, roleList] = await getAllRoles();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_success, roleList] = await getAllRoles();
 
         setRole(roleList[0].name);
         setRoleList(roleList);
@@ -63,10 +64,10 @@ function NewUserComponent(): ReactElement {
     return (
         <>
             {
-                redirect && <Redirect to={{
-                    pathname: "/users",
-                    state: { updatedPanel: { visible: true, message: "User " + username + " created", status: "success" } }
-                }} />
+                redirect && <Navigate
+                    to={{ pathname: "/users" }}
+                    state={{ updatedPanel: { visible: true, message: "User " + username + " created", status: "success" } }}
+                />
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
 

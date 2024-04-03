@@ -1,18 +1,15 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {ErrorBoundary, ONSButton, ONSPanel} from "blaise-design-system-react-components";
-import {UploadedUser} from "../../../../Interfaces";
-import {useHistory} from "react-router-dom";
+import React, { ReactElement, useEffect, useState } from "react";
+import { ErrorBoundary, ONSButton, ONSPanel } from "blaise-design-system-react-components";
+import { UploadedUser } from "../../../../interfaces";
+import { useNavigate } from "react-router-dom";
 import converter from "number-to-words";
+import { UsersUploadedSummaryProps } from "../../../../interfaces/usersPage";
 
-interface Props {
-    usersUploaded: UploadedUser[]
-    numberOfValidUsers: number
-}
-
-function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): ReactElement {
-    const [listError, setListError] = useState<string>("Loading ...");
+function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUploadedSummaryProps): ReactElement {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [listError, _setListError] = useState<string>("Loading ...");
     const [numberOfCreatedUsers, setNumberOfCreatedUsers] = useState<number>(0);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         let createdUsers = 0;
@@ -44,7 +41,7 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
                             </thead>
                             <tbody className="ons-table__body">
                             {
-                                usersUploaded.map(({name, created}: UploadedUser, index: number) => {
+                                usersUploaded.map(({ name, created }: UploadedUser, index: number) => {
                                     if (!created) {
                                         return (
                                             <tr className="ons-table__row" key={name + index}
@@ -101,7 +98,7 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
             }
 
             <br/>
-            <ONSButton label={"Return to homepage"} primary={true} onClick={() => history.push("/")}/>
+            <ONSButton label={"Return to homepage"} primary={true} onClick={() => navigate("/")}/>
             {
                 (
                     numberOfCreatedUsers !== numberOfValidUsers && failedToUploadUserTable()

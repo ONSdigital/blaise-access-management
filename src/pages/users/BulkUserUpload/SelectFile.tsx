@@ -1,14 +1,10 @@
-import React, {ReactElement, useState} from "react";
-import {Collapsible, ONSButton} from "blaise-design-system-react-components";
+import React, { ReactElement, useState } from "react";
+import { Collapsible, ONSButton } from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
-import {ImportUser} from "../../../../Interfaces";
+import { ImportUser } from "../../../../interfaces";
+import { SelectFileProps } from "../../../../interfaces/usersPage";
 
-interface Props {
-    setUsersToUpload: (users: ImportUser[]) => void;
-    movePageForward: () => void;
-}
-
-function SelectFile({setUsersToUpload, movePageForward}: Props): ReactElement {
+function SelectFile({ setUsersToUpload, movePageForward }: SelectFileProps): ReactElement {
 
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [uploadData, setUploadData] = useState<ImportUser[]>([]);

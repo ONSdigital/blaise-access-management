@@ -1,4 +1,4 @@
-import {AuthManager} from "blaise-login-react-client";
+import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 
 type HeadersObject = Record<string, string>;
 
@@ -50,4 +50,4 @@ async function requestPromiseJsonList<T>(method: string, url: string, body = nul
   }
 }
 
-export {requestPromiseJson, requestPromiseJsonList};
+export { requestPromiseJson, requestPromiseJsonList };

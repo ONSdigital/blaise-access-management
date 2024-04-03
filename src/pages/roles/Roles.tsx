@@ -1,9 +1,9 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {getAllRoles} from "../../utilities/http";
-import {ONSErrorPanel, ONSLoadingPanel, ONSPanel} from "blaise-design-system-react-components";
-import Breadcrumbs from "../../Components/Breadcrumbs";
+import React, { ReactElement, useEffect, useState } from "react";
+import { getAllRoles } from "../../utilities/http";
+import { ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import RolesTable from "./RolesTable";
-import {UserRole} from "blaise-api-node-client";
+import { UserRole } from "blaise-api-node-client";
 
 function Roles(): ReactElement {
     const [roles, setRoles] = useState<UserRole[]>([]);
@@ -37,7 +37,7 @@ function Roles(): ReactElement {
         <>
             <Breadcrumbs BreadcrumbList={
                 [
-                    {link: "/", title: "Home"}
+                    { link: "/", title: "Home" }
                 ]
             } />
 

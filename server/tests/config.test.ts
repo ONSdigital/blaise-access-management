@@ -1,4 +1,4 @@
-import {loadConfigFromEnv} from "../Config";
+import { loadConfigFromEnv } from "../Config";
 
 describe("Config setup", () => {
     afterEach(() => {

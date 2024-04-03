@@ -1,12 +1,7 @@
-import React, {ReactElement} from "react";
-import {User} from "blaise-api-node-client";
-import {Link} from "react-router-dom";
+import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
 
-interface Props {
-    user: User | undefined;
-}
-
-function Home({user}: Props): ReactElement {
+function Home(): ReactElement {
     return (
         <>
             <main id="main-content" className="ons-page__main ons-u-mt-no">

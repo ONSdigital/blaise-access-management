@@ -1,45 +1,36 @@
 import React, { FormEvent, useState } from "react";
 import { isEmpty } from "lodash";
-import { ContextProviderType, UserForm, ValidatorType } from "../../Interfaces";
-interface Props {
-  initialValues?: { [key: string]: string }
-  onSubmit?: (data: { [key: string]: string }) => void
-  onReset?: () => FormEvent<HTMLFormElement>
-  children: React.ReactNode
-}
+import { ContextProviderType, UserForm, ValidatorType } from "../../interfaces";
+import { CustomFormProps, CustomFormState } from "../../interfaces/form";
 
-interface State {
-  data: { [key: string]: string }
-  validators: { [key: string]: ((val: string, name: string, formData: UserForm) => string[])[] | unknown }
-  errors: { [key: string]: string[] }
-}
-const initState = (props: Props): State => {
+const initState = (props: CustomFormProps): CustomFormState => {
   return {
-    data: {
+      data: {
       ...props.initialValues
-    },
-    validators: {},
-    errors: {}
+      },
+      validators: {},
+      errors: {}
   };
 };
-//export let FormContext: React.Context<Record<string, unknown>>;
+
 const defaultValue: ContextProviderType = {
   errors: {},
   data: {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFieldValue: function (name: string, value: string): void {
     throw new Error("Function not implemented.");
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   registerInput: function ({ name, validators }: ValidatorType): () => void {
     throw new Error("Function not implemented.");
   }
 };
 
 export const FormContext = React.createContext(defaultValue);
-//const { Provider } = (FormContext = React.createContext({}));
 const { Provider } = (FormContext);
 
-const Form = (props: Props) => {
-  const [formState, setFormState] = useState<State>(initState(props));
+const Form = (props: CustomFormProps) => {
+  const [formState, setFormState] = useState<CustomFormState>(initState(props));
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {

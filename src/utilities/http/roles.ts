@@ -1,5 +1,5 @@
-import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
-import {UserRole} from "blaise-api-node-client";
+import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
+import { UserRole } from "blaise-api-node-client";
 
 type getRolesListResponse = [boolean, UserRole[]];
 
@@ -34,4 +34,4 @@ function addNewRole(newRole: UserRole): Promise<boolean> {
     });
 }
 
-export {getAllRoles, addNewRole};
+export { getAllRoles, addNewRole };

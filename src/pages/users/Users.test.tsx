@@ -1,12 +1,11 @@
 import React from "react";
-import {render, waitFor, cleanup, screen} from "@testing-library/react";
+import { render, waitFor, cleanup, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {act} from "react-dom/test-utils";
-import {createMemoryHistory} from "history";
-import {Router} from "react-router";
-import {User} from "blaise-api-node-client";
+import { act } from "react-dom/test-utils";
+import { User } from "blaise-api-node-client";
 import Users from "./Users";
-import {mock_server_request_Return_JSON} from "../../tests/utils";
+import { mock_server_request_Return_JSON } from "../../tests/utils";
+import { BrowserRouter } from "react-router-dom";
 
 const signedInUser: User = {
     defaultServerPark: "gusty",
@@ -16,8 +15,8 @@ const signedInUser: User = {
 };
 
 const userList: User[] = [
-    {defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"]},
-    {defaultServerPark: "gusty", name: "SecondUser", role: "BDSS", serverParks: ["gusty"]}
+    { defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"] },
+    { defaultServerPark: "gusty", name: "SecondUser", role: "BDSS", serverParks: ["gusty"] }
 ];
 
 describe("Manage Users page", () => {
@@ -27,12 +26,7 @@ describe("Manage Users page", () => {
     });
 
     it("view users page matches Snapshot", async () => {
-        const history = createMemoryHistory();
-        const wrapper = render(
-            <Router history={history}>
-                <Users currentUser={signedInUser} />
-            </Router>
-        );
+        const wrapper = render(<Users currentUser={signedInUser} />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);
@@ -45,12 +39,7 @@ describe("Manage Users page", () => {
     });
 
     it("should render correctly", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <Users currentUser={signedInUser}/>
-            </Router>
-        );
+        render(<Users currentUser={signedInUser} />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);
@@ -74,16 +63,11 @@ describe("Manage Users page", () => {
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
-        mock_server_request_Return_JSON(200, {text: "Hello"});
+        mock_server_request_Return_JSON(200, { text: "Hello" });
     });
 
     it("it should render with the error message displayed", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <Users currentUser={signedInUser}/>
-            </Router>
-        );
+        render(<Users currentUser={signedInUser} />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);
@@ -109,12 +93,7 @@ describe("Given the API returns an empty list", () => {
     });
 
     it("it should render with a message to inform the user in the list", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <Users currentUser={signedInUser} />
-            </Router>
-        );
+        render(<Users currentUser={signedInUser} />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);

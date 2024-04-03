@@ -1,16 +1,15 @@
 import React from "react";
-import {render, waitFor, cleanup, screen} from "@testing-library/react";
+import { render, waitFor, cleanup, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {mock_server_request_Return_JSON} from "../../tests/utils";
-import {act} from "react-dom/test-utils";
-import {createMemoryHistory} from "history";
-import {Router} from "react-router";
-import {UserRole} from "blaise-api-node-client";
+import { mock_server_request_Return_JSON } from "../../tests/utils";
+import { act } from "react-dom/test-utils";
+import { UserRole } from "blaise-api-node-client";
 import Roles from "./Roles";
+import { BrowserRouter } from "react-router-dom";
 
 const roleList: UserRole[] = [
-    {name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role"},
-    {name: "BDSS", permissions: ["Admin"], description: "Another role"}
+    { name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role" },
+    { name: "BDSS", permissions: ["Admin"], description: "Another role" }
 ];
 
 describe("Manage Roles page", () => {
@@ -20,12 +19,7 @@ describe("Manage Roles page", () => {
     });
 
     it("view users page matches Snapshot", async () => {
-        const history = createMemoryHistory();
-        const wrapper = render(
-            <Router history={history}>
-                <Roles />
-            </Router>
-        );
+        const wrapper = render(<Roles />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);
@@ -38,12 +32,7 @@ describe("Manage Roles page", () => {
     });
 
     it("should render correctly", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <Roles />
-            </Router>
-        );
+        render(<Roles />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);
@@ -67,16 +56,11 @@ describe("Manage Roles page", () => {
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
-        mock_server_request_Return_JSON(200, {text: "Hello"});
+        mock_server_request_Return_JSON(200, { text: "Hello" });
     });
 
     it("it should render with the error message displayed", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <Roles />
-            </Router>
-        );
+        render(<Roles />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);
@@ -102,12 +86,7 @@ describe("Given the API returns an empty list", () => {
     });
 
     it("it should render with a message to inform the user in the list", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <Roles />
-            </Router>
-        );
+        render(<Roles />, { wrapper: BrowserRouter });
 
         await act(async () => {
             await new Promise(process.nextTick);

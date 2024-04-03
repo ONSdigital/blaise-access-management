@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import axios from "axios";
 import path from "path";
 import ejs from "ejs";
@@ -9,7 +9,7 @@ import BlaiseAPIRouter from "./BlaiseAPI";
 import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import BlaiseApiClient from "blaise-api-node-client";
-import { newLoginHandler, Auth } from "blaise-login-react-server";
+import { newLoginHandler, Auth } from "blaise-login-react/blaise-login-react-server";
 import pino from "pino";
 
 const pinoLogger = pino();
@@ -61,11 +61,11 @@ server.use(
     express.static(path.join(__dirname, `${buildFolder}/static`))
 );
 
-server.get("*", function (req: Request, res: Response) {
+server.get("*", function (_req: Request, res: Response) {
     res.render("index.html", {});
 });
 
-server.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
+server.use(function (err: Error, _req: Request, res: Response) {
     console.error(err.stack);
     res.render("../views/500.html", {});
 });

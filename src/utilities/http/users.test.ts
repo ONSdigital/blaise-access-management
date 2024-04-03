@@ -1,11 +1,11 @@
-import {cleanup} from "@testing-library/react";
-import {mock_server_request_function, mock_server_request_Return_JSON} from "../../tests/utils";
-import {addNewUser, deleteUser, getAllUsers} from "./users";
-import {User} from "blaise-api-node-client";
+import { cleanup } from "@testing-library/react";
+import { mock_server_request_function, mock_server_request_Return_JSON } from "../../tests/utils";
+import { addNewUser, deleteUser, getAllUsers } from "./users";
+import { User } from "blaise-api-node-client";
 
 const userList: User[] = [
-    {defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"]},
-    {defaultServerPark: "gusty", name: "SecondUser", role: "BDSS", serverParks: ["gusty"]}
+    { defaultServerPark: "gusty", name: "TestUser123", role: "DST", serverParks: ["gusty"] },
+    { defaultServerPark: "gusty", name: "SecondUser", role: "BDSS", serverParks: ["gusty"] }
 ];
 
 describe("Function getAllUsers(filename: string) ", () => {
@@ -44,7 +44,7 @@ describe("Function getAllUsers(filename: string) ", () => {
     });
 
     it("It should return false with an empty list if request JSON is invalid", async () => {
-        mock_server_request_Return_JSON(200, {name: "NAME"});
+        mock_server_request_Return_JSON(200, { name: "NAME" });
         const [success, users] = await getAllUsers();
         expect(success).toBeFalsy();
         expect(users).toEqual([]);

@@ -1,16 +1,16 @@
-import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
-import {User, NewUser} from "blaise-api-node-client";
+import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
+import { User, NewUser } from "blaise-api-node-client";
 
 type getUsersListResponse = [boolean, User[]];
 
 async function getAllUsers(): Promise<getUsersListResponse> {
-  try {
-    const url = "/api/users";
-    const [success, data] = await requestPromiseJsonList<User>("GET", url);
-    return [success, data] as getUsersListResponse;
-  } catch (error) {
-    return [false, []] as getUsersListResponse;
-  }
+    try {
+        const url = "/api/users";
+        const [success, data] = await requestPromiseJsonList<User>("GET", url);
+        return [success, data] as getUsersListResponse;
+    } catch (error) {
+        return [false, []] as getUsersListResponse;
+    }
 }
 
 function addNewUser(newUser: NewUser): Promise<boolean> {
@@ -61,4 +61,4 @@ function deleteUser(username: string): Promise<boolean> {
     });
 }
 
-export {getAllUsers, addNewUser, deleteUser};
+export { getAllUsers, addNewUser, deleteUser };

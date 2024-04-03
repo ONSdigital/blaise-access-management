@@ -1,6 +1,6 @@
-import React, {ReactElement, useState} from "react";
-import {useHistory} from "react-router-dom";
-import {ONSButton, ONSPanel} from "blaise-design-system-react-components";
+import React, { ReactElement, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import converter from "number-to-words";
 
 interface Props {
@@ -8,12 +8,12 @@ interface Props {
     uploadUsers: () => void
 }
 
-function Confirmation({validUsers, uploadUsers}: Props): ReactElement {
+function Confirmation({ validUsers, uploadUsers }: Props): ReactElement {
     const [formError, setFormError] = useState<string>("");
     const [confirm, setConfirm] = useState<boolean | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
-    const history = useHistory();
+    const navigate = useNavigate();
 
     async function confirmOption() {
         if (confirm === null) {
@@ -21,7 +21,7 @@ function Confirmation({validUsers, uploadUsers}: Props): ReactElement {
             return;
         }
         if (!confirm) {
-            history.push("/users");
+            navigate("/users");
             return;
         }
 
@@ -65,7 +65,7 @@ function Confirmation({validUsers, uploadUsers}: Props): ReactElement {
                     label={"Cancel"}
                     primary={false}
                     id="cancel-overwrite"
-                    onClick={() => history.push("/users")}/>
+                    onClick={() => navigate("/users")}/>
                 }
             </form>
         </>
