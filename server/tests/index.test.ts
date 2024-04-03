@@ -32,6 +32,6 @@ describe("app engine start", () => {
 
         const response = await request.get("/_ah/start");
 
-        expect(response).toEqual(200);
+        expect(response.statusCode).toEqual(200);
     });
 });
