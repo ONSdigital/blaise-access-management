@@ -16,7 +16,7 @@ const userMockObject: User = {
     role: "Manager",
     serverParks: ["gusty"],
     defaultServerPark: "gusty"
-};4;
+};
 
 const user = userMockObject;
 

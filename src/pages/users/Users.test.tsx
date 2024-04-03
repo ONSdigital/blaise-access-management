@@ -6,6 +6,11 @@ import { User } from "blaise-api-node-client";
 import Users from "./Users";
 import { mock_server_request_Return_JSON } from "../../tests/utils";
 import { BrowserRouter } from "react-router-dom";
+import { Authenticate } from "blaise-login-react/blaise-login-react-client";
+
+jest.mock("blaise-login-react/blaise-login-react-client");
+const { MockAuthenticate } = jest.requireActual("blaise-login-react/blaise-login-react-client");
+Authenticate.prototype.render = MockAuthenticate.prototype.render;
 
 const signedInUser: User = {
     defaultServerPark: "gusty",
@@ -22,6 +27,7 @@ const userList: User[] = [
 describe("Manage Users page", () => {
 
     beforeAll(() => {
+        MockAuthenticate.OverrideReturnValues(signedInUser, true);
         mock_server_request_Return_JSON(200, userList);
     });
 
@@ -63,6 +69,7 @@ describe("Manage Users page", () => {
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
+        MockAuthenticate.OverrideReturnValues(signedInUser, true);
         mock_server_request_Return_JSON(200, { text: "Hello" });
     });
 
@@ -89,6 +96,7 @@ describe("Given the API returns malformed json", () => {
 describe("Given the API returns an empty list", () => {
 
     beforeAll(() => {
+        MockAuthenticate.OverrideReturnValues(signedInUser, true);
         mock_server_request_Return_JSON(200, []);
     });
 

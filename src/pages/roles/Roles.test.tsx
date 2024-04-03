@@ -6,6 +6,11 @@ import { act } from "react-dom/test-utils";
 import { UserRole } from "blaise-api-node-client";
 import Roles from "./Roles";
 import { BrowserRouter } from "react-router-dom";
+import { Authenticate } from "blaise-login-react/blaise-login-react-client";
+
+jest.mock("blaise-login-react/blaise-login-react-client");
+const { MockAuthenticate } = jest.requireActual("blaise-login-react/blaise-login-react-client");
+Authenticate.prototype.render = MockAuthenticate.prototype.render;
 
 const roleList: UserRole[] = [
     { name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role" },
@@ -15,6 +20,7 @@ const roleList: UserRole[] = [
 describe("Manage Roles page", () => {
 
     beforeAll(() => {
+        MockAuthenticate.OverrideReturnValues(null, true);
         mock_server_request_Return_JSON(200, roleList);
     });
 
@@ -56,6 +62,7 @@ describe("Manage Roles page", () => {
 describe("Given the API returns malformed json", () => {
 
     beforeAll(() => {
+        MockAuthenticate.OverrideReturnValues(null, true);
         mock_server_request_Return_JSON(200, { text: "Hello" });
     });
 
@@ -82,6 +89,7 @@ describe("Given the API returns malformed json", () => {
 describe("Given the API returns an empty list", () => {
 
     beforeAll(() => {
+        MockAuthenticate.OverrideReturnValues(null, true);
         mock_server_request_Return_JSON(200, []);
     });
 

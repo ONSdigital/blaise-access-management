@@ -5,7 +5,7 @@ import { ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-compo
 import { getAllUsers } from "../../utilities/http";
 import UsersTable from "./UsersTable";
 import { UsersProps } from "../../../interfaces/usersPage";
-import Breadcrumbs from "../../components/breadcrumbs";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function Users({ currentUser }: UsersProps): ReactElement {
     const [users, setUsers] = useState<User[]>([]);

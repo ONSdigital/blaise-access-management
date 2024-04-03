@@ -9,7 +9,7 @@ import Form from "../../form";
 import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
 import { UserForm } from "../../../interfaces";
 import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
-import Breadcrumbs from "../../components/breadcrumbs";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
