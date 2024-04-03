@@ -22,37 +22,28 @@ function App(): ReactElement {
         if (loggedIn && user) {
             return (
                 <>
-                    {/* <NavigationLinks /> */}
                     <div style={divStyle} className="ons-page__container ons-container">
                         <DefaultErrorBoundary>
                             <Routes>
-                                <Route path={"/users/upload"}>
-                                    <BulkUserUpload />
-                                </Route>
-                                <Route path={"/users/changepassword/:user"}>
-                                    <ChangePassword />
-                                </Route>
-                                <Route path={"/users/delete/:user"}>
-                                    <DeleteUser />
-                                </Route>
-                                <Route path={"/users/new"}>
-                                    <NewUserComponent />
-                                </Route>
-                                <Route path={"/roles"}>
+                                <Route path={"/users/upload"} element={<BulkUserUpload />} />
+                                <Route path={"/users/changepassword/:user"} element={<ChangePassword />} />
+                                <Route path={"/users/delete/:user"} element={<DeleteUser />} />
+                                <Route path={"/users/new"} element={<NewUserComponent />} />
+                                <Route path={"/roles"} element={
                                     <ErrorBoundary errorMessageText={"Unable to load role table correctly."}>
                                         <Roles />
                                     </ErrorBoundary>
-                                </Route>
-                                <Route path="/users">
+                                }/>
+                                <Route path="/users" element={
                                     <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
                                         <Users currentUser={user} />
                                     </ErrorBoundary>
-                                </Route>
-                                <Route path="/">
+                                }/>
+                                <Route path="/" element={
                                     <ErrorBoundary errorMessageText={"Unable to load user table correctly."}>
                                         <Home />
                                     </ErrorBoundary>
-                                </Route>
+                                }/>
                             </Routes>
                         </DefaultErrorBoundary>
                     </div>

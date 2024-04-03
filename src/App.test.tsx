@@ -31,7 +31,6 @@ describe("React homepage", () => {
         await waitFor(() => {
             expect(wrapper).toMatchSnapshot();
         });
-
     });
 
     it("should render correctly", async () => {
