@@ -24,7 +24,7 @@ describe("Test Heath Endpoint", () => {
 describe("app engine start", () => {
     it("should return a 200 status and json message", async () => {
         const response = await request.get("/_ah/start");
-
+        console.debug('DEBUG', response);
         expect(response.statusCode).toEqual(200);
     });
 });
