@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { loadConfigFromEnv } from "../Config";
 
 describe("Config setup", () => {
