@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import app from "../server"; // Link to your server file
 import supertest from "supertest";
 
