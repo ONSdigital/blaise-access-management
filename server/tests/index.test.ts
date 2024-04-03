@@ -23,6 +23,13 @@ describe("Test Heath Endpoint", () => {
 
 describe("app engine start", () => {
     it("should return a 200 status and json message", async () => {
+        process.env = Object.assign({
+            PROJECT_ID: 'mock',
+            BLAISE_API_URL: 'http://mock',
+            SERVER_PARK: 'mock',
+            SESSION_TIMEOUT: '12h',
+        });
+
         const response = await request.get("/_ah/start");
 
         expect(response.statusCode).toEqual(200);
