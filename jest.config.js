@@ -7,5 +7,12 @@ process.env = Object.assign(process.env, {
 module.exports = {
     moduleNameMapper: {
         axios: "axios/dist/node/axios.cjs"
-    }
+    },
+    coveragePathIgnorePatterns: [
+        "/node_modules/"
+    ],
+    testPathIgnorePatterns: [
+        "/resources/"
+    ],
+    testEnvironment: "jsdom"
 };
