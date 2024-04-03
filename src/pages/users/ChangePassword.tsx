@@ -1,10 +1,10 @@
 import React, { ReactElement, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { ONSButton, ONSPanel, ONSPasswordInput } from "blaise-design-system-react-components";
-import Breadcrumbs from "../../components/Breadcrumbs";
 import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
 import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import { UserRouteParams } from "../../../interfaces/usersPage";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function ChangePassword(): ReactElement {
     const { user }: UserRouteParams = useParams() as unknown as UserRouteParams;

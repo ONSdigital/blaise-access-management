@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { User } from "blaise-api-node-client";
 import { ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
 import { getAllUsers } from "../../utilities/http";
-import Breadcrumbs from "../../components/Breadcrumbs";
 import UsersTable from "./UsersTable";
 import { UsersProps } from "../../../interfaces/usersPage";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function Users({ currentUser }: UsersProps): ReactElement {
     const [users, setUsers] = useState<User[]>([]);

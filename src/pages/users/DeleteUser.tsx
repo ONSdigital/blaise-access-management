@@ -2,9 +2,9 @@ import React, { ReactElement, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { deleteUser } from "../../utilities/http";
-import Breadcrumbs from "../../components/Breadcrumbs";
 import { ReturnPanel, UserRouteParams } from "../../../interfaces/usersPage";
 import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function DeleteUser(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);

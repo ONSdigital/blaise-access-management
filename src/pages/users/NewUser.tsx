@@ -7,9 +7,9 @@ import { NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
-import Breadcrumbs from "../../components/Breadcrumbs";
 import { UserForm } from "../../../interfaces";
 import { BreadcrumbItem } from "../../../interfaces/breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
