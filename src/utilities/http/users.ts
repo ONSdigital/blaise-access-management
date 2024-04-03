@@ -18,7 +18,7 @@ function addNewUser(newUser: NewUser): Promise<boolean> {
 
     return new Promise((resolve: (object: boolean) => void) => {
 
-        if (newUser.password === undefined) {
+        if (!newUser.password) {
             resolve(false);
             return;
         }

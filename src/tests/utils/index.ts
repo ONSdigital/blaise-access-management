@@ -9,7 +9,7 @@ export function mock_server_request_Return_JSON(returnedStatus: number, returned
         })
     );
 }
-
-export function mock_server_request_function(mock_function: <Type>() => Type): void {
-    global.fetch = mock_function();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function mock_server_request_function(mock_function: (input: RequestInfo | URL, init?: RequestInit) => Promise<any>): void {
+    global.fetch = mock_function;
 }

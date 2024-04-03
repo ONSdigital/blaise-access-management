@@ -44,7 +44,7 @@ function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: U
         user.warnings.push("Invalid name");
     }
 
-    if (user.password === undefined || user.password === null) {
+    if (!user.password || user.password === null) {
         user.valid = false;
         user.warnings.push("Invalid password");
     }

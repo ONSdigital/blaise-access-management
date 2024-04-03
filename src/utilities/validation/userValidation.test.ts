@@ -259,7 +259,7 @@ describe("Function validateUser", () => {
         const validUser: ImportUser =
             {
                 name:"Jamie",
-                password:undefined,
+                password:"",
                 role:"BDSS",
                 valid:true, // set to opposite of we want to ensure test intregrity
                 warnings:[]
@@ -278,7 +278,7 @@ describe("Function validateUser", () => {
         const validUser: ImportUser =
             {
                 name:"Jamie",
-                password:undefined,
+                password:"",
                 role:"BDSS",
                 valid:true, // set to opposite of we want to ensure test intregrity
                 warnings:[]
