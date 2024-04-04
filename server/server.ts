@@ -62,7 +62,7 @@ server.use(
 );
 
 server.get("*", function (_req: Request, res: Response) {
-    res.render("index.html", {});
+    res.render("../build/index.html", {});
 });
 
 server.use(function (err: Error, _req: Request, res: Response) {
