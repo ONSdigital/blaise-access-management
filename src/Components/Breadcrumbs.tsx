@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import { BreadcrumbProps, BreadcrumbItem } from "../../interfaces/breadcrumbs";
+import { BreadcrumbProps, BreadcrumbItem } from "../../interfaces/breadcrumb";
 
 function Breadcrumbs({ BreadcrumbList }: BreadcrumbProps): ReactElement {
     return (
