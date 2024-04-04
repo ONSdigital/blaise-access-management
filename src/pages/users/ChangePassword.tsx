@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { ONSButton, ONSPanel, ONSPasswordInput } from "blaise-design-system-react-components";
-import { BreadcrumbItem } from "../../../interfaces/breadcrumb";
+import { BreadcrumbItem } from "../../../interfaces/";
 import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import { UserRouteParams } from "../../../interfaces/usersPage";
 import Breadcrumbs from "../../Components/Breadcrumbs";

@@ -8,7 +8,7 @@ import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
 import { UserForm } from "../../../interfaces";
-import { BreadcrumbItem } from "../../../interfaces/breadcrumb";
+import { BreadcrumbItem } from "../../../interfaces/";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function NewUserComponent(): ReactElement {
