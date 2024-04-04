@@ -54,7 +54,7 @@ server.use("/", loginHandler);
 server.use("/", BlaiseAPIRouter(config, auth, blaiseApiClient));
 
 // treat the index.html as a template and substitute the values at runtime
-server.set("views", path.join(__dirname, "views"));
+server.set("views", path.join(__dirname, buildFolder));
 server.engine("html", ejs.renderFile);
 server.use(
     "/static",
@@ -62,7 +62,7 @@ server.use(
 );
 
 server.get("*", function (_req: Request, res: Response) {
-    res.render("index.html", {});
+    res.render("../build/index.html", {});
 });
 
 server.use(function (err: Error, _req: Request, res: Response) {
