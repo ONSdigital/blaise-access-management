@@ -1,9 +1,9 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSButton, ONSPanel } from "blaise-design-system-react-components";
-import { UploadedUser } from "../../../../interfaces";
+import { UploadedUser } from "../../../../Interfaces";
 import { useNavigate } from "react-router-dom";
 import converter from "number-to-words";
-import { UsersUploadedSummaryProps } from "../../../../interfaces/usersPage";
+import { UsersUploadedSummaryProps } from "../../../../Interfaces/usersPage";
 
 function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUploadedSummaryProps): ReactElement {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

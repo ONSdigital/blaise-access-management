@@ -1,7 +1,7 @@
 import { User } from "blaise-api-node-client";
 import { Link } from "react-router-dom";
 import React, { ReactElement } from "react";
-import { UsersTableProps } from "../../../interfaces/usersPage";
+import { UsersTableProps } from "../../../Interfaces/usersPage";
 
 function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactElement {
     return <>

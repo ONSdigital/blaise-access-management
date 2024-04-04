@@ -29,7 +29,7 @@
   },
   "include": [
     "server",
-    "interfaces"
+    "Interfaces"
   ],
   "exclude": [
     "node_modules",

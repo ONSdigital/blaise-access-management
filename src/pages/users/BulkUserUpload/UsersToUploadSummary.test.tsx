@@ -2,7 +2,7 @@ import React from "react";
 import { render, waitFor, cleanup, RenderResult } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { act } from "react-dom/test-utils";
-import { ImportUser } from "../../../../interfaces";
+import { ImportUser } from "../../../../Interfaces";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import { getAllRoles, getAllUsers } from "../../../utilities/http";
 import { User, UserRole } from "blaise-api-node-client";

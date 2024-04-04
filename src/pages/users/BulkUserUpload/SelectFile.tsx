@@ -1,8 +1,8 @@
 import React, { ReactElement, useState } from "react";
 import { Collapsible, ONSButton } from "blaise-design-system-react-components";
 import CSVReader from "react-csv-reader";
-import { ImportUser } from "../../../../interfaces";
-import { SelectFileProps } from "../../../../interfaces/usersPage";
+import { ImportUser } from "../../../../Interfaces";
+import { SelectFileProps } from "../../../../Interfaces/usersPage";
 
 function SelectFile({ setUsersToUpload, movePageForward }: SelectFileProps): ReactElement {
 
