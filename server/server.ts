@@ -33,7 +33,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // where ever the react built package is
-const buildFolder = "../build";
+const buildFolder = "../../build";
 
 // load the .env variables in the server
 const config = loadConfigFromEnv();
