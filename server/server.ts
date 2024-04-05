@@ -33,7 +33,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // where ever the react built package is
-const buildFolder = "../../build";
+const buildFolder = "../build";
 
 // load the .env variables in the server
 const config = loadConfigFromEnv();
@@ -54,7 +54,7 @@ server.use("/", loginHandler);
 server.use("/", BlaiseAPIRouter(config, auth, blaiseApiClient));
 
 // treat the index.html as a template and substitute the values at runtime
-server.set("views", path.join(__dirname, buildFolder));
+server.set("views", path.join(__dirname, "/views"));
 server.engine("html", ejs.renderFile);
 server.use(
     "/static",
@@ -62,7 +62,7 @@ server.use(
 );
 
 server.get("*", function (_req: Request, res: Response) {
-    res.render("index.html", {});
+    res.render(path.join(__dirname, `${buildFolder}/index.html`));
 });
 
 server.use(function (err: Error, _req: Request, res: Response) {
