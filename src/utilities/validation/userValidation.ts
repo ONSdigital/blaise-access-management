@@ -1,5 +1,5 @@
 import { User, UserRole } from "blaise-api-node-client";
-import { ImportUser } from "../../interfaces";
+import { ImportUser } from "../../Interfaces";
 import { getAllRoles, getAllUsers } from "../http";
 
 async function getRoles(): Promise<UserRole[]> {

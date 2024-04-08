@@ -1,10 +1,10 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { ErrorBoundary, ONSPanel } from "blaise-design-system-react-components";
-import { ImportUser } from "../../../interfaces";
+import { ImportUser } from "../../../Interfaces";
 import Confirmation from "./Confirmation";
 import converter from "number-to-words";
 import { validateImportedUsers } from "../../../utilities/validation/userValidation";
-import { UsersToUploadSummaryProps } from "../../../interfaces/usersPage";
+import { UsersToUploadSummaryProps } from "../../../Interfaces/usersPage";
 
 function UsersToUploadSummary({ usersToImport, uploadUsers }: UsersToUploadSummaryProps): ReactElement {
     const [userList, setUserList] = useState<ImportUser[]>([]);

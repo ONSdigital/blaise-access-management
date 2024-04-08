@@ -4,7 +4,7 @@ import { User } from "blaise-api-node-client";
 import { ONSErrorPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
 import { getAllUsers } from "../../utilities/http";
 import UsersTable from "./UsersTable";
-import { UsersProps } from "../../interfaces/usersPage";
+import { UsersProps } from "../../Interfaces/usersPage";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function Users({ currentUser }: UsersProps): ReactElement {

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { RolesTableProps } from "../../interfaces/rolesPage";
+import { RolesTableProps } from "../../Interfaces/rolesPage";
 import { UserRole } from "blaise-api-node-client";
 
 function RolesTable({ roles, listError }: RolesTableProps): ReactElement {

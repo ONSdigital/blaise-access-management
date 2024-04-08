@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { ONSButton, ONSPanel } from "blaise-design-system-react-components";
 import { deleteUser } from "../../utilities/http";
-import { ReturnPanel, UserRouteParams } from "../../interfaces/usersPage";
-import { BreadcrumbItem } from "../../interfaces";
+import { ReturnPanel, UserRouteParams } from "../../Interfaces/usersPage";
+import { BreadcrumbItem } from "../../Interfaces";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function DeleteUser(): ReactElement {

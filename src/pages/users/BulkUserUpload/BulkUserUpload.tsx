@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { ImportUser, UploadedUser } from "../../../interfaces";
+import { ImportUser, UploadedUser } from "../../../Interfaces";
 import { NewUser } from "blaise-api-node-client";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
