@@ -116,7 +116,7 @@ const Form = (props: CustomFormProps) => {
                 }
             };
         });
-      // returning unregister method
+        // returning unregister method
         return () => {
             setFormState(state => {
                 // copy state to avoid mutating it
