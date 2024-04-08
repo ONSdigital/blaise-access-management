@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { isEmpty } from "lodash";
-import { ContextProviderType, UserForm, ValidatorType } from "../../Interfaces";
-import { CustomFormProps, CustomFormState } from "../../Interfaces/form";
+import { ContextProviderType, UserForm, ValidatorType } from "../Interfaces";
+import { CustomFormProps, CustomFormState } from "../Interfaces/form";
 
 const initState = (props: CustomFormProps): CustomFormState => {
   return {

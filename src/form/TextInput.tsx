@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ReactElement, useState } from "react";
 import { isEmpty } from "lodash";
 import withForm from "./WithForm";
-import { TextInputProps } from "../../Interfaces/form";
+import { TextInputProps } from "../Interfaces/form";
 
 const TextInput = (props: TextInputProps): ReactElement => {
     const hasError = !isEmpty(props.errors);

@@ -1,9 +1,9 @@
 import React, { ReactElement, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { ONSButton, ONSPanel, ONSPasswordInput } from "blaise-design-system-react-components";
-import { BreadcrumbItem } from "../../../Interfaces";
+import { BreadcrumbItem } from "../../Interfaces";
 import { AuthManager } from "blaise-login-react/blaise-login-react-client";
-import { UserRouteParams } from "../../../Interfaces/usersPage";
+import { UserRouteParams } from "../../Interfaces/usersPage";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function ChangePassword(): ReactElement {

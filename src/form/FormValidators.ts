@@ -1,4 +1,4 @@
-import { UserForm } from "../../Interfaces";
+import { UserForm } from "../Interfaces";
 
 const requiredValidator = (val: string, name: string): string[] => {
     if (!val) {

@@ -7,8 +7,8 @@ import { NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../form/TextInput";
 import Form from "../../form";
 import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
-import { UserForm } from "../../../Interfaces";
-import { BreadcrumbItem } from "../../../Interfaces";
+import { UserForm } from "../../Interfaces";
+import { BreadcrumbItem } from "../../Interfaces";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function NewUserComponent(): ReactElement {
