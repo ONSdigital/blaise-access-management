@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import pino from "pino";
-import { CustomConfig } from "./Interfaces/server";
+import { CustomConfig } from "./interfaces/server";
 
 export function loadConfigFromEnv(): CustomConfig {
     let { PROJECT_ID, BLAISE_API_URL, SERVER_PARK, SESSION_TIMEOUT } = process.env;
