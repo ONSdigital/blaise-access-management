@@ -8,7 +8,7 @@
     "start-server": "tsc --project tsconfig.server.json && node ./dist/index.js | pino-pretty -c -t",
     "start-react": "react-scripts start",
     "build-react": "react-scripts --openssl-legacy-provider build",
-    "test": "yarn build-react && jest --coverage --watchAll=false",
+    "test": "jest --coverage --watchAll=false",
     "gcp-build": "react-scripts --openssl-legacy-provider build && tsc --project tsconfig.server.json",
     "lint-fix": "node_modules/.bin/eslint . --fix",
     "lint": "yarn eslint .",
