@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import { CustomConfig } from "../../Interfaces/server";
+import { CustomConfig } from "../interfaces/server";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import BlaiseApiClient from "blaise-api-node-client";
 
