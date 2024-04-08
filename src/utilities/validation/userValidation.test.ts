@@ -1,5 +1,5 @@
 import { User, UserRole } from "blaise-api-node-client";
-import { ImportUser } from "../../Interfaces";
+import { ImportUser } from "../../interfaces";
 import { validateUser, validateImportedUsers } from "./userValidation";
 import { getAllRoles, getAllUsers } from "../http";
 
