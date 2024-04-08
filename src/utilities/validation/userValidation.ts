@@ -30,7 +30,7 @@ async function validateImportedUsers(users: ImportUser[]): Promise<void> {
     });
 }
 
-function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: User[]): void  {
+function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: User[]): void {
     user.valid = true;
     user.warnings = [];
 

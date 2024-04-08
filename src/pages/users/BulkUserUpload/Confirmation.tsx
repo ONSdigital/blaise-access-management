@@ -80,7 +80,7 @@ function confirmDeleteRadios(validUsers: number, setConfirm: (value: (((prevStat
             <div className="ons-radios__items">
 
                 <p className="ons-radios__item">
-                        <span className="ons-radio">
+                    <span className="ons-radio">
                         <input
                             type="radio"
                             id="confirm-upload"
@@ -96,7 +96,7 @@ function confirmDeleteRadios(validUsers: number, setConfirm: (value: (((prevStat
                     </span></p>
                 <br/>
                 <p className="ons-radios__item">
-                        <span className="ons-radio">
+                    <span className="ons-radio">
                         <input
                             type="radio"
                             id="cancel-upload"

@@ -43,22 +43,22 @@ describe("Upload summary tests", () => {
             valid:false,
             warnings:[]
         }
-        ];
+    ];
 
     const roles: getRolesListResponse = [
         true,
         [
-        {
-            name: "BDSS",
-            description: "",
-            permissions: []
-        },
-        {
-            name: "DST",
-            description: "",
-            permissions: []
-        }
-    ]];
+            {
+                name: "BDSS",
+                description: "",
+                permissions: []
+            },
+            {
+                name: "DST",
+                description: "",
+                permissions: []
+            }
+        ]];
 
     const existingUsers: getUsersListResponse = [
         true,
@@ -142,7 +142,7 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         // act
         await act(async () => {
@@ -182,7 +182,7 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         // act
         await act(async () => {
@@ -236,7 +236,7 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         const matchingExistingUsers: getUsersListResponse = [
             true,
@@ -294,7 +294,7 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         const matchingExistingUsers: getUsersListResponse = [
             true,

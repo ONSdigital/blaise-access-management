@@ -8,44 +8,44 @@ import { TextInput } from "./TextInput";
 import { TextInputProps } from "../Interfaces/form";
 
 const propTypes = {
-  name: PropTypes.string.isRequired,
-  validators: PropTypes.arrayOf(PropTypes.func)
+    name: PropTypes.string.isRequired,
+    validators: PropTypes.arrayOf(PropTypes.func)
 };
 
 const withForm = (InputComponent: typeof TextInput) => {
-  const WrappedWithForm = (props: TextInputProps) => {
-    const { errors, data, setFieldValue, registerInput } = useContext(FormContext);
+    const WrappedWithForm = (props: TextInputProps) => {
+        const { errors, data, setFieldValue, registerInput } = useContext(FormContext);
 
-    useEffect(
-      () =>
-        registerInput({
-          name: props.name,
-          validators: props.validators
-        }),
-      []
-    );
+        useEffect(
+            () =>
+                registerInput({
+                    name: props.name,
+                    validators: props.validators
+                }),
+            []
+        );
 
-    const onChange = (val: string) => {
-      setFieldValue(props.name, val);
-      if (props.onChange) {
-        props.onChange(val);
-      }
+        const onChange = (val: string) => {
+            setFieldValue(props.name, val);
+            if (props.onChange) {
+                props.onChange(val);
+            }
+        };
+        const inputValue = data[props.name];
+        const inputErrors = errors[props.name] || [];
+
+        return (
+            <InputComponent
+                {...props}
+                errors={inputErrors}
+                value={inputValue}
+                onChange={onChange}
+            />
+        );
     };
-    const inputValue = data[props.name];
-    const inputErrors = errors[props.name] || [];
 
-    return (
-      <InputComponent
-        {...props}
-        errors={inputErrors}
-        value={inputValue}
-        onChange={onChange}
-      />
-    );
-  };
-
-  WrappedWithForm.propTypes = propTypes;
-  return WrappedWithForm;
+    WrappedWithForm.propTypes = propTypes;
+    return WrappedWithForm;
 };
 
 export default withForm;

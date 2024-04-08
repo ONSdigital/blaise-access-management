@@ -30,41 +30,41 @@ function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUpload
                         ?
                         <table id="batch-table" className="ons-table">
                             <thead className="ons-table__head ons-u-mt-m">
-                            <tr className="ons-table__row">
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Username</span>
-                                </th>
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Upload status</span>
-                                </th>
-                            </tr>
+                                <tr className="ons-table__row">
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Username</span>
+                                    </th>
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Upload status</span>
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody className="ons-table__body">
-                            {
-                                usersUploaded.map(({ name, created }: UploadedUser, index: number) => {
-                                    if (!created) {
-                                        return (
-                                            <tr className="ons-table__row" key={name + index}
-                                                data-testid={"batch-table-row"}>
+                                {
+                                    usersUploaded.map(({ name, created }: UploadedUser, index: number) => {
+                                        if (!created) {
+                                            return (
+                                                <tr className="ons-table__row" key={name + index}
+                                                    data-testid={"batch-table-row"}>
 
-                                                <td className="ons-table__cell ">
-                                                    {name}
-                                                </td>
-                                                <td className="ons-table__cell ">
-                                                    <span
-                                                        className={`ons-status ons-status--${(created ? "success" : "error")}`}>
-                                                        {
-                                                            created
-                                                                ? "User created"
-                                                                : "User not created"
-                                                        }
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                })
-                            }
+                                                    <td className="ons-table__cell ">
+                                                        {name}
+                                                    </td>
+                                                    <td className="ons-table__cell ">
+                                                        <span
+                                                            className={`ons-status ons-status--${(created ? "success" : "error")}`}>
+                                                            {
+                                                                created
+                                                                    ? "User created"
+                                                                    : "User not created"
+                                                            }
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                    })
+                                }
                             </tbody>
                         </table>
                         :

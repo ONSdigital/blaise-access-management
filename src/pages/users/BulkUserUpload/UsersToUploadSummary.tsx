@@ -52,48 +52,48 @@ function UsersToUploadSummary({ usersToImport, uploadUsers }: UsersToUploadSumma
                         ?
                         <table id="batch-table" className="ons-table">
                             <thead className="ons-table__head ons-u-mt-m">
-                            <tr className="ons-table__row">
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Username</span>
-                                </th>
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Role</span>
-                                </th>
-                                <th scope="col" className="ons-table__header ">
-                                    <span>User validity</span>
-                                </th>
-                            </tr>
+                                <tr className="ons-table__row">
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Username</span>
+                                    </th>
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Role</span>
+                                    </th>
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>User validity</span>
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody className="ons-table__body">
-                            {
-                                userList.map(({ name, role, valid, warnings }: ImportUser, index: number) => {
+                                {
+                                    userList.map(({ name, role, valid, warnings }: ImportUser, index: number) => {
 
-                                    return (
-                                        <tr className="ons-table__row" key={name + index}
-                                            data-testid={"user-table-row-" + index}>
+                                        return (
+                                            <tr className="ons-table__row" key={name + index}
+                                                data-testid={"user-table-row-" + index}>
 
-                                            <td className="ons-table__cell ">
-                                                {name}
-                                            </td>
-                                            <td className="ons-table__cell ">
-                                                {role}
-                                            </td>
-                                            <td className="ons-table__cell ">
-                                                <span className={`ons-status ons-status--${(valid ? "success" : "error")}`}>
-                                                    {
-                                                        valid
-                                                            ? "Valid User"
-                                                            : warnings.map((message) => {
-                                                                return (`${message}. `);
-                                                            })
-                                                    }
-                                                </span>
-                                            </td>
+                                                <td className="ons-table__cell ">
+                                                    {name}
+                                                </td>
+                                                <td className="ons-table__cell ">
+                                                    {role}
+                                                </td>
+                                                <td className="ons-table__cell ">
+                                                    <span className={`ons-status ons-status--${(valid ? "success" : "error")}`}>
+                                                        {
+                                                            valid
+                                                                ? "Valid User"
+                                                                : warnings.map((message) => {
+                                                                    return (`${message}. `);
+                                                                })
+                                                        }
+                                                    </span>
+                                                </td>
 
-                                        </tr>
-                                    );
-                                })
-                            }
+                                            </tr>
+                                        );
+                                    })
+                                }
                             </tbody>
                         </table>
                         :

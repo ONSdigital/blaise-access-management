@@ -67,10 +67,10 @@ describe("Function getAllRoles() ", () => {
 
 describe("Function addNewRole(user: User) ", () => {
     const newRole: UserRole = {
-    permissions: [],
-    name: "New Role",
-    description: "This is a new role"
-};
+        permissions: [],
+        name: "New Role",
+        description: "This is a new role"
+    };
 
     it("It should return true if the role has been created successfully", async () => {
         mock_server_request_Return_JSON(201, {});

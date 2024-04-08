@@ -7,7 +7,7 @@ import { getAllRoles, getAllUsers } from "../http";
 type getRolesListResponse = [boolean, UserRole[]];
 type getUsersListResponse = [boolean, User[]];
 
-jest.mock( "../http");
+jest.mock("../http");
 
 const getAllRolesMock = getAllRoles as jest.Mock<Promise<getRolesListResponse>>;
 const getAllUsersMock = getAllUsers as jest.Mock<Promise<getUsersListResponse>>;
@@ -36,22 +36,22 @@ describe("Function validateImportedUsers", () => {
             valid:false,
             warnings:[]
         }
-        ];
+    ];
 
     const roles: getRolesListResponse = [
         true,
         [
-        {
-            name: "BDSS",
-            description: "",
-            permissions: []
-        },
-        {
-            name: "DST",
-            description: "",
-            permissions: []
-        }
-    ]];
+            {
+                name: "BDSS",
+                description: "",
+                permissions: []
+            },
+            {
+                name: "DST",
+                description: "",
+                permissions: []
+            }
+        ]];
 
     const existingUsers: getUsersListResponse = [
         true,
@@ -61,9 +61,9 @@ describe("Function validateImportedUsers", () => {
     beforeEach(() => {
         getAllRolesMock.mockImplementation(() => Promise.resolve(roles));
         getAllUsersMock.mockImplementation(() => Promise.resolve(existingUsers));
-      });
+    });
 
-     it("should mark the valid status to true if users are valid", async () => {
+    it("should mark the valid status to true if users are valid", async () => {
         // act
         await validateImportedUsers(importedUsers);
 
@@ -199,7 +199,7 @@ describe("Function validateUser", () => {
         expect(validUser.warnings).toEqual([]);
     });
 
-   it("The valid property should be set to false if the user already exists", async () => {
+    it("The valid property should be set to false if the user already exists", async () => {
         // arrange
 
         const invalidMatchingUser: ImportUser =

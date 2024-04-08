@@ -31,18 +31,18 @@ function ChangePassword(): ReactElement {
                 "password": password
             }, authManager.authHeader())
         })
-        .then((r: Response) => {
-            if (r.status === 204) {
-                setButtonLoading(false);
-                setRedirect(true);
-            } else {
+            .then((r: Response) => {
+                if (r.status === 204) {
+                    setButtonLoading(false);
+                    setRedirect(true);
+                } else {
+                    setMessage("Set password failed");
+                    setButtonLoading(false);
+                }
+            }).catch(() => {
                 setMessage("Set password failed");
                 setButtonLoading(false);
-            }
-        }).catch(() => {
-            setMessage("Set password failed");
-            setButtonLoading(false);
-        });
+            });
     }
 
     const breadcrumbList: BreadcrumbItem[] = [
