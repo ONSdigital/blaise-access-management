@@ -1,13 +1,12 @@
 import React from "react";
-import {render, waitFor, cleanup, RenderResult} from "@testing-library/react";
+import { render, waitFor, cleanup, RenderResult } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {act} from "react-dom/test-utils";
-import {createMemoryHistory} from "history";
-import {Router} from "react-router";
-import { ImportUser } from "../../../../Interfaces";
+import { act } from "react-dom/test-utils";
+import { ImportUser } from "../../../Interfaces";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import { getAllRoles, getAllUsers } from "../../../utilities/http";
 import { User, UserRole } from "blaise-api-node-client";
+import { BrowserRouter } from "react-router-dom";
 
 // set global vars
 let view:RenderResult;
@@ -44,22 +43,22 @@ describe("Upload summary tests", () => {
             valid:false,
             warnings:[]
         }
-        ];
+    ];
 
     const roles: getRolesListResponse = [
         true,
         [
-        {
-            name: "BDSS",
-            description: "",
-            permissions: []
-        },
-        {
-            name: "DST",
-            description: "",
-            permissions: []
-        }
-    ]];
+            {
+                name: "BDSS",
+                description: "",
+                permissions: []
+            },
+            {
+                name: "DST",
+                description: "",
+                permissions: []
+            }
+        ]];
 
     const existingUsers: getUsersListResponse = [
         true,
@@ -69,18 +68,16 @@ describe("Upload summary tests", () => {
     beforeEach(() => {
         getAllRolesMock.mockImplementation(() => Promise.resolve(roles));
         getAllUsersMock.mockImplementation(() => Promise.resolve(existingUsers));
-      });
+    });
 
     it("Upload summary pages for valid imported users matches Snapshot", async () => {
         //arrange
 
         // act
         await act(async () => {
-            const history = createMemoryHistory();
             view = render(
-                <Router history={history}>
-                    <UsersToUploadSummary usersToImport={importedUsers} uploadUsers={() => {return;}}/>
-                </Router>
+                <UsersToUploadSummary usersToImport={importedUsers} uploadUsers={() => {return;}}/>,
+                { wrapper: BrowserRouter }
             );
         });
 
@@ -88,7 +85,6 @@ describe("Upload summary tests", () => {
         await waitFor(() => {
             expect(view).toMatchSnapshot();
         });
-
     });
 
     it("Upload summary pages for valid imported users displays correct summary", async () => {
@@ -96,11 +92,9 @@ describe("Upload summary tests", () => {
 
         // act
         await act(async () => {
-            const history = createMemoryHistory();
             view = render(
-                <Router history={history}>
-                    <UsersToUploadSummary usersToImport={importedUsers} uploadUsers={() => {return;}}/>
-                </Router>
+                <UsersToUploadSummary usersToImport={importedUsers} uploadUsers={() => {return;}}/>,
+                { wrapper: BrowserRouter }
             );
         });
 
@@ -148,15 +142,13 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         // act
         await act(async () => {
-            const history = createMemoryHistory();
             view = render(
-                <Router history={history}>
-                    <UsersToUploadSummary usersToImport={invalidImportedUsers} uploadUsers={() => {return;}}/>
-                </Router>
+                <UsersToUploadSummary usersToImport={invalidImportedUsers} uploadUsers={() => {return;}}/>,
+                { wrapper: BrowserRouter }
             );
         });
 
@@ -190,15 +182,13 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         // act
         await act(async () => {
-            const history = createMemoryHistory();
             view = render(
-                <Router history={history}>
-                    <UsersToUploadSummary usersToImport={invalidImportedUsers} uploadUsers={() => {return;}}/>
-                </Router>
+                <UsersToUploadSummary usersToImport={invalidImportedUsers} uploadUsers={() => {return;}}/>,
+                { wrapper: BrowserRouter }
             );
         });
 
@@ -246,7 +236,7 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         const matchingExistingUsers: getUsersListResponse = [
             true,
@@ -268,11 +258,9 @@ describe("Upload summary tests", () => {
 
         // act
         await act(async () => {
-            const history = createMemoryHistory();
             view = render(
-                <Router history={history}>
-                    <UsersToUploadSummary usersToImport={importedUsersIncludingExisting} uploadUsers={() => {return;}}/>
-                </Router>
+                <UsersToUploadSummary usersToImport={importedUsersIncludingExisting} uploadUsers={() => {return;}}/>,
+                { wrapper: BrowserRouter }
             );
         });
 
@@ -306,7 +294,7 @@ describe("Upload summary tests", () => {
                 valid:false,
                 warnings:[]
             }
-            ];
+        ];
 
         const matchingExistingUsers: getUsersListResponse = [
             true,
@@ -328,11 +316,9 @@ describe("Upload summary tests", () => {
 
         // act
         await act(async () => {
-            const history = createMemoryHistory();
             view = render(
-                <Router history={history}>
-                    <UsersToUploadSummary usersToImport={importedUsersIncludingExisting} uploadUsers={() => {return;}}/>
-                </Router>
+                <UsersToUploadSummary usersToImport={importedUsersIncludingExisting} uploadUsers={() => {return;}}/>,
+                { wrapper: BrowserRouter }
             );
         });
 
@@ -362,4 +348,3 @@ describe("Upload summary tests", () => {
         cleanup();
     });
 });
-

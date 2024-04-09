@@ -1,11 +1,11 @@
-import {cleanup} from "@testing-library/react";
-import {mock_server_request_function, mock_server_request_Return_JSON} from "../../tests/utils";
-import {addNewRole, getAllRoles} from "./roles";
-import {Role} from "../../../Interfaces";
+import { cleanup } from "@testing-library/react";
+import { mock_server_request_function, mock_server_request_Return_JSON } from "../../tests/utils";
+import { addNewRole, getAllRoles } from "./roles";
+import { UserRole } from "blaise-api-node-client";
 
-const roleList: Role[] = [
-    {name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role"},
-    {name: "BDSS", permissions: ["Admin"], description: "Another role"}
+const roleList: UserRole[] = [
+    { name: "DST", permissions: ["Admin", "Bacon.access"], description: "A role" },
+    { name: "BDSS", permissions: ["Admin"], description: "Another role" }
 ];
 
 describe("Function getAllRoles() ", () => {
@@ -32,30 +32,28 @@ describe("Function getAllRoles() ", () => {
     });
 
     it("It should return false with an empty list if request JSON is not a list", async () => {
-        mock_server_request_function(jest.fn(() =>
-            Promise.resolve({
-                status: 200,
-                json: () => Promise.reject("Failed")
-            })
-        ));
+        mock_server_request_function(jest.fn(() => Promise.resolve({
+            status: 400,
+            json: () => Promise.reject("Failed")
+        })));
+
         const [success, roles] = await getAllRoles();
         expect(success).toBeFalsy();
         expect(roles).toEqual([]);
     });
 
     it("It should return false with an empty list if request JSON is invalid", async () => {
-        mock_server_request_Return_JSON(200, {name: "NAME"});
+        mock_server_request_Return_JSON(200, { name: "NAME" });
         const [success, roles] = await getAllRoles();
         expect(success).toBeFalsy();
         expect(roles).toEqual([]);
     });
 
     it("It should return false with an empty list if request call fails", async () => {
-        mock_server_request_function(jest.fn(() =>
-            Promise.resolve(() => {
-                throw "error";
-            })
-        ));
+        mock_server_request_function(jest.fn(() => {
+            throw new Error("Network error");
+        }));
+
         const [success, roles] = await getAllRoles();
         expect(success).toBeFalsy();
         expect(roles).toEqual([]);
@@ -68,12 +66,11 @@ describe("Function getAllRoles() ", () => {
 });
 
 describe("Function addNewRole(user: User) ", () => {
-
-    const newRole: Role = {
-    permissions: [],
-    name: "New Role",
-    description: "This is a new role"
-};
+    const newRole: UserRole = {
+        permissions: [],
+        name: "New Role",
+        description: "This is a new role"
+    };
 
     it("It should return true if the role has been created successfully", async () => {
         mock_server_request_Return_JSON(201, {});
@@ -94,11 +91,10 @@ describe("Function addNewRole(user: User) ", () => {
     });
 
     it("It should return false if request call fails", async () => {
-        mock_server_request_function(jest.fn(() =>
-            Promise.resolve(() => {
-                throw "error";
-            })
-        ));
+        mock_server_request_function(jest.fn(() => {
+            throw new Error("Network error");
+        }));
+
         const success = await addNewRole(newRole);
         expect(success).toBeFalsy();
     });

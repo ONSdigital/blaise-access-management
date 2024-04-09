@@ -1,19 +1,7 @@
 import React, { ChangeEvent, ReactElement, useState } from "react";
-import { UserForm } from "../../Interfaces";
 import { isEmpty } from "lodash";
 import withForm from "./WithForm";
-
-export interface TextInputProps {
-    placeholder?: string
-    name: string
-    value?: string
-    label: string
-    type?: string
-    errors?: string[]
-    onChange?: (val: string) => void
-    validators: ((val: string, name: string, formData: UserForm) => string[])[]
-    password?: boolean
-}
+import { TextInputProps } from "../Interfaces/form";
 
 const TextInput = (props: TextInputProps): ReactElement => {
     const hasError = !isEmpty(props.errors);

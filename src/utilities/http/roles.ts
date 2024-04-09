@@ -1,16 +1,16 @@
-import {requestPromiseJson, requestPromiseJsonList} from "./requestPromise";
-import {UserRole} from "blaise-api-node-client";
+import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
+import { UserRole } from "blaise-api-node-client";
 
 type getRolesListResponse = [boolean, UserRole[]];
 
 async function getAllRoles(): Promise<getRolesListResponse> {
-  try {
-    const url = "/api/roles";
-    const [success, data] = await requestPromiseJsonList<UserRole>("GET", url);
-    return [success, data] as getRolesListResponse;
-  } catch (error) {
-    return [false, []] as getRolesListResponse;
-  }
+    try {
+        const url = "/api/roles";
+        const [success, data] = await requestPromiseJsonList<UserRole>("GET", url);
+        return [success, data] as getRolesListResponse;
+    } catch (error) {
+        return [false, []] as getRolesListResponse;
+    }
 }
 
 function addNewRole(newRole: UserRole): Promise<boolean> {
@@ -34,4 +34,4 @@ function addNewRole(newRole: UserRole): Promise<boolean> {
     });
 }
 
-export {getAllRoles, addNewRole};
+export { getAllRoles, addNewRole };

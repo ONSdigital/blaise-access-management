@@ -1,18 +1,15 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {ErrorBoundary, ONSButton, ONSPanel} from "blaise-design-system-react-components";
-import {UploadedUser} from "../../../../Interfaces";
-import {useHistory} from "react-router-dom";
+import React, { ReactElement, useEffect, useState } from "react";
+import { ErrorBoundary, ONSButton, ONSPanel } from "blaise-design-system-react-components";
+import { UploadedUser } from "../../../Interfaces";
+import { useNavigate } from "react-router-dom";
 import converter from "number-to-words";
+import { UsersUploadedSummaryProps } from "../../../Interfaces/usersPage";
 
-interface Props {
-    usersUploaded: UploadedUser[]
-    numberOfValidUsers: number
-}
-
-function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): ReactElement {
-    const [listError, setListError] = useState<string>("Loading ...");
+function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUploadedSummaryProps): ReactElement {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [listError, _setListError] = useState<string>("Loading ...");
     const [numberOfCreatedUsers, setNumberOfCreatedUsers] = useState<number>(0);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         let createdUsers = 0;
@@ -33,41 +30,41 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
                         ?
                         <table id="batch-table" className="ons-table">
                             <thead className="ons-table__head ons-u-mt-m">
-                            <tr className="ons-table__row">
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Username</span>
-                                </th>
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Upload status</span>
-                                </th>
-                            </tr>
+                                <tr className="ons-table__row">
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Username</span>
+                                    </th>
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Upload status</span>
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody className="ons-table__body">
-                            {
-                                usersUploaded.map(({name, created}: UploadedUser, index: number) => {
-                                    if (!created) {
-                                        return (
-                                            <tr className="ons-table__row" key={name + index}
-                                                data-testid={"batch-table-row"}>
+                                {
+                                    usersUploaded.map(({ name, created }: UploadedUser, index: number) => {
+                                        if (!created) {
+                                            return (
+                                                <tr className="ons-table__row" key={name + index}
+                                                    data-testid={"batch-table-row"}>
 
-                                                <td className="ons-table__cell ">
-                                                    {name}
-                                                </td>
-                                                <td className="ons-table__cell ">
-                                                    <span
-                                                        className={`ons-status ons-status--${(created ? "success" : "error")}`}>
-                                                        {
-                                                            created
-                                                                ? "User created"
-                                                                : "User not created"
-                                                        }
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                })
-                            }
+                                                    <td className="ons-table__cell ">
+                                                        {name}
+                                                    </td>
+                                                    <td className="ons-table__cell ">
+                                                        <span
+                                                            className={`ons-status ons-status--${(created ? "success" : "error")}`}>
+                                                            {
+                                                                created
+                                                                    ? "User created"
+                                                                    : "User not created"
+                                                            }
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                    })
+                                }
                             </tbody>
                         </table>
                         :
@@ -101,7 +98,7 @@ function UsersUploadedSummary({usersUploaded, numberOfValidUsers}: Props): React
             }
 
             <br/>
-            <ONSButton label={"Return to homepage"} primary={true} onClick={() => history.push("/")}/>
+            <ONSButton label={"Return to homepage"} primary={true} onClick={() => navigate("/")}/>
             {
                 (
                     numberOfCreatedUsers !== numberOfValidUsers && failedToUploadUserTable()
