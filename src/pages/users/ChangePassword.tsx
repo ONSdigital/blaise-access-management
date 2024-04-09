@@ -1,17 +1,13 @@
-import React, {ReactElement, useState} from "react";
-import {Redirect, useParams} from "react-router-dom";
-import {ONSButton, ONSPanel, ONSPasswordInput} from "blaise-design-system-react-components";
-import Breadcrumbs, {BreadcrumbItem} from "../../Components/Breadcrumbs";
-import {AuthManager} from "blaise-login-react-client";
-
-interface Parmas {
-    user: string;
-}
+import React, { ReactElement, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
+import { ONSButton, ONSPanel, ONSPasswordInput } from "blaise-design-system-react-components";
+import { BreadcrumbItem } from "../../Interfaces";
+import { AuthManager } from "blaise-login-react/blaise-login-react-client";
+import { UserRouteParams } from "../../Interfaces/usersPage";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 function ChangePassword(): ReactElement {
-    // We can use the `useParams` hook here to access
-    // the dynamic pieces of the URL.
-    const {user}: Parmas = useParams();
+    const { user }: UserRouteParams = useParams() as unknown as UserRouteParams;
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -46,28 +42,27 @@ function ChangePassword(): ReactElement {
             }).catch(() => {
                 setMessage("Set password failed");
                 setButtonLoading(false);
-            }
-            );
+            });
     }
 
     const breadcrumbList: BreadcrumbItem[] = [
-        {link: "/", title: "Home"},
-        {link: "/users", title: "Manage users"}
+        { link: "/", title: "Home" },
+        { link: "/users", title: "Manage users" }
     ];
 
     return (
         <>
             {
-                redirect && <Redirect to={{
-                    pathname: "/users",
-                    state: {
+                redirect && <Navigate
+                    to={{ pathname: "/users" }}
+                    state={{
                         updatedPanel: {
                             visible: true,
                             message: "Password for user " + user + " changed",
                             status: "success"
                         }
-                    }
-                }} />
+                    }}
+                />
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
 

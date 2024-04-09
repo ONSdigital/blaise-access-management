@@ -28,6 +28,7 @@
         "import"
     ],
     "rules": {
+        "object-curly-spacing": ["error", "always"],
         "no-multiple-empty-lines": [
             "error",
             {
@@ -54,6 +55,7 @@
             "never"
         ],
         "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-unused-vars": "off",
         "react/react-in-jsx-scope": "off",
         "react/require-default-props": "off",
         "no-spaced-func": "off",
@@ -68,6 +70,27 @@
             {
                 "code": 200
             }
+        ],
+        "@typescript-eslint/no-empty-function": "off",
+        "indent": [
+            "error",
+            4
+        ],
+        "space-in-parens": [
+            "error",
+            "never"
+        ],
+        "no-multi-spaces": "error",
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "template-curly-spacing": [
+            "error",
+            "never"
         ]
     },
     "overrides": [

@@ -37,3 +37,12 @@ export interface ContextProviderType {
     setFieldValue: (name: string, value: string) => void;
     registerInput: ({ name, validators }: ValidatorType) => () => void;
 }
+
+export interface BreadcrumbItem {
+    link: string
+    title: string
+}
+
+export interface BreadcrumbProps {
+    BreadcrumbList: BreadcrumbItem[]
+}
