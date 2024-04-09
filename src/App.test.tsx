@@ -1,54 +1,41 @@
 import React from "react";
-import {render, waitFor, cleanup, screen} from "@testing-library/react";
+import { render, waitFor, cleanup, screen } from "@testing-library/react";
 import App from "./App";
 import "@testing-library/jest-dom";
-import {act} from "react-dom/test-utils";
-import {createMemoryHistory} from "history";
-import {Router} from "react-router";
-import {AuthManager} from "blaise-login-react-client";
-import * as loginReactClient from "blaise-login-react-client";
+import { act } from "react-dom/test-utils";
+import { Authenticate } from "blaise-login-react/blaise-login-react-client";
+import { User } from "blaise-api-node-client";
+import { BrowserRouter } from "react-router-dom";
 
-jest.mock("blaise-login-react-client");
+jest.mock("blaise-login-react/blaise-login-react-client");
+const { MockAuthenticate } = jest.requireActual("blaise-login-react/blaise-login-react-client");
+Authenticate.prototype.render = MockAuthenticate.prototype.render;
 
-AuthManager.prototype.loggedIn = jest.fn().mockImplementation(() => {
-    return Promise.resolve(true);
-});
+const userMockObject: User = {
+    name: "Jake Bullet",
+    role: "Manager",
+    serverParks: ["gusty"],
+    defaultServerPark: "gusty"
+};
 
-jest.spyOn(loginReactClient, "getCurrentUser").mockReturnValue(
-    Promise.resolve({
-        defaultServerPark: "gusty",
-        name: "Blaise User",
-        role: "DST",
-        serverParks: ["gusty"]
-    })
-);
+const user = userMockObject;
 
 describe("React homepage", () => {
-    it("the homepage matches Snapshot", async () => {
-        const history = createMemoryHistory();
-        const wrapper = render(
-            <Router history={history}>
-                <App />
-            </Router>
-        );
+    beforeEach(() => {
+        MockAuthenticate.OverrideReturnValues(user, true);
+    });
 
-        await act(async () => {
-            await new Promise(process.nextTick);
-        });
+    it("the homepage matches Snapshot", async () => {
+        const wrapper = render(<App />, { wrapper: BrowserRouter });
 
         await waitFor(() => {
             expect(wrapper).toMatchSnapshot();
         });
-
     });
 
     it("should render correctly", async () => {
-        const history = createMemoryHistory();
-        render(
-            <Router history={history}>
-                <App />
-            </Router>
-        );
+        render(<App />, { wrapper: BrowserRouter });
+
         expect(screen.getByText(/Blaise Access Management/i)).toBeDefined();
 
         await act(async () => {

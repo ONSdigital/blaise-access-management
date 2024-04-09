@@ -1,16 +1,12 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {ErrorBoundary, ONSPanel} from "blaise-design-system-react-components";
-import {ImportUser} from "../../../../Interfaces";
+import React, { ReactElement, useEffect, useState } from "react";
+import { ErrorBoundary, ONSPanel } from "blaise-design-system-react-components";
+import { ImportUser } from "../../../Interfaces";
 import Confirmation from "./Confirmation";
 import converter from "number-to-words";
 import { validateImportedUsers } from "../../../utilities/validation/userValidation";
+import { UsersToUploadSummaryProps } from "../../../Interfaces/usersPage";
 
-interface Props {
-    usersToImport: ImportUser[]
-    uploadUsers: () => void
-}
-
-function UsersToUploadSummary({usersToImport, uploadUsers}: Props): ReactElement {
+function UsersToUploadSummary({ usersToImport, uploadUsers }: UsersToUploadSummaryProps): ReactElement {
     const [userList, setUserList] = useState<ImportUser[]>([]);
     const [listError, setListError] = useState<string>("Loading ...");
     const [noValidUsers, setNoValidUsers] = useState<number>(0);
@@ -56,48 +52,48 @@ function UsersToUploadSummary({usersToImport, uploadUsers}: Props): ReactElement
                         ?
                         <table id="batch-table" className="ons-table">
                             <thead className="ons-table__head ons-u-mt-m">
-                            <tr className="ons-table__row">
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Username</span>
-                                </th>
-                                <th scope="col" className="ons-table__header ">
-                                    <span>Role</span>
-                                </th>
-                                <th scope="col" className="ons-table__header ">
-                                    <span>User validity</span>
-                                </th>
-                            </tr>
+                                <tr className="ons-table__row">
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Username</span>
+                                    </th>
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>Role</span>
+                                    </th>
+                                    <th scope="col" className="ons-table__header ">
+                                        <span>User validity</span>
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody className="ons-table__body">
-                            {
-                                userList.map(({name, role, valid, warnings}: ImportUser, index: number) => {
+                                {
+                                    userList.map(({ name, role, valid, warnings }: ImportUser, index: number) => {
 
-                                    return (
-                                        <tr className="ons-table__row" key={name + index}
-                                            data-testid={"user-table-row-" + index}>
+                                        return (
+                                            <tr className="ons-table__row" key={name + index}
+                                                data-testid={"user-table-row-" + index}>
 
-                                            <td className="ons-table__cell ">
-                                                {name}
-                                            </td>
-                                            <td className="ons-table__cell ">
-                                                {role}
-                                            </td>
-                                            <td className="ons-table__cell ">
-                                                <span className={`ons-status ons-status--${(valid ? "success" : "error")}`}>
-                                                    {
-                                                        valid
-                                                            ? "Valid User"
-                                                            : warnings.map((message) => {
-                                                                return (`${message}. `);
-                                                            })
-                                                    }
-                                                </span>
-                                            </td>
+                                                <td className="ons-table__cell ">
+                                                    {name}
+                                                </td>
+                                                <td className="ons-table__cell ">
+                                                    {role}
+                                                </td>
+                                                <td className="ons-table__cell ">
+                                                    <span className={`ons-status ons-status--${(valid ? "success" : "error")}`}>
+                                                        {
+                                                            valid
+                                                                ? "Valid User"
+                                                                : warnings.map((message) => {
+                                                                    return (`${message}. `);
+                                                                })
+                                                        }
+                                                    </span>
+                                                </td>
 
-                                        </tr>
-                                    );
-                                })
-                            }
+                                            </tr>
+                                        );
+                                    })
+                                }
                             </tbody>
                         </table>
                         :

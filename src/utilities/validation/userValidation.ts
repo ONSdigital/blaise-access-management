@@ -1,5 +1,5 @@
 import { User, UserRole } from "blaise-api-node-client";
-import { ImportUser } from "../../../Interfaces";
+import { ImportUser } from "../../Interfaces";
 import { getAllRoles, getAllUsers } from "../http";
 
 async function getRoles(): Promise<UserRole[]> {
@@ -30,7 +30,7 @@ async function validateImportedUsers(users: ImportUser[]): Promise<void> {
     });
 }
 
-function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: User[]): void  {
+function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: User[]): void {
     user.valid = true;
     user.warnings = [];
 
@@ -44,7 +44,7 @@ function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: U
         user.warnings.push("Invalid name");
     }
 
-    if (user.password === undefined || user.password === null) {
+    if (!user.password || user.password === null) {
         user.valid = false;
         user.warnings.push("Invalid password");
     }
