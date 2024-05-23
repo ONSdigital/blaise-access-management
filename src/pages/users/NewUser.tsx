@@ -29,6 +29,7 @@ function NewUserComponent(): ReactElement {
                 defaultServerPark: "gusty",
                 serverParks: ["gusty"]
             };
+            console.log("OUR CHANGES HERE BEN AND MARUF");
 
             setButtonLoading(true);
             const created = await addNewUser(newUser);
