@@ -29,7 +29,16 @@ function NewUserComponent(): ReactElement {
                 defaultServerPark: "gusty",
                 serverParks: ["gusty"]
             };
-            console.log("OUR CHANGES HERE BEN AND MARUF");
+            console.log("Before IF");
+            if (newUser.role.includes("IPS")) {
+                console.log("Inside IF");
+                newUser.serverParks.splice(0, 0, "cma");
+                newUser.defaultServerPark = "cma," + newUser.defaultServerPark;
+            }
+            console.log("After IF");
+            console.log("Role is " + newUser.role);
+            console.log("defaultServerPark is " + newUser.defaultServerPark);
+            console.log("ServerParks is " + newUser.serverParks);
 
             setButtonLoading(true);
             const created = await addNewUser(newUser);

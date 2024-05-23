@@ -46,21 +46,13 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     });
 
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
-        console.log(req.body);
         const data = req.body;
-        console.log(config.ServerPark);
         data.serverParks = [config.ServerPark];
         data.defaultServerPark = config.ServerPark;
-        console.log("role is " + data.role);
         if (data.role.includes("IPS")) {
-            console.log("Inside IF statement");
-            console.log("serverParks is " + data.serverParks);
-            console.log("defaultServerpark is " + data.defaultServerPark);
-            data.serverParks.push("CMA");
-            data.defaultServerPark + "CMA";
+            data.serverParks.splice(0, 0, "cma");
+            data.defaultServerPark = "cma";
         }
-        console.log("serverParks is " + data.serverParks);
-        console.log("defaultServerpark is " + data.defaultServerPark);
 
         return res.status(200).json(await blaiseApiClient.createUser(data));
     });
