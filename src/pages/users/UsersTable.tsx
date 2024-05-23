@@ -35,7 +35,7 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                     </thead>
                     <tbody className="ons-table__body">
                         {
-                            users.map(({ role, defaultServerPark, name }: User) => {
+                            users.map(({ role, name, serverParks }: User) => {
                                 return (
                                     <tr className="ons-table__row" key={name} data-testid={"users-table-row"}>
                                         <td className="ons-table__cell ">
@@ -45,7 +45,7 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                                             {role}
                                         </td>
                                         <td className="ons-table__cell ">
-                                            {defaultServerPark}
+                                            {serverParks.join(",")}
                                         </td>
                                         {/*<td className="ons-table__cell ">*/}
                                         {/*    <Link to={"/survey/" + item.name}>Edit</Link>*/}
