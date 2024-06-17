@@ -5705,9 +5705,9 @@ bl@^4.0.3, bl@^4.1.0:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
-"blaise-api-node-client@https://github.com/ONSdigital/blaise-api-node-client#v1.1.0":
+"blaise-api-node-client@https://github.com/ONSdigital/blaise-api-node-client#BLAIS5-4140":
   version "1.0.0"
-  resolved "https://github.com/ONSdigital/blaise-api-node-client#e5da8ca53073a4fa86f057511acb600a0e894d3f"
+  resolved "https://github.com/ONSdigital/blaise-api-node-client#82252112251941270206abdd39c5b4c07b12501f"
   dependencies:
     "@babel/preset-env" "^7.14.7"
     axios "^0.21.1"

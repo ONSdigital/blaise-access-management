@@ -10,7 +10,6 @@ import { passwordMatchedValidator, requiredValidator } from "../../form/FormVali
 import { UserForm } from "../../Interfaces";
 import { BreadcrumbItem } from "../../Interfaces";
 import Breadcrumbs from "../../Components/Breadcrumbs";
-import { loadConfigFromEnv } from "../../ClientConfig";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -19,7 +18,6 @@ function NewUserComponent(): ReactElement {
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
     const [roleList, setRoleList] = useState<UserRole[]>([]);
-    const cconfig = loadConfigFromEnv();
 
     async function createNewUser(formData: UserForm) {
         setUsername(formData.username);
@@ -31,6 +29,7 @@ function NewUserComponent(): ReactElement {
                 defaultServerPark: "gusty",
                 serverParks: ["gusty"]
             };
+
             setButtonLoading(true);
             const created = await addNewUser(newUser);
 
