@@ -36,7 +36,7 @@
     "@types/react": "^18.2.51",
     "@types/react-dom": "^18.2.18",
     "axios": "^1.6.1",
-    "blaise-api-node-client": "https://github.com/ONSdigital/blaise-api-node-client#21d39af34ae88d6e5041735fd46c70727a773c66",
+    "blaise-api-node-client": "https://github.com/ONSdigital/blaise-api-node-client#d13b89b01631dd8551cf40bda5ca6902b1ab24ba",
     "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.0",
     "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#1.1.0",
     "dotenv": "^10.0.0",
