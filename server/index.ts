@@ -1,8 +1,8 @@
-import app from "./server";
+import { server } from "./server";
 import pino from "pino";
 
 const port: string = process.env.PORT || "5002";
 const logger = pino();
-app.listen(port);
+server.listen(port);
 
 logger.info("App is listening on port " + port);

@@ -45,7 +45,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         return res.status(204).json(await blaiseApiClient.deleteUser(user));
     });
 
-    router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
+    router.post("/api/users", async function (req: Request, res: Response) {
         const data = req.body;
         const roleServerParksOverride = config.RoleToServerParksMap[data.role];
         if (roleServerParksOverride != null) {

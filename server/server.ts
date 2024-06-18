@@ -38,9 +38,13 @@ const buildFolder = "../build";
 // load the .env variables in the server
 const config = loadConfigFromEnv();
 
-const auth = new Auth(config);
+//const auth = new Auth(config);
+
+import { IMock, Mock, Times } from "typemoq";
+const authMock = Mock.ofType(Auth);
 const blaiseApiClient = new BlaiseApiClient(config.BlaiseApiUrl);
-const loginHandler = newLoginHandler(auth, blaiseApiClient);
+//const blaiseApiClientMock = Mock.ofType(BlaiseApiClient);
+//const loginHandler = newLoginHandler(auth, blaiseApiClient);
 
 // Health Check endpoint
 server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
@@ -48,10 +52,10 @@ server.get("/bam-ui/:version/health", async function (req: Request, res: Respons
     res.status(200).json({ healthy: true });
 });
 
-server.use("/", loginHandler);
+//server.use("/", loginHandler);
 
 // All Endpoints calling the Blaise API
-server.use("/", BlaiseAPIRouter(config, auth, blaiseApiClient));
+server.use("/", BlaiseAPIRouter(config, authMock.object, blaiseApiClient));
 
 // treat the index.html as a template and substitute the values at runtime
 server.set("views", path.join(__dirname, "/views"));
@@ -69,4 +73,6 @@ server.use(function (err: Error, _req: Request, res: Response) {
     console.error(err.stack);
     res.render("../views/500.html", {});
 });
-export default server;
+
+export { server, blaiseApiClient, authMock };
+//export default server;
