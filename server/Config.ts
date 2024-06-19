@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import pino from "pino";
 import { CustomConfig } from "./interfaces/server";
+import role_to_serverparks_map_json from "./role-to-serverparks-map.json";
 
 export function loadConfigFromEnv(): CustomConfig {
     let { PROJECT_ID, BLAISE_API_URL, SERVER_PARK, SESSION_TIMEOUT } = process.env;
@@ -26,6 +27,7 @@ export function loadConfigFromEnv(): CustomConfig {
         logger.info("SESSION_TIMEOUT environment variable has not been set, using default of 12h");
         SESSION_TIMEOUT = "12h";
     }
+    const roleToServerParksMap: { [key: string]: string[] } = role_to_serverparks_map_json;
 
     return {
         BlaiseApiUrl: fixURL(BLAISE_API_URL),
@@ -33,7 +35,8 @@ export function loadConfigFromEnv(): CustomConfig {
         ServerPark: SERVER_PARK,
         Roles: loadRoles(ROLES),
         SessionTimeout: SESSION_TIMEOUT,
-        SessionSecret: sessionSecret(SESSION_SECRET)
+        SessionSecret: sessionSecret(SESSION_SECRET),
+        RoleToServerParksMap: roleToServerParksMap
     };
 }
 

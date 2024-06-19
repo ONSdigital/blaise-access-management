@@ -16,6 +16,7 @@ describe("Config setup", () => {
         expect(config.ProjectId).toBe("mock-project");
         expect(config.ServerPark).toBe("mock-server-park");
         expect(config.BlaiseApiUrl).toBe("http://mock");
+        expect(config.RoleToServerParksMap).not.toBeNull();
     });
 
     it("should return variables with default string if variables are not defined", () => {
@@ -30,5 +31,6 @@ describe("Config setup", () => {
         expect(config.ProjectId).toBe("ENV_VAR_NOT_SET");
         expect(config.ServerPark).toBe("ENV_VAR_NOT_SET");
         expect(config.BlaiseApiUrl).toBe("http://ENV_VAR_NOT_SET");
+        expect(config.RoleToServerParksMap).not.toBeNull();
     });
 });
