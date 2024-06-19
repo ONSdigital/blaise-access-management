@@ -44,7 +44,7 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                                             {role}
                                         </td>
                                         <td className="ons-table__cell ">
-                                            {serverParks.join(",")}
+                                            {serverParks.join(", ")}
                                         </td>
                                         {/*<td className="ons-table__cell ">*/}
                                         {/*    <Link to={"/survey/" + item.name}>Edit</Link>*/}
