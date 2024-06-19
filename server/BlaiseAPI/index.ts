@@ -47,9 +47,15 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
 
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         const data = req.body;
-        data.serverParks = [config.ServerPark];
-        data.defaultServerPark = config.ServerPark;
-
+        const roleServerParksOverride = config.RoleToServerParksMap[data.role];
+        if (roleServerParksOverride != null) {
+            data.serverParks = roleServerParksOverride;
+            data.defaultServerPark = roleServerParksOverride[0];
+        } else {
+            const defaultServerPark = config.RoleToServerParksMap["DEFAULT"];
+            data.serverParks = defaultServerPark;
+            data.defaultServerPark = defaultServerPark[0];
+        }
         return res.status(200).json(await blaiseApiClient.createUser(data));
     });
 
