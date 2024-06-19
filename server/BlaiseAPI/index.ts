@@ -1,9 +1,9 @@
 import express, { Request, Response, Router } from "express";
 import { CustomConfig } from "../interfaces/server";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
-import BlaiseApiClient from "blaise-api-node-client";
+import BlaiseApi from "blaise-api-node-client";
 
-export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApiClient): Router {
+export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApi): Router {
     const router = express.Router();
 
     router.get("/api/roles", auth.Middleware, async function (req: Request, res: Response) {
