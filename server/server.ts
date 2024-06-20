@@ -61,12 +61,12 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
         express.static(path.join(__dirname, `${buildFolder}/static`))
     );
     
+    let indexFilePath = path.join(__dirname, `${buildFolder}/index.html`);
+    if (!fs.existsSync(indexFilePath)) {
+        indexFilePath = path.join(__dirname, `../public/index.html`);
+    } 
     server.get("*", function (_req: Request, res: Response) {
-        let filePath = path.join(__dirname, `${buildFolder}/index.html`);
-        if (!fs.existsSync(filePath)) {
-            filePath = path.join(__dirname, `../public/index.html`);
-        } 
-        res.render(filePath);
+        res.render(indexFilePath);
     });
 
     server.use(function (err: Error, _req: Request, res: Response) {
