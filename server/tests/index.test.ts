@@ -50,7 +50,7 @@ describe("app engine start", () => {
 
 import role_to_serverparks_map from '../role-to-serverparks-map.json'
 import { size } from "lodash";
-describe("Test /api/users POST createUser with correct server parks", () => {
+describe("Test /api/users POST endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
     });
@@ -59,14 +59,14 @@ describe("Test /api/users POST createUser with correct server parks", () => {
         blaiseApiMock.reset();
     });
 
-    it("should call Blaise API createUser endpoint with correct serverParks for each role in server/role-to-serverparks-map.json and return http status 200", async () => {
-        let index = 0;
-        let roleCount = size(role_to_serverparks_map);
+    it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json and return http status 200", async () => {
+        let currentRoleNo = 0;
+        let totalRoleCount = size(role_to_serverparks_map);
         for(let roleName in role_to_serverparks_map)   
         {
             blaiseApiMock.reset();
-            console.log("Running for role %i of %i:  %s", ++index, roleCount, roleName);
-            
+            console.log("Running for role %i of %i:  %s", ++currentRoleNo, totalRoleCount, roleName);
+
             const spmap = role_to_serverparks_map[roleName];
             const newUser : NewUser = {
                 name:  "name1",
@@ -89,5 +89,30 @@ describe("Test /api/users POST createUser with correct server parks", () => {
             )), Times.exactly(1));
             expect(response.body).toStrictEqual(newUser);
         }
+    });
+
+    it("should call Blaise API createUser endpoint with DEFAULT serverParks for a role MISSING in server/role-to-serverparks-map.json and return http status 200", async () => {
+        const roleName = "this role is missing in server/role-to-serverparks-map.json file";
+        const spmap = role_to_serverparks_map.DEFAULT;
+        const newUser : NewUser = {
+            name:  "name1",
+            password: "password1",
+            role: roleName,
+            serverParks: spmap,
+            defaultServerPark: spmap[0]
+        };
+        blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
+        
+        const response = await sut.post("/api/users")
+            .field("role", roleName);
+
+        expect(response.statusCode).toEqual(200);
+        blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
+            x=> x.defaultServerPark == newUser.defaultServerPark 
+                && x.role == newUser.role
+                && Array.isArray(x.serverParks) && x.serverParks.every(item => typeof item === "string")
+                && x.serverParks.every((val, idx) => val === newUser.serverParks[idx])
+        )), Times.exactly(1));
+        expect(response.body).toStrictEqual(newUser);
     });
 });
