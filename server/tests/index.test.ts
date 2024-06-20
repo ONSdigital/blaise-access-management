@@ -20,7 +20,7 @@ const authMock : IMock<Auth> = Mock.ofType(Auth);
 const server = GetNodeServer(config, blaiseApiMock.object, authMock.object);
 const sut = supertest(server);
 
-/*
+
 describe("Test Heath Endpoint", () => {
     
     it("should return a 200 status and json message", async () => {
@@ -46,26 +46,10 @@ describe("app engine start", () => {
         expect(response.statusCode).toEqual(200);
     });
 });
-*/
-
-
-//import { Auth } from "blaise-login-react/blaise-login-react-server";
-//import { BlaiseApi } from "blaise-api-node-client/src/interfaces/blaiseApi";
-//const BlaiseApiClientMock: IMock<BlaiseApiClient> = Mock.ofType(BlaiseApiClient);
 
 import { NewUser, UserRole, User } from "blaise-api-node-client";
-//import { promiseImpl } from "ejs";
-//import { createUser } from "blaise-api-node-client/lib/esm/functions/userFunctions";
-
-// jest.mock('blaise-api-node-client', () => {
-//     return jest.fn().mockImplementation(() => 
-//         {
-//             //createUser: jest.fn((user: NewUser) => Promise<NewUser>);
-//         }
-//     );
-// });
-
 import role_to_serverparks_map from '../role-to-serverparks-map.json'
+import { notStrictEqual } from "assert";
 describe("Test /api/users POST createUser with correct server parks", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
@@ -75,40 +59,28 @@ describe("Test /api/users POST createUser with correct server parks", () => {
         blaiseApiMock.reset();
     });
 
-    it("should return a 200 status and json message", async () => {
+    it("should call Blaise API createUser endpoint and return http status 200", async () => {
+        const roleName = "IPS Field Interviewer";
+        const spmap = role_to_serverparks_map[roleName];
         const newUser : NewUser = {
             name:  "name1",
             password: "password1",
-            role: "test-user-role",
-            serverParks: ["sp1", "sp2"],
-            defaultServerPark: "sp1"
+            role: roleName,
+            serverParks: spmap,
+            defaultServerPark: spmap[0]
         };
         blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
 
-        const roleName = "IPS Field Interviewer"
-        const spmap = role_to_serverparks_map[roleName]
-        //jest.spyOn(blaiseApiClient, "createUser").mockImplementation(async () => promiseImpl<NewUser>());
-        
-        // const mock = jest.spyOn(blaiseApiClient, 'createUser');  // spy on foo
-        
-        // mock.mockImplementation(() => Promise.resolve(newUser))
-        
-        //BlaiseApiClient.createUser.mockReturnValue = null;
-        //c.createUser.mo
-        
-        // const authManager = new AuthManager();
-        // const authHeader = authManager.authHeader();
-        // axios.post("/api/users", {
-        //     headers: authHeader
-        //   });
-        
         const response = await sut.post("/api/users")
             .field("role", roleName);
-            //.field("Authorization", "TEST123");
 
         expect(response.statusCode).toEqual(200);
-        blaiseApiMock.verify(a => a.createUser(It.isAny()), Times.exactly(1));
-        //let param1  = blaiseApiClientMock_interceptor._interceptorContext._actualInvocations[0].args[0];
+        blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
+            x=> x.defaultServerPark == newUser.defaultServerPark 
+                && x.role == newUser.role
+                && Array.isArray(x.serverParks) && x.serverParks.every(item => typeof item === "string")
+                && x.serverParks.every((val, idx) => val === newUser.serverParks[idx])
+        )), Times.exactly(1));
         expect(response.body).toStrictEqual(newUser);
     });
 });

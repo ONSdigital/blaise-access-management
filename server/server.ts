@@ -3,7 +3,6 @@ import axios from "axios";
 import path from "path";
 import ejs from "ejs";
 import dotenv from "dotenv";
-
 import createLogger from "./pino";
 import BlaiseAPIRouter from "./BlaiseAPI";
 import multer from "multer";
@@ -13,6 +12,7 @@ import pino from "pino";
 import { CustomConfig } from "./interfaces/server";
 import BlaiseApi from "blaise-api-node-client"
 import { Express } from 'express';
+import fs from 'fs';
 
 
 export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi, auth: Auth): Express 
@@ -60,9 +60,13 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
         "/static",
         express.static(path.join(__dirname, `${buildFolder}/static`))
     );
-
+    
     server.get("*", function (_req: Request, res: Response) {
-        res.render(path.join(__dirname, `${buildFolder}/index.html`));
+        let filePath = path.join(__dirname, `${buildFolder}/index.html`);
+        if (!fs.existsSync(filePath)) {
+            filePath = path.join(__dirname, `../public/index.html`);
+        } 
+        res.render(filePath);
     });
 
     server.use(function (err: Error, _req: Request, res: Response) {
@@ -72,6 +76,3 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
 
     return server;
 }
-
-//export { server, blaiseApiClient, authMock };
-//export default server;
