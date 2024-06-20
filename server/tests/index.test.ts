@@ -5,7 +5,7 @@
 import supertest from "supertest";
 import GetNodeServer from "../server";
 import { loadConfigFromEnv } from "../Config";
-import BlaiseApiClient, { NewUser, User } from "blaise-api-node-client";
+import BlaiseApiClient, { NewUser, User, UserRole } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import { IMock, Mock, It, Times } from "typemoq";
 
@@ -166,5 +166,26 @@ describe("Test /api/users GET endpoint", () => {
 
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.getUsers(), Times.once());
+    });
+});
+
+describe("Test /api/roles GET endpoint", () => {
+    it("should call Blaise API getUserRoles endpoint AND return http status OK_200", async () => {
+        const userRole1 : UserRole = {
+            name:  "name1",
+            description: "desc1",
+            permissions: ["perm1", "perm2"]
+        };
+        const userRole2 = userRole1;
+        userRole2.name = "name2";
+        const userRole3 = userRole2;
+        userRole3.name = "name3";
+        const userRoleArray : UserRole [] = [userRole1, userRole2, userRole3];
+        blaiseApiMock.setup((api) => api.getUserRoles()).returns(_ => Promise.resolve(userRoleArray));
+
+        const response = await sut.get("/api/roles");
+
+        expect(response.statusCode).toEqual(200);
+        blaiseApiMock.verify(a => a.getUserRoles(), Times.once());
     });
 });
