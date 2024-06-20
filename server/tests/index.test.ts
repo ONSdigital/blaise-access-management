@@ -146,12 +146,25 @@ describe("Test /api/users DELETE endpoint", () => {
     });
 });
 
-/*
-beforeEach(() => {
-    blaiseApiMock.reset();
-});
+describe("Test /api/users GET endpoint", () => {
+    it("should call Blaise API getUsers endpoint AND return http status OK_200", async () => {
+        const newUser1 : NewUser = {
+            name:  "name1",
+            password: "password1",
+            role: "role1",
+            serverParks: ["sp1", "sp2"],
+            defaultServerPark: "sp1"
+        };
+        const newUser2 = newUser1;
+        newUser2.name = "name2";
+        const newUser3 = newUser2;
+        newUser3.name = "name3";
+        const userArray : NewUser [] = [newUser1, newUser2, newUser3];
+        blaiseApiMock.setup((api) => api.getUsers()).returns(_ => Promise.resolve(userArray));
 
-afterAll(() => {
-    blaiseApiMock.reset();
+        const response = await sut.get("/api/users");
+
+        expect(response.statusCode).toEqual(200);
+        blaiseApiMock.verify(a => a.getUsers(), Times.once());
+    });
 });
-*/
