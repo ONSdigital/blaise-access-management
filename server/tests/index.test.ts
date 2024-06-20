@@ -5,9 +5,9 @@
 import supertest from "supertest";
 import GetNodeServer from "../server";
 import { loadConfigFromEnv } from "../Config";
-import BlaiseApiClient, {NewUser, User} from "blaise-api-node-client";
+import BlaiseApiClient, { NewUser, User } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
-import { IMock, Mock, It, Times  } from "typemoq";
+import { IMock, Mock, It, Times } from "typemoq";
 
 // Temporary fix for Jest open handle issue (gcp profiler TCPWRAP error)
 jest.mock("@google-cloud/profiler", () => ({
@@ -21,9 +21,8 @@ const auth = new Auth(config);
 const server = GetNodeServer(config, blaiseApiMock.object, auth);
 const sut = supertest(server);
 
-
 describe("Test Heath Endpoint", () => {
-    
+
     it("should return a 200 status and json message", async () => {
         const response = await sut.get("/bam-ui/version/health");
 
@@ -33,7 +32,7 @@ describe("Test Heath Endpoint", () => {
 });
 
 describe("app engine start", () => {
-    
+
     it("should return a 200 status and json message", async () => {
         process.env = Object.assign({
             PROJECT_ID: "mock",
@@ -48,7 +47,7 @@ describe("app engine start", () => {
     });
 });
 
-import role_to_serverparks_map from '../role-to-serverparks-map.json'
+import role_to_serverparks_map from "../role-to-serverparks-map.json";
 import { size } from "lodash";
 describe("Test /api/users POST endpoint", () => {
     beforeEach(() => {
@@ -61,8 +60,8 @@ describe("Test /api/users POST endpoint", () => {
 
     it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json and return http status 200", async () => {
         let currentRoleNo = 0;
-        let totalRoleCount = size(role_to_serverparks_map);
-        for(let roleName in role_to_serverparks_map)   
+        const totalRoleCount = size(role_to_serverparks_map);
+        for(const roleName in role_to_serverparks_map)
         {
             blaiseApiMock.reset();
             console.log("Running for role %i of %i:  %s", ++currentRoleNo, totalRoleCount, roleName);
@@ -76,13 +75,13 @@ describe("Test /api/users POST endpoint", () => {
                 defaultServerPark: spmap[0]
             };
             blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
-            
+
             const response = await sut.post("/api/users")
                 .field("role", roleName);
 
             expect(response.statusCode).toEqual(200);
             blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
-                x=> x.defaultServerPark == newUser.defaultServerPark 
+                x=> x.defaultServerPark == newUser.defaultServerPark
                     && x.role == newUser.role
                     && Array.isArray(x.serverParks) && x.serverParks.every(item => typeof item === "string")
                     && x.serverParks.every((val, idx) => val === newUser.serverParks[idx])
@@ -102,13 +101,13 @@ describe("Test /api/users POST endpoint", () => {
             defaultServerPark: spmap[0]
         };
         blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
-        
+
         const response = await sut.post("/api/users")
             .field("role", roleName);
 
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
-            x=> x.defaultServerPark == newUser.defaultServerPark 
+            x=> x.defaultServerPark == newUser.defaultServerPark
                 && x.role == newUser.role
                 && Array.isArray(x.serverParks) && x.serverParks.every(item => typeof item === "string")
                 && x.serverParks.every((val, idx) => val === newUser.serverParks[idx])

@@ -10,12 +10,11 @@ import * as profiler from "@google-cloud/profiler";
 import { newLoginHandler, Auth } from "blaise-login-react/blaise-login-react-server";
 import pino from "pino";
 import { CustomConfig } from "./interfaces/server";
-import BlaiseApi from "blaise-api-node-client"
-import { Express } from 'express';
-import fs from 'fs';
+import BlaiseApi from "blaise-api-node-client";
+import { Express } from "express";
+import fs from "fs";
 
-
-export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi, auth: Auth): Express 
+export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi, auth: Auth): Express
 {
     const pinoLogger = pino();
     profiler.start({ logLevel: 4 }).catch((err: unknown) => {
@@ -60,11 +59,11 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
         "/static",
         express.static(path.join(__dirname, `${buildFolder}/static`))
     );
-    
+
     let indexFilePath = path.join(__dirname, `${buildFolder}/index.html`);
     if (!fs.existsSync(indexFilePath)) {
-        indexFilePath = path.join(__dirname, `../public/index.html`);
-    } 
+        indexFilePath = path.join(__dirname, "../public/index.html");
+    }
     server.get("*", function (_req: Request, res: Response) {
         res.render(indexFilePath);
     });
