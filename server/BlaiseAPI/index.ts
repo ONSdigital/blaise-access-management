@@ -47,6 +47,9 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
 
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         const data = req.body;
+        if(!data.role){
+            return res.status(400).json();
+        }
         const roleServerParksOverride = config.RoleToServerParksMap[data.role];
         if (roleServerParksOverride != null) {
             data.serverParks = roleServerParksOverride;
