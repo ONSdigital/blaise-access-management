@@ -49,6 +49,8 @@ describe("app engine start", () => {
 
 import role_to_serverparks_map from "../role-to-serverparks-map.json";
 import { size } from "lodash";
+import { Exception } from "typemoq/Error/Exception";
+import { Errback } from "express";
 describe("Test /api/users POST endpoint", () => {
     it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json AND return http status OK_200", async () => {
         let currentRoleNo = 0;
@@ -187,5 +189,38 @@ describe("Test /api/roles GET endpoint", () => {
 
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.getUserRoles(), Times.once());
+    });
+});
+
+describe("Test /api/change_password/:user GET endpoint", () => {
+    beforeEach(() => {
+        blaiseApiMock.reset();
+    });
+
+    afterAll(() => {
+        blaiseApiMock.reset();
+    });
+
+    it("should call Blaise API changePassword endpoint for VALID request AND return http status NO_CONTENT_204", async () => {
+        const username = "user1";
+        const password = "password-1234";
+        blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.resolve(null));
+
+        const response = await sut.get("/api/change_password/"+username)
+            .set("password", password);
+
+        expect(response.statusCode).toEqual(204);
+        blaiseApiMock.verify(a => a.changePassword(It.isValue<string>(username), It.isValue<string>(password)), Times.once());
+    });
+
+    it("should NOT call Blaise API changePassword endpoint for INVALID request AND return http status BAD_REQUEST_400", async () => {
+        const username = "user1";
+        const password = "";
+
+        const response = await sut.get("/api/change_password/"+username)
+            .set("password", password);
+
+        expect(response.statusCode).toEqual(400);
+        blaiseApiMock.verify(a => a.changePassword(It.isAnyString(), It.isAnyString()), Times.never());
     });
 });
