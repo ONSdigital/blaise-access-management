@@ -29,7 +29,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             return res.status(204).json(null);
         }).catch((error: unknown) => {
             console.error(error);
-            return res.status(500).json();
+            return res.status(500).json(error);
         });
     });
 

@@ -223,4 +223,19 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         expect(response.statusCode).toEqual(400);
         blaiseApiMock.verify(a => a.changePassword(It.isAnyString(), It.isAnyString()), Times.never());
     });
+
+    it("should return error message if external Blaise API changePassword endpoint rejects request with error message AND should return http status INTERNAL_SERVER_ERROR_500", async () => {
+        const username = "user1";
+        const password = "password-1234";
+        const errorMessage = "Error occured when calling changePassword on Blaise API Rest Service";
+        blaiseApiMock.setup((a) => a.changePassword(It.isAnyString(), It.isAnyString()))
+            .returns(_ => Promise.reject(errorMessage));
+
+        const response = await sut.get("/api/change_password/"+username)
+            .set("password", password);
+
+        expect(response.statusCode).toEqual(500);
+        blaiseApiMock.verify(a => a.changePassword(It.isAnyString(), It.isAnyString()), Times.once());
+        expect(response.body).toStrictEqual(errorMessage);
+    });
 });
