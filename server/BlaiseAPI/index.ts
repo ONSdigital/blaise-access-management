@@ -29,7 +29,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             return res.status(204).json(null);
         }).catch((error: unknown) => {
             console.error(error);
-            return res.status(500).json();
+            return res.status(500).json(error);
         });
     });
 
@@ -39,6 +39,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         if (Array.isArray(user)) {
             user = user.join("");
         }
+
         if (!user) {
             return res.status(400).json();
         }
@@ -47,6 +48,9 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
 
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         const data = req.body;
+        if(!data.role){
+            return res.status(400).json();
+        }
         const roleServerParksOverride = config.RoleToServerParksMap[data.role];
         if (roleServerParksOverride != null) {
             data.serverParks = roleServerParksOverride;
