@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 import path from "path";
 import ejs from "ejs";
-import dotenv from "dotenv";
 import createLogger from "./pino";
 import BlaiseAPIRouter from "./BlaiseAPI";
 import multer from "multer";
@@ -31,10 +30,6 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
 
     const logger = createLogger();
     server.use(logger);
-
-    if (process.env.NODE_ENV !== "production") {
-        dotenv.config();
-    }
 
     // where ever the react built package is
     const buildFolder = "../build";
