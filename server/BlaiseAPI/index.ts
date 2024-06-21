@@ -39,6 +39,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         if (Array.isArray(user)) {
             user = user.join("");
         }
+
         if (!user) {
             return res.status(400).json();
         }
