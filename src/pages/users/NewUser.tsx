@@ -31,16 +31,6 @@ function NewUserComponent(): ReactElement {
                 defaultServerPark: "gusty",
                 serverParks: ["gusty"]
             };
-            const roleServerParksOverride = cconfig.RoleToServerParksMap[role];
-            if (roleServerParksOverride != null) {
-                newUser.serverParks = roleServerParksOverride;
-                newUser.defaultServerPark = roleServerParksOverride[0];
-            } else {
-                const defaultServerPark = cconfig.RoleToServerParksMap["DEFAULT"];
-                newUser.serverParks = defaultServerPark;
-                newUser.defaultServerPark = defaultServerPark[0];
-            }
-
             setButtonLoading(true);
             const created = await addNewUser(newUser);
 
