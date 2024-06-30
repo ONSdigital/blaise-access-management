@@ -31,7 +31,7 @@ export default function ProfileTable({ currentUser, viewedUserDetails }: {curren
                                     <div className="ons-summary__item--text">Password</div>
                                 </dt>
                                 <dd className="ons-summary__values">
-                                    <span className="ons-summary__text">{name ? "••••••••" : "Not found"}</span>
+                                    <span className="ons-summary__text">{name ? "•••••••••" : "Not found"}</span>
                                 </dd>
                                 <dd className="ons-summary__actions">
                                     {
