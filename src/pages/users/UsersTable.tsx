@@ -19,47 +19,29 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                                 <span>Role</span>
                             </th>
                             <th scope="col" className="ons-table__header ">
-                                <span>Server Parks</span>
-                            </th>
-                            {/*<th scope="col" className="ons-table__header ">*/}
-                            {/*    <span>Edit user</span>*/}
-                            {/*</th>*/}
-                            <th scope="col" className="ons-table__header ">
-                                <span>Change password</span>
-                            </th>
-                            <th scope="col" className="ons-table__header ">
-                                <span>Delete user</span>
+                                <span>Actions</span>
                             </th>
                         </tr>
                     </thead>
                     <tbody className="ons-table__body">
                         {
-                            users.map(({ role, name, serverParks }: User) => {
+                            users.map((user: User) => {
                                 return (
-                                    <tr className="ons-table__row" key={name} data-testid={"users-table-row"}>
-                                        <td className="ons-table__cell ">
-                                            {name}
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            {role}
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            {serverParks.join(", ")}
-                                        </td>
-                                        {/*<td className="ons-table__cell ">*/}
-                                        {/*    <Link to={"/survey/" + item.name}>Edit</Link>*/}
-                                        {/*</td>*/}
-                                        <td className="ons-table__cell ">
-                                            <Link to={"/users/changepassword/" + name}>Change password</Link>
-                                        </td>
+                                    <tr className="ons-table__row" key={user.name} data-testid={"users-table-row"}>
                                         <td className="ons-table__cell ">
                                             {
                                                 (
-                                                    name === currentUser?.name ?
-                                                        "Currently signed in user" :
-                                                        <Link to={"/users/delete/" + name}>Delete</Link>
+                                                    user.name === currentUser?.name ?
+                                                        <>{user.name + " "}(Current user)</> :
+                                                        user.name
                                                 )
                                             }
+                                        </td>
+                                        <td className="ons-table__cell ">
+                                            {user.role}
+                                        </td>
+                                        <td className="ons-table__cell ">
+                                            <Link to={"/users/" + user.name} state={{ currentUser }}>View user</Link>
                                         </td>
                                     </tr>
                                 );

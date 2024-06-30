@@ -7,10 +7,10 @@ function Breadcrumbs({ BreadcrumbList }: BreadcrumbProps): ReactElement {
         <nav className="ons-breadcrumb" aria-label="Breadcrumb">
             <ol className="ons-breadcrumb__items ons-u-fs-s">
                 {
-                    BreadcrumbList.map(({ link, title }: BreadcrumbItem, index) => {
+                    BreadcrumbList.map(({ link, title, state }: BreadcrumbItem, index) => {
                         return (
                             <li className="ons-breadcrumb__item" id={`breadcrumb-${index}`} key={title}>
-                                <Link className="ons-breadcrumb__link" to={link}>{title}</Link>
+                                <Link className="ons-breadcrumb__link" to={link} state={state}>{title}</Link>
                                 <svg className="ons-svg-icon" viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg"
                                     focusable="false">
                                     <path
