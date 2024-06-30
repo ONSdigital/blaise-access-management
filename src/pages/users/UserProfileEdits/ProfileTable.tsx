@@ -63,7 +63,7 @@ export default function ProfileTable({ currentUser, viewedUserDetails }: {curren
                                 <span className="ons-summary__text">{role ? role : "Not found"}</span>
                             </dd>
                             <dd className="ons-summary__actions">
-                                <Link to={"/users/changerole/" + name} state={{ currentUser, viewedUserDetails }} className="ons-summary__button">
+                                <Link to={"/users/change-role/" + name} state={{ currentUser, viewedUserDetails }} className="ons-summary__button">
                                     <span className="ons-summary__button-text"
                                         aria-hidden="true">
                                                 Change

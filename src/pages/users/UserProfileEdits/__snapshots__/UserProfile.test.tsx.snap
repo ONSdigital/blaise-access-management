@@ -195,7 +195,7 @@ exports[`UserProfile Component should render correctly and match the snapshot 1`
             >
               <a
                 class="ons-summary__button"
-                href="/users/changerole/"
+                href="/users/change-role/"
               >
                 <span
                   aria-hidden="true"
