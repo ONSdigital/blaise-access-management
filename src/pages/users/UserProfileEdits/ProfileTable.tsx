@@ -38,7 +38,7 @@ export default function ProfileTable({ currentUser, viewedUserDetails }: {curren
                                         (
                                             name === currentUsername ?
                                                 "Current user" :
-                                                <Link to={"/users/changepassword/" + name} state={{ currentUser }} className="ons-summary__button">
+                                                <Link to={"/users/change-password/" + name} state={{ currentUser }} className="ons-summary__button">
                                                     <span className="ons-summary__button-text"
                                                         aria-hidden="true">
                                                 Change

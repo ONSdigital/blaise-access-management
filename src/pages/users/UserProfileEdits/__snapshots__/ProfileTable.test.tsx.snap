@@ -83,7 +83,7 @@ exports[`ProfileTable matches snapshot 1`] = `
               >
                 <a
                   class="ons-summary__button"
-                  href="/users/changepassword/John Doe"
+                  href="/users/change-password/John Doe"
                 >
                   <span
                     aria-hidden="true"
