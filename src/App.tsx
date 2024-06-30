@@ -12,6 +12,7 @@ import { User } from "blaise-api-node-client";
 import { Authenticate } from "blaise-login-react/blaise-login-react-client";
 import UserProfile from "./pages/users/UserProfileEdits/UserProfile";
 import ChangeRole from "./pages/users/UserProfileEdits/ChangeRole";
+import PageNotFound from "./Components/PageNotFound";
 
 const divStyle = {
     minHeight: "calc(67vh)"
@@ -55,6 +56,9 @@ function App(): ReactElement {
                                     <ErrorBoundary errorMessageText={"Unable to load homepage. Please try again."}>
                                         <Home />
                                     </ErrorBoundary>
+                                }/>
+                                <Route path="*" element={
+                                    <PageNotFound />
                                 }/>
                             </Routes>
                         </DefaultErrorBoundary>
