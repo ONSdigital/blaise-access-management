@@ -98,23 +98,7 @@ Object {
                 scope="col"
               >
                 <span>
-                  Server Parks
-                </span>
-              </th>
-              <th
-                class="ons-table__header "
-                scope="col"
-              >
-                <span>
-                  Change password
-                </span>
-              </th>
-              <th
-                class="ons-table__header "
-                scope="col"
-              >
-                <span>
-                  Delete user
+                  Actions
                 </span>
               </th>
             </tr>
@@ -129,7 +113,8 @@ Object {
               <td
                 class="ons-table__cell "
               >
-                TestUser123
+                TestUser123 
+                (Current user)
               </td>
               <td
                 class="ons-table__cell "
@@ -139,21 +124,11 @@ Object {
               <td
                 class="ons-table__cell "
               >
-                gusty
-              </td>
-              <td
-                class="ons-table__cell "
-              >
                 <a
-                  href="/users/changepassword/TestUser123"
+                  href="/users/TestUser123"
                 >
-                  Change password
+                  View user
                 </a>
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                Currently signed in user
               </td>
             </tr>
             <tr
@@ -173,24 +148,10 @@ Object {
               <td
                 class="ons-table__cell "
               >
-                gusty
-              </td>
-              <td
-                class="ons-table__cell "
-              >
                 <a
-                  href="/users/changepassword/SecondUser"
+                  href="/users/SecondUser"
                 >
-                  Change password
-                </a>
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                <a
-                  href="/users/delete/SecondUser"
-                >
-                  Delete
+                  View user
                 </a>
               </td>
             </tr>
@@ -293,23 +254,7 @@ Object {
               scope="col"
             >
               <span>
-                Server Parks
-              </span>
-            </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Change password
-              </span>
-            </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Delete user
+                Actions
               </span>
             </th>
           </tr>
@@ -324,7 +269,8 @@ Object {
             <td
               class="ons-table__cell "
             >
-              TestUser123
+              TestUser123 
+              (Current user)
             </td>
             <td
               class="ons-table__cell "
@@ -334,21 +280,11 @@ Object {
             <td
               class="ons-table__cell "
             >
-              gusty
-            </td>
-            <td
-              class="ons-table__cell "
-            >
               <a
-                href="/users/changepassword/TestUser123"
+                href="/users/TestUser123"
               >
-                Change password
+                View user
               </a>
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              Currently signed in user
             </td>
           </tr>
           <tr
@@ -368,24 +304,10 @@ Object {
             <td
               class="ons-table__cell "
             >
-              gusty
-            </td>
-            <td
-              class="ons-table__cell "
-            >
               <a
-                href="/users/changepassword/SecondUser"
+                href="/users/SecondUser"
               >
-                Change password
-              </a>
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              <a
-                href="/users/delete/SecondUser"
-              >
-                Delete
+                View user
               </a>
             </td>
           </tr>

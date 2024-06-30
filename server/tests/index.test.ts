@@ -192,7 +192,7 @@ describe("Test /api/roles GET endpoint", () => {
     });
 });
 
-describe("Test /api/change_password/:user GET endpoint", () => {
+describe("Test /api/change-password/:user GET endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
     });
@@ -206,7 +206,7 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         const password = "password-1234";
         blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.resolve(null));
 
-        const response = await sut.get("/api/change_password/"+username)
+        const response = await sut.get("/api/change-password/"+username)
             .set("password", password);
 
         expect(response.statusCode).toEqual(204);
@@ -217,7 +217,7 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         const username = "user1";
         const password = "";
 
-        const response = await sut.get("/api/change_password/"+username)
+        const response = await sut.get("/api/change-password/"+username)
             .set("password", password);
 
         expect(response.statusCode).toEqual(400);
@@ -231,7 +231,7 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         blaiseApiMock.setup((a) => a.changePassword(It.isAnyString(), It.isAnyString()))
             .returns(_ => Promise.reject(errorMessage));
 
-        const response = await sut.get("/api/change_password/"+username)
+        const response = await sut.get("/api/change-password/"+username)
             .set("password", password);
 
         expect(response.statusCode).toEqual(500);

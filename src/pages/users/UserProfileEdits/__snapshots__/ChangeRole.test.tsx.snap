@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChangeRole Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <nav
+    aria-label="Breadcrumb"
+    class="ons-breadcrumb"
+  >
+    <ol
+      class="ons-breadcrumb__items ons-u-fs-s"
+    >
+      <li
+        class="ons-breadcrumb__item"
+        id="breadcrumb-0"
+      >
+        <a
+          class="ons-breadcrumb__link"
+          href="/"
+        >
+          Home
+        </a>
+        <svg
+          class="ons-svg-icon"
+          focusable="false"
+          viewBox="0 0 8 13"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+            transform="translate(-5.02 -1.59)"
+          />
+        </svg>
+      </li>
+      <li
+        class="ons-breadcrumb__item"
+        id="breadcrumb-1"
+      >
+        <a
+          class="ons-breadcrumb__link"
+          href="/users/"
+        >
+          Manage users
+        </a>
+        <svg
+          class="ons-svg-icon"
+          focusable="false"
+          viewBox="0 0 8 13"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+            transform="translate(-5.02 -1.59)"
+          />
+        </svg>
+      </li>
+      <li
+        class="ons-breadcrumb__item"
+        id="breadcrumb-2"
+      >
+        <a
+          class="ons-breadcrumb__link"
+          href="/users/undefined"
+        >
+          View user
+        </a>
+        <svg
+          class="ons-svg-icon"
+          focusable="false"
+          viewBox="0 0 8 13"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+            transform="translate(-5.02 -1.59)"
+          />
+        </svg>
+      </li>
+    </ol>
+  </nav>
+  <main
+    class="ons-page__main ons-u-mt-no"
+    id="main-content"
+  >
+    <h1
+      class="ons-u-mb-l"
+    >
+      Change current role for user 
+      <em />
+    </h1>
+    <h2
+      class="ons-u-mb-l"
+    >
+      Current role: 
+      <em>
+        DST
+      </em>
+    </h2>
+    <form
+      class="ons-u-mt-m"
+    >
+      <p
+        class="ons-field"
+      >
+        <label
+          class="ons-label"
+          for="new-user-role"
+        >
+          New Role
+        </label>
+        <select
+          class="ons-input ons-input--select "
+          id="new-user-role"
+          name="select-role"
+        />
+      </p>
+      <button
+        class="ons-btn "
+        data-testid="button"
+        type="submit"
+      >
+        <span
+          class="ons-btn__inner"
+        >
+          Save
+        </span>
+      </button>
+    </form>
+  </main>
+</DocumentFragment>
+`;
