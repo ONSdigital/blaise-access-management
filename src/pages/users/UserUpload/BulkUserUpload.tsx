@@ -3,7 +3,7 @@ import { ImportUser, UploadedUser } from "../../../Interfaces";
 import { NewUser } from "blaise-api-node-client";
 import UsersToUploadSummary from "./UsersToUploadSummary";
 import SelectFile from "./SelectFile";
-import { addNewUser } from "../../../utilities/http";
+import { addNewUser } from "../../../api/http";
 import UsersUploadedSummary from "./UsersUploadedSummary";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import UsersUploadInProgress from "./UsersUploadInProgress";

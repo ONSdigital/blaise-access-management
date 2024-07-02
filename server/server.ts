@@ -59,6 +59,7 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
     if (!fs.existsSync(indexFilePath)) {
         indexFilePath = path.join(__dirname, "../public/index.html");
     }
+
     server.get("*", function (_req: Request, res: Response) {
         res.render(indexFilePath);
     });

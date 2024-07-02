@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { getAllRoles } from "../../utilities/http";
+import { getAllRoles } from "../../api/http";
 import { ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
 import RolesTable from "./RolesTable";
 import { UserRole } from "blaise-api-node-client";

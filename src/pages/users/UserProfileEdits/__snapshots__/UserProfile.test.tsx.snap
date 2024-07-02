@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserProfile Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <nav
+    aria-label="Breadcrumb"
+    class="ons-breadcrumb"
+  >
+    <ol
+      class="ons-breadcrumb__items ons-u-fs-s"
+    >
+      <li
+        class="ons-breadcrumb__item"
+        id="breadcrumb-0"
+      >
+        <a
+          class="ons-breadcrumb__link"
+          href="/"
+        >
+          Home
+        </a>
+        <svg
+          class="ons-svg-icon"
+          focusable="false"
+          viewBox="0 0 8 13"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+            transform="translate(-5.02 -1.59)"
+          />
+        </svg>
+      </li>
+      <li
+        class="ons-breadcrumb__item"
+        id="breadcrumb-1"
+      >
+        <a
+          class="ons-breadcrumb__link"
+          href="/users"
+        >
+          Manage users
+        </a>
+        <svg
+          class="ons-svg-icon"
+          focusable="false"
+          viewBox="0 0 8 13"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
+            transform="translate(-5.02 -1.59)"
+          />
+        </svg>
+      </li>
+    </ol>
+  </nav>
+  <div
+    class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
+  >
+    <div
+      class="ons-panel__body "
+    >
+      <div
+        style="text-align: center;"
+      >
+        <div
+          aria-busy="true"
+          class=""
+        >
+          <svg
+            aria-label="audio-loading"
+            height="30"
+            viewBox="0 0 38 38"
+            width="30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <lineargradient
+                id="a"
+                x1="8.042%"
+                x2="65.682%"
+                y1="0%"
+                y2="23.865%"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#064868"
+                  stop-opacity="0"
+                />
+                <stop
+                  offset="63.146%"
+                  stop-color="#064868"
+                  stop-opacity=".631"
+                />
+                <stop
+                  offset="100%"
+                  stop-color="#064868"
+                />
+              </lineargradient>
+            </defs>
+            <g
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <g
+                transform="translate(1 1)"
+              >
+                <path
+                  d="M36 18c0-9.94-8.06-18-18-18"
+                  id="Oval-2"
+                  stroke="#064868"
+                  stroke-width="2"
+                >
+                  <animatetransform
+                    attributeName="transform"
+                    dur="0.9s"
+                    from="0 18 18"
+                    repeatCount="indefinite"
+                    to="360 18 18"
+                    type="rotate"
+                  />
+                </path>
+                <circle
+                  cx="36"
+                  cy="18"
+                  fill="#fff"
+                  r="1"
+                >
+                  <animatetransform
+                    attributeName="transform"
+                    dur="0.9s"
+                    from="0 18 18"
+                    repeatCount="indefinite"
+                    to="360 18 18"
+                    type="rotate"
+                  />
+                </circle>
+              </g>
+            </g>
+          </svg>
+        </div>
+        Loading
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

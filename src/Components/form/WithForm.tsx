@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 // @ts-ignore
 import { FormContext } from "./index";
 import { TextInput } from "./TextInput";
-import { TextInputProps } from "../Interfaces/form";
+import { TextInputProps } from "../../Interfaces/form";
 
 const propTypes = {
     name: PropTypes.string.isRequired,
