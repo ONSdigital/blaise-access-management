@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChangeRole Component matches the snapshot 1`] = `
+exports[`DeleteUser Component matches the snapshot 1`] = `
 <DocumentFragment>
   <nav
     aria-label="Breadcrumb"
@@ -37,31 +37,9 @@ exports[`ChangeRole Component matches the snapshot 1`] = `
       >
         <a
           class="ons-breadcrumb__link"
-          href="/users/"
+          href="/users"
         >
           Manage users
-        </a>
-        <svg
-          class="ons-svg-icon"
-          focusable="false"
-          viewBox="0 0 8 13"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z"
-            transform="translate(-5.02 -1.59)"
-          />
-        </svg>
-      </li>
-      <li
-        class="ons-breadcrumb__item"
-        id="breadcrumb-2"
-      >
-        <a
-          class="ons-breadcrumb__link"
-          href="/users/testUser"
-        >
-          View user
         </a>
         <svg
           class="ons-svg-icon"
@@ -84,41 +62,84 @@ exports[`ChangeRole Component matches the snapshot 1`] = `
     <h1
       class="ons-u-mb-l"
     >
-      Change current role for user 
-      <em>
+      Are you sure you want to delete user 
+      <em
+        class="ons-highlight"
+      >
         testUser
       </em>
+      ?
     </h1>
-    <h2
-      class="ons-u-mb-l"
+    <div
+      class="ons-panel ons-panel--error ons-panel--no-title  ons-u-mt-m"
+      hidden=""
     >
-      Current role: 
-      <em>
-        DST
-      </em>
-    </h2>
-    <form
-      class="ons-u-mt-m"
-    >
-      <p
-        class="ons-field"
+      <div
+        class="ons-panel__body "
+      />
+    </div>
+    <form>
+      <fieldset
+        class="ons-fieldset"
       >
-        <label
-          class="ons-label"
-          for="new-user-role"
-        >
-          New Role
-        </label>
-        <select
-          class="ons-input ons-input--select "
-          id="new-user-role"
-          name="select-role"
+        <legend
+          class="ons-fieldset__legend"
         />
-      </p>
+        <div
+          class="ons-radios__items"
+        >
+          <p
+            class="ons-radios__item"
+          >
+            <span
+              class="ons-radio"
+            >
+              <input
+                aria-label="Yes"
+                class="ons-radio__input ons-js-radio "
+                id="yes-delete-item"
+                name="confirm-delete"
+                type="radio"
+                value="True"
+              />
+              <label
+                class="ons-radio__label "
+                for="yes-delete-item"
+              >
+                Yes, delete testUser
+              </label>
+            </span>
+          </p>
+          <br />
+          <p
+            class="ons-radios__item"
+          >
+            <span
+              class="ons-radio"
+            >
+              <input
+                aria-label="No"
+                class="ons-radio__input ons-js-radio "
+                id="no-delete-item"
+                name="confirm-delete"
+                type="radio"
+                value="False"
+              />
+              <label
+                class="ons-radio__label "
+                for="no-delete-item"
+              >
+                No, do not delete testUser
+              </label>
+            </span>
+          </p>
+        </div>
+      </fieldset>
+      <br />
       <button
         class="ons-btn "
         data-testid="button"
-        type="submit"
+        type="button"
       >
         <span
           class="ons-btn__inner"

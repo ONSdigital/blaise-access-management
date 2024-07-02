@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserProfile Component should render correctly and match the snapshot 1`] = `
+exports[`UserProfile Component matches the snapshot 1`] = `
 <DocumentFragment>
   <nav
     aria-label="Breadcrumb"
@@ -55,255 +55,94 @@ exports[`UserProfile Component should render correctly and match the snapshot 1`
       </li>
     </ol>
   </nav>
-  <main
-    class="ons-page__main ons-u-mt-no"
-    id="main-content"
+  <div
+    class="ons-panel ons-panel--info ons-panel--no-title  ons-u-mt-m"
   >
     <div
-      class="ons-summary"
+      class="ons-panel__body "
     >
       <div
-        class="ons-summary__group"
-        id="personal-details"
+        style="text-align: center;"
       >
-        <h2
-          class="ons-summary__group-title"
-        >
-          User profile
-        </h2>
-        <dl
-          class="ons-summary__items"
-        >
-          <div
-            class="ons-summary__item"
-            id="name-row"
-          >
-            <div
-              class="ons-summary__row ons-summary__row--has-values"
-              id="name"
-            >
-              <dt
-                class="ons-summary__item-title"
-              >
-                <div
-                  class="ons-summary__item--text"
-                >
-                  Name
-                </div>
-              </dt>
-              <dd
-                class="ons-summary__values"
-              >
-                <span
-                  class="ons-summary__text"
-                >
-                  Not found
-                </span>
-              </dd>
-              <dd
-                class="ons-summary__actions"
-              />
-            </div>
-          </div>
-          <div
-            class="ons-summary__item"
-            id="password-row"
-          >
-            <div
-              class="ons-summary__row ons-summary__row--has-values"
-              id="password"
-            >
-              <dt
-                class="ons-summary__item-title"
-              >
-                <div
-                  class="ons-summary__item--text"
-                >
-                  Password
-                </div>
-              </dt>
-              <dd
-                class="ons-summary__values"
-              >
-                <span
-                  class="ons-summary__text"
-                >
-                  Not found
-                </span>
-              </dd>
-              <dd
-                class="ons-summary__actions"
-              >
-                <a
-                  class="ons-summary__button"
-                  href="/users/change-password/"
-                >
-                  <span
-                    aria-hidden="true"
-                    class="ons-summary__button-text"
-                  >
-                    Change
-                  </span>
-                  <span
-                    class="ons-u-vh"
-                  >
-                    Change password
-                  </span>
-                </a>
-              </dd>
-            </div>
-          </div>
-        </dl>
-      </div>
-      <div
-        class="ons-summary__group"
-        id="roles-and-permissions"
-      >
-        <h2
-          class="ons-summary__group-title"
-        >
-          Roles and permissions
-        </h2>
         <div
-          class="ons-summary__item"
-          id="role-row"
+          aria-busy="true"
+          class=""
         >
-          <div
-            class="ons-summary__row ons-summary__row--has-values"
-            id="role"
+          <svg
+            aria-label="audio-loading"
+            height="30"
+            viewBox="0 0 38 38"
+            width="30"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <dt
-              class="ons-summary__item-title"
-            >
-              <div
-                class="ons-summary__item--text"
+            <defs>
+              <lineargradient
+                id="a"
+                x1="8.042%"
+                x2="65.682%"
+                y1="0%"
+                y2="23.865%"
               >
-                Role
-              </div>
-            </dt>
-            <dd
-              class="ons-summary__values"
+                <stop
+                  offset="0%"
+                  stop-color="#064868"
+                  stop-opacity="0"
+                />
+                <stop
+                  offset="63.146%"
+                  stop-color="#064868"
+                  stop-opacity=".631"
+                />
+                <stop
+                  offset="100%"
+                  stop-color="#064868"
+                />
+              </lineargradient>
+            </defs>
+            <g
+              fill="none"
+              fill-rule="evenodd"
             >
-              <span
-                class="ons-summary__text"
+              <g
+                transform="translate(1 1)"
               >
-                Not found
-              </span>
-            </dd>
-            <dd
-              class="ons-summary__actions"
-            >
-              <a
-                class="ons-summary__button"
-                href="/users/change-role/"
-              >
-                <span
-                  aria-hidden="true"
-                  class="ons-summary__button-text"
+                <path
+                  d="M36 18c0-9.94-8.06-18-18-18"
+                  id="Oval-2"
+                  stroke="#064868"
+                  stroke-width="2"
                 >
-                  Change
-                </span>
-                <span
-                  class="ons-u-vh"
+                  <animatetransform
+                    attributeName="transform"
+                    dur="0.9s"
+                    from="0 18 18"
+                    repeatCount="indefinite"
+                    to="360 18 18"
+                    type="rotate"
+                  />
+                </path>
+                <circle
+                  cx="36"
+                  cy="18"
+                  fill="#fff"
+                  r="1"
                 >
-                  Change role
-                </span>
-              </a>
-            </dd>
-          </div>
+                  <animatetransform
+                    attributeName="transform"
+                    dur="0.9s"
+                    from="0 18 18"
+                    repeatCount="indefinite"
+                    to="360 18 18"
+                    type="rotate"
+                  />
+                </circle>
+              </g>
+            </g>
+          </svg>
         </div>
-        <div
-          class="ons-summary__item"
-          id="default-server-park-row"
-        >
-          <div
-            class="ons-summary__row ons-summary__row--has-values"
-            id="default-server-park"
-          >
-            <dt
-              class="ons-summary__item-title"
-            >
-              <div
-                class="ons-summary__item--text"
-              >
-                Default Server Park
-              </div>
-            </dt>
-            <dd
-              class="ons-summary__values"
-            >
-              <span
-                class="ons-summary__text"
-              >
-                Not found
-              </span>
-            </dd>
-            <dd
-              class="ons-summary__actions"
-            />
-          </div>
-        </div>
-        <div
-          class="ons-summary__item"
-          id="server-parks-row"
-        >
-          <div
-            class="ons-summary__row ons-summary__row--has-values"
-            id="server-parks"
-          >
-            <dt
-              class="ons-summary__item-title"
-            >
-              <div
-                class="ons-summary__item--text"
-              >
-                Server Parks
-              </div>
-            </dt>
-            <dd
-              class="ons-summary__values"
-            >
-              <span
-                class="ons-summary__text"
-              />
-            </dd>
-            <dd
-              class="ons-summary__actions"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="ons-summary__group"
-        id="actions"
-      >
-        <h2
-          class="ons-summary__group-title"
-        >
-          Actions
-        </h2>
-        <div
-          id="actions-row"
-        >
-          <a
-            class="ons-summary__button"
-            href="/users/delete/"
-          >
-            <span
-              aria-hidden="true"
-              class="ons-summary__button-text"
-            >
-              Delete
-            </span>
-            <span
-              class="ons-u-vh"
-            >
-              Delete user
-            </span>
-          </a>
-        </div>
+        Loading
       </div>
     </div>
-  </main>
+  </div>
 </DocumentFragment>
 `;

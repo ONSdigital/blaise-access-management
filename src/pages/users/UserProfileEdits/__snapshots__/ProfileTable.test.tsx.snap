@@ -6,6 +6,11 @@ exports[`ProfileTable matches snapshot 1`] = `
     class="ons-page__main ons-u-mt-no"
     id="main-content"
   >
+    <h1
+      class="ons-u-mb-l"
+    >
+      User Profile
+    </h1>
     <div
       class="ons-summary"
     >
@@ -16,7 +21,7 @@ exports[`ProfileTable matches snapshot 1`] = `
         <h2
           class="ons-summary__group-title"
         >
-          User profile
+          Personal details
         </h2>
         <dl
           class="ons-summary__items"

@@ -1,19 +1,15 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { MemoryRouter, useParams } from "react-router-dom";
 import UserProfile from "./UserProfile";
-import { MemoryRouter } from "react-router-dom";
-import { Authenticate } from "blaise-login-react/blaise-login-react-client";
-import { isLoading, hasErrored, useAsyncRequest } from "../../../hooks/useAsyncRequest";
+import * as http from "../../../api/http";
 
-jest.mock("blaise-login-react/blaise-login-react-client");
-const { MockAuthenticate } = jest.requireActual("blaise-login-react/blaise-login-react-client");
-Authenticate.prototype.render = MockAuthenticate.prototype.render;
-
-jest.mock("../../../hooks/useAsyncRequest", () => ({
-    useAsyncRequest: jest.fn(),
-    isLoading: jest.fn(),
-    hasErrored: jest.fn()
+jest.mock("react-router-dom", () => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    ...jest.requireActual("react-router-dom"),
+    useParams: jest.fn()
 }));
 
 jest.mock("../../../api/http", () => ({
@@ -21,68 +17,64 @@ jest.mock("../../../api/http", () => ({
 }));
 
 const mockUserDetails = {
-    name: "testUser",
-    role: "DST",
-    serverParks: ["gusty"],
-    defaultServerPark: "gusty"
+    data: {
+        name: "John Doe",
+        role: "IPS Manager",
+        defaultServerPark: "gusty",
+        serverParks: ["gusty", "cma"]
+    },
+    status: 200,
+    message: "Successfully fetched user details for John Doe"
 };
 
 const mockState = {
-    pathname: `/users/${mockUserDetails.name}`,
-    state: { currentUser: mockUserDetails, updatedPanel: null }
+    pathname: `/users/${mockUserDetails.data.name}`,
+    state: { currentUser: "currentUser", updatedPanel: null }
 };
 
 beforeEach(() => {
-    (isLoading as unknown as jest.Mock).mockImplementation(() => false);
-    (hasErrored as unknown as jest.Mock).mockImplementation(() => false);
-    (useAsyncRequest as jest.Mock).mockResolvedValue({
-        data: { ...mockUserDetails },
-        state: "succeeded"
-    });
+    jest.clearAllMocks();
+    (useParams as jest.Mock).mockReturnValue({ user: mockUserDetails.data.name });
 });
 
 afterEach(() => cleanup());
 
 describe("UserProfile Component", () => {
-    beforeAll(() => {
-        MockAuthenticate.OverrideReturnValues(mockUserDetails, true);
-    });
-
-    it("should render correctly and match the snapshot", async () => {
-        const { asFragment, findByText } = render(
+    it("matches the snapshot", async () => {
+        (http.getUser as jest.Mock).mockResolvedValue(mockUserDetails);
+        const { asFragment } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <UserProfile />
             </MemoryRouter>
         );
 
-        expect(asFragment()).toMatchSnapshot();
+        await waitFor(() => {
+            expect(asFragment()).toMatchSnapshot();
+        });
     });
 
-    it("renders user profile details", async () => {
-        const { findByText, findAllByText } = render(
-            <MemoryRouter initialEntries={[mockState]}>
-                <UserProfile />
-            </MemoryRouter>
-        );
-
-        expect(await findByText(/Name/i)).toBeVisible();
-        expect((await findAllByText(/Role/i))[0]).toBeVisible();
-        expect(await findByText(/Default Server Park/i)).toBeVisible();
-        expect(await findByText(/Server Parks/i)).toBeVisible();
-    });
-
-    it("displays updated panel if present", async () => {
-        const updatedState = {
-            ...mockState,
-            state: { ...mockState.state, updatedPanel: { visible: true, status: "success", message: "User updated successfully" } }
-        };
-
+    it("displays user details on successful fetch", async () => {
+        (http.getUser as jest.Mock).mockResolvedValue(mockUserDetails);
         const { findByText } = render(
-            <MemoryRouter initialEntries={[updatedState]}>
+            <MemoryRouter initialEntries={[mockState]}>
                 <UserProfile />
             </MemoryRouter>
         );
 
-        expect(await findByText("User updated successfully")).toBeVisible();
+        expect(await findByText(mockUserDetails.data.name)).toBeVisible();
+        expect(await findByText(mockUserDetails.data.role)).toBeVisible();
+        expect(await findByText(mockUserDetails.data.defaultServerPark)).toBeVisible();
+        expect(await findByText(mockUserDetails.data.serverParks.join(", "))).toBeVisible();
+    });
+
+    it("displays error message on fetch failure", async () => {
+        (http.getUser as jest.Mock).mockRejectedValue(new Error("Unable to load user details, please try again. If this continues, please the contact service desk."));
+        const { findByText } = render(
+            <MemoryRouter initialEntries={[mockState]}>
+                <UserProfile />
+            </MemoryRouter>
+        );
+
+        expect(await findByText(/Unable to load user details, please try again. If this continues, please the contact service desk./i)).toBeVisible();
     });
 });

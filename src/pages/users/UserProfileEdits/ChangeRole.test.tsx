@@ -1,11 +1,22 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from "react";
 import { render, cleanup, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ChangeRole from "./ChangeRole";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, useParams } from "react-router-dom";
 import { getAllRoles, patchUserRolesAndPermissions } from "../../../api/http";
 import { ValidUserRoles } from "../../../Interfaces";
 import userEvent from "@testing-library/user-event";
+
+jest.mock("react-router-dom", () => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    ...jest.requireActual("react-router-dom"),
+    useParams: jest.fn()
+}));
 
 jest.mock("../../../api/http", () => ({
     getAllRoles: jest.fn(),
@@ -25,6 +36,7 @@ const mockRoles = [
     { name: ValidUserRoles.SEL, description: "SEL User" },
     { name: ValidUserRoles.WelshSpeaker, description: "Welsh Speaker User" }
 ];
+
 const mockUserDetails = {
     data: { role: "DST" },
     name: "testUser",
@@ -40,6 +52,7 @@ const mockState = {
 
 beforeEach(() => {
     (getAllRoles as unknown as jest.Mock).mockResolvedValue([true, mockRoles]);
+    (useParams as jest.Mock).mockReturnValue({ user: mockUserDetails.name });
 });
 
 afterEach(() => cleanup());

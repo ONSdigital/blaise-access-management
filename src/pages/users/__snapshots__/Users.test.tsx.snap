@@ -93,14 +93,6 @@ Object {
                   Role
                 </span>
               </th>
-              <th
-                class="ons-table__header "
-                scope="col"
-              >
-                <span>
-                  Actions
-                </span>
-              </th>
             </tr>
           </thead>
           <tbody
@@ -111,24 +103,21 @@ Object {
               data-testid="users-table-row"
             >
               <td
-                class="ons-table__cell "
-              >
-                TestUser123 
-                (Current user)
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                DST
-              </td>
-              <td
-                class="ons-table__cell "
+                class="ons-table__cell"
               >
                 <a
                   href="/users/TestUser123"
                 >
-                  View user
+                  TestUser123
                 </a>
+                <span>
+                   (Current user)
+                </span>
+              </td>
+              <td
+                class="ons-table__cell"
+              >
+                DST
               </td>
             </tr>
             <tr
@@ -136,23 +125,18 @@ Object {
               data-testid="users-table-row"
             >
               <td
-                class="ons-table__cell "
-              >
-                SecondUser
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                BDSS
-              </td>
-              <td
-                class="ons-table__cell "
+                class="ons-table__cell"
               >
                 <a
                   href="/users/SecondUser"
                 >
-                  View user
+                  SecondUser
                 </a>
+              </td>
+              <td
+                class="ons-table__cell"
+              >
+                BDSS
               </td>
             </tr>
           </tbody>
@@ -249,14 +233,6 @@ Object {
                 Role
               </span>
             </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Actions
-              </span>
-            </th>
           </tr>
         </thead>
         <tbody
@@ -267,24 +243,21 @@ Object {
             data-testid="users-table-row"
           >
             <td
-              class="ons-table__cell "
-            >
-              TestUser123 
-              (Current user)
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              DST
-            </td>
-            <td
-              class="ons-table__cell "
+              class="ons-table__cell"
             >
               <a
                 href="/users/TestUser123"
               >
-                View user
+                TestUser123
               </a>
+              <span>
+                 (Current user)
+              </span>
+            </td>
+            <td
+              class="ons-table__cell"
+            >
+              DST
             </td>
           </tr>
           <tr
@@ -292,23 +265,18 @@ Object {
             data-testid="users-table-row"
           >
             <td
-              class="ons-table__cell "
-            >
-              SecondUser
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              BDSS
-            </td>
-            <td
-              class="ons-table__cell "
+              class="ons-table__cell"
             >
               <a
                 href="/users/SecondUser"
               >
-                View user
+                SecondUser
               </a>
+            </td>
+            <td
+              class="ons-table__cell"
+            >
+              BDSS
             </td>
           </tr>
         </tbody>

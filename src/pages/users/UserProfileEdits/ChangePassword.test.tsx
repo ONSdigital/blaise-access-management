@@ -1,15 +1,22 @@
 import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import ChangePassword from "./ChangePassword";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useParams } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
+import ChangePassword from "./ChangePassword";
+
+jest.mock("react-router-dom", () => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    ...jest.requireActual("react-router-dom"),
+    useParams: jest.fn()
+}));
 
 jest.mock("blaise-login-react/blaise-login-react-client", () => ({
     AuthManager: jest.fn().mockImplementation(() => ({
         authHeader: () => ({
-            Authorization: "Bearer mockToken"
+            Authorization: "Bearer " + process.env.MOCK_AUTH_TOKEN
         })
     }))
 }));
@@ -32,6 +39,7 @@ const mockState = {
 
 beforeEach(() => {
     (fetch as jest.Mock).mockClear();
+    (useParams as jest.Mock).mockReturnValue({ user: mockUserDetails.name });
 });
 
 afterEach(() => cleanup());
