@@ -5,17 +5,19 @@ import { BreadcrumbItem } from "../../../Interfaces";
 import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import { UserRouteParams } from "../../../Interfaces/usersPage";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
+import UserSignInErrorPanel from "../../../Components/UserSignInErrorPanel";
 
-function ChangePassword(): ReactElement {
-    const { user }: UserRouteParams = useParams() as unknown as UserRouteParams;
-    const { state: { currentUser } } = useLocation();
+export default function ChangePassword(): ReactElement {
+    const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
+    const { state } = useLocation();
+    const { currentUser } = state || { currentUser: null, viewedUserDetails: null };
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
 
-    function changePassword() {
+    const changePassword = () => {
         if (password === "") {
             setMessage("Passwords cannot be blank");
             return;
@@ -27,7 +29,7 @@ function ChangePassword(): ReactElement {
 
         setButtonLoading(true);
         const authManager = new AuthManager();
-        fetch("/api/change-password/" + user, {
+        fetch("/api/change-password/" + viewedUsername, {
             "headers": Object.assign({}, {
                 "password": password
             }, authManager.authHeader())
@@ -44,24 +46,28 @@ function ChangePassword(): ReactElement {
                 setMessage("Set password failed");
                 setButtonLoading(false);
             });
-    }
+    };
 
     const breadcrumbList: BreadcrumbItem[] = [
         { link: "/", title: "Home" },
         { link: "/users/", title: "Manage users" },
-        { link: `/users/${user}`, title: "View user", state: { currentUser } }
+        { link: `/users/${viewedUsername}`, title: "View user", state: { currentUser } }
     ];
+
+    if (!currentUser) {
+        return (<UserSignInErrorPanel/>);
+    }
 
     return (
         <>
             {
                 redirect && <Navigate
-                    to={{ pathname: `/users/${user}` }}
+                    to={{ pathname: `/users/${viewedUsername}` }}
                     state={{
                         currentUser,
                         updatedPanel: {
                             visible: true,
-                            message: "Password for user " + user + " changed at " + (new Date()).toLocaleTimeString("en-UK") + " " + (new Date()).toLocaleDateString("en-UK"),
+                            message: "Password for user " + viewedUsername + " changed at " + (new Date()).toLocaleTimeString("en-UK") + " " + (new Date()).toLocaleDateString("en-UK"),
                             status: "success"
                         }
                     }}
@@ -70,7 +76,7 @@ function ChangePassword(): ReactElement {
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
 
             <main id="main-content" className="ons-page__main ons-u-mt-no">
-                <h1 className="ons-u-mb-l">Change password for user <em>{user}</em></h1>
+                <h1 className="ons-u-mb-l">Change password for user <em>{viewedUsername}</em></h1>
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
                 </ONSPanel>
@@ -92,5 +98,3 @@ function ChangePassword(): ReactElement {
         </>
     );
 }
-
-export default ChangePassword;

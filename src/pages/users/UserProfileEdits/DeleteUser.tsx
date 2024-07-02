@@ -12,7 +12,7 @@ function DeleteUser(): ReactElement {
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
     const [returnPanel, setReturnPanel] = useState<ReturnPanel>({ visible: false, message: "", status: "info" });
-    const { user }: UserRouteParams = useParams() as unknown as UserRouteParams;
+    const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
 
     async function deleteUserConfirm() {
 
@@ -22,7 +22,7 @@ function DeleteUser(): ReactElement {
             return;
         }
 
-        const deleted = await deleteUser(user);
+        const deleted = await deleteUser(viewedUsername);
 
         if (!deleted) {
             setMessage("Failed to delete user");
@@ -30,7 +30,7 @@ function DeleteUser(): ReactElement {
             return;
         }
 
-        setReturnPanel({ visible: true, message: "User " + user + " deleted", status: "success" });
+        setReturnPanel({ visible: true, message: "User " + viewedUsername + " deleted", status: "success" });
         setRedirect(true);
     }
 
@@ -51,7 +51,7 @@ function DeleteUser(): ReactElement {
             <Breadcrumbs BreadcrumbList={breadcrumbList}/>
 
             <main id="main-content" className="ons-page__main ons-u-mt-no">
-                <h1 className="ons-u-mb-l">Are you sure you want to delete user <em className="ons-highlight">{user}</em>?</h1>
+                <h1 className="ons-u-mb-l">Are you sure you want to delete user <em className="ons-highlight">{viewedUsername}</em>?</h1>
 
                 <ONSPanel hidden={(message === "")} status="error">
                     {message}
@@ -74,7 +74,7 @@ function DeleteUser(): ReactElement {
                                         onChange={() => setConfirm(true)}
                                     />
                                     <label className="ons-radio__label " htmlFor="yes-delete-item">
-                            Yes, delete {user}
+                            Yes, delete {viewedUsername}
                                     </label>
                                 </span>
                             </p>
@@ -91,7 +91,7 @@ function DeleteUser(): ReactElement {
                                         onChange={() => setConfirm(false)}
                                     />
                                     <label className="ons-radio__label " htmlFor="no-delete-item">
-                            No, do not delete {user}
+                            No, do not delete {viewedUsername}
                                     </label>
                                 </span></p>
                         </div>

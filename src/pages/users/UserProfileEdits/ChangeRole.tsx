@@ -11,7 +11,7 @@ import Form from "../../../Components/form";
 import UserSignInErrorPanel from "../../../Components/UserSignInErrorPanel";
 
 export default function ChangeRole(): ReactElement {
-    const { user }: UserRouteParams = useParams() as unknown as UserRouteParams;
+    const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
     const { state } = useLocation();
     const { currentUser, viewedUserDetails } = state || { currentUser: null, viewedUserDetails: null };
     const [role, setRole] = useState<string>(viewedUserDetails?.data?.role ?? "");
@@ -43,7 +43,7 @@ export default function ChangeRole(): ReactElement {
 
         if (Object.values(ValidUserRoles).includes(role as ValidUserRoles)) {
             // TODO: Change role and ensure the user has the correct permissions to server parks
-            const res = await patchUserRolesAndPermissions(user, role, viewedUserDetails.serverParks, viewedUserDetails.defaultServerPark);
+            const res = await patchUserRolesAndPermissions(viewedUsername, role, viewedUserDetails.serverParks, viewedUserDetails.defaultServerPark);
             setRedirectWithData({ redirect: true, visible: true, message: res.message, statusType: res.status === 500 ? "error" : "success" });
         } else {
             window.alert(`Invalid role: ${role}`);
@@ -55,7 +55,7 @@ export default function ChangeRole(): ReactElement {
     const breadcrumbList: BreadcrumbItem[] = [
         { link: "/", title: "Home" },
         { link: "/users/", title: "Manage users" },
-        { link: `/users/${user}`, title: "View user", state: { currentUser } }
+        { link: `/users/${viewedUsername}`, title: "View user", state: { currentUser } }
     ];
 
     useEffect(() => {
@@ -70,7 +70,7 @@ export default function ChangeRole(): ReactElement {
         <>
             {
                 redirectWithData.redirect && <Navigate
-                    to={{ pathname: `/users/${user}` }}
+                    to={{ pathname: `/users/${viewedUsername}` }}
                     state={{
                         currentUser,
                         updatedPanel: {
@@ -83,7 +83,7 @@ export default function ChangeRole(): ReactElement {
             }
             <Breadcrumbs BreadcrumbList={breadcrumbList} />
             <main id="main-content" className="ons-page__main ons-u-mt-no">
-                <h1 className="ons-u-mb-l">Change current role for user <em>{user}</em></h1>
+                <h1 className="ons-u-mb-l">Change current role for user <em>{viewedUsername}</em></h1>
                 <h2 className="ons-u-mb-l">Current role: <em>{viewedUserDetails?.data?.role ?? "N/A"}</em></h2>
                 <Form onSubmit={() => changeBlaiseUserRolesAndServerParks()}>
                     <p className="ons-field">

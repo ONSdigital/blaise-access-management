@@ -28,15 +28,19 @@ function App(): ReactElement {
                     <div style={divStyle} className="ons-page__container ons-container">
                         <DefaultErrorBoundary>
                             <Routes>
-                                <Route path={"/users/change-password/:user"} element={<ChangePassword />} />
+                                <Route path={"/users/change-password/:user"} element={
+                                    <ErrorBoundary errorMessageText={"Unable to load Change Password page. Please try again."}>
+                                        <ChangePassword />
+                                    </ErrorBoundary>
+                                } />
                                 <Route path={"/users/delete/:user"} element={<DeleteUser />} />
                                 <Route path="/users/change-role/:user" element={
-                                    <ErrorBoundary errorMessageText={"Unable to change role for user. Please try again."}>
+                                    <ErrorBoundary errorMessageText={"Unable to load Change Role page. Please try again."}>
                                         <ChangeRole />
                                     </ErrorBoundary>
                                 } />
                                 <Route path="/users/:user" element={
-                                    <ErrorBoundary errorMessageText={"Unable to load user. Please try again."}>
+                                    <ErrorBoundary errorMessageText={"Unable to load User Profile Page. Please try again."}>
                                         <UserProfile />
                                     </ErrorBoundary>
                                 } />

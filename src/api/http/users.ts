@@ -15,7 +15,6 @@ async function getAllUsers(): Promise<GetUsersListResponse> {
     }
 }
 
-// NOTE: Catch block is different due to the use of AsyncContent and AsyncRequest
 async function getUser(user: string): Promise<GetUserResponse> {
     try {
         const authManager = new AuthManager();
