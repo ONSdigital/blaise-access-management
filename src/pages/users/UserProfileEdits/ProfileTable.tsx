@@ -9,9 +9,10 @@ export default function ProfileTable({ currentUser, viewedUserDetails }: {curren
 
     return (
         <main id="main-content" className="ons-page__main ons-u-mt-no">
+            <h1 className="ons-u-mb-l">User Profile</h1>
             <div className="ons-summary">
                 <div id="personal-details" className="ons-summary__group">
-                    <h2 className="ons-summary__group-title">User profile</h2>
+                    <h2 className="ons-summary__group-title">Personal details</h2>
                     <dl className="ons-summary__items">
                         <div id="name-row" className="ons-summary__item">
                             <div className="ons-summary__row ons-summary__row--has-values" id="name">
@@ -38,7 +39,7 @@ export default function ProfileTable({ currentUser, viewedUserDetails }: {curren
                                         (
                                             name === currentUsername ?
                                                 "Current user" :
-                                                <Link to={"/users/change-password/" + name} state={{ currentUser }} className="ons-summary__button">
+                                                <Link to={"/users/change-password/" + name} state={{ currentUser, viewedUserDetails }} className="ons-summary__button">
                                                     <span className="ons-summary__button-text"
                                                         aria-hidden="true">
                                                 Change

@@ -18,34 +18,23 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                             <th scope="col" className="ons-table__header ">
                                 <span>Role</span>
                             </th>
-                            <th scope="col" className="ons-table__header ">
-                                <span>Actions</span>
-                            </th>
                         </tr>
                     </thead>
                     <tbody className="ons-table__body">
-                        {
-                            users.map((user: User) => {
-                                return (
-                                    <tr className="ons-table__row" key={user.name} data-testid={"users-table-row"}>
-                                        <td className="ons-table__cell ">
-                                            {
-                                                (
-                                                    user.name === currentUser?.name ?
-                                                        <>{user.name + " "}(Current user)</> :
-                                                        user.name
-                                                )
-                                            }
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            {user.role}
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            <Link to={"/users/" + user.name} state={{ currentUser }}>View user</Link>
-                                        </td>
-                                    </tr>
-                                );
-                            })
+                        {users.sort((a, b) => a.name === currentUser?.name ? -1 : b.name === currentUser?.name ? 1 : 0)
+                            .map((user: User) => (
+                                <tr className="ons-table__row" key={user.name} data-testid={"users-table-row"}>
+                                    <td className="ons-table__cell">
+                                        <Link to={"/users/" + user.name} state={{ currentUser }}>
+                                            {user.name}
+                                        </Link>
+                                        {user.name === currentUser?.name && <span> (Current user)</span>}
+                                    </td>
+                                    <td className="ons-table__cell">
+                                        {user.role}
+                                    </td>
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>
