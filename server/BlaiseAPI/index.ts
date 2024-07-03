@@ -14,12 +14,13 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     });
 
     router.patch("/api/users/:user/rolesAndPermissions", auth.Middleware, async function (req: Request, res: Response) {
-        const { role, currentServerParks, currentDefaultServerPark } = req.body;
-        let newServerParks = currentServerParks;
-        let newDefaultServerPark = currentDefaultServerPark;
+        const { role } = req.body;
+        const user = req.params.user;
+        let newServerParks = [""];
+        let newDefaultServerPark = "";
 
-        if (!req.params.user || !role) {
-            return res.status(400).json("No user role provided");
+        if (!req.params.user || !req.body.role) {
+            return res.status(400).json("No user or role provided");
         }
 
         const roleServerParksOverride = config.RoleToServerParksMap[role];
@@ -33,11 +34,9 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         }
 
         try {
-            await blaiseApiClient.changeUserRole(req.params.user, role);
-            console.log(req.params.user, newServerParks + newDefaultServerPark);
-            // TODO: awaiting fix for changeUserServerParks
-            // await blaiseApiClient.changeUserServerParks(req.params.user, newServerParks, newDefaultServerPark);
-            const successMessage = `Successfully updated user role and permissions to ${role} for ${req.params.user} `;
+            await blaiseApiClient.changeUserRole(user, role);
+            await blaiseApiClient.changeUserServerParks(user, newServerParks, newDefaultServerPark);
+            const successMessage = `Successfully updated user role and permissions to ${role} for ${user}`;
             console.log(successMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
             return res.status(200).json({
                 message: successMessage + " today at " + (new Date()).toLocaleTimeString("en-UK")

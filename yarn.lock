@@ -6270,7 +6270,7 @@ bl@^4.0.3, bl@^4.1.0:
 
 "blaise-api-node-client@git+https://github.com/ONSdigital/blaise-api-node-client#BLAIS5-3816":
   version "1.0.0"
-  resolved "git+https://github.com/ONSdigital/blaise-api-node-client#147a9459476681871b2b097f34eeda1c81039fe8"
+  resolved "git+https://github.com/ONSdigital/blaise-api-node-client#a9cad01066957540712d59d0d92654cfc4b06ee0"
   dependencies:
     "@babel/preset-env" "^7.14.7"
     axios "^0.21.1"

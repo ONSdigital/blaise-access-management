@@ -85,12 +85,12 @@ function deleteUser(username: string): Promise<boolean> {
 }
 
 // BLAIS5-3816
-async function patchUserRolesAndPermissions(user: string, role: string, currentServerParks: string[], currentDefaultServerPark: string): Promise<PatchUserRoleResponse> {
+async function patchUserRolesAndPermissions(user: string, role: string): Promise<PatchUserRoleResponse> {
     try {
         const authManager = new AuthManager();
         const url = `/api/users/${user}/rolesAndPermissions`;
         const headers = authManager.authHeader();
-        const data = { role, currentServerParks, currentDefaultServerPark };
+        const data = { role };
 
         const res = await axios.patch(url, data, { headers });
 

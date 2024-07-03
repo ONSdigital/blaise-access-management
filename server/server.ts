@@ -64,8 +64,12 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
         res.render(indexFilePath);
     });
 
-    server.use(function (err: Error, _req: Request, res: Response) {
-        console.error(err.stack);
+    server.use(function (err, _req, res, _next) {
+        if (err && err.stack) {
+            console.error(err.stack);
+        } else {
+            console.error("An undefined error occurred");
+        }
         res.render("../views/500.html", {});
     });
 
