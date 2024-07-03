@@ -3,7 +3,8 @@
  */
 
 import React from "react";
-import { render, cleanup, fireEvent, waitFor } from "@testing-library/react";
+import { render, cleanup, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import DeleteUser from "./DeleteUser";
 import { MemoryRouter, useParams } from "react-router-dom";
@@ -48,8 +49,8 @@ describe("DeleteUser Component", () => {
             </MemoryRouter>
         );
 
-        fireEvent.click(getByLabelText("Yes"));
-        fireEvent.click(getByText("Save"));
+        userEvent.click(getByLabelText("Yes"));
+        userEvent.click(getByText("Save"));
 
         await waitFor(() => {
             expect(deleteUser).toHaveBeenCalledWith(mockUser);

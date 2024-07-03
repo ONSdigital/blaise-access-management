@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChangeRole Component matches the snapshot 1`] = `
+exports[`ChangeRole Component (with state management) matches the snapshot 1`] = `
 <DocumentFragment>
   <nav
     aria-label="Breadcrumb"
@@ -113,7 +113,63 @@ exports[`ChangeRole Component matches the snapshot 1`] = `
           class="ons-input ons-input--select "
           id="new-user-role"
           name="select-role"
-        />
+        >
+          <option
+            value="DST"
+          >
+            DST
+          </option>
+          <option
+            value="BDSS"
+          >
+            BDSS
+          </option>
+          <option
+            value="IPS Field Interviewer"
+          >
+            IPS Field Interviewer
+          </option>
+          <option
+            value="IPS Manager"
+          >
+            IPS Manager
+          </option>
+          <option
+            value="Editor"
+          >
+            Editor
+          </option>
+          <option
+            value="Editor Manager"
+          >
+            Editor Manager
+          </option>
+          <option
+            value="TO Appointments"
+          >
+            TO Appointments
+          </option>
+          <option
+            value="TO Manager"
+          >
+            TO Manager
+          </option>
+          <option
+            value="TO Interviewer"
+          >
+            TO Interviewer
+          </option>
+          <option
+            value="SEL"
+          >
+            SEL
+          </option>
+          <option
+            value="Welsh Speaker"
+          >
+            Welsh Speaker
+          </option>
+        </select>
       </p>
       <button
         class="ons-btn "

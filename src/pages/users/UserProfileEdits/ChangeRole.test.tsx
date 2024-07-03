@@ -19,6 +19,9 @@ jest.mock("react-router-dom", () => ({
 }));
 
 jest.mock("../../../api/http", () => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    ...jest.requireActual("../../../api/http"),
     getAllRoles: jest.fn(),
     patchUserRolesAndPermissions: jest.fn()
 }));
@@ -51,13 +54,13 @@ const mockState = {
 };
 
 beforeEach(() => {
-    (getAllRoles as unknown as jest.Mock).mockResolvedValue([true, mockRoles]);
+    (getAllRoles as jest.Mock).mockResolvedValue([true, mockRoles]);
     (useParams as jest.Mock).mockReturnValue({ user: mockUserDetails.name });
 });
 
 afterEach(() => cleanup());
 
-describe("ChangeRole Component", () => {
+describe("ChangeRole Component (with state management)", () => {
     it("matches the snapshot", async () => {
         (patchUserRolesAndPermissions as unknown as jest.Mock).mockResolvedValue({ message: "Role updated successfully", status: 200 });
 
@@ -67,24 +70,27 @@ describe("ChangeRole Component", () => {
             </MemoryRouter>
         );
 
+        // Wait for state update
+        await act(async () => {});
+
         expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders and displays the correct initial role", async () => {
-        (patchUserRolesAndPermissions as unknown as jest.Mock).mockResolvedValue({ message: "Role updated successfully", status: 200 });
-
         const { findByText, findAllByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <ChangeRole />
             </MemoryRouter>
         );
 
+        // Wait for state update
+        await act(async () => {});
+
         expect(await findByText(/Current role:/i)).toBeVisible();
         expect((await findAllByText(/DST/i))[0]).toBeVisible();
     });
 
     it("updates role upon form submission", async () => {
-        (patchUserRolesAndPermissions as unknown as jest.Mock).mockResolvedValue({ message: "Role updated successfully", status: 200 });
         global.confirm = jest.fn(() => true);
 
         const { findByText, findByRole } = render(
@@ -92,6 +98,9 @@ describe("ChangeRole Component", () => {
                 <ChangeRole />
             </MemoryRouter>
         );
+
+        // Wait for state update
+        await act(async () => {});
 
         const select = await findByRole("combobox");
         const saveButton = await findByText("Save");
@@ -105,9 +114,26 @@ describe("ChangeRole Component", () => {
         act(() => {
             userEvent.click(saveButton);
         });
-        expect(patchUserRolesAndPermissions).toHaveBeenCalledTimes(1);
 
-        // Improvement: Ensure the user from the pathname is extracted and used to call the function
-        // expect(patchUserRolesAndPermissions).toHaveBeenCalledWith("testUser", "IPS Field Interviewer", ["gusty"], "gusty");
+        // Wait for state update
+        await act(async () => {});
+
+        expect(patchUserRolesAndPermissions).toHaveBeenCalledTimes(1);
+        expect(patchUserRolesAndPermissions).toHaveBeenCalledWith("testUser", "IPS Field Interviewer");
+    });
+
+    it("displays an error message when fetching roles fails", async () => {
+        (getAllRoles as jest.Mock).mockRejectedValue(new Error("Failed to fetch roles"));
+
+        const { findByText } = render(
+            <MemoryRouter initialEntries={[mockState]}>
+                <ChangeRole />
+            </MemoryRouter>
+        );
+
+        // Wait for state update
+        await act(async () => {});
+
+        expect(await findByText(/Failed to fetch roles list, please try again/i)).toBeVisible();
     });
 });

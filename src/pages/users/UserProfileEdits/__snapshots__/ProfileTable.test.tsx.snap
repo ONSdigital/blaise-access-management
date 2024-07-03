@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProfileTable matches snapshot 1`] = `
+exports[`ProfileTable Component matches snapshot 1`] = `
 <DocumentFragment>
   <main
     class="ons-page__main ons-u-mt-no"
@@ -49,7 +49,7 @@ exports[`ProfileTable matches snapshot 1`] = `
                 <span
                   class="ons-summary__text"
                 >
-                  John Doe
+                  testUser
                 </span>
               </dd>
               <dd
@@ -88,7 +88,7 @@ exports[`ProfileTable matches snapshot 1`] = `
               >
                 <a
                   class="ons-summary__button"
-                  href="/users/change-password/John Doe"
+                  href="/users/change-password/testUser"
                 >
                   <span
                     aria-hidden="true"
@@ -147,7 +147,7 @@ exports[`ProfileTable matches snapshot 1`] = `
             >
               <a
                 class="ons-summary__button"
-                href="/users/change-role/John Doe"
+                href="/users/change-role/testUser"
               >
                 <span
                   aria-hidden="true"
@@ -241,7 +241,7 @@ exports[`ProfileTable matches snapshot 1`] = `
         >
           <a
             class="ons-summary__button"
-            href="/users/delete/John Doe"
+            href="/users/delete/testUser"
           >
             <span
               aria-hidden="true"

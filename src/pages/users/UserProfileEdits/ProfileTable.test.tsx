@@ -13,16 +13,16 @@ const currentUser = {
 
 const viewedUserDetails = {
     data: {
-        name: "John Doe",
+        name: "testUser",
         role: "IPS Manager",
         defaultServerPark: "gusty",
         serverParks: ["gusty", "cma"]
     },
     status: 200,
-    message: "Successfully fetched user details for John Doe"
+    message: "Successfully fetched user details for testUser"
 };
 
-describe("ProfileTable", () => {
+describe("ProfileTable Component", () => {
     it("matches snapshot", () => {
         const { asFragment } = render(
             <Router>
@@ -40,7 +40,7 @@ describe("ProfileTable", () => {
             </Router>
         );
 
-        expect(screen.getByText("John Doe")).toBeVisible();
+        expect(screen.getByText("testUser")).toBeVisible();
         expect(screen.getByText("IPS Manager")).toBeVisible();
         expect(screen.getByText("gusty")).toBeVisible();
         expect(screen.getByText("gusty, cma")).toBeVisible();

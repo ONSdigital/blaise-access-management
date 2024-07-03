@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, waitFor } from "@testing-library/react";
+import { render, cleanup, waitFor, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter, useParams } from "react-router-dom";
 import UserProfile from "./UserProfile";
@@ -18,13 +18,13 @@ jest.mock("../../../api/http", () => ({
 
 const mockUserDetails = {
     data: {
-        name: "John Doe",
+        name: "testUser",
         role: "IPS Manager",
         defaultServerPark: "gusty",
         serverParks: ["gusty", "cma"]
     },
     status: 200,
-    message: "Successfully fetched user details for John Doe"
+    message: "Successfully fetched user details for testUser"
 };
 
 const mockState = {
@@ -42,11 +42,15 @@ afterEach(() => cleanup());
 describe("UserProfile Component", () => {
     it("matches the snapshot", async () => {
         (http.getUser as jest.Mock).mockResolvedValue(mockUserDetails);
+
         const { asFragment } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <UserProfile />
             </MemoryRouter>
         );
+
+        // Wait for state update
+        await act(async () => {});
 
         await waitFor(() => {
             expect(asFragment()).toMatchSnapshot();
@@ -55,6 +59,7 @@ describe("UserProfile Component", () => {
 
     it("displays user details on successful fetch", async () => {
         (http.getUser as jest.Mock).mockResolvedValue(mockUserDetails);
+
         const { findByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <UserProfile />
@@ -69,6 +74,7 @@ describe("UserProfile Component", () => {
 
     it("displays error message on fetch failure", async () => {
         (http.getUser as jest.Mock).mockRejectedValue(new Error("Unable to load user details, please try again. If this continues, please the contact service desk."));
+
         const { findByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <UserProfile />
