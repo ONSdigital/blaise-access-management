@@ -36,7 +36,7 @@
     "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.0",
     "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#1.1.0",
     "dotenv": "^10.0.0",
-    "ejs": "^3.1.7",
+    "ejs": "^3.1.10",
     "express": "^4.19.2",
     "formik": "2.4.2",
     "history": "^4.9.0",
