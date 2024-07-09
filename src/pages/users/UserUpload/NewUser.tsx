@@ -10,7 +10,7 @@ import { passwordMatchedValidator, requiredValidator } from "../../../Components
 import { UserForm } from "../../../Interfaces";
 import { BreadcrumbItem } from "../../../Interfaces";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
-import { loadConfigFromEnv } from "../../ClientConfig";
+import { loadConfigFromEnv } from "../../../ClientConfig";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
