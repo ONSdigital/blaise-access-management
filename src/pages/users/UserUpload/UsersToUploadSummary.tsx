@@ -3,7 +3,7 @@ import { ErrorBoundary, ONSPanel } from "blaise-design-system-react-components";
 import { ImportUser } from "../../../Interfaces";
 import Confirmation from "./Confirmation";
 import converter from "number-to-words";
-import { validateImportedUsers } from "../../../utilities/validation/userValidation";
+import { validateImportedUsers } from "../../../api/validation/userValidation";
 import { UsersToUploadSummaryProps } from "../../../Interfaces/usersPage";
 
 function UsersToUploadSummary({ usersToImport, uploadUsers }: UsersToUploadSummaryProps): ReactElement {

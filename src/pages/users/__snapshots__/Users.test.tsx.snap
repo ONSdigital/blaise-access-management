@@ -93,30 +93,6 @@ Object {
                   Role
                 </span>
               </th>
-              <th
-                class="ons-table__header "
-                scope="col"
-              >
-                <span>
-                  Server Parks
-                </span>
-              </th>
-              <th
-                class="ons-table__header "
-                scope="col"
-              >
-                <span>
-                  Change password
-                </span>
-              </th>
-              <th
-                class="ons-table__header "
-                scope="col"
-              >
-                <span>
-                  Delete user
-                </span>
-              </th>
             </tr>
           </thead>
           <tbody
@@ -127,33 +103,21 @@ Object {
               data-testid="users-table-row"
             >
               <td
-                class="ons-table__cell "
-              >
-                TestUser123
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                DST
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                gusty
-              </td>
-              <td
-                class="ons-table__cell "
+                class="ons-table__cell"
               >
                 <a
-                  href="/users/changepassword/TestUser123"
+                  href="/users/TestUser123"
                 >
-                  Change password
+                  TestUser123
                 </a>
+                <span>
+                   (Current user)
+                </span>
               </td>
               <td
-                class="ons-table__cell "
+                class="ons-table__cell"
               >
-                Currently signed in user
+                DST
               </td>
             </tr>
             <tr
@@ -161,37 +125,18 @@ Object {
               data-testid="users-table-row"
             >
               <td
-                class="ons-table__cell "
+                class="ons-table__cell"
               >
-                SecondUser
+                <a
+                  href="/users/SecondUser"
+                >
+                  SecondUser
+                </a>
               </td>
               <td
-                class="ons-table__cell "
+                class="ons-table__cell"
               >
                 BDSS
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                gusty
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                <a
-                  href="/users/changepassword/SecondUser"
-                >
-                  Change password
-                </a>
-              </td>
-              <td
-                class="ons-table__cell "
-              >
-                <a
-                  href="/users/delete/SecondUser"
-                >
-                  Delete
-                </a>
               </td>
             </tr>
           </tbody>
@@ -288,30 +233,6 @@ Object {
                 Role
               </span>
             </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Server Parks
-              </span>
-            </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Change password
-              </span>
-            </th>
-            <th
-              class="ons-table__header "
-              scope="col"
-            >
-              <span>
-                Delete user
-              </span>
-            </th>
           </tr>
         </thead>
         <tbody
@@ -322,33 +243,21 @@ Object {
             data-testid="users-table-row"
           >
             <td
-              class="ons-table__cell "
-            >
-              TestUser123
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              DST
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              gusty
-            </td>
-            <td
-              class="ons-table__cell "
+              class="ons-table__cell"
             >
               <a
-                href="/users/changepassword/TestUser123"
+                href="/users/TestUser123"
               >
-                Change password
+                TestUser123
               </a>
+              <span>
+                 (Current user)
+              </span>
             </td>
             <td
-              class="ons-table__cell "
+              class="ons-table__cell"
             >
-              Currently signed in user
+              DST
             </td>
           </tr>
           <tr
@@ -356,37 +265,18 @@ Object {
             data-testid="users-table-row"
           >
             <td
-              class="ons-table__cell "
+              class="ons-table__cell"
             >
-              SecondUser
+              <a
+                href="/users/SecondUser"
+              >
+                SecondUser
+              </a>
             </td>
             <td
-              class="ons-table__cell "
+              class="ons-table__cell"
             >
               BDSS
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              gusty
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              <a
-                href="/users/changepassword/SecondUser"
-              >
-                Change password
-              </a>
-            </td>
-            <td
-              class="ons-table__cell "
-            >
-              <a
-                href="/users/delete/SecondUser"
-              >
-                Delete
-              </a>
             </td>
           </tr>
         </tbody>

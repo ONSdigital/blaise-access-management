@@ -35,3 +35,25 @@ export interface ReturnPanel {
     message: string
     status: string
 }
+
+export interface GetUserResponse {
+    status: number;
+    message: string;
+    data: User | Record<string, never>;
+    error?: unknown;
+}
+
+export interface PatchUserRoleResponse {
+    status: number;
+    message: string;
+    error?: unknown;
+}
+
+export type GetUsersListResponse = [boolean, User[]];
+
+export interface RedirectWithData {
+    redirect: boolean;
+    visible: boolean;
+    message: string;
+    statusType: string;
+}

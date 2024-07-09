@@ -1,3 +1,5 @@
+import { LinkProps } from "react-router-dom";
+
 export interface UploadedUser {
     name: string
     created: boolean
@@ -41,8 +43,23 @@ export interface ContextProviderType {
 export interface BreadcrumbItem {
     link: string
     title: string
+    state?: LinkProps["state"]
 }
 
 export interface BreadcrumbProps {
     BreadcrumbList: BreadcrumbItem[]
+}
+
+export enum ValidUserRoles {
+    DST = "DST",
+    BDSS = "BDSS",
+    IPSManager = "IPS Manager",
+    IPSFieldInterviewer = "IPS Field Interviewer",
+    Editor = "Editor",
+    EditorManager = "Editor Manager",
+    TOAppointments = "TO Appointments",
+    TOManager = "TO Manager",
+    TOInterviewer = "TO Interviewer",
+    SEL = "SEL",
+    WelshSpeaker = "Welsh Speaker",
 }
