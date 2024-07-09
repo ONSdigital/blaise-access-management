@@ -75,7 +75,7 @@ describe("ChangePassword Component", () => {
         expect(await findByText(/Passwords do not match/i)).toBeVisible();
     });
 
-    it.skip("calls fetch with correct parameters upon form submission with matching passwords", async () => {
+    it("calls fetch with correct parameters upon form submission with matching passwords", async () => {
         const { getByLabelText, getByText, findByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <ChangePassword />
