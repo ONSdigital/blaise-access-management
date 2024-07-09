@@ -192,7 +192,7 @@ describe("Test /api/roles GET endpoint", () => {
     });
 });
 
-describe("Test /api/change_password/:user GET endpoint", () => {
+describe("Test /api/change-password/:user GET endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
     });
@@ -206,7 +206,7 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         const password = "password-1234";
         blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.resolve(null));
 
-        const response = await sut.get("/api/change_password/"+username)
+        const response = await sut.get("/api/change-password/"+username)
             .set("password", password);
 
         expect(response.statusCode).toEqual(204);
@@ -217,7 +217,7 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         const username = "user1";
         const password = "";
 
-        const response = await sut.get("/api/change_password/"+username)
+        const response = await sut.get("/api/change-password/"+username)
             .set("password", password);
 
         expect(response.statusCode).toEqual(400);
@@ -231,11 +231,65 @@ describe("Test /api/change_password/:user GET endpoint", () => {
         blaiseApiMock.setup((a) => a.changePassword(It.isAnyString(), It.isAnyString()))
             .returns(_ => Promise.reject(errorMessage));
 
-        const response = await sut.get("/api/change_password/"+username)
+        const response = await sut.get("/api/change-password/"+username)
             .set("password", password);
 
         expect(response.statusCode).toEqual(500);
         blaiseApiMock.verify(a => a.changePassword(It.isAnyString(), It.isAnyString()), Times.once());
         expect(response.body).toStrictEqual(errorMessage);
+    });
+});
+
+describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
+    beforeEach(() => {
+        blaiseApiMock.reset();
+    });
+
+    afterAll(() => {
+        blaiseApiMock.reset();
+    });
+
+    it("should update user role and permissions successfully and return http status 200", async () => {
+        const user = "testUser";
+        const role = "IPS Manager";
+        const serverParks = ["gusty", "cma"];
+        const defaultServerPark = "gusty";
+        blaiseApiMock.setup(api => api.changeUserRole(It.isValue(user), It.isValue(role)))
+            .returns(async () => null);
+        blaiseApiMock.setup(api => api.changeUserServerParks(It.isValue(user), It.isValue(serverParks), It.isValue(defaultServerPark)))
+            .returns(async () => null);
+
+        const response = await sut.patch(`/api/users/${user}/rolesAndPermissions`)
+            .send({ role });
+
+        expect(response.statusCode).toEqual(200);
+        expect(response.body.message).toContain(`Successfully updated user role and permissions to ${role} for ${user}`);
+        blaiseApiMock.verify(api => api.changeUserRole(It.isValue(user), It.isValue(role)), Times.once());
+        blaiseApiMock.verify(api => api.changeUserServerParks(It.isValue(user), It.isValue(serverParks), It.isValue(defaultServerPark)), Times.once());
+    });
+
+    it("should return http status BAD_REQUEST_400 if role or user is not provided", async () => {
+        const user = "testUser";
+        const role = "";
+
+        const response = await sut.patch(`/api/users/${user}/rolesAndPermissions`)
+            .send({ role });
+
+        expect(response.statusCode).toEqual(400);
+        expect(response.body).toEqual("No user or role provided");
+    });
+
+    it("should return http status INTERNAL_SERVER_ERROR_500 if Blaise API client throws an error", async () => {
+        const user = "testUser";
+        const role = "admin";
+        const errorMessage = "Blaise API client error";
+        blaiseApiMock.setup(api => api.changeUserRole(It.isAny(), It.isAny()))
+            .returns(async () => { throw new Error(errorMessage); });
+
+        const response = await sut.patch(`/api/users/${user}/rolesAndPermissions`)
+            .send({ role });
+
+        expect(response.statusCode).toEqual(500);
+        expect(response.body.message).toContain(errorMessage);
     });
 });

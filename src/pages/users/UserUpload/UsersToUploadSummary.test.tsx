@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { act } from "react-dom/test-utils";
 import { ImportUser } from "../../../Interfaces";
 import UsersToUploadSummary from "./UsersToUploadSummary";
-import { getAllRoles, getAllUsers } from "../../../utilities/http";
+import { getAllRoles, getAllUsers } from "../../../api/http";
 import { User, UserRole } from "blaise-api-node-client";
 import { BrowserRouter } from "react-router-dom";
 
@@ -15,7 +15,7 @@ let view:RenderResult;
 type getRolesListResponse = [boolean, UserRole[]];
 type getUsersListResponse = [boolean, User[]];
 
-jest.mock("../../../utilities/http");
+jest.mock("../../../api/http");
 
 const getAllRolesMock = getAllRoles as jest.Mock<Promise<getRolesListResponse>>;
 const getAllUsersMock = getAllUsers as jest.Mock<Promise<getUsersListResponse>>;

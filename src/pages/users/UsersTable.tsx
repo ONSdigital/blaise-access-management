@@ -18,52 +18,23 @@ function UsersTable({ users, currentUser, listError }: UsersTableProps): ReactEl
                             <th scope="col" className="ons-table__header ">
                                 <span>Role</span>
                             </th>
-                            <th scope="col" className="ons-table__header ">
-                                <span>Server Parks</span>
-                            </th>
-                            {/*<th scope="col" className="ons-table__header ">*/}
-                            {/*    <span>Edit user</span>*/}
-                            {/*</th>*/}
-                            <th scope="col" className="ons-table__header ">
-                                <span>Change password</span>
-                            </th>
-                            <th scope="col" className="ons-table__header ">
-                                <span>Delete user</span>
-                            </th>
                         </tr>
                     </thead>
                     <tbody className="ons-table__body">
-                        {
-                            users.map(({ role, name, serverParks }: User) => {
-                                return (
-                                    <tr className="ons-table__row" key={name} data-testid={"users-table-row"}>
-                                        <td className="ons-table__cell ">
-                                            {name}
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            {role}
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            {serverParks.join(", ")}
-                                        </td>
-                                        {/*<td className="ons-table__cell ">*/}
-                                        {/*    <Link to={"/survey/" + item.name}>Edit</Link>*/}
-                                        {/*</td>*/}
-                                        <td className="ons-table__cell ">
-                                            <Link to={"/users/changepassword/" + name}>Change password</Link>
-                                        </td>
-                                        <td className="ons-table__cell ">
-                                            {
-                                                (
-                                                    name === currentUser?.name ?
-                                                        "Currently signed in user" :
-                                                        <Link to={"/users/delete/" + name}>Delete</Link>
-                                                )
-                                            }
-                                        </td>
-                                    </tr>
-                                );
-                            })
+                        {users.sort((a, b) => a.name === currentUser?.name ? -1 : b.name === currentUser?.name ? 1 : 0)
+                            .map((user: User) => (
+                                <tr className="ons-table__row" key={user.name} data-testid={"users-table-row"}>
+                                    <td className="ons-table__cell">
+                                        <Link to={"/users/" + user.name} state={{ currentUser }}>
+                                            {user.name}
+                                        </Link>
+                                        {user.name === currentUser?.name && <span> (Current user)</span>}
+                                    </td>
+                                    <td className="ons-table__cell">
+                                        {user.role}
+                                    </td>
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>
