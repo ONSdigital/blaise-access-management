@@ -1,16 +1,16 @@
 import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
-import { addNewUser, getAllRoles } from "../../utilities/http";
+import { addNewUser, getAllRoles } from "../../../api/http";
 import { UserRole } from "blaise-api-node-client";
 import { NewUser } from "blaise-api-node-client";
-import FormTextInput from "../../form/TextInput";
-import Form from "../../form";
-import { passwordMatchedValidator, requiredValidator } from "../../form/FormValidators";
-import { UserForm } from "../../Interfaces";
-import { BreadcrumbItem } from "../../Interfaces";
-import Breadcrumbs from "../../Components/Breadcrumbs";
-import { loadConfigFromEnv } from "../../ClientConfig";
+import FormTextInput from "../../../Components/form/TextInput";
+import Form from "../../../Components/form";
+import { passwordMatchedValidator, requiredValidator } from "../../../Components/form/FormValidators";
+import { UserForm } from "../../../Interfaces";
+import { BreadcrumbItem } from "../../../Interfaces";
+import Breadcrumbs from "../../../Components/Breadcrumbs";
+import { loadConfigFromEnv } from "../../../ClientConfig";
 
 function NewUserComponent(): ReactElement {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);

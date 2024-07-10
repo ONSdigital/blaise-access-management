@@ -38,4 +38,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/coverage-final.json
-          fail_ci_if_error: false
+          fail_ci_if_error: true
