@@ -1,5 +1,9 @@
 {
     "IPS Manager" : ["gusty", "cma"],
     "IPS Field Interviewer" : ["gusty", "cma"],
+    "IPS Pilot Interviewer" : ["gusty", "cma"],
+    "Field Interviewer" : ["gusty", "cma"],
+    "SVT_Editor" : ["gusty", "cma"],
+    "SVT_Supervisor" : ["gusty", "cma"],
     "DEFAULT" : ["gusty"]
 }
