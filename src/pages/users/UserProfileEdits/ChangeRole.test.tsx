@@ -9,7 +9,6 @@ import ChangeRole from "./ChangeRole";
 import { MemoryRouter, useParams } from "react-router-dom";
 import { getAllRoles, patchUserRolesAndPermissions } from "../../../api/http";
 import userEvent from "@testing-library/user-event";
-import { UserRole } from "blaise-api-node-client";
 
 jest.mock("react-router-dom", () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
