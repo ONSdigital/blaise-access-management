@@ -8,8 +8,8 @@ import "@testing-library/jest-dom";
 import ChangeRole from "./ChangeRole";
 import { MemoryRouter, useParams } from "react-router-dom";
 import { getAllRoles, patchUserRolesAndPermissions } from "../../../api/http";
-import { ValidUserRoles } from "../../../Interfaces";
 import userEvent from "@testing-library/user-event";
+import { UserRole } from "blaise-api-node-client";
 
 jest.mock("react-router-dom", () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -27,17 +27,18 @@ jest.mock("../../../api/http", () => ({
 }));
 
 const mockRoles = [
-    { name: ValidUserRoles.DST, description: "DST User" },
-    { name: ValidUserRoles.BDSS, description: "BDSS User" },
-    { name: ValidUserRoles.IPSFieldInterviewer, description: "IPS Field Interviewer User" },
-    { name: ValidUserRoles.IPSManager, description: "IPS Manager User" },
-    { name: ValidUserRoles.Editor, description: "Editor User" },
-    { name: ValidUserRoles.EditorManager, description: "Editor Manager User" },
-    { name: ValidUserRoles.TOAppointments, description: "TO Appointments User" },
-    { name: ValidUserRoles.TOManager, description: "TO Manager User" },
-    { name: ValidUserRoles.TOInterviewer, description: "TO Interviewer User" },
-    { name: ValidUserRoles.SEL, description: "SEL User" },
-    { name: ValidUserRoles.WelshSpeaker, description: "Welsh Speaker User" }
+    { name: "DST", description: "DST User" },
+    { name: "BDSS", description: "BDSS User" },
+    { name: "IPS Manager", description: "IPS Field Interviewer User" },
+    { name: "IPS Field Interviewer", description: "IPS Manager User" },
+    { name: "IPS Researcher", description: "IPS Researcher User" },
+    { name: "Editor", description: "Editor User" },
+    { name: "Editor Manager", description: "Editor Manager User" },
+    { name: "TO Appointments", description: "TO Appointments User" },
+    { name: "TO Manager", description: "TO Manager User" },
+    { name: "TO Interviewer", description: "TO Interviewer User" },
+    { name: "SEL", description: "SEL User" },
+    { name: "Welsh Speaker", description: "Welsh Speaker User" }
 ];
 
 const mockUserDetails = {

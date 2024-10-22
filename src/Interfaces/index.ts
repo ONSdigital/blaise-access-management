@@ -49,17 +49,3 @@ export interface BreadcrumbItem {
 export interface BreadcrumbProps {
     BreadcrumbList: BreadcrumbItem[]
 }
-
-export enum ValidUserRoles {
-    DST = "DST",
-    BDSS = "BDSS",
-    IPSManager = "IPS Manager",
-    IPSFieldInterviewer = "IPS Field Interviewer",
-    Editor = "Editor",
-    EditorManager = "Editor Manager",
-    TOAppointments = "TO Appointments",
-    TOManager = "TO Manager",
-    TOInterviewer = "TO Interviewer",
-    SEL = "SEL",
-    WelshSpeaker = "Welsh Speaker",
-}
