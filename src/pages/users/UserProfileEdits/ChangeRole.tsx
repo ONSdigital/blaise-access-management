@@ -3,7 +3,7 @@ import { ONSButton, ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-desi
 import { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
-import { BreadcrumbItem, ValidUserRoles } from "../../../Interfaces";
+import { BreadcrumbItem } from "../../../Interfaces";
 import { RedirectWithData, UserRouteParams } from "../../../Interfaces/usersPage";
 import { getAllRoles, patchUserRolesAndPermissions } from "../../../api/http";
 import { UserRole } from "blaise-api-node-client";
@@ -47,7 +47,7 @@ export default function ChangeRole(): ReactElement {
             return;
         }
 
-        if (Object.values(ValidUserRoles).includes(role as ValidUserRoles)) {
+        if (roleList.some((userRole) => userRole.name === role)) {
             const res = await patchUserRolesAndPermissions(viewedUsername, role);
             setRedirectWithData({ redirect: true, visible: true, message: res?.message || "", statusType: res?.status === 500 ? "error" : "success" });
         } else {

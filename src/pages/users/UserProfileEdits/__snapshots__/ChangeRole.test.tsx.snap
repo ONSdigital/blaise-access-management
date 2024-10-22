@@ -125,14 +125,19 @@ exports[`ChangeRole Component (with state management) matches the snapshot 1`] =
             BDSS
           </option>
           <option
+            value="IPS Manager"
+          >
+            IPS Manager
+          </option>
+          <option
             value="IPS Field Interviewer"
           >
             IPS Field Interviewer
           </option>
           <option
-            value="IPS Manager"
+            value="IPS Researcher"
           >
-            IPS Manager
+            IPS Researcher
           </option>
           <option
             value="Editor"
