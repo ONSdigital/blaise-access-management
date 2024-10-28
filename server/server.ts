@@ -28,6 +28,10 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
 
     axios.defaults.timeout = 10000;
 
+    const logger = createLogger();
+    server.use(logger);
+    logger.logger.info("Server started");
+
     // where ever the react built package is
     const buildFolder = "../build";
 
