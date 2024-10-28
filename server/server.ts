@@ -15,9 +15,9 @@ import fs from "fs";
 
 export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi, auth: Auth): Express
 {
-    const pinoLogger = pino();
+    const pinoLogger = createLogger();
     profiler.start({ logLevel: 4 }).catch((err: unknown) => {
-        pinoLogger.error(`Failed to start profiler: ${err}`);
+        pinoLogger.logger.error(`Failed to start profiler: ${err}`);
     });
 
     const upload = multer();
@@ -28,9 +28,6 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
 
     axios.defaults.timeout = 10000;
 
-    const logger = createLogger();
-    server.use(logger);
-
     // where ever the react built package is
     const buildFolder = "../build";
 
@@ -38,7 +35,7 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
 
     // Health Check endpoint
     server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
-        pinoLogger.info("Heath Check endpoint called");
+        pinoLogger.logger.info("Heath Check endpoint called");
         res.status(200).json({ healthy: true });
     });
 

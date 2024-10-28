@@ -2,6 +2,9 @@ import express, { Request, Response, Router } from "express";
 import { CustomConfig } from "../interfaces/server";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import BlaiseApiClient from "blaise-api-node-client";
+import createLogger from "../pino";
+
+const pinoLogger = createLogger();
 
 export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApiClient): Router {
     const router = express.Router();
@@ -37,13 +40,13 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             await blaiseApiClient.changeUserRole(user, role);
             await blaiseApiClient.changeUserServerParks(user, newServerParks, newDefaultServerPark);
             const successMessage = `Successfully updated user role and permissions to ${role} for ${user}`;
-            console.log(successMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
+            pinoLogger.logger.info(successMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
             return res.status(200).json({
                 message: successMessage + " today at " + (new Date()).toLocaleTimeString("en-UK")
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}: ${error}`;
-            console.error(errorMessage);
+            pinoLogger.logger.error(errorMessage);
             return res.status(500).json({
                 message: errorMessage
             });
@@ -58,13 +61,14 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         try {
             const user = await blaiseApiClient.getUser(req.params.user);
             const successMessage = `Successfully fetched user details for ${req.params.user}`;
+            pinoLogger.logger.info(successMessage);
             return res.status(200).json({
                 message: successMessage,
                 data: user
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to retrieve user ${req.params.user}: ${error}`;
-            console.error(errorMessage);
+            pinoLogger.logger.error(errorMessage);
             return res.status(500).json({
                 message: errorMessage,
                 error: error
@@ -84,9 +88,10 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         }
 
         blaiseApiClient.changePassword(req.params.user, password).then(() => {
+            pinoLogger.logger.info(`Successfully changed password for ${req.params.user}`);
             return res.status(204).json(null);
         }).catch((error: unknown) => {
-            console.error(error);
+            pinoLogger.logger.error(error);
             return res.status(500).json(error);
         });
     });
@@ -107,7 +112,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
         const data = req.body;
         if(!data.role){
-            return res.status(400).json();
+            return res.status(400).json({ message: "No role provided for user creation" });
         }
         const roleServerParksOverride = config.RoleToServerParksMap[data.role];
         if (roleServerParksOverride != null) {
@@ -118,6 +123,8 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             data.serverParks = defaultServerPark;
             data.defaultServerPark = defaultServerPark[0];
         }
+        const currentUser = req.headers.user;
+        pinoLogger.logger.info(`${currentUser} has created user: ${data.username}`);
         return res.status(200).json(await blaiseApiClient.createUser(data));
     });
 
