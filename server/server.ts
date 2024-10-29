@@ -36,7 +36,6 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
     // Health Check endpoint
     server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
         auditLogger.info(req.log, "Heath Check endpoint called");
-        req.log.info("Heath Check endpoint called");
         res.status(200).json({ healthy: true });
     });
 

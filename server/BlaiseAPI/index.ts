@@ -6,6 +6,7 @@ import AuditLogger from "../AuditLogger";
 
 export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApiClient, auditLogger: AuditLogger): Router {
     const router = express.Router();
+
     router.get("/api/roles", auth.Middleware, async function (req: Request, res: Response) {
         res.status(200).json(await blaiseApiClient.getUserRoles());
     });
@@ -15,6 +16,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     });
 
     router.patch("/api/users/:user/rolesAndPermissions", auth.Middleware, async function (req: Request, res: Response) {
+        const currentUser = auth.GetUser(auth.GetToken(req));
         const { role } = req.body;
         const user = req.params.user;
         let newServerParks = [""];
@@ -37,14 +39,15 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         try {
             await blaiseApiClient.changeUserRole(user, role);
             await blaiseApiClient.changeUserServerParks(user, newServerParks, newDefaultServerPark);
-            const successMessage = `Successfully updated user role and permissions to ${role} for ${user}`;
-            auditLogger.info(req.log, successMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
+            const successMessage = `${currentUser.name || "Unknown"} has successfully updated user role and permissions to ${role} for ${user}`;
+            auditLogger.info(req.log, successMessage);
             return res.status(200).json({
-                message: successMessage + " today at " + (new Date()).toLocaleTimeString("en-UK")
+                message: successMessage
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}: ${error}`;
-            auditLogger.error(req.log, errorMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has failed to update user role and permissions to ${role} for ${user}`);
+            auditLogger.error(req.log, errorMessage);
             return res.status(500).json({
                 message: errorMessage
             });
@@ -76,8 +79,6 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
 
     router.get("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
         const currentUser = auth.GetUser(auth.GetToken(req));
-        auditLogger.info(req.log, `CURRENT USER: ${currentUser}`);
-        req.log.info(`CURRENT USER: ${currentUser}`);
         let { password } = req.headers;
 
         if (Array.isArray(password)) {
@@ -89,15 +90,17 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         }
 
         blaiseApiClient.changePassword(req.params.user, password).then(() => {
-            auditLogger.info(req.log, `Successfully changed password for ${req.params.user}`);
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully changed the password for ${req.params.user}`);
             return res.status(204).json(null);
         }).catch((error: unknown) => {
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has failed to change the password for ${req.params.user}`);
             auditLogger.error(req.log, `Error whilst trying to change password for ${req.params.user}: ${error}`);
             return res.status(500).json(error);
         });
     });
 
     router.delete("/api/users", auth.Middleware, async function (req: Request, res: Response) {
+        const currentUser = auth.GetUser(auth.GetToken(req));
         let { user } = req.headers;
 
         if (Array.isArray(user)) {
@@ -108,15 +111,18 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             auditLogger.error(req.log, "No user provided for deletion");
             return res.status(400).json();
         }
-        auditLogger.info(req.log, `Successfully deleted user: ${user}`);
+        auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully deleted user: ${user}`);
         return res.status(204).json(await blaiseApiClient.deleteUser(user));
     });
 
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
+        const currentUser = auth.GetUser(auth.GetToken(req));
         const data = req.body;
-        if(!data.role){
+
+        if(!data.role) {
             return res.status(400).json({ message: "No role provided for user creation" });
         }
+
         const roleServerParksOverride = config.RoleToServerParksMap[data.role];
         if (roleServerParksOverride != null) {
             data.serverParks = roleServerParksOverride;
@@ -126,8 +132,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             data.serverParks = defaultServerPark;
             data.defaultServerPark = defaultServerPark[0];
         }
-        const currentUser = req.headers.user;
-        auditLogger.info(req.log, `${currentUser} has created user: ${data.username}`);
+        auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user: ${data.username}`);
         return res.status(200).json(await blaiseApiClient.createUser(data));
     });
 
