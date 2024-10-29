@@ -26,6 +26,7 @@
     "formik": "2.4.2"
   },
   "dependencies": {
+    "@google-cloud/logging": "^9.6.0",
     "@google-cloud/profiler": "^4.1.1",
     "@testing-library/dom": "^8.3.0",
     "@testing-library/jest-dom": "^5.16.4",
@@ -34,7 +35,7 @@
     "axios": "^1.7.4",
     "blaise-api-node-client": "git+https://github.com/ONSdigital/blaise-api-node-client",
     "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.0",
-    "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#BLAIS5-4287-b",
+    "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#1.1.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
