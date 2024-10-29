@@ -11,8 +11,6 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     });
 
     router.get("/api/users", auth.Middleware, async function (req: Request, res: Response) {
-        const currentUser = auth.GetUser(auth.GetToken(req));
-        auditLogger.info(req.log, `USER: ${currentUser} has successfully fetched all users`);
         res.status(200).json(await blaiseApiClient.getUsers());
     });
 
@@ -77,6 +75,8 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     });
 
     router.get("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
+        const currentUser = auth.GetUser(auth.GetToken(req));
+        auditLogger.info(req.log, `CURRENT USER: ${currentUser}`);
         let { password } = req.headers;
 
         if (Array.isArray(password)) {
