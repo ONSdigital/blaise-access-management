@@ -3,16 +3,18 @@ import { CustomConfig } from "../interfaces/server";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import BlaiseApiClient from "blaise-api-node-client";
 import createLogger from "../pino";
+import AuditLogger from "../AuditLogger";
 
 const pinoLogger = createLogger();
 
-export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApiClient): Router {
+export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApiClient, auditLogger: AuditLogger): Router {
     const router = express.Router();
     router.get("/api/roles", auth.Middleware, async function (req: Request, res: Response) {
         res.status(200).json(await blaiseApiClient.getUserRoles());
     });
 
     router.get("/api/users", auth.Middleware, async function (req: Request, res: Response) {
+        auditLogger.info(req.log, `USER: ${req.headers.user} has successfully fetched all users`);
         res.status(200).json(await blaiseApiClient.getUsers());
     });
 
@@ -40,13 +42,13 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             await blaiseApiClient.changeUserRole(user, role);
             await blaiseApiClient.changeUserServerParks(user, newServerParks, newDefaultServerPark);
             const successMessage = `Successfully updated user role and permissions to ${role} for ${user}`;
-            pinoLogger.logger.info(successMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
+            auditLogger.info(req.log, successMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
             return res.status(200).json({
                 message: successMessage + " today at " + (new Date()).toLocaleTimeString("en-UK")
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}: ${error}`;
-            pinoLogger.logger.error(errorMessage);
+            auditLogger.error(req.log, errorMessage + ` at ${(new Date()).toLocaleTimeString("en-UK")} ${(new Date()).toLocaleDateString("en-UK")}`);
             return res.status(500).json({
                 message: errorMessage
             });
@@ -61,14 +63,14 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         try {
             const user = await blaiseApiClient.getUser(req.params.user);
             const successMessage = `Successfully fetched user details for ${req.params.user}`;
-            pinoLogger.logger.info(successMessage);
+            auditLogger.info(req.log, successMessage);
             return res.status(200).json({
                 message: successMessage,
                 data: user
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to retrieve user ${req.params.user}: ${error}`;
-            pinoLogger.logger.error(errorMessage);
+            auditLogger.error(req.log, errorMessage);
             return res.status(500).json({
                 message: errorMessage,
                 error: error
@@ -88,10 +90,10 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         }
 
         blaiseApiClient.changePassword(req.params.user, password).then(() => {
-            pinoLogger.logger.info(`Successfully changed password for ${req.params.user}`);
+            auditLogger.info(req.log, `Successfully changed password for ${req.params.user}`);
             return res.status(204).json(null);
         }).catch((error: unknown) => {
-            pinoLogger.logger.error(error);
+            auditLogger.error(req.log, `Error whilst trying to change password for ${req.params.user}: ${error}`);
             return res.status(500).json(error);
         });
     });
@@ -104,8 +106,10 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
         }
 
         if (!user) {
+            auditLogger.error(req.log, "No user provided for deletion");
             return res.status(400).json();
         }
+        auditLogger.info(req.log, `Successfully deleted user: ${user}`);
         return res.status(204).json(await blaiseApiClient.deleteUser(user));
     });
 
@@ -124,7 +128,7 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
             data.defaultServerPark = defaultServerPark[0];
         }
         const currentUser = req.headers.user;
-        pinoLogger.logger.info(`${currentUser} has created user: ${data.username}`);
+        auditLogger.info(req.log, `${currentUser} has created user: ${data.username}`);
         return res.status(200).json(await blaiseApiClient.createUser(data));
     });
 

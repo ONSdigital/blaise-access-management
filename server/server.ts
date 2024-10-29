@@ -7,11 +7,11 @@ import BlaiseAPIRouter from "./BlaiseAPI";
 import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import { newLoginHandler, Auth } from "blaise-login-react/blaise-login-react-server";
-import pino from "pino";
 import { CustomConfig } from "./interfaces/server";
 import BlaiseApi from "blaise-api-node-client";
 import { Express } from "express";
 import fs from "fs";
+import AuditLogger from "./AuditLogger";
 
 export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi, auth: Auth): Express
 {
@@ -21,32 +21,29 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
     });
 
     const upload = multer();
-
     const server = express();
+    const logger = createLogger();
 
     server.use(upload.any());
-
-    axios.defaults.timeout = 10000;
-
-    const logger = createLogger();
     server.use(logger);
-    logger.logger.info("Server started");
+    axios.defaults.timeout = 10000;
 
     // where ever the react built package is
     const buildFolder = "../build";
-
+    const auditLogger = new AuditLogger(config.ProjectId);
     const loginHandler = newLoginHandler(auth, blaiseApi);
 
     // Health Check endpoint
     server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
-        pinoLogger.logger.info("Heath Check endpoint called");
+        auditLogger.info(req.log, "Heath Check endpoint called");
+        req.log.info("Heath Check endpoint called");
         res.status(200).json({ healthy: true });
     });
 
     server.use("/", loginHandler);
 
     // All Endpoints calling the Blaise API
-    server.use("/", BlaiseAPIRouter(config, auth, blaiseApi));
+    server.use("/", BlaiseAPIRouter(config, auth, blaiseApi, auditLogger));
 
     // treat the index.html as a template and substitute the values at runtime
     server.set("views", path.join(__dirname, "/views"));
@@ -67,8 +64,10 @@ export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi
 
     server.use(function (err, _req, res, _next) {
         if (err && err.stack) {
+            auditLogger.error(res, err.stack);
             console.error(err.stack);
         } else {
+            auditLogger.error(res, "An undefined error occurred");
             console.error("An undefined error occurred");
         }
         res.render("../views/500.html", {});
