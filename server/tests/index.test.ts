@@ -8,21 +8,32 @@ import { loadConfigFromEnv } from "../Config";
 import BlaiseApiClient, { NewUser, User, UserRole } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import { IMock, Mock, It, Times } from "typemoq";
+import jwt from "jsonwebtoken";
 
 // Temporary fix for Jest open handle issue (gcp profiler TCPWRAP error)
 jest.mock("@google-cloud/profiler", () => ({
     start: jest.fn().mockReturnValue(Promise.resolve())
 }));
 
+const mockSecret = "super-secret-key";
+process.env = Object.assign(process.env, {
+    SESSION_SECRET: mockSecret,
+    PROJECT_ID: "mockProjectId",
+    BLAISE_API_URL: "http://blaise-api",
+    SERVER_PARK: "mockServerPark",
+    SESSION_TIMEOUT: "12h"
+});
 const config = loadConfigFromEnv();
-const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(BlaiseApiClient);
-Auth.prototype.ValidateToken = jest.fn().mockReturnValue(true);
 const auth = new Auth(config);
+const mockUser: User = { name: "testUser", role: "DST", defaultServerPark: "park1", serverParks: ["park1", "park2"] };
+const mockAuthToken = jwt.sign({ "user": mockUser }, mockSecret);
+
+const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(BlaiseApiClient);
+
 const server = GetNodeServer(config, blaiseApiMock.object, auth);
 const sut = supertest(server);
 
 describe("Test Heath Endpoint", () => {
-
     it("should return a 200 status and json message", async () => {
         const response = await sut.get("/bam-ui/version/health");
 
@@ -35,9 +46,9 @@ describe("app engine start", () => {
 
     it("should return a 200 status and json message", async () => {
         process.env = Object.assign({
-            PROJECT_ID: "mock",
-            BLAISE_API_URL: "http://mock",
-            SERVER_PARK: "mock",
+            PROJECT_ID: "mockProjectId",
+            BLAISE_API_URL: "http://blaise-api",
+            SERVER_PARK: "mockServerPark",
             SESSION_TIMEOUT: "12h"
         });
 
@@ -49,8 +60,6 @@ describe("app engine start", () => {
 
 import role_to_serverparks_map from "../role-to-serverparks-map.json";
 import { size } from "lodash";
-import { Exception } from "typemoq/Error/Exception";
-import { Errback } from "express";
 describe("Test /api/users POST endpoint", () => {
     it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json AND return http status OK_200", async () => {
         let currentRoleNo = 0;
@@ -71,6 +80,7 @@ describe("Test /api/users POST endpoint", () => {
             blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
 
             const response = await sut.post("/api/users")
+                .set("Authorization", `${mockAuthToken}`)
                 .field("role", roleName);
 
             expect(response.statusCode).toEqual(200);
@@ -97,7 +107,8 @@ describe("Test /api/users POST endpoint", () => {
         blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
 
         const response = await sut.post("/api/users")
-            .field("role", roleName);
+            .field("role", roleName)
+            .set("Authorization", `${mockAuthToken}`);
 
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
@@ -111,10 +122,12 @@ describe("Test /api/users POST endpoint", () => {
 
     it("should return http status BAD_REQUEST_400 if role is empty OR hasn't been specified in the request", async () => {
         let response = await sut.post("/api/users")
-            .field("role", "");
+            .field("role", "")
+            .set("Authorization", `${mockAuthToken}`);
         expect(response.statusCode).toEqual(400);
 
-        response = await sut.post("/api/users");
+        response = await sut.post("/api/users")
+            .set("Authorization", `${mockAuthToken}`);
         expect(response.statusCode).toEqual(400);
     });
 });
@@ -132,6 +145,7 @@ describe("Test /api/users DELETE endpoint", () => {
         blaiseApiMock.setup((api) => api.deleteUser(It.isAny())).returns(_ => Promise.resolve(null));
         const username = "user-123";
         const response = await sut.delete("/api/users")
+            .set("Authorization", `${mockAuthToken}`)
             .set("user", username);
 
         expect(response.statusCode).toEqual(204);
@@ -140,10 +154,12 @@ describe("Test /api/users DELETE endpoint", () => {
 
     it("should call Blaise API deleteUser endpoint for INVALID or MISSING user header field AND return http status BAD_REQUEST_400", async () => {
         let response = await sut.delete("/api/users")
+            .set("Authorization", `${mockAuthToken}`)
             .set("user", "");
         expect(response.statusCode).toEqual(400);
 
-        response = await sut.delete("/api/users");
+        response = await sut.delete("/api/users")
+            .set("Authorization", `${mockAuthToken}`);
         expect(response.statusCode).toEqual(400);
     });
 });
@@ -164,7 +180,8 @@ describe("Test /api/users GET endpoint", () => {
         const userArray : NewUser [] = [newUser1, newUser2, newUser3];
         blaiseApiMock.setup((api) => api.getUsers()).returns(_ => Promise.resolve(userArray));
 
-        const response = await sut.get("/api/users");
+        const response = await sut.get("/api/users")
+            .set("Authorization", `${mockAuthToken}`);
 
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.getUsers(), Times.once());
@@ -185,13 +202,15 @@ describe("Test /api/roles GET endpoint", () => {
         const userRoleArray : UserRole [] = [userRole1, userRole2, userRole3];
         blaiseApiMock.setup((api) => api.getUserRoles()).returns(_ => Promise.resolve(userRoleArray));
 
-        const response = await sut.get("/api/roles");
+        const response = await sut.get("/api/roles")
+            .set("Authorization", `${mockAuthToken}`);
 
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.getUserRoles(), Times.once());
     });
 });
 
+// TODO: Changing a resource should be a PATCH request not a GET request
 describe("Test /api/change-password/:user GET endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
@@ -207,6 +226,7 @@ describe("Test /api/change-password/:user GET endpoint", () => {
         blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.resolve(null));
 
         const response = await sut.get("/api/change-password/"+username)
+            .set("Authorization", `${mockAuthToken}`)
             .set("password", password);
 
         expect(response.statusCode).toEqual(204);
@@ -217,7 +237,8 @@ describe("Test /api/change-password/:user GET endpoint", () => {
         const username = "user1";
         const password = "";
 
-        const response = await sut.get("/api/change-password/"+username)
+        const response = await sut.get("/api/change-password/"+ username)
+            .set("Authorization", `${mockAuthToken}`)
             .set("password", password);
 
         expect(response.statusCode).toEqual(400);
@@ -231,7 +252,8 @@ describe("Test /api/change-password/:user GET endpoint", () => {
         blaiseApiMock.setup((a) => a.changePassword(It.isAnyString(), It.isAnyString()))
             .returns(_ => Promise.reject(errorMessage));
 
-        const response = await sut.get("/api/change-password/"+username)
+        const response = await sut.get("/api/change-password/"+ username)
+            .set("Authorization", `${mockAuthToken}`)
             .set("password", password);
 
         expect(response.statusCode).toEqual(500);
@@ -260,10 +282,11 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
             .returns(async () => null);
 
         const response = await sut.patch(`/api/users/${user}/rolesAndPermissions`)
+            .set("Authorization", `${mockAuthToken}`)
             .send({ role });
 
         expect(response.statusCode).toEqual(200);
-        expect(response.body.message).toContain(`Successfully updated user role and permissions to ${role} for ${user}`);
+        expect(response.body.message).toContain(`${mockUser.name} has successfully updated user role and permissions to ${role} for ${user}`);
         blaiseApiMock.verify(api => api.changeUserRole(It.isValue(user), It.isValue(role)), Times.once());
         blaiseApiMock.verify(api => api.changeUserServerParks(It.isValue(user), It.isValue(serverParks), It.isValue(defaultServerPark)), Times.once());
     });
@@ -273,6 +296,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
         const role = "";
 
         const response = await sut.patch(`/api/users/${user}/rolesAndPermissions`)
+            .set("Authorization", `${mockAuthToken}`)
             .send({ role });
 
         expect(response.statusCode).toEqual(400);
@@ -287,6 +311,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
             .returns(async () => { throw new Error(errorMessage); });
 
         const response = await sut.patch(`/api/users/${user}/rolesAndPermissions`)
+            .set("Authorization", `${mockAuthToken}`)
             .send({ role });
 
         expect(response.statusCode).toEqual(500);
