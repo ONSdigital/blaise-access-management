@@ -2,10 +2,7 @@ import express, { Request, Response, Router } from "express";
 import { CustomConfig } from "../interfaces/server";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import BlaiseApiClient from "blaise-api-node-client";
-import createLogger from "../pino";
 import AuditLogger from "../AuditLogger";
-
-const pinoLogger = createLogger();
 
 export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaiseApiClient: BlaiseApiClient, auditLogger: AuditLogger): Router {
     const router = express.Router();
@@ -14,7 +11,8 @@ export default function BlaiseAPIRouter(config: CustomConfig, auth: Auth, blaise
     });
 
     router.get("/api/users", auth.Middleware, async function (req: Request, res: Response) {
-        auditLogger.info(req.log, `USER: ${req.headers.user} has successfully fetched all users`);
+        const currentUser = auth.GetUser(auth.GetToken(req));
+        auditLogger.info(req.log, `USER: ${currentUser} has successfully fetched all users`);
         res.status(200).json(await blaiseApiClient.getUsers());
     });
 
