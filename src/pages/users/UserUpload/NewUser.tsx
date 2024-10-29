@@ -25,9 +25,10 @@ function NewUserComponent(): ReactElement {
         setUsername(formData.username);
         if (formData.username && formData.password) {
             const newUser: NewUser = {
-                name: formData.username,
-                password: formData.password,
+                name: formData.username.trim(),
+                password: formData.password.trim(),
                 role: role,
+                // TODO: Are these needed? These should be set in the server depending on the role
                 defaultServerPark: "gusty",
                 serverParks: ["gusty"]
             };
