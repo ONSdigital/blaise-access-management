@@ -4,11 +4,17 @@
 
 import supertest from "supertest";
 import GetNodeServer from "../server";
-import { loadConfigFromEnv } from "../Config";
+import AuditLogger from "../logger/cloudLogging";
+import { loadConfigFromEnv } from "../config";
 import BlaiseApiClient, { NewUser, User, UserRole } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import { IMock, Mock, It, Times } from "typemoq";
+import role_to_serverparks_map from "../role-to-serverparks-map.json";
+import { size } from "lodash";
 import jwt from "jsonwebtoken";
+import createLogger from "../logger/pinoLogger";
+import pino from "pino";
+import { HttpLogger } from "pino-http";
 
 // Temporary fix for Jest open handle issue (gcp profiler TCPWRAP error)
 jest.mock("@google-cloud/profiler", () => ({
@@ -28,21 +34,35 @@ const auth = new Auth(config);
 const mockUser: User = { name: "testUser", role: "DST", defaultServerPark: "park1", serverParks: ["park1", "park2"] };
 const mockAuthToken = jwt.sign({ "user": mockUser }, mockSecret);
 
+const logger: pino.Logger = pino();
+logger.child = jest.fn(() => logger);
+const logInfo = jest.spyOn(logger, "info");
+const httpLogger: HttpLogger = createLogger({ logger: logger });
+
 const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(BlaiseApiClient);
 
-const server = GetNodeServer(config, blaiseApiMock.object, auth);
+const server = GetNodeServer(config, blaiseApiMock.object, auth, httpLogger);
 const sut = supertest(server);
 
-describe("Test Heath Endpoint", () => {
+describe("GCP health check", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should return a 200 status and json message", async () => {
         const response = await sut.get("/bam-ui/version/health");
 
+        const log = logInfo.mock.calls[0][0];
+        expect(log).toEqual("AUDIT_LOG: Heath Check endpoint called");
         expect(response.statusCode).toEqual(200);
         expect(response.body).toStrictEqual({ healthy: true });
     });
 });
 
-describe("app engine start", () => {
+describe("GCP app engine start", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     it("should return a 200 status and json message", async () => {
         process.env = Object.assign({
@@ -58,9 +78,12 @@ describe("app engine start", () => {
     });
 });
 
-import role_to_serverparks_map from "../role-to-serverparks-map.json";
-import { size } from "lodash";
-describe("Test /api/users POST endpoint", () => {
+// Blaise API endpoints
+describe("POST /api/users endpoint", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json AND return http status OK_200", async () => {
         let currentRoleNo = 0;
         const totalRoleCount = size(role_to_serverparks_map);
@@ -132,9 +155,10 @@ describe("Test /api/users POST endpoint", () => {
     });
 });
 
-describe("Test /api/users DELETE endpoint", () => {
+describe("DELETE /api/users endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
+        jest.clearAllMocks();
     });
 
     afterAll(() => {
@@ -164,7 +188,11 @@ describe("Test /api/users DELETE endpoint", () => {
     });
 });
 
-describe("Test /api/users GET endpoint", () => {
+describe("GET /api/users endpoint", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should call Blaise API getUsers endpoint AND return http status OK_200", async () => {
         const newUser1 : NewUser = {
             name:  "name1",
@@ -188,7 +216,11 @@ describe("Test /api/users GET endpoint", () => {
     });
 });
 
-describe("Test /api/roles GET endpoint", () => {
+describe("GET /api/roles endpoint", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should call Blaise API getUserRoles endpoint AND return http status OK_200", async () => {
         const userRole1 : UserRole = {
             name:  "name1",
@@ -211,9 +243,10 @@ describe("Test /api/roles GET endpoint", () => {
 });
 
 // TODO: Changing a resource should be a PATCH request not a GET request
-describe("Test /api/change-password/:user GET endpoint", () => {
+describe("GET /api/change-password/:user endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
+        jest.clearAllMocks();
     });
 
     afterAll(() => {
@@ -265,6 +298,7 @@ describe("Test /api/change-password/:user GET endpoint", () => {
 describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
+        jest.clearAllMocks();
     });
 
     afterAll(() => {
@@ -285,6 +319,8 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
             .set("Authorization", `${mockAuthToken}`)
             .send({ role });
 
+        const log = logInfo.mock.calls[0][0];
+        expect(log).toEqual("AUDIT_LOG: testUser has successfully updated user role and permissions to IPS Manager for testUser");
         expect(response.statusCode).toEqual(200);
         expect(response.body.message).toContain(`${mockUser.name} has successfully updated user role and permissions to ${role} for ${user}`);
         blaiseApiMock.verify(api => api.changeUserRole(It.isValue(user), It.isValue(role)), Times.once());
@@ -318,3 +354,38 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
         expect(response.body.message).toContain(errorMessage);
     });
 });
+
+// AuditLogs endpoints
+// TODO: Complete test case
+// describe("GET /api/auditLogs endpoint", () => {
+//     it.todo("should call AuditLogger getAuditLogs endpoint", async () => {
+//         const logs = [
+//             {
+//                 id: "test-id",
+//                 timestamp: "test-timestamp",
+//                 message: "test message",
+//                 severity: "INFO"
+//             },
+//             {
+//                 id: "test-id-2",
+//                 timestamp: "test-timestamp-2",
+//                 message: "test message 2",
+//                 severity: "ERROR"
+//             },
+//             {
+//                 id: "test-id-3",
+//                 timestamp: "test-timestamp-3",
+//                 message: "test message 3",
+//                 severity: "CRITICAL"
+//             }
+//         ];
+//         auditLoggerMockGetLogs.mockResolvedValue(logs);
+
+//         const response = await sut.get("/api/auditLogs")
+//             .set("Authorization", `${mockAuthToken}`);
+
+//         expect(response.statusCode).toEqual(200);
+//         expect(response.body).toStrictEqual(logs);
+//         auditLoggerMockInfo.mockClear();
+//     });
+// });
