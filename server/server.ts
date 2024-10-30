@@ -2,8 +2,7 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 import path from "path";
 import ejs from "ejs";
-import createLogger from "./pino";
-import BlaiseAPIRouter from "./BlaiseAPI";
+import createLogger from "./logger/pinoLogger";
 import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import { newLoginHandler, Auth } from "blaise-login-react/blaise-login-react-server";
@@ -11,38 +10,40 @@ import { CustomConfig } from "./interfaces/server";
 import BlaiseApi from "blaise-api-node-client";
 import { Express } from "express";
 import fs from "fs";
-import AuditLogger from "./AuditLogger";
+import AuditLogger from "./logger/cloudLogging";
+import auditLogs from "./routes/auditLogs";
+import blaiseApi from "./routes/blaiseApi";
+import { Logger } from "pino";
+import { HttpLogger } from "pino-http";
 
-export default function GetNodeServer(config: CustomConfig, blaiseApi: BlaiseApi, auth: Auth): Express
+export default function GetNodeServer(config: CustomConfig, blaiseApiClient: BlaiseApi, auth: Auth, logger: HttpLogger): Express
 {
-    const pinoLogger = createLogger();
-    profiler.start({ logLevel: 4 }).catch((err: unknown) => {
-        pinoLogger.logger.error(`Failed to start profiler: ${err}`);
-    });
-
+    const auditLogger = new AuditLogger(config.ProjectId);
+    const pinoLogger = logger;
     const upload = multer();
     const server = express();
-    const logger = createLogger();
-
-    server.use(upload.any());
-    server.use(logger);
-    axios.defaults.timeout = 10000;
-
     // where ever the react built package is
     const buildFolder = "../build";
-    const auditLogger = new AuditLogger(config.ProjectId);
-    const loginHandler = newLoginHandler(auth, blaiseApi);
 
-    // Health Check endpoint
+    server.use(upload.any());
+    server.use(pinoLogger);
+    axios.defaults.timeout = 10000;
+
+    const loginRouter = newLoginHandler(auth, blaiseApiClient);
+    const auditRouter = auditLogs(auditLogger, auth);
+    const blaiseApiRouter = blaiseApi(config, auth, blaiseApiClient, auditLogger);
+
+    profiler.start({ logLevel: 4 }).catch((err: unknown) => {
+        pinoLogger.logger.info(`Failed to start GCP profiler: ${err}`);
+    });
+    // GCP health check
     server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
         auditLogger.info(req.log, "Heath Check endpoint called");
         res.status(200).json({ healthy: true });
     });
-
-    server.use("/", loginHandler);
-
-    // All Endpoints calling the Blaise API
-    server.use("/", BlaiseAPIRouter(config, auth, blaiseApi, auditLogger));
+    server.use("/", loginRouter);
+    server.use("/", blaiseApiRouter);
+    server.use("/", auditRouter);
 
     // treat the index.html as a template and substitute the values at runtime
     server.set("views", path.join(__dirname, "/views"));
