@@ -13,7 +13,7 @@ import jwt from "jsonwebtoken";
 import createLogger from "../logger/pinoLogger";
 import pino from "pino";
 import { HttpLogger } from "pino-http";
-import { loadConfigFromEnv } from "../config";
+import { loadConfigFromEnv } from "../Config";
 
 // Temporary fix for Jest open handle issue (gcp profiler TCPWRAP error)
 jest.mock("@google-cloud/profiler", () => ({
