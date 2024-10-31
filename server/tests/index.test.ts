@@ -9,6 +9,7 @@ import { Auth } from "blaise-login-react/blaise-login-react-server";
 import { IMock, Mock, It, Times } from "typemoq";
 import role_to_serverparks_map from "../role-to-serverparks-map.json";
 import { size } from "lodash";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import jwt from "jsonwebtoken";
 import createLogger from "../logger/pinoLogger";
 import pino from "pino";

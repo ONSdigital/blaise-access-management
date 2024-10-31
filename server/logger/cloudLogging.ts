@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Logging } from "@google-cloud/logging";
 import { IncomingMessage } from "http";
 import { AuditLog } from "../interfaces/logger";
