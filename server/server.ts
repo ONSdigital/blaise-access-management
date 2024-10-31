@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import axios from "axios";
 import path from "path";
 import ejs from "ejs";
-import createLogger from "./logger/pinoLogger";
 import multer from "multer";
 import * as profiler from "@google-cloud/profiler";
 import { newLoginHandler, Auth } from "blaise-login-react/blaise-login-react-server";
@@ -13,7 +12,6 @@ import fs from "fs";
 import AuditLogger from "./logger/cloudLogging";
 import auditLogs from "./routes/auditLogs";
 import blaiseApi from "./routes/blaiseApi";
-import { Logger } from "pino";
 import { HttpLogger } from "pino-http";
 
 export default function GetNodeServer(config: CustomConfig, blaiseApiClient: BlaiseApi, auth: Auth, logger: HttpLogger): Express

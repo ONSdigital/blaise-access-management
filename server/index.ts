@@ -4,7 +4,6 @@ import BlaiseApiClient from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import dotenv from "dotenv";
 import createLogger from "./logger/pinoLogger";
-import AuditLogger from "./logger/cloudLogging";
 
 const port: string = process.env.PORT || "5002";
 
