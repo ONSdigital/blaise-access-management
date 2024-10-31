@@ -4,7 +4,6 @@
 
 import supertest from "supertest";
 import GetNodeServer from "../server";
-import { loadConfigFromEnv } from "../config";
 import BlaiseApiClient, { NewUser, User, UserRole } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
 import { IMock, Mock, It, Times } from "typemoq";
@@ -14,6 +13,7 @@ import jwt from "jsonwebtoken";
 import createLogger from "../logger/pinoLogger";
 import pino from "pino";
 import { HttpLogger } from "pino-http";
+import { loadConfigFromEnv } from "../config";
 
 // Temporary fix for Jest open handle issue (gcp profiler TCPWRAP error)
 jest.mock("@google-cloud/profiler", () => ({
