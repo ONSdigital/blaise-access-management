@@ -12,7 +12,7 @@ import { size } from "lodash";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import jwt from "jsonwebtoken";
 import createLogger from "../logger/pinoLogger";
-import pino from "pino";
+import pino, { Bindings, ChildLoggerOptions } from "pino";
 import { HttpLogger } from "pino-http";
 import { loadConfigFromEnv } from "../Config";
 
@@ -34,6 +34,7 @@ const auth = new Auth(config);
 const mockUser: User = { name: "testUser", role: "DST", defaultServerPark: "park1", serverParks: ["park1", "park2"] };
 const mockAuthToken = jwt.sign({ "user": mockUser }, mockSecret);
 
+// TODO: Investigate
 const logger: pino.Logger = pino();
 logger.child = jest.fn(() => logger);
 const logInfo = jest.spyOn(logger, "info");
