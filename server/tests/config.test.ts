@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { loadConfigFromEnv } from "../Config";
+import { loadConfigFromEnv } from "../config";
 
 describe("Config setup", () => {
     afterEach(() => {
