@@ -4,7 +4,6 @@
 
 import supertest from "supertest";
 import GetNodeServer from "../server";
-import AuditLogger from "../logger/cloudLogging";
 import { loadConfigFromEnv } from "../config";
 import BlaiseApiClient, { NewUser, User, UserRole } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react/blaise-login-react-server";
