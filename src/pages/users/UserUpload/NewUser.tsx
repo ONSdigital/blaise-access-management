@@ -18,7 +18,7 @@ function NewUserComponent(): ReactElement {
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
     const [roleList, setRoleList] = useState<UserRole[]>([]);
-    const cconfig = loadConfigFromEnv();
+    const config = loadConfigFromEnv();
 
     async function createNewUser(formData: UserForm) {
         setUsername(formData.username);
@@ -26,7 +26,9 @@ function NewUserComponent(): ReactElement {
             const newUser: NewUser = {
                 name: formData.username.trim(),
                 password: formData.password.trim(),
-                role: role
+                role: role,
+                defaultServerPark: config.DefaultServerPark,
+                serverParks: config.RoleToServerParksMap[role]
             };
             setButtonLoading(true);
             const created = await addNewUser(newUser);
