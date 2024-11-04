@@ -2,8 +2,7 @@ import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
 import { addNewUser, getAllRoles } from "../../../api/http";
-import { UserRole } from "blaise-api-node-client";
-import { NewUser } from "blaise-api-node-client";
+import { UserRole, NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../../Components/form/TextInput";
 import Form from "../../../Components/form";
 import { passwordMatchedValidator, requiredValidator } from "../../../Components/form/FormValidators";
@@ -27,10 +26,7 @@ function NewUserComponent(): ReactElement {
             const newUser: NewUser = {
                 name: formData.username.trim(),
                 password: formData.password.trim(),
-                role: role,
-                // TODO: Are these needed? These should be set in the server depending on the role
-                defaultServerPark: "gusty",
-                serverParks: ["gusty"]
+                role: role
             };
             setButtonLoading(true);
             const created = await addNewUser(newUser);

@@ -18,22 +18,27 @@ export default function ChangePassword(): ReactElement {
     const [redirect, setRedirect] = useState<boolean>(false);
 
     const changePassword = () => {
-        if (password === "") {
+        const sanitisedPassword = password.trim();
+        const sanitisedConfirmPassword = confirmPassword.trim();
+
+        if (sanitisedPassword === "" || sanitisedConfirmPassword === "") {
             setMessage("Passwords cannot be blank");
             return;
         }
-        if (password !== confirmPassword) {
+        if (sanitisedPassword !== sanitisedConfirmPassword) {
             setMessage("Passwords do not match");
             return;
         }
 
         setButtonLoading(true);
         const authManager = new AuthManager();
-        fetch("/api/change-password/" + viewedUsername, {
-            "headers": Object.assign({}, {
-                "password": password
-            }, authManager.authHeader())
-        })
+
+        fetch("/api/change-password/" + viewedUsername,
+            {
+                "headers": Object.assign({}, {
+                    "password": sanitisedPassword
+                }, authManager.authHeader())
+            })
             .then((r: Response) => {
                 if (r.status === 204) {
                     setButtonLoading(false);
@@ -82,10 +87,12 @@ export default function ChangePassword(): ReactElement {
                 </ONSPanel>
                 <form onSubmit={() => changePassword()}>
                     <ONSPasswordInput label={"New password"}
+                        inputId={"new-password"}
                         autoFocus={true}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} />
                     <ONSPasswordInput label={"Confirm password"}
+                        inputId={"confirm-password"}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)} />
                     <ONSButton
