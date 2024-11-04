@@ -54,8 +54,9 @@ describe("POST /api/users endpoint", () => {
     it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json AND return http status OK_200", async () => {
         let currentRoleNo = 0;
         const totalRoleCount = size(role_to_serverparks_map);
-        for(const roleName in role_to_serverparks_map)
+        for (const roleName in role_to_serverparks_map)
         {
+            logInfo.mockReset();
             blaiseApiMock.reset();
             console.log("Running for role %i of %i:  %s", ++currentRoleNo, totalRoleCount, roleName);
 
@@ -74,8 +75,7 @@ describe("POST /api/users endpoint", () => {
                 .field("name", newUser.name)
                 .field("role", roleName);
 
-            const log = logInfo.mock.calls[0][0];
-            expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully created user: ${newUser.name}`);
+            expect(logInfo.mock.calls[0][0]).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`);
             expect(response.statusCode).toEqual(200);
             blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
                 x=> x.defaultServerPark == newUser.defaultServerPark
@@ -105,7 +105,7 @@ describe("POST /api/users endpoint", () => {
             .set("Authorization", `${mockAuthToken}`);
 
         const log = logInfo.mock.calls[0][0];
-        expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully created user: ${newUser.name}`);
+        expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`);
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
             x=> x.defaultServerPark == newUser.defaultServerPark
@@ -128,6 +128,29 @@ describe("POST /api/users endpoint", () => {
             .set("Authorization", `${mockAuthToken}`);
         expect(response.statusCode).toEqual(400);
         expect(response.body.message).toEqual("No role provided for user creation");
+    });
+
+    it("should return http status INTERNAL_SERVER_ERROR_500 if Blaise API client throws an error", async () => {
+        const roleName = "IPS Manager";
+        const spmap = role_to_serverparks_map.DEFAULT;
+        const newUser : NewUser = {
+            name:  "name1",
+            password: "password1",
+            role: roleName,
+            serverParks: spmap,
+            defaultServerPark: spmap[0]
+        };
+        const errorMessage = "Blaise API client error";
+        blaiseApiMock.setup((api) => api.createUser(It.isAny())).throws(new Error(errorMessage));
+
+        const response = await sut.post("/api/users")
+            .set("Authorization", `${mockAuthToken}`)
+            .field("name", newUser.name)
+            .field("role", roleName);
+
+        const log = logError.mock.calls[0][0];
+        expect(log).toEqual(`AUDIT_LOG: Error whilst trying to create new user, ${newUser.name}, with error message: Error: ${errorMessage}`);
+        expect(response.statusCode).toEqual(500);
     });
 });
 
@@ -355,7 +378,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
         const infoLog = logInfo.mock.calls[0][0];
         const errorLog = logError.mock.calls[0][0];
         expect(infoLog).toEqual(`AUDIT_LOG: ${mockUser.name} has failed to update user role and permissions to ${role} for ${user}`);
-        expect(errorLog).toEqual(`AUDIT_LOG: Error whilst trying to update user role and permissions to admin for ${mockUser.name}: Error: ${errorMessage}`);
+        expect(errorLog).toEqual(`AUDIT_LOG: Error whilst trying to update user role and permissions to admin for ${mockUser.name}, with error message: Error: ${errorMessage}`);
         expect(response.statusCode).toEqual(500);
         expect(response.body.message).toContain(errorMessage);
     });

@@ -45,7 +45,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
                 message: successMessage
             });
         } catch (error) {
-            const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}: ${error}`;
+            const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}, with error message: ${error}`;
             auditLogger.info(req.log, `${currentUser.name || "Unknown user"} has failed to update user role and permissions to ${role} for ${user}`);
             auditLogger.error(req.log, errorMessage);
             return res.status(500).json({
@@ -136,10 +136,10 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
                 data.serverParks = defaultServerPark;
                 data.defaultServerPark = defaultServerPark[0];
             }
-            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user: ${data.name}`);
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user, ${data.name}, with an assigned role of ${data.role}`);
             return res.status(200).json(await blaiseApiClient.createUser(data));
         } catch (error) {
-            auditLogger.error(req.log, `Error whilst trying to create user: ${error}`);
+            auditLogger.error(req.log, `Error whilst trying to create new user, ${req.body.name}, with error message: ${error}`);
             return res.status(500).json(error);
         }
     });
