@@ -110,7 +110,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
                 auditLogger.error(req.log, "No user provided for deletion");
                 return res.status(400).json();
             }
-            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully deleted user, ${user}`);
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully deleted user called ${user}`);
             return res.status(204).json(await blaiseApiClient.deleteUser(user));
         } catch (error) {
             auditLogger.error(req.log, `Error whilst trying to delete user, ${req.headers.user}, with error message: ${error}`);

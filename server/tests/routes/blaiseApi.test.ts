@@ -172,7 +172,7 @@ describe("DELETE /api/users endpoint", () => {
             .set("user", username);
 
         const log = logInfo.mock.calls[0][0];
-        expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully deleted user, ${username}`);
+        expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully deleted user called ${username}`);
         expect(response.statusCode).toEqual(204);
         blaiseApiMock.verify(a => a.deleteUser(It.isValue<string>(username)), Times.once());
     });

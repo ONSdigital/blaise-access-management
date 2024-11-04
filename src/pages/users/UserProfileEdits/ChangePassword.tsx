@@ -72,7 +72,7 @@ export default function ChangePassword(): ReactElement {
                         currentUser,
                         updatedPanel: {
                             visible: true,
-                            message: "Password for user " + viewedUsername + " changed at " + (new Date()).toLocaleTimeString("en-UK") + " " + (new Date()).toLocaleDateString("en-UK"),
+                            message: "Password for user " + viewedUsername,
                             status: "success"
                         }
                     }}
