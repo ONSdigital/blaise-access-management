@@ -62,14 +62,12 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
         try {
             const user = await blaiseApiClient.getUser(req.params.user);
             const successMessage = `Successfully fetched user details for ${req.params.user}`;
-            auditLogger.info(req.log, successMessage);
             return res.status(200).json({
                 message: successMessage,
                 data: user
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to retrieve user ${req.params.user}: ${error}`;
-            auditLogger.error(req.log, errorMessage);
             return res.status(500).json({
                 message: errorMessage,
                 error: error
@@ -100,40 +98,51 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
     });
 
     router.delete("/api/users", auth.Middleware, async function (req: Request, res: Response) {
-        const currentUser = auth.GetUser(auth.GetToken(req));
-        let { user } = req.headers;
+        try {
+            const currentUser = auth.GetUser(auth.GetToken(req));
+            let { user } = req.headers;
 
-        if (Array.isArray(user)) {
-            user = user.join("");
-        }
+            if (Array.isArray(user)) {
+                user = user.join("");
+            }
 
-        if (!user) {
-            auditLogger.error(req.log, "No user provided for deletion");
-            return res.status(400).json();
+            if (!user) {
+                auditLogger.error(req.log, "No user provided for deletion");
+                return res.status(400).json();
+            }
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully deleted user: ${user}`);
+            return res.status(204).json(await blaiseApiClient.deleteUser(user));
+        } catch (error) {
+            auditLogger.error(req.log, `Error whilst trying to delete user: ${error}`);
+            return res.status(500).json(error);
         }
-        auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully deleted user: ${user}`);
-        return res.status(204).json(await blaiseApiClient.deleteUser(user));
     });
 
     router.post("/api/users", auth.Middleware, async function (req: Request, res: Response) {
-        const currentUser = auth.GetUser(auth.GetToken(req));
-        const data = req.body;
+        try {
+            const currentUser = auth.GetUser(auth.GetToken(req));
+            const data = req.body;
 
-        if(!data.role) {
-            return res.status(400).json({ message: "No role provided for user creation" });
-        }
+            if(!data.role) {
+                return res.status(400).json({ message: "No role provided for user creation" });
+            }
 
-        const roleServerParksOverride = config.RoleToServerParksMap[data.role];
-        if (roleServerParksOverride != null) {
-            data.serverParks = roleServerParksOverride;
-            data.defaultServerPark = roleServerParksOverride[0];
-        } else {
-            const defaultServerPark = config.RoleToServerParksMap["DEFAULT"];
-            data.serverParks = defaultServerPark;
-            data.defaultServerPark = defaultServerPark[0];
+            const roleServerParksOverride = config.RoleToServerParksMap[data.role];
+            if (roleServerParksOverride != null) {
+                data.serverParks = roleServerParksOverride;
+                data.defaultServerPark = roleServerParksOverride[0];
+            } else {
+                const defaultServerPark = config.RoleToServerParksMap["DEFAULT"];
+                data.serverParks = defaultServerPark;
+                data.defaultServerPark = defaultServerPark[0];
+            }
+            console.log(data);
+            auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user: ${data.name}`);
+            return res.status(200).json(await blaiseApiClient.createUser(data));
+        } catch (error) {
+            auditLogger.error(req.log, `Error whilst trying to create user: ${error}`);
+            return res.status(500).json(error);
         }
-        auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user: ${data.username}`);
-        return res.status(200).json(await blaiseApiClient.createUser(data));
     });
 
     return router;

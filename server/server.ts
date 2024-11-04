@@ -10,7 +10,6 @@ import BlaiseApi from "blaise-api-node-client";
 import { Express } from "express";
 import fs from "fs";
 import AuditLogger from "./logger/cloudLogging";
-import auditLogs from "./routes/auditLogs";
 import blaiseApi from "./routes/blaiseApi";
 import { HttpLogger } from "pino-http";
 
@@ -28,7 +27,6 @@ export default function GetNodeServer(config: CustomConfig, blaiseApiClient: Bla
     axios.defaults.timeout = 10000;
 
     const loginRouter = newLoginHandler(auth, blaiseApiClient);
-    const auditRouter = auditLogs(auditLogger, auth);
     const blaiseApiRouter = blaiseApi(config, auth, blaiseApiClient, auditLogger);
 
     profiler.start({ logLevel: 4 }).catch((err: unknown) => {
@@ -41,7 +39,6 @@ export default function GetNodeServer(config: CustomConfig, blaiseApiClient: Bla
     });
     server.use("/", loginRouter);
     server.use("/", blaiseApiRouter);
-    server.use("/", auditRouter);
 
     // treat the index.html as a template and substitute the values at runtime
     server.set("views", path.join(__dirname, "/views"));
