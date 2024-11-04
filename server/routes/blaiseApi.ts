@@ -42,14 +42,14 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
             const successMessage = `${currentUser.name || "Unknown user"} has successfully updated user role and permissions to ${role} for ${user}`;
             auditLogger.info(req.log, successMessage);
             return res.status(200).json({
-                message: successMessage
+                message: "Successfully updated user role and permissions to " + role + " for " + user
             });
         } catch (error) {
             const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}, with error message: ${error}`;
             auditLogger.info(req.log, `${currentUser.name || "Unknown user"} has failed to update user role and permissions to ${role} for ${user}`);
             auditLogger.error(req.log, errorMessage);
             return res.status(500).json({
-                message: errorMessage
+                message: "Failed to update user role and permissions to " + role + " for " + user
             });
         }
     });

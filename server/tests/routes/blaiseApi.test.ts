@@ -347,7 +347,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
         const log = logInfo.mock.calls[0][0];
         expect(log).toEqual("AUDIT_LOG: testUser has successfully updated user role and permissions to IPS Manager for testUser");
         expect(response.statusCode).toEqual(200);
-        expect(response.body.message).toContain(`${mockUser.name} has successfully updated user role and permissions to ${role} for ${user}`);
+        expect(response.body.message).toContain(`Successfully updated user role and permissions to ${role} for ${user}`);
         blaiseApiMock.verify(api => api.changeUserRole(It.isValue(user), It.isValue(role)), Times.once());
         blaiseApiMock.verify(api => api.changeUserServerParks(It.isValue(user), It.isValue(serverParks), It.isValue(defaultServerPark)), Times.once());
     });
@@ -380,6 +380,6 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
         expect(infoLog).toEqual(`AUDIT_LOG: ${mockUser.name} has failed to update user role and permissions to ${role} for ${user}`);
         expect(errorLog).toEqual(`AUDIT_LOG: Error whilst trying to update user role and permissions to admin for ${mockUser.name}, with error message: Error: ${errorMessage}`);
         expect(response.statusCode).toEqual(500);
-        expect(response.body.message).toContain(errorMessage);
+        expect(response.body.message).toContain("Failed to update user role and permissions to admin for testUser");
     });
 });
