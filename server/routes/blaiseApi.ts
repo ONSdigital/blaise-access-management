@@ -136,7 +136,6 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
                 data.serverParks = defaultServerPark;
                 data.defaultServerPark = defaultServerPark[0];
             }
-            console.log(data);
             auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user: ${data.name}`);
             return res.status(200).json(await blaiseApiClient.createUser(data));
         } catch (error) {
