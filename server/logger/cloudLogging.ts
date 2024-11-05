@@ -15,11 +15,15 @@ export default class AuditLogger {
     }
 
     info(logger: IncomingMessage["log"], message: string): void {
-        logger.info(`AUDIT_LOG: ${message}`);
+        const logFormat = "AUDIT_LOG: message";
+        const log = logFormat.replace("message", message);
+        logger.info(log);
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        logger.error(`AUDIT_LOG: ${message}`);
+        const logFormat = "AUDIT_LOG: message";
+        const log = logFormat.replace("message", message);
+        logger.error(log);
     }
 
     async getLogs(): Promise<AuditLog[]> {
