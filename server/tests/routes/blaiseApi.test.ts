@@ -263,7 +263,6 @@ describe("GET /api/roles endpoint", () => {
     });
 });
 
-// TODO: Changing a resource should be a PATCH request not a GET request
 describe("GET /api/change-password/:user endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();

@@ -84,7 +84,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
         }
 
         if (!req.params.user || !password) {
-            return res.status(400).json();
+            return res.status(400).json("No user or password provided");
         }
 
         blaiseApiClient.changePassword(req.params.user, password).then(() => {
