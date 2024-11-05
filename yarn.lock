@@ -3171,6 +3171,27 @@
     stream-events "^1.0.5"
     uuid "^8.0.0"
 
+"@google-cloud/logging@^9.6.0":
+  version "9.9.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/logging/-/logging-9.9.0.tgz#d13fd6ae359e02123809b2bd640a0a8f71793434"
+  integrity sha512-rJQ0i9COI1WbtWuGyXL8edF4OA3XHcvgAq5I2DZmjKFvmCLCcspFIWZtztxgd0UgmrrshQVZ0R76oBHjTGggkg==
+  dependencies:
+    "@google-cloud/common" "^3.4.1"
+    "@google-cloud/paginator" "^3.0.0"
+    "@google-cloud/projectify" "^2.0.0"
+    "@google-cloud/promisify" "^2.0.0"
+    arrify "^2.0.1"
+    dot-prop "^6.0.0"
+    eventid "^2.0.0"
+    extend "^3.0.2"
+    gcp-metadata "^4.0.0"
+    google-auth-library "^7.0.0"
+    google-gax "^2.24.1"
+    on-finished "^2.3.0"
+    pumpify "^2.0.1"
+    stream-events "^1.0.5"
+    uuid "^8.0.0"
+
 "@google-cloud/paginator@^3.0.0":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@google-cloud/paginator/-/paginator-3.0.7.tgz#fb6f8e24ec841f99defaebf62c75c2e744dd419b"
@@ -4370,6 +4391,20 @@
     "@svgr/plugin-jsx" "^5.5.0"
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
+
+"@testing-library/dom@^10.4.0":
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-10.4.0.tgz#82a9d9462f11d240ecadbf406607c6ceeeff43a8"
+  integrity sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==
+  dependencies:
+    "@babel/code-frame" "^7.10.4"
+    "@babel/runtime" "^7.12.5"
+    "@types/aria-query" "^5.0.1"
+    aria-query "5.3.0"
+    chalk "^4.1.0"
+    dom-accessibility-api "^0.5.9"
+    lz-string "^1.5.0"
+    pretty-format "^27.0.2"
 
 "@testing-library/dom@^8.3.0":
   version "8.20.1"
@@ -5675,7 +5710,7 @@ aria-query@5.1.3:
   dependencies:
     deep-equal "^2.0.5"
 
-aria-query@^5.0.0, aria-query@^5.3.0:
+aria-query@5.3.0, aria-query@^5.0.0, aria-query@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/aria-query/-/aria-query-5.3.0.tgz#650c569e41ad90b51b3d7df5e5eed1c7549c103e"
   integrity sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==
@@ -6273,10 +6308,11 @@ bl@^4.0.3, bl@^4.1.0:
     regenerator-runtime "^0.14.1"
     typescript "~4.2.2"
 
-"blaise-design-system-react-components@git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.0":
+"blaise-design-system-react-components@git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.1":
   version "1.0.0"
-  resolved "git+https://github.com/ONSdigital/blaise-design-system-react-components#30ea96f77c024cb0cec27e05e5c1c1c10dd4eca0"
+  resolved "git+https://github.com/ONSdigital/blaise-design-system-react-components#488cbea69e734b101c654eacaf999afdae709d97"
   dependencies:
+    "@testing-library/dom" "^10.4.0"
     formik "^2.2.9"
     react "^18.2.0"
     react-csv "^2.2.2"
@@ -6296,9 +6332,9 @@ bl@^4.0.3, bl@^4.1.0:
     path-parse "^1.0.7"
     typescript "~4.2.2"
 
-"blaise-login-react@git+https://github.com/ONSdigital/blaise-login-react#1.1.0":
+"blaise-login-react@git+https://github.com/ONSdigital/blaise-login-react#1.1.1":
   version "0.0.0"
-  resolved "git+https://github.com/ONSdigital/blaise-login-react#39f4182a62b1faaf01039fb8c94adc296ac78766"
+  resolved "git+https://github.com/ONSdigital/blaise-login-react#f7fc532e1938ccb45831816311c85336510383ae"
 
 bluebird@^3.5.5:
   version "3.7.2"
@@ -11766,6 +11802,22 @@ jsonwebtoken@^8.5.1:
     lodash.once "^4.0.0"
     ms "^2.1.1"
     semver "^5.6.0"
+
+jsonwebtoken@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.2.tgz#65ff91f4abef1784697d40952bb1998c504caaf3"
+  integrity sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==
+  dependencies:
+    jws "^3.2.2"
+    lodash.includes "^4.3.0"
+    lodash.isboolean "^3.0.3"
+    lodash.isinteger "^4.0.4"
+    lodash.isnumber "^3.0.3"
+    lodash.isplainobject "^4.0.6"
+    lodash.isstring "^4.0.1"
+    lodash.once "^4.0.0"
+    ms "^2.1.1"
+    semver "^7.5.4"
 
 "jsx-ast-utils@^2.4.1 || ^3.0.0":
   version "3.3.3"

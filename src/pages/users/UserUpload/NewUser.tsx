@@ -2,8 +2,7 @@ import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { ONSPanel, ONSButton } from "blaise-design-system-react-components";
 import { addNewUser, getAllRoles } from "../../../api/http";
-import { UserRole } from "blaise-api-node-client";
-import { NewUser } from "blaise-api-node-client";
+import { UserRole, NewUser } from "blaise-api-node-client";
 import FormTextInput from "../../../Components/form/TextInput";
 import Form from "../../../Components/form";
 import { passwordMatchedValidator, requiredValidator } from "../../../Components/form/FormValidators";
@@ -19,17 +18,17 @@ function NewUserComponent(): ReactElement {
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
     const [roleList, setRoleList] = useState<UserRole[]>([]);
-    const cconfig = loadConfigFromEnv();
+    const config = loadConfigFromEnv();
 
     async function createNewUser(formData: UserForm) {
         setUsername(formData.username);
         if (formData.username && formData.password) {
             const newUser: NewUser = {
-                name: formData.username,
-                password: formData.password,
+                name: formData.username.trim(),
+                password: formData.password.trim(),
                 role: role,
-                defaultServerPark: "gusty",
-                serverParks: ["gusty"]
+                defaultServerPark: config.DefaultServerPark,
+                serverParks: config.RoleToServerParksMap[role]
             };
             setButtonLoading(true);
             const created = await addNewUser(newUser);
