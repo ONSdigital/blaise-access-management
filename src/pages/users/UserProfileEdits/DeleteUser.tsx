@@ -30,7 +30,7 @@ function DeleteUser(): ReactElement {
             return;
         }
 
-        setReturnPanel({ visible: true, message: "User " + viewedUsername + " deleted", status: "success" });
+        setReturnPanel({ visible: true, message: "Successfully deleted user called " + viewedUsername, status: "success" });
         setRedirect(true);
     }
 
