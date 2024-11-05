@@ -99,7 +99,7 @@ describe("ChangePassword Component", () => {
     });
 
     it("calls fetch with correct parameters upon form submission with matching passwords that remove any trailing whitespaces", async () => {
-        const { getByLabelText, getByText, findByText } = render(
+        const { getByLabelText, getByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <ChangePassword />
             </MemoryRouter>
