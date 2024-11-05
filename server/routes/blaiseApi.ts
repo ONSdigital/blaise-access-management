@@ -19,10 +19,10 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
         const currentUser = auth.GetUser(auth.GetToken(req));
         const { role } = req.body;
         const user = req.params.user;
-        let newServerParks = [""];
-        let newDefaultServerPark = "";
+        let newServerParks: string[];
+        let newDefaultServerPark: string;
 
-        if (!req.params.user || !req.body.role) {
+        if (!user || !role) {
             return res.status(400).json("No user or role provided");
         }
 
