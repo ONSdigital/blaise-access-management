@@ -16,7 +16,7 @@ jest.mock("react-router-dom", () => ({
 jest.mock("blaise-login-react/blaise-login-react-client", () => ({
     AuthManager: jest.fn().mockImplementation(() => ({
         authHeader: () => ({
-            Authorization: "Bearer " + process.env.MOCK_AUTH_TOKEN
+            Authorization: process.env.MOCK_AUTH_TOKEN
         })
     }))
 }));
@@ -42,7 +42,10 @@ beforeEach(() => {
     (useParams as jest.Mock).mockReturnValue({ user: mockUserDetails.name });
 });
 
-afterEach(() => cleanup());
+afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
+});
 
 describe("ChangePassword Component", () => {
     it("matches the snapshot", async () => {
@@ -53,6 +56,26 @@ describe("ChangePassword Component", () => {
         );
 
         expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("displays error message when passwords are empty", async () => {
+        const { findByText, getByLabelText, getByText } = render(
+            <MemoryRouter initialEntries={[mockState]}>
+                <ChangePassword />
+            </MemoryRouter>
+        );
+
+        const newPasswordInput = getByLabelText("New password");
+        const confirmPasswordInput = getByLabelText("Confirm password");
+        const saveButton = getByText("Save");
+
+        act(() => {
+            userEvent.type(newPasswordInput, "");
+            userEvent.type(confirmPasswordInput, "");
+            userEvent.click(saveButton);
+        });
+
+        expect(await findByText(/Passwords cannot be blank/i)).toBeVisible();
     });
 
     it("displays error message when passwords do not match", async () => {
@@ -68,11 +91,37 @@ describe("ChangePassword Component", () => {
 
         act(() => {
             userEvent.type(newPasswordInput, "password123");
-            userEvent.type(confirmPasswordInput, "password321");
+            userEvent.type(confirmPasswordInput, "password321333");
             userEvent.click(saveButton);
         });
 
         expect(await findByText(/Passwords do not match/i)).toBeVisible();
+    });
+
+    it("calls fetch with correct parameters upon form submission with matching passwords that remove any trailing whitespaces", async () => {
+        const { getByLabelText, getByText } = render(
+            <MemoryRouter initialEntries={[mockState]}>
+                <ChangePassword />
+            </MemoryRouter>
+        );
+
+        const newPasswordInput = getByLabelText("New password");
+        const confirmPasswordInput = getByLabelText("Confirm password");
+        const saveButton = getByText("Save");
+
+        // Wait for state update
+        act(() => {
+            userEvent.type(newPasswordInput, "password123  ");
+            userEvent.type(confirmPasswordInput, "password123       ");
+            userEvent.click(saveButton);
+        });
+
+        expect(fetch).toHaveBeenCalledWith("/api/change-password/testUser", {
+            headers: {
+                Authorization: process.env.MOCK_AUTH_TOKEN,
+                password: "password123"
+            }
+        });
     });
 
     it("calls fetch with correct parameters upon form submission with matching passwords", async () => {
@@ -87,19 +136,17 @@ describe("ChangePassword Component", () => {
         const saveButton = getByText("Save");
 
         // Wait for state update
-        act(async () => {
+        act(() => {
             userEvent.type(newPasswordInput, "password123");
             userEvent.type(confirmPasswordInput, "password123");
             userEvent.click(saveButton);
         });
 
-        // Improvement: Figure out why the fetch function is not being called
-        // expect(fetch).toHaveBeenCalledTimes(1);
-        // expect(fetch).toHaveBeenCalledWith("/api/change-password/testUser", {
-        //     "headers": {
-        //         "Authorization": "Bearer " + process.env.MOCK_AUTH_TOKEN,
-        //         "password": "password123"
-        //     }
-        // });
+        expect(fetch).toHaveBeenCalledWith("/api/change-password/testUser", {
+            headers: {
+                Authorization: process.env.MOCK_AUTH_TOKEN,
+                password: "password123"
+            }
+        });
     });
 });
