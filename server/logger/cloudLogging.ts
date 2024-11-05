@@ -3,6 +3,12 @@ import { Logging } from "@google-cloud/logging";
 import { IncomingMessage } from "http";
 import { AuditLog } from "../interfaces/logger";
 
+export function formatLogMessage(text: string): string {
+    const message = text.replace(/[^\x20-\x7E\r\n]+/g, "");
+    const logFormat = "AUDIT_LOG: message";
+    return logFormat.replace("message", message);
+}
+
 export default class AuditLogger {
     projectId: string;
     logger: Logging;
@@ -15,14 +21,12 @@ export default class AuditLogger {
     }
 
     info(logger: IncomingMessage["log"], message: string): void {
-        const logFormat = "AUDIT_LOG: message";
-        const log = logFormat.replace("message", message);
+        const log = formatLogMessage(message);
         logger.info(log);
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        const logFormat = "AUDIT_LOG: message";
-        const log = logFormat.replace("message", message);
+        const log = formatLogMessage(message);
         logger.error(log);
     }
 
