@@ -34,7 +34,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.4",
     "blaise-api-node-client": "git+https://github.com/ONSdigital/blaise-api-node-client",
-    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#BLAIS5-4254",
+    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.1",
     "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#1.1.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.10",
