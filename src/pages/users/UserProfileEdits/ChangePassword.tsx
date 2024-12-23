@@ -6,6 +6,7 @@ import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import { UserRouteParams } from "../../../Interfaces/usersPage";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import UserSignInErrorPanel from "../../../Components/UserSignInErrorPanel";
+import { updatePassword } from "../../../api/http";
 
 export default function ChangePassword(): ReactElement {
     const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
@@ -17,7 +18,7 @@ export default function ChangePassword(): ReactElement {
     const [message, setMessage] = useState<string>("");
     const [redirect, setRedirect] = useState<boolean>(false);
 
-    const changePassword = () => {
+    const changePassword = async () => {
         const sanitisedPassword = password.trim();
         const sanitisedConfirmPassword = confirmPassword.trim();
 
@@ -31,26 +32,16 @@ export default function ChangePassword(): ReactElement {
         }
 
         setButtonLoading(true);
-        const authManager = new AuthManager();
 
-        fetch("/api/change-password/" + viewedUsername,
-            {
-                "headers": Object.assign({}, {
-                    "password": sanitisedPassword
-                }, authManager.authHeader())
-            })
-            .then((r: Response) => {
-                if (r.status === 204) {
-                    setButtonLoading(false);
-                    setRedirect(true);
-                } else {
-                    setMessage("Set password failed");
-                    setButtonLoading(false);
-                }
-            }).catch(() => {
-                setMessage("Set password failed");
-                setButtonLoading(false);
-            });
+        const updated = await updatePassword(viewedUsername, sanitisedPassword);
+
+        if (!updated) {
+            setMessage("Set password failed");
+            setButtonLoading(false);
+        }
+
+        setButtonLoading(false);
+        setRedirect(true);
     };
 
     const breadcrumbList: BreadcrumbItem[] = [
@@ -60,7 +51,7 @@ export default function ChangePassword(): ReactElement {
     ];
 
     if (!currentUser) {
-        return (<UserSignInErrorPanel/>);
+        return (<UserSignInErrorPanel />);
     }
 
     return (

@@ -75,9 +75,9 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
         }
     });
 
-    router.get("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
+    router.post("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
         const currentUser = auth.GetUser(auth.GetToken(req));
-        let { password } = req.headers;
+        let { password } = req.body.password;
 
         if (Array.isArray(password)) {
             password = password.join("");
@@ -123,7 +123,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
             const currentUser = auth.GetUser(auth.GetToken(req));
             const data = req.body;
 
-            if(!data.role) {
+            if (!data.role) {
                 return res.status(400).json({ message: "No role provided for user creation" });
             }
 
