@@ -54,15 +54,14 @@ describe("POST /api/users endpoint", () => {
     it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-serverparks-map.json AND return http status OK_200", async () => {
         let currentRoleNo = 0;
         const totalRoleCount = size(role_to_serverparks_map);
-        for (const roleName in role_to_serverparks_map)
-        {
+        for (const roleName in role_to_serverparks_map) {
             logInfo.mockReset();
             blaiseApiMock.reset();
             console.log("Running for role %i of %i:  %s", ++currentRoleNo, totalRoleCount, roleName);
 
             const spmap = role_to_serverparks_map[roleName];
-            const newUser : NewUser = {
-                name:  "name1",
+            const newUser: NewUser = {
+                name: "name1",
                 password: "password1",
                 role: roleName,
                 serverParks: spmap,
@@ -78,7 +77,7 @@ describe("POST /api/users endpoint", () => {
             expect(logInfo.mock.calls[0][0]).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`);
             expect(response.statusCode).toEqual(200);
             blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
-                x=> x.defaultServerPark == newUser.defaultServerPark
+                x => x.defaultServerPark == newUser.defaultServerPark
                     && x.role == newUser.role
                     && Array.isArray(x.serverParks) && x.serverParks.every(item => typeof item === "string")
                     && x.serverParks.every((val, idx) => val === newUser.serverParks[idx])
@@ -90,8 +89,8 @@ describe("POST /api/users endpoint", () => {
     it("should call Blaise API createUser endpoint with DEFAULT serverParks for a role MISSING in server/role-to-serverparks-map.json AND return http status OK_200)", async () => {
         const roleName = "this role is missing in server/role-to-serverparks-map.json file";
         const spmap = role_to_serverparks_map.DEFAULT;
-        const newUser : NewUser = {
-            name:  "name1",
+        const newUser: NewUser = {
+            name: "name1",
             password: "password1",
             role: roleName,
             serverParks: spmap,
@@ -108,7 +107,7 @@ describe("POST /api/users endpoint", () => {
         expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`);
         expect(response.statusCode).toEqual(200);
         blaiseApiMock.verify(a => a.createUser(It.is<NewUser>(
-            x=> x.defaultServerPark == newUser.defaultServerPark
+            x => x.defaultServerPark == newUser.defaultServerPark
                 && x.role == newUser.role
                 && Array.isArray(x.serverParks) && x.serverParks.every(item => typeof item === "string")
                 && x.serverParks.every((val, idx) => val === newUser.serverParks[idx])
@@ -133,8 +132,8 @@ describe("POST /api/users endpoint", () => {
     it("should return http status INTERNAL_SERVER_ERROR_500 if Blaise API client throws an error", async () => {
         const roleName = "IPS Manager";
         const spmap = role_to_serverparks_map.DEFAULT;
-        const newUser : NewUser = {
-            name:  "name1",
+        const newUser: NewUser = {
+            name: "name1",
             password: "password1",
             role: roleName,
             serverParks: spmap,
@@ -215,8 +214,8 @@ describe("GET /api/users endpoint", () => {
     });
 
     it("should call Blaise API getUsers endpoint AND return http status OK_200", async () => {
-        const newUser1 : NewUser = {
-            name:  "name1",
+        const newUser1: NewUser = {
+            name: "name1",
             password: "password1",
             role: "role1",
             serverParks: ["sp1", "sp2"],
@@ -226,7 +225,7 @@ describe("GET /api/users endpoint", () => {
         newUser2.name = "name2";
         const newUser3 = newUser2;
         newUser3.name = "name3";
-        const userArray : NewUser [] = [newUser1, newUser2, newUser3];
+        const userArray: NewUser[] = [newUser1, newUser2, newUser3];
         blaiseApiMock.setup((api) => api.getUsers()).returns(_ => Promise.resolve(userArray));
 
         const response = await sut.get("/api/users")
@@ -243,8 +242,8 @@ describe("GET /api/roles endpoint", () => {
     });
 
     it("should call Blaise API getUserRoles endpoint AND return http status OK_200", async () => {
-        const userRole1 : UserRole = {
-            name:  "name1",
+        const userRole1: UserRole = {
+            name: "name1",
             description: "desc1",
             permissions: ["perm1", "perm2"]
         };
@@ -252,7 +251,7 @@ describe("GET /api/roles endpoint", () => {
         userRole2.name = "name2";
         const userRole3 = userRole2;
         userRole3.name = "name3";
-        const userRoleArray : UserRole [] = [userRole1, userRole2, userRole3];
+        const userRoleArray: UserRole[] = [userRole1, userRole2, userRole3];
         blaiseApiMock.setup((api) => api.getUserRoles()).returns(_ => Promise.resolve(userRoleArray));
 
         const response = await sut.get("/api/roles")
@@ -263,24 +262,22 @@ describe("GET /api/roles endpoint", () => {
     });
 });
 
-describe("GET /api/change-password/:user endpoint", () => {
+describe("POST /api/change-password/:user endpoint", () => {
     beforeEach(() => {
         blaiseApiMock.reset();
         jest.clearAllMocks();
     });
-
     afterAll(() => {
         blaiseApiMock.reset();
     });
-
     it("should call Blaise API changePassword endpoint for VALID request AND return http status NO_CONTENT_204", async () => {
         const username = "user1";
         const password = "password-1234";
         blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.resolve(null));
 
-        const response = await sut.get("/api/change-password/"+username)
+        const response = await sut.post(`/api/change-password/${username}`)
             .set("Authorization", `${mockAuthToken}`)
-            .set("password", password);
+            .field("password", password);
 
         const log = logInfo.mock.calls[0][0];
         expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully changed the password for ${username}`);
@@ -292,9 +289,9 @@ describe("GET /api/change-password/:user endpoint", () => {
         const username = "user1";
         const password = "";
 
-        const response = await sut.get("/api/change-password/"+ username)
+        const response = await sut.post(`/api/change-password/${username}`)
             .set("Authorization", `${mockAuthToken}`)
-            .set("password", password);
+            .field("password", password);
 
         expect(response.statusCode).toEqual(400);
         blaiseApiMock.verify(a => a.changePassword(It.isAnyString(), It.isAnyString()), Times.never());
@@ -304,12 +301,11 @@ describe("GET /api/change-password/:user endpoint", () => {
         const username = "user1";
         const password = "password-1234";
         const errorMessage = "Error occured when calling changePassword on Blaise API Rest Service";
-        blaiseApiMock.setup((a) => a.changePassword(It.isAnyString(), It.isAnyString()))
-            .returns(_ => Promise.reject(errorMessage));
+        blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.reject(errorMessage));
 
-        const response = await sut.get("/api/change-password/"+ username)
+        const response = await sut.post(`/api/change-password/${username}`)
             .set("Authorization", `${mockAuthToken}`)
-            .set("password", password);
+            .field("password", password);
 
         const log = logError.mock.calls[0][0];
         expect(log).toEqual(`AUDIT_LOG: Error whilst trying to change password for ${username}: ${errorMessage}`);

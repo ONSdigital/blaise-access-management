@@ -77,17 +77,17 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
 
     router.post("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
         const currentUser = auth.GetUser(auth.GetToken(req));
-        let { password } = req.body.password;
+        const data = req.body;
 
-        if (Array.isArray(password)) {
-            password = password.join("");
+        if (Array.isArray(data.password)) {
+            data.password = data.password.join("");
         }
 
-        if (!req.params.user || !password) {
+        if (!req.params.user || !data.password) {
             return res.status(400).json("No user or password provided");
         }
 
-        blaiseApiClient.changePassword(req.params.user, password).then(() => {
+        blaiseApiClient.changePassword(req.params.user, data.password).then(() => {
             auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully changed the password for ${req.params.user}`);
             return res.status(204).json(null);
         }).catch((error: unknown) => {

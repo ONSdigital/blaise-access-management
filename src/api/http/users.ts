@@ -105,7 +105,7 @@ async function patchUserRolesAndPermissions(user: string, role: string): Promise
     }
 }
 
-function updatePassword(username: string, newPassword: string): Promise<boolean> {
+function editPassword(username: string, newPassword: string): Promise<boolean> {
     const url = "/api/change-password/" + username;
     const authManager = new AuthManager();
     const headers = authManager.authHeader();
@@ -131,4 +131,4 @@ function updatePassword(username: string, newPassword: string): Promise<boolean>
     });
 }
 
-export { getAllUsers, getUser, addNewUser, deleteUser, patchUserRolesAndPermissions, updatePassword };
+export { getAllUsers, getUser, addNewUser, deleteUser, patchUserRolesAndPermissions, editPassword };

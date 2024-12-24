@@ -6,7 +6,7 @@ import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import { UserRouteParams } from "../../../Interfaces/usersPage";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import UserSignInErrorPanel from "../../../Components/UserSignInErrorPanel";
-import { updatePassword } from "../../../api/http";
+import { editPassword } from "../../../api/http/users";
 
 export default function ChangePassword(): ReactElement {
     const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
@@ -33,7 +33,7 @@ export default function ChangePassword(): ReactElement {
 
         setButtonLoading(true);
 
-        const updated = await updatePassword(viewedUsername, sanitisedPassword);
+        const updated = await editPassword(viewedUsername, sanitisedPassword);
 
         if (!updated) {
             setMessage("Set password failed");
