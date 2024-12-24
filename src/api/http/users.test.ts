@@ -4,7 +4,7 @@
 
 import { cleanup } from "@testing-library/react";
 import { mock_server_request_function, mock_server_request_Return_JSON } from "../../tests/utils";
-import { addNewUser, deleteUser, getAllUsers } from "./users";
+import { addNewUser, deleteUser, editPassword, getAllUsers } from "./users";
 import { NewUser, User } from "blaise-api-node-client";
 
 const userList: User[] = [
@@ -154,6 +154,57 @@ describe("Function deleteUser(username: string) ", () => {
         }));
 
         const success = await deleteUser(userToDelete);
+        expect(success).toBeFalsy();
+    });
+
+    afterAll(() => {
+        jest.clearAllMocks();
+        cleanup();
+    });
+});
+
+describe("Function editPassword(username: string, newPassword: string) ", () => {
+
+    const username = "testUser";
+    let newPassword = "password123";
+
+    it("It should return true if the password has been updated successfully", async () => {
+        mock_server_request_Return_JSON(204, {});
+
+        const response = await editPassword(username, newPassword);
+        expect(response).toBeTruthy();
+    });
+
+    it("It should return false if a password is not provided", async () => {
+        const invalidPassword = "";
+
+        mock_server_request_Return_JSON(204, {});
+
+        const response = await editPassword(username, invalidPassword);
+        expect(response).toBeFalsy();
+    });
+
+    it("It should return false if a 404 is returned from the server", async () => {
+        mock_server_request_Return_JSON(404, []);
+
+        const success = await editPassword(username, newPassword);
+        expect(success).toBeFalsy();
+    });
+
+    it("It should return false if request returns an error code", async () => {
+        mock_server_request_Return_JSON(500, {});
+
+        const success = await editPassword(username, newPassword);
+        expect(success).toBeFalsy();
+    });
+
+    it("It should return false if request call fails", async () => {
+
+        mock_server_request_function(jest.fn(() => {
+            throw new Error("Network error");
+        }));
+
+        const success = await editPassword(username, newPassword);
         expect(success).toBeFalsy();
     });
 
