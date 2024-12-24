@@ -166,7 +166,7 @@ describe("Function deleteUser(username: string) ", () => {
 describe("Function editPassword(username: string, newPassword: string) ", () => {
 
     const username = "testUser";
-    let newPassword = "password123";
+    const newPassword = "password123";
 
     it("It should return true if the password has been updated successfully", async () => {
         mock_server_request_Return_JSON(204, {});
