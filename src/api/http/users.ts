@@ -119,15 +119,14 @@ function editPassword(username: string, newPassword: string): Promise<boolean> {
         const formData = new FormData();
         formData.append("password", newPassword);
 
-        try {
-            requestPromiseJson("POST", url, formData, headers).then(([status]) => {
-                if (status === 204)
-                    resolve(true);
-                resolve(false);
-            });
-        } catch (error) {
+        requestPromiseJson("POST", url, formData, headers).then(([status]) => {
+            if (status === 204)
+                resolve(true);
             resolve(false);
-        }
+
+        }).catch(() => {
+            resolve(false);
+        });
     });
 }
 

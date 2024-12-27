@@ -201,18 +201,8 @@ describe("Function editPassword(username: string, newPassword: string) ", () => 
     it("It should return false if request call fails", async () => {
 
         mock_server_request_function(jest.fn(() => {
-            throw new Error("Network error");
+            return Promise.reject(new Error("Network error"));
         }));
-
-        const response = await editPassword(username, newPassword);
-        expect(response).toBeFalsy();
-    });
-
-    it("It should return false if request fails due to unknown error and exits through catch block", async () => {
-
-        mock_server_request_function(async (_input, _init) => {
-            return new Response(null, { status: 0 });
-        });
 
         const response = await editPassword(username, newPassword);
         expect(response).toBeFalsy();
