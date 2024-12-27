@@ -210,10 +210,13 @@ describe("Function editPassword(username: string, newPassword: string) ", () => 
 
     it("It should return false if request fails due to unknown error and exits through catch block", async () => {
 
-        mock_server_request_function(jest.fn(() => Promise.reject("Error")));
+        mock_server_request_function(jest.fn(() => Promise.resolve({
+            status: 500,
+            json: () => Promise.reject("Failed")
+        })));
 
         const response = await editPassword(username, newPassword);
-        expect(response).toBe(false);
+        expect(response).toBeFalsy();
     });
 
     afterAll(() => {

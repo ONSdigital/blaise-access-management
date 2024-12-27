@@ -5,9 +5,8 @@ import { MemoryRouter, Route, Routes, useParams } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import ChangePassword from "./ChangePassword";
-import { editPassword } from "../../../api/http/users";
-import { AuthManager } from "blaise-login-react/blaise-login-react-client";
 import UserProfile from "./UserProfile";
+import { editPassword } from "../../../api/http/users";
 
 jest.mock("react-router-dom", () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
