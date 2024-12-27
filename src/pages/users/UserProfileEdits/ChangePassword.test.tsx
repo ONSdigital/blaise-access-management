@@ -140,12 +140,6 @@ describe("ChangePassword Component", () => {
             userEvent.click(saveButton);
         });
 
-        const url = "/api/change-password/testUser";
-        const authManager = new AuthManager();
-        const headers = authManager.authHeader();
-        const formData = new FormData();
-        formData.append("password", "password123");
-
         expect(editPassword).toHaveBeenCalledWith("testUser", "password123");
     });
 
