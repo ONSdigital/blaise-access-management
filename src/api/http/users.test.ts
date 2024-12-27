@@ -187,15 +187,15 @@ describe("Function editPassword(username: string, newPassword: string) ", () => 
     it("It should return false if a 404 is returned from the server", async () => {
         mock_server_request_Return_JSON(404, []);
 
-        const success = await editPassword(username, newPassword);
-        expect(success).toBeFalsy();
+        const response = await editPassword(username, newPassword);
+        expect(response).toBeFalsy();
     });
 
     it("It should return false if request returns an error code", async () => {
         mock_server_request_Return_JSON(500, {});
 
-        const success = await editPassword(username, newPassword);
-        expect(success).toBeFalsy();
+        const response = await editPassword(username, newPassword);
+        expect(response).toBeFalsy();
     });
 
     it("It should return false if request call fails", async () => {
@@ -204,8 +204,16 @@ describe("Function editPassword(username: string, newPassword: string) ", () => 
             throw new Error("Network error");
         }));
 
-        const success = await editPassword(username, newPassword);
-        expect(success).toBeFalsy();
+        const response = await editPassword(username, newPassword);
+        expect(response).toBeFalsy();
+    });
+
+    it("It should return false if request fails due to unknown error and exits through catch block", async () => {
+
+        mock_server_request_function(jest.fn(() => Promise.reject("Error")));
+
+        const response = await editPassword(username, newPassword);
+        expect(response).toBe(false);
     });
 
     afterAll(() => {
