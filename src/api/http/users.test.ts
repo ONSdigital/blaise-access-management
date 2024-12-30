@@ -1,12 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-
 import { cleanup } from "@testing-library/react";
 import { mock_server_request_function, mock_server_request_Return_JSON } from "../../tests/utils";
 import { addNewUser, deleteUser, editPassword, getAllUsers } from "./users";
 import { NewUser, User } from "blaise-api-node-client";
-import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
+import { requestPromiseJson } from "./requestPromise";
 
 jest.mock("./requestPromise", () => {
     const actualModule = jest.requireActual("./requestPromise");
