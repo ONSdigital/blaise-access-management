@@ -313,6 +313,21 @@ describe("POST /api/change-password/:user endpoint", () => {
         blaiseApiMock.verify(a => a.changePassword(It.isAnyString(), It.isAnyString()), Times.once());
         expect(response.body).toStrictEqual(errorMessage);
     });
+
+    it("should call Blaise API changePassword endpoint for VALID request even if password is array of characters AND return http status NO_CONTENT_204 ", async () => {
+        const username = "user1";
+        const password = ["p", "a", "s", "s", "w", "o", "r", "d"];
+        blaiseApiMock.setup((api) => api.changePassword(It.isAnyString(), It.isAnyString())).returns(_ => Promise.resolve(null));
+
+        const response = await sut.post(`/api/change-password/${username}`)
+            .set("Authorization", `${mockAuthToken}`)
+            .field("password", password);
+
+        const log = logInfo.mock.calls[0][0];
+        expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully changed the password for ${username}`);
+        expect(response.statusCode).toEqual(204);
+        blaiseApiMock.verify(a => a.changePassword(It.isValue<string>(username), It.isValue<string>("password")), Times.once());
+    });
 });
 
 describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
