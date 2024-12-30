@@ -201,4 +201,23 @@ describe("ChangePassword Component", () => {
         expect(screen.getByText("Password successfully changed for user called testUser")).toBeInTheDocument();
     });
 
+    it("renders UserSignInErrorPanel when currentUser is null", () => {
+        const invalidState = {
+            pathname: `/users/${mockUserDetails.name}/change-password`,
+            state: { currentUser: null }
+        };
+        render(
+            <MemoryRouter initialEntries={[invalidState]}>
+                <ChangePassword />
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText("Sorry, there is a problem")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                /User details cannot be found\.\s*Please try again and ensure you are signed in\./i
+            )
+        ).toBeInTheDocument();
+    });
+
 });
