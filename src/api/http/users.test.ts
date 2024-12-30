@@ -8,7 +8,7 @@ import { addNewUser, deleteUser, editPassword, getAllUsers } from "./users";
 import { NewUser, User } from "blaise-api-node-client";
 import { requestPromiseJson, requestPromiseJsonList } from "./requestPromise";
 
-jest.mock('./requestPromise');
+jest.mock("./requestPromise");
 
 const requestPromiseJsonMock = requestPromiseJson as jest.Mock<Promise<[number, JSON]>>;
 
@@ -48,7 +48,7 @@ describe("Function getAllUsers(filename: string) ", () => {
         // })));
         // let promiseResponse: [number, JSON];
         // promiseResponse = [400, JSON.parse(() => Promise.reject("Failed"))];
-        requestPromiseJsonMock.mockRejectedValue(new Error('Async error'));
+        requestPromiseJsonMock.mockRejectedValue(new Error("Async error"));
 
         const [success, users] = await getAllUsers();
         expect(success).toBeFalsy();
@@ -57,8 +57,7 @@ describe("Function getAllUsers(filename: string) ", () => {
 
     it("It should return false with an empty list if request JSON is invalid", async () => {
 
-        let promiseResponse: [number, JSON];
-        promiseResponse = [200, JSON.parse(JSON.stringify({ name: "NAME" }))]
+        const promiseResponse: [number, JSON] = [200, JSON.parse(JSON.stringify({ name: "NAME" }))];
         requestPromiseJsonMock.mockResolvedValue(promiseResponse);
         const [success, users] = await getAllUsers();
         expect(success).toBeFalsy();
@@ -213,7 +212,7 @@ describe("Function editPassword(username: string, newPassword: string) ", () => 
     });
 
     it("It should return false if request call fails", async () => {
-        requestPromiseJsonMock.mockRejectedValue(new Error('Async error'));
+        requestPromiseJsonMock.mockRejectedValue(new Error("Async error"));
 
         const response = await editPassword(username, newPassword);
         expect(response).toBeFalsy();
