@@ -140,42 +140,43 @@ describe("Function addNewUser(user: User) ", () => {
     });
 });
 
-// describe("Function deleteUser(username: string) ", () => {
+describe("Function deleteUser(username: string) ", () => {
 
-//     const userToDelete = "dave01";
+    const userToDelete = "dave01";
+    let promiseResponse: [number, JSON];
 
-//     it("It should return true if the user has been deleted successfully", async () => {
-//         mock_server_request_Return_JSON(204, {});
-//         const success = await deleteUser(userToDelete);
-//         expect(success).toBeTruthy();
-//     });
+    it("It should return true if the user has been deleted successfully", async () => {
+        promiseResponse = [204, JSON.parse("{}")];
+        requestPromiseJsonMock.mockResolvedValue(promiseResponse);
+        const success = await deleteUser(userToDelete);
+        expect(success).toBeTruthy();
+    });
 
-//     it("It should return false if a 404 is returned from the server", async () => {
-//         mock_server_request_Return_JSON(404, []);
-//         const success = await deleteUser(userToDelete);
-//         expect(success).toBeFalsy();
-//     });
+    it("It should return false if a 404 is returned from the server", async () => {
+        promiseResponse = [404, JSON.parse("[]")];
+        requestPromiseJsonMock.mockResolvedValue(promiseResponse);
+        const success = await deleteUser(userToDelete);
+        expect(success).toBeFalsy();
+    });
 
-//     it("It should return false if request returns an error code", async () => {
-//         mock_server_request_Return_JSON(500, {});
-//         const success = await deleteUser(userToDelete);
-//         expect(success).toBeFalsy();
-//     });
+    it("It should return false if request returns an error code", async () => {
+        promiseResponse = [500, JSON.parse("{}")];
+        requestPromiseJsonMock.mockResolvedValue(promiseResponse);
+        const success = await deleteUser(userToDelete);
+        expect(success).toBeFalsy();
+    });
 
-//     it("It should return false if request call fails", async () => {
-//         mock_server_request_function(jest.fn(() => {
-//             throw new Error("Network error");
-//         }));
+    it("It should return false if request call fails", async () => {
+        requestPromiseJsonMock.mockRejectedValue(new Error("Network error"));
+        const success = await deleteUser(userToDelete);
+        expect(success).toBeFalsy();
+    });
 
-//         const success = await deleteUser(userToDelete);
-//         expect(success).toBeFalsy();
-//     });
-
-//     afterAll(() => {
-//         jest.clearAllMocks();
-//         cleanup();
-//     });
-// });
+    afterAll(() => {
+        jest.clearAllMocks();
+        cleanup();
+    });
+});
 
 describe("Function editPassword(username: string, newPassword: string) ", () => {
 
