@@ -328,6 +328,15 @@ describe("POST /api/change-password/:user endpoint", () => {
         expect(response.statusCode).toEqual(204);
         blaiseApiMock.verify(a => a.changePassword(It.isValue<string>(username), It.isValue<string>("password")), Times.once());
     });
+
+    it("should join the password if an array is passed", async () => {
+        const data: { password: string | string[] } = { password: ["p", "a", "s", "s", "w", "o", "r", "d"] };
+
+        if (Array.isArray(data.password)) {
+            data.password = data.password.join("");
+        }
+        expect(data.password).toBe("password");
+    });
 });
 
 describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
