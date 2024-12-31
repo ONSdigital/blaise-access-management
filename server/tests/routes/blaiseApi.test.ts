@@ -402,3 +402,45 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
         expect(response.body.message).toContain("Failed to update user role and permissions to admin for testUser");
     });
 });
+
+describe("GET /api/users/:user endpoint", () => {
+    beforeEach(() => {
+        blaiseApiMock.reset();
+        jest.clearAllMocks();
+    });
+    afterAll(() => {
+        blaiseApiMock.reset();
+    });
+
+    it("should call Blaise API getUser endpoint if user param is valid and return user if exists in blaise", async () => {
+
+        const user: NewUser = {
+            name: "test",
+            password: "password1",
+            role: "DST",
+            serverParks: ["gusty", "cma"],
+            defaultServerPark: "gusty"
+        };
+
+        blaiseApiMock.setup((api) => api.getUser(It.isAnyString())).returns(async () => user);
+        const response = await sut.get("/api/users/test")
+            .set("Authorization", `${mockAuthToken}`);
+
+        blaiseApiMock.verify(api => api.getUser(It.isValue("test")), Times.once());
+        expect(response.statusCode).toEqual(200);
+        expect(response.body.data).toEqual(user);
+    });
+
+    it("should call Blaise API getUser endpoint if user param is valid and return error if user does not exists in blaise", async () => {
+
+        const errorMessage = "Blaise API client error";
+        blaiseApiMock.setup((api) => api.getUser(It.isAnyString())).returns(_ => Promise.reject(errorMessage));
+        const response = await sut.get("/api/users/invalidUser")
+            .set("Authorization", `${mockAuthToken}`);
+
+        expect(response.statusCode).toEqual(500);
+        expect(response.body.message).toContain("Error whilst trying to retrieve user");
+        expect(response.body.error).toEqual(errorMessage);
+    });
+
+});

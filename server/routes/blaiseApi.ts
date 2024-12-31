@@ -55,10 +55,6 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
     });
 
     router.get("/api/users/:user", auth.Middleware, async function (req: Request, res: Response) {
-        if (!req.params.user) {
-            return res.status(400).json("No user provided");
-        }
-
         try {
             const user = await blaiseApiClient.getUser(req.params.user);
             const successMessage = `Successfully fetched user details for ${req.params.user}`;
