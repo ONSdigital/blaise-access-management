@@ -55,10 +55,6 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
     });
 
     router.get("/api/users/:user", auth.Middleware, async function (req: Request, res: Response) {
-        if (!req.params.user) {
-            return res.status(400).json("No user provided");
-        }
-
         try {
             const user = await blaiseApiClient.getUser(req.params.user);
             const successMessage = `Successfully fetched user details for ${req.params.user}`;
@@ -75,19 +71,19 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
         }
     });
 
-    router.get("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
+    router.post("/api/change-password/:user", auth.Middleware, async function (req: Request, res: Response) {
         const currentUser = auth.GetUser(auth.GetToken(req));
-        let { password } = req.headers;
+        const data = req.body;
 
-        if (Array.isArray(password)) {
-            password = password.join("");
+        if (Array.isArray(data.password)) {
+            data.password = data.password.join("");
         }
 
-        if (!req.params.user || !password) {
+        if (!req.params.user || !data.password) {
             return res.status(400).json("No user or password provided");
         }
 
-        blaiseApiClient.changePassword(req.params.user, password).then(() => {
+        blaiseApiClient.changePassword(req.params.user, data.password).then(() => {
             auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully changed the password for ${req.params.user}`);
             return res.status(204).json(null);
         }).catch((error: unknown) => {
@@ -123,7 +119,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
             const currentUser = auth.GetUser(auth.GetToken(req));
             const data = req.body;
 
-            if(!data.role) {
+            if (!data.role) {
                 return res.status(400).json({ message: "No role provided for user creation" });
             }
 

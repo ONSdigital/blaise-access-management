@@ -1,10 +1,12 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { MemoryRouter, useParams } from "react-router-dom";
+import { MemoryRouter, Route, Routes, useParams } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import ChangePassword from "./ChangePassword";
+import UserProfile from "./UserProfile";
+import { editPassword } from "../../../api/http/users";
 
 jest.mock("react-router-dom", () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -21,12 +23,12 @@ jest.mock("blaise-login-react/blaise-login-react-client", () => ({
     }))
 }));
 
-global.fetch = jest.fn(() =>
-    Promise.resolve({
-        status: 204,
-        json: () => Promise.resolve({ message: "Password changed successfully" })
-    })
-) as jest.Mock;
+jest.mock("../../../api/http/users", () => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    ...jest.requireActual("../../../api/http/users"),
+    editPassword: jest.fn()
+}));
 
 const mockUserDetails = {
     name: "testUser"
@@ -38,7 +40,7 @@ const mockState = {
 };
 
 beforeEach(() => {
-    (fetch as jest.Mock).mockClear();
+    (editPassword as jest.Mock).mockClear();
     (useParams as jest.Mock).mockReturnValue({ user: mockUserDetails.name });
 });
 
@@ -98,7 +100,7 @@ describe("ChangePassword Component", () => {
         expect(await findByText(/Passwords do not match/i)).toBeVisible();
     });
 
-    it("calls fetch with correct parameters upon form submission with matching passwords that remove any trailing whitespaces", async () => {
+    it("calls editPassword function with correct parameters upon form submission with correct username and password without any trailing whitespaces", async () => {
         const { getByLabelText, getByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <ChangePassword />
@@ -116,15 +118,10 @@ describe("ChangePassword Component", () => {
             userEvent.click(saveButton);
         });
 
-        expect(fetch).toHaveBeenCalledWith("/api/change-password/testUser", {
-            headers: {
-                Authorization: process.env.MOCK_AUTH_TOKEN,
-                password: "password123"
-            }
-        });
+        expect(editPassword).toHaveBeenCalledWith("testUser", "password123");
     });
 
-    it("calls fetch with correct parameters upon form submission with matching passwords", async () => {
+    it("calls editPassword function with correct parameters upon form submission with correct username and password", async () => {
         const { getByLabelText, getByText, findByText } = render(
             <MemoryRouter initialEntries={[mockState]}>
                 <ChangePassword />
@@ -142,11 +139,85 @@ describe("ChangePassword Component", () => {
             userEvent.click(saveButton);
         });
 
-        expect(fetch).toHaveBeenCalledWith("/api/change-password/testUser", {
-            headers: {
-                Authorization: process.env.MOCK_AUTH_TOKEN,
-                password: "password123"
-            }
-        });
+        expect(editPassword).toHaveBeenCalledWith("testUser", "password123");
     });
+
+    it("displays error message if the function returns false", async () => {
+        const { getByLabelText, getByText, findByText } = render(
+            <MemoryRouter initialEntries={[mockState]}>
+                <ChangePassword />
+            </MemoryRouter>
+        );
+
+        const newPasswordInput = getByLabelText("New password");
+        const confirmPasswordInput = getByLabelText("Confirm password");
+        const saveButton = getByText("Save");
+
+        (editPassword as jest.Mock).mockResolvedValue(false);
+        act(() => {
+            userEvent.type(newPasswordInput, "password123");
+            userEvent.type(confirmPasswordInput, "password123");
+            userEvent.click(saveButton);
+        });
+
+        expect(editPassword).toHaveBeenCalledWith("testUser", "password123");
+        expect(await findByText(/Set password failed/i)).toBeVisible();
+    });
+
+    it("displays success message if the function returns true", async () => {
+
+        const initalPath = `/users/${mockUserDetails.name}/change-password`;
+        const destinationPath = `/users/${mockUserDetails.name}`;
+
+        const { getByLabelText, getByText, findByText } = render(
+            <MemoryRouter initialEntries={[mockState]}>
+                <Routes>
+                    <Route
+                        path={initalPath}
+                        element={<ChangePassword />}
+                    />
+                    <Route
+                        path={destinationPath}
+                        element={
+                            <UserProfile />
+                        }
+                    />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        const newPasswordInput = getByLabelText("New password");
+        const confirmPasswordInput = getByLabelText("Confirm password");
+        const saveButton = getByText("Save");
+
+        (editPassword as jest.Mock).mockResolvedValue(true);
+        act(() => {
+            userEvent.type(newPasswordInput, "password123");
+            userEvent.type(confirmPasswordInput, "password123");
+            userEvent.click(saveButton);
+        });
+        expect(await findByText(/Loading/i)).toBeVisible();
+        expect(editPassword).toHaveBeenCalledWith("testUser", "password123");
+        expect(screen.getByText("Password successfully changed for user called testUser")).toBeInTheDocument();
+    });
+
+    it("renders UserSignInErrorPanel when currentUser is null", () => {
+        const invalidState = {
+            pathname: `/users/${mockUserDetails.name}/change-password`,
+            state: { currentUser: null }
+        };
+        render(
+            <MemoryRouter initialEntries={[invalidState]}>
+                <ChangePassword />
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText("Sorry, there is a problem")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                /User details cannot be found\.\s*Please try again and ensure you are signed in\./i
+            )
+        ).toBeInTheDocument();
+    });
+
 });

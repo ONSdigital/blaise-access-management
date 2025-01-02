@@ -105,4 +105,29 @@ async function patchUserRolesAndPermissions(user: string, role: string): Promise
     }
 }
 
-export { getAllUsers, getUser, addNewUser, deleteUser, patchUserRolesAndPermissions };
+function editPassword(username: string, newPassword: string): Promise<boolean> {
+    const url = "/api/change-password/" + username;
+    const authManager = new AuthManager();
+    const headers = authManager.authHeader();
+    return new Promise((resolve: (object: boolean) => void) => {
+
+        if (username == "" || username == undefined || newPassword == "" || newPassword == undefined) {
+            resolve(false);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("password", newPassword);
+
+        requestPromiseJson("POST", url, formData, headers).then(([status]) => {
+            if (status === 204)
+                resolve(true);
+            resolve(false);
+
+        }).catch(() => {
+            resolve(false);
+        });
+    });
+}
+
+export { getAllUsers, getUser, addNewUser, deleteUser, patchUserRolesAndPermissions, editPassword };
