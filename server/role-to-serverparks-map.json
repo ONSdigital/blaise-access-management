@@ -4,9 +4,9 @@
     "IPS Pilot Interviewer" : ["gusty", "cma"],
     "IPS Researcher" : ["gusty", "cma"],
     "Field Interviewer" : ["gusty", "cma"],
-    "SVT Editor" : ["gusty", "cma"],
-    "SVT Supervisor" : ["gusty", "cma"],
-    "FRS Research" : ["gusty", "cma"],
-    "Survey Support" : ["gusty", "cma"],
+    "SVT Editor" : ["gusty"],
+    "SVT Supervisor" : ["gusty"],
+    "FRS Research" : ["gusty"],
+    "Survey Support" : ["gusty"],
     "DEFAULT" : ["gusty"]
 }
