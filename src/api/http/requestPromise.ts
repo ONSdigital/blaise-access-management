@@ -6,6 +6,7 @@ async function requestPromiseJson(method: string, url: string, body: FormData | 
     const authManager = new AuthManager();
 
     try {
+        console.log(body);
         const response = await fetch(url, {
             method,
             body,
