@@ -24,6 +24,7 @@ export default function GetNodeServer(config: CustomConfig, blaiseApiClient: Bla
 
     server.use(upload.any());
     server.use(pinoLogger);
+    server.use(express.json());
     axios.defaults.timeout = 10000;
 
     const loginRouter = newLoginHandler(auth, blaiseApiClient);
