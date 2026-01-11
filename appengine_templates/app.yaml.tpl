@@ -2,7 +2,7 @@ service: bam-ui
 runtime: nodejs20
 
 vpc_access_connector:
-  name: projects/_PROJECT_ID/locations/europe-west2/connectors/vpcconnect
+  name: _VPC_CONNECTOR
 
 env_variables:
   PROJECT_ID: _PROJECT_ID
