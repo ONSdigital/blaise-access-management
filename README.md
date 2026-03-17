@@ -113,6 +113,3 @@ The following run commands are available. These are all setup in the `package.js
 | `yarn build-react`  | Compiles build project ready to be served by express. The build in outputted to the the `build` directory which express points to with the var `buildFolder` in `server/server.js`.      |
 | `yarn test`         | Runs all tests for server and React Components and outputs coverage statistics.                                                                                                          |
 | `gcp-build`         | [App Engine custom build step](https://cloud.google.com/appengine/docs/standard/nodejs/running-custom-build-step) which builds the react application and complies the TypeScript server. |
-
-> ⚠ :warning: **If you are running locally**: Ignore the following error when you start the server with either yarn -start-server command or yarn dev!
-"Failed to start profiler: Error: Service must be specified in the configuration" It is related to google Cloud Profiler API that is enabled to measure code performance in production environment.
