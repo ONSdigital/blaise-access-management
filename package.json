@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@google-cloud/logging": "^9.6.0",
-    "@google-cloud/profiler": "^4.1.1",
     "@testing-library/dom": "^8.3.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^14.2.1",
