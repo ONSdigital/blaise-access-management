@@ -13,11 +13,6 @@ import { loadConfigFromEnv } from "../Config";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import createLogger from "../logger/pinoLogger";
 
-// Temporary fix for Jest open handle issue (gcp profiler TCPWRAP error)
-jest.mock("@google-cloud/profiler", () => ({
-    start: jest.fn().mockReturnValue(Promise.resolve())
-}));
-
 const mockSecret = "super-secret-key";
 process.env = Object.assign(process.env, {
     SESSION_SECRET: mockSecret,
