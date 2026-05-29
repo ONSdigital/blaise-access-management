@@ -23,7 +23,8 @@
     "lint-fix"
   ],
   "resolutions": {
-    "formik": "2.4.2"
+    "formik": "2.4.2",
+    "@types/minimatch": "5.1.2"
   },
   "dependencies": {
     "@google-cloud/logging": "^11.2.1",
