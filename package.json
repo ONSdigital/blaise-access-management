@@ -24,7 +24,9 @@
   ],
   "resolutions": {
     "formik": "2.4.2",
-    "@types/minimatch": "5.1.2"
+    "@types/minimatch": "5.1.2",
+    "@babel/types": "7.29.7",
+    "to-fast-properties": "2.0.0"
   },
   "dependencies": {
     "@google-cloud/logging": "^11.2.1",
@@ -41,7 +43,6 @@
     "express": "^4.19.2",
     "formik": "2.4.2",
     "history": "^4.9.0",
-    "jest-cucumber": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.18.1",
     "multer": "^2.1.1",
@@ -54,12 +55,12 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",
     "react-scripts": "5.0.0",
+    "to-fast-properties": "2.0.0",
     "typemoq": "^2.1.0",
     "typescript": "~5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.1",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-react-jsx": "^7.13.12",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
