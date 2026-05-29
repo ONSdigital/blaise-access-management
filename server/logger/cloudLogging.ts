@@ -14,7 +14,6 @@ export default class AuditLogger {
     logName: string;
 
     constructor(projectId: string) {
-        // Load the client lazily so utility-only tests do not initialize cloud SDK internals.
         // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-extraneous-dependencies
         const { Logging } = require("@google-cloud/logging") as typeof import("@google-cloud/logging");
         this.projectId = projectId;
