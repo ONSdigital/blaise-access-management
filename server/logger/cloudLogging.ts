@@ -10,15 +10,24 @@ export function formatLogMessage(text: string): string {
 
 export default class AuditLogger {
     projectId: string;
-    logger: Logging;
+    logger: Logging | null;
     logName: string;
 
     constructor(projectId: string) {
+        this.projectId = projectId;
+        this.logger = null;
+        this.logName = `projects/${this.projectId}/logs/stdout`;
+    }
+
+    private getLoggerClient(): Logging {
+        if (this.logger != null) {
+            return this.logger;
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-extraneous-dependencies
         const { Logging } = require("@google-cloud/logging") as typeof import("@google-cloud/logging");
-        this.projectId = projectId;
         this.logger = new Logging({ projectId: this.projectId });
-        this.logName = `projects/${this.projectId}/logs/stdout`;
+        return this.logger;
     }
 
     info(logger: IncomingMessage["log"], message: string): void {
@@ -33,7 +42,7 @@ export default class AuditLogger {
 
     async getLogs(): Promise<AuditLog[]> {
         const auditLogs: AuditLog[] = [];
-        const log = this.logger.log(this.logName);
+        const log = this.getLoggerClient().log(this.logName);
         const [entries] = await log.getEntries({ filter: "jsonPayload.message=~\"^AUDIT_LOG: \"", maxResults: 50 });
         for (const entry of entries) {
             let id = "";
