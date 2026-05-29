@@ -41,7 +41,6 @@
     "express": "^4.19.2",
     "formik": "2.4.2",
     "history": "^4.9.0",
-    "jest-cucumber": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.18.1",
     "multer": "^2.1.1",
