@@ -5090,7 +5090,7 @@ bl@^4.0.3, bl@^4.1.0:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
-"blaise-api-node-client@git+https://github.com/ONSdigital/blaise-api-node-client":
+"blaise-api-node-client@git+https://github.com/ONSdigital/blaise-api-node-client#v3.0.0":
   version "1.0.0"
   resolved "git+https://github.com/ONSdigital/blaise-api-node-client#35c11963bac83eaabff3759b09eaed61a5ab8a0e"
   dependencies:
