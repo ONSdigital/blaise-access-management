@@ -27,7 +27,8 @@
     "@types/minimatch": "5.1.2",
     "@babel/types": "7.29.7",
     "to-fast-properties": "2.0.0",
-    "serialize-javascript": "7.0.3"
+    "serialize-javascript": "7.0.3",
+    "nth-check": "2.1.1"
   },
   "dependencies": {
     "@google-cloud/logging": "^11.2.1",
@@ -41,7 +42,7 @@
     "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#1.1.4",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "formik": "2.4.2",
     "history": "^4.9.0",
     "jsonwebtoken": "^9.0.3",
@@ -58,7 +59,8 @@
     "react-scripts": "5.0.1",
     "to-fast-properties": "2.0.0",
     "typemoq": "^2.1.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "webpack-dev-server": "4.15.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.1",
@@ -78,8 +80,8 @@
     "@types/react-dom": "^18.2.18",
     "@types/react-router-dom": "^5.3.3",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "axios-mock-adapter": "^1.19.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.2",
