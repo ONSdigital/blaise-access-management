@@ -1,6 +1,7 @@
-import type { Logging } from "@google-cloud/logging";
 import { IncomingMessage } from "http";
 import { AuditLog } from "../interfaces/logger";
+
+type LoggingClient = import("@google-cloud/logging").Logging;
 
 export function formatLogMessage(text: string): string {
     const message = text.replace(/[^\x20-\x7E\r\n]+/g, "");
@@ -10,7 +11,7 @@ export function formatLogMessage(text: string): string {
 
 export default class AuditLogger {
     projectId: string;
-    logger: Logging | null;
+    logger: LoggingClient | null;
     logName: string;
 
     constructor(projectId: string) {
@@ -19,13 +20,12 @@ export default class AuditLogger {
         this.logName = `projects/${this.projectId}/logs/stdout`;
     }
 
-    private getLoggerClient(): Logging {
+    private async getLoggerClient(): Promise<LoggingClient> {
         if (this.logger != null) {
             return this.logger;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-extraneous-dependencies
-        const { Logging } = require("@google-cloud/logging") as typeof import("@google-cloud/logging");
+        const { Logging } = await import("@google-cloud/logging");
         this.logger = new Logging({ projectId: this.projectId });
         return this.logger;
     }
@@ -42,7 +42,7 @@ export default class AuditLogger {
 
     async getLogs(): Promise<AuditLog[]> {
         const auditLogs: AuditLog[] = [];
-        const log = this.getLoggerClient().log(this.logName);
+        const log = (await this.getLoggerClient()).log(this.logName);
         const [entries] = await log.getEntries({ filter: "jsonPayload.message=~\"^AUDIT_LOG: \"", maxResults: 50 });
         for (const entry of entries) {
             let id = "";
