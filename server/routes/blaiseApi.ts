@@ -109,7 +109,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
             auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully deleted user called ${user}`);
             return res.status(204).json(await blaiseApiClient.deleteUser(user));
         } catch (error) {
-            let errorMessage = String(error);
+            const errorMessage = String(error);
             auditLogger.error(req.log, `Error whilst trying to delete user, ${req.headers.user}, with error message: ${errorMessage}`);
             return res.status(500).json({ error: "Internal server error" });
         }
@@ -136,7 +136,7 @@ export default function blaiseApi(config: CustomConfig, auth: Auth, blaiseApiCli
             auditLogger.info(req.log, `${currentUser.name || "Unknown"} has successfully created user, ${data.name}, with an assigned role of ${data.role}`);
             return res.status(200).json(await blaiseApiClient.createUser(data));
         } catch (error) {
-            let errorMessage = String(error);
+            const errorMessage = String(error);
             auditLogger.error(req.log, `Error whilst trying to create new user, ${req.body.name}, with error message: ${errorMessage}`);
             return res.status(500).json({ error: "Internal server error" });
         }
