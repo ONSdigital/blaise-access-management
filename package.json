@@ -27,8 +27,9 @@
     "@types/minimatch": "5.1.2",
     "@babel/types": "7.29.7",
     "to-fast-properties": "2.0.0",
-    "serialize-javascript": "7.0.3",
-    "nth-check": "2.1.1"
+    "serialize-javascript": "7.0.5",
+    "nth-check": "2.1.1",
+    "webpack-dev-server": "5.2.4"
   },
   "dependencies": {
     "@google-cloud/logging": "^11.2.1",
@@ -60,7 +61,7 @@
     "to-fast-properties": "2.0.0",
     "typemoq": "^2.1.0",
     "typescript": "~5.3.3",
-    "webpack-dev-server": "5.2.1"
+    "webpack-dev-server": "5.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.1",
@@ -91,7 +92,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "pino-pretty": "^4.7.1",
-    "supertest": "^6.1.6"
+    "supertest": "^7.2.2"
   },
   "peerDependencies": {
     "react-router": "^6.30.4"
