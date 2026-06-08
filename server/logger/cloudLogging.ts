@@ -36,7 +36,6 @@ export default class AuditLogger {
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        // Sanitize message: truncate length and remove non-printable characters to prevent log injection
         const sanitized = String(message).substring(0, 1000).replace(/[^\x20-\x7E\r\n]+/g, "");
         const log = formatLogMessage(sanitized);
         logger.error(log);
