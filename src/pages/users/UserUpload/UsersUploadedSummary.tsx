@@ -52,7 +52,7 @@ function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUpload
                                                     </td>
                                                     <td className="ons-table__cell ">
                                                         <span
-                                                            className={`ons-status ons-status--${(created ? "success" : "error")}`}>
+                                                            className="ons-status ons-status--error">
                                                             {
                                                                 created
                                                                     ? "User created"
