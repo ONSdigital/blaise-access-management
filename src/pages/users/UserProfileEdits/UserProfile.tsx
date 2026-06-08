@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import ProfileTable from "./ProfileTable";
 import { getUser } from "../../../api/http";

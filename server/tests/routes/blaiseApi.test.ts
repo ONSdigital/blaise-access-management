@@ -185,7 +185,7 @@ describe("DELETE /api/users endpoint", () => {
         expect(log).toEqual(`AUDIT_LOG: Error whilst trying to delete user, ${username}, with error message: ${errorMessage}`);
         expect(response.statusCode).toEqual(500);
         blaiseApiMock.verify(a => a.deleteUser(It.isValue<string>(username)), Times.once());
-        expect(response.body).toStrictEqual(errorMessage);
+        expect(response.body).toStrictEqual({ error: "Internal server error" });
     });
 
     it("should call Blaise API deleteUser endpoint for INVALID or MISSING user header field AND return http status BAD_REQUEST_400", async () => {

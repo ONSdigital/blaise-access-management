@@ -36,7 +36,8 @@ export default class AuditLogger {
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        const log = formatLogMessage(message);
+        const sanitizedMessage = String(message).substring(0, 1000);
+        const log = formatLogMessage(sanitizedMessage);
         logger.error(log);
     }
 
