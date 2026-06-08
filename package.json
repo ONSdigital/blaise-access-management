@@ -29,10 +29,16 @@
     "to-fast-properties": "2.0.0",
     "serialize-javascript": "7.0.5",
     "nth-check": "2.1.1",
-    "webpack-dev-server": "5.2.4"
+    "webpack-dev-server": "5.2.4",
+    "brace-expansion": "2.0.3",
+    "uuid": "11.1.1",
+    "postcss": "8.5.15",
+    "ajv": "6.14.0",
+    "yaml": "1.10.3",
+    "@tootallnate/once": "2.0.1"
   },
   "dependencies": {
-    "@google-cloud/logging": "^11.2.1",
+    "@google-cloud/logging": "^11.2.2",
     "@testing-library/dom": "^8.3.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^14.2.1",
