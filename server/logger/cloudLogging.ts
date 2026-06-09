@@ -4,7 +4,10 @@ import { AuditLog } from "../interfaces/logger";
 type LoggingClient = import("@google-cloud/logging").Logging;
 
 export function formatLogMessage(text: string): string {
-    const message = text.replace(/[^\x20-\x7E\r\n]+/g, "");
+    const message = String(text)
+        .substring(0, 1000)
+        .replace(/[\r\n]+/g, " ")
+        .replace(/[^\x20-\x7E]+/g, "");
     const logFormat = "AUDIT_LOG: message";
     return logFormat.replace("message", message);
 }
@@ -36,8 +39,7 @@ export default class AuditLogger {
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        const sanitized = String(message).substring(0, 1000).replace(/[^\x20-\x7E\r\n]+/g, "");
-        const log = formatLogMessage(sanitized);
+        const log = formatLogMessage(message);
         logger.error(log);
     }
 
