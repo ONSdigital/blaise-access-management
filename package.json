@@ -23,7 +23,18 @@
     "lint-fix"
   ],
   "resolutions": {
-    "formik": "2.4.2"
+    "formik": "2.4.2",
+    "@types/minimatch": "5.1.2",
+    "@babel/types": "7.29.7",
+    "to-fast-properties": "2.0.0",
+    "serialize-javascript": "6.0.2",
+    "nth-check": "2.1.1",
+    "webpack-dev-server": "5.2.4",
+    "brace-expansion": "2.0.3",
+    "uuid": "9.0.1",
+    "postcss": "8.5.15",
+    "yaml": "1.10.3",
+    "@tootallnate/once": "2.0.1"
   },
   "dependencies": {
     "@google-cloud/logging": "^11.2.2",
