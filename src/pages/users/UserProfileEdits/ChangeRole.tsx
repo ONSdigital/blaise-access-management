@@ -1,5 +1,5 @@
 import React from "react";
-import { ONSButton, ONSErrorPanel, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
+import { ONSButton, ONSLoadingPanel, ONSPanel } from "blaise-design-system-react-components";
 import { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
@@ -68,7 +68,7 @@ export default function ChangeRole(): ReactElement {
     }, []);
 
     if (!currentUser || !viewedUserDetails || setError) {
-        return setError ? (<ONSPanel status="error">{setError}</ONSPanel>) : (<UserSignInErrorPanel/>);
+        return setError ? (<ONSPanel status="error">{setError}</ONSPanel>) : (<UserSignInErrorPanel />);
     }
 
     return (
