@@ -3,10 +3,19 @@ import { AuditLog } from "../interfaces/logger";
 
 type LoggingClient = import("@google-cloud/logging").Logging;
 
-export function formatLogMessage(text: string): string {
-    const message = text.replace(/[^\x20-\x7E\r\n]+/g, "");
-    const logFormat = "AUDIT_LOG: message";
-    return logFormat.replace("message", message);
+export function formatLogMessage(
+    text: string,
+    severity: "info" | "error"
+): string {
+    const message =
+        severity === "error"
+            ? String(text)
+                .substring(0, 1000)
+                .replace(/[^\x20-\x7E\r\n]+/g, "")
+            : String(text)
+                .replace(/[^\x20-\x7E\r\n]+/g, "");
+
+    return `AUDIT_LOG: ${message}`;
 }
 
 export default class AuditLogger {
@@ -31,13 +40,12 @@ export default class AuditLogger {
     }
 
     info(logger: IncomingMessage["log"], message: string): void {
-        const log = formatLogMessage(message);
+        const log = formatLogMessage(message, "info");
         logger.info(log);
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        const sanitized = String(message).substring(0, 1000).replace(/[^\x20-\x7E\r\n]+/g, "");
-        const log = formatLogMessage(sanitized);
+        const log = formatLogMessage(message, "error");
         logger.error(log);
     }
 

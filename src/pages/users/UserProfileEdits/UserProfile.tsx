@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import Breadcrumbs from "../../../Components/Breadcrumbs";
 import ProfileTable from "./ProfileTable";
 import { getUser } from "../../../api/http";
-import { ONSPanel, ONSLoadingPanel, ONSErrorPanel } from "blaise-design-system-react-components";
+import { ONSPanel, ONSLoadingPanel } from "blaise-design-system-react-components";
 import { GetUserResponse } from "../../../Interfaces/usersPage";
 import UserSignInErrorPanel from "../../../Components/UserSignInErrorPanel";
 
@@ -51,7 +51,7 @@ export default function UserProfile() {
                 <ONSPanel status={updatedPanel.status}>
                     <div className="ons-panel__body">{updatedPanel.message}</div>
                 </ONSPanel>)
-                : null }
+                : null}
             {error && <ONSPanel status={"error"}>
                 <div className="ons-panel__body">{error}</div>
             </ONSPanel>}
