@@ -54,9 +54,7 @@ function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUpload
                                                         <span
                                                             className="ons-status ons-status--error">
                                                             {
-                                                                created
-                                                                    ? "User created"
-                                                                    : "User not created"
+                                                                "User not created"
                                                             }
                                                         </span>
                                                     </td>
@@ -97,8 +95,8 @@ function UsersUploadedSummary({ usersUploaded, numberOfValidUsers }: UsersUpload
                 )
             }
 
-            <br/>
-            <ONSButton label={"Return to homepage"} primary={true} onClick={() => navigate("/")}/>
+            <br />
+            <ONSButton label={"Return to homepage"} primary={true} onClick={() => navigate("/")} />
             {
                 (
                     numberOfCreatedUsers !== numberOfValidUsers && failedToUploadUserTable()
