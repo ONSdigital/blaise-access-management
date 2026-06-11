@@ -1,38 +1,57 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Logging } from "@google-cloud/logging";
 import { IncomingMessage } from "http";
 import { AuditLog } from "../interfaces/logger";
 
-export function formatLogMessage(text: string): string {
-    const message = text.replace(/[^\x20-\x7E\r\n]+/g, "");
-    const logFormat = "AUDIT_LOG: message";
-    return logFormat.replace("message", message);
+type LoggingClient = import("@google-cloud/logging").Logging;
+
+export function formatLogMessage(
+    text: string,
+    severity: "info" | "error"
+): string {
+    const message =
+        severity === "error"
+            ? String(text)
+                .substring(0, 1000)
+                .replace(/[^\x20-\x7E\r\n]+/g, "")
+            : String(text)
+                .replace(/[^\x20-\x7E\r\n]+/g, "");
+
+    return `AUDIT_LOG: ${message}`;
 }
 
 export default class AuditLogger {
     projectId: string;
-    logger: Logging;
+    logger: LoggingClient | null;
     logName: string;
 
     constructor(projectId: string) {
         this.projectId = projectId;
-        this.logger = new Logging({ projectId: this.projectId });
+        this.logger = null;
         this.logName = `projects/${this.projectId}/logs/stdout`;
     }
 
+    private async getLoggerClient(): Promise<LoggingClient> {
+        if (this.logger != null) {
+            return this.logger;
+        }
+
+        const { Logging } = await import("@google-cloud/logging");
+        this.logger = new Logging({ projectId: this.projectId });
+        return this.logger;
+    }
+
     info(logger: IncomingMessage["log"], message: string): void {
-        const log = formatLogMessage(message);
+        const log = formatLogMessage(message, "info");
         logger.info(log);
     }
 
     error(logger: IncomingMessage["log"], message: string): void {
-        const log = formatLogMessage(message);
+        const log = formatLogMessage(message, "error");
         logger.error(log);
     }
 
     async getLogs(): Promise<AuditLog[]> {
         const auditLogs: AuditLog[] = [];
-        const log = this.logger.log(this.logName);
+        const log = (await this.getLoggerClient()).log(this.logName);
         const [entries] = await log.getEntries({ filter: "jsonPayload.message=~\"^AUDIT_LOG: \"", maxResults: 50 });
         for (const entry of entries) {
             let id = "";

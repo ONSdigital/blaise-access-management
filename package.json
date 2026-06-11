@@ -23,27 +23,37 @@
     "lint-fix"
   ],
   "resolutions": {
-    "formik": "2.4.2"
+    "formik": "2.4.2",
+    "@types/minimatch": "5.1.2",
+    "@babel/types": "7.29.7",
+    "to-fast-properties": "2.0.0",
+    "serialize-javascript": "6.0.2",
+    "nth-check": "2.1.1",
+    "webpack-dev-server": "5.2.4",
+    "brace-expansion": "2.0.3",
+    "uuid": "9.0.1",
+    "postcss": "8.5.15",
+    "yaml": "1.10.3",
+    "@tootallnate/once": "2.0.1"
   },
   "dependencies": {
-    "@google-cloud/logging": "^9.6.0",
+    "@google-cloud/logging": "^11.2.2",
     "@testing-library/dom": "^8.3.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.7.4",
-    "blaise-api-node-client": "git+https://github.com/ONSdigital/blaise-api-node-client",
-    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#0.14.1",
+    "axios": "^1.17.0",
+    "blaise-api-node-client": "git+https://github.com/ONSdigital/blaise-api-node-client#v2.0.2",
+    "blaise-design-system-react-components": "git+https://github.com/ONSdigital/blaise-design-system-react-components#v1.0.4",
     "blaise-login-react": "git+https://github.com/ONSdigital/blaise-login-react#1.1.4",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "formik": "2.4.2",
     "history": "^4.9.0",
-    "jest-cucumber": "^3.0.0",
-    "jsonwebtoken": "^9.0.2",
-    "lodash": "^4.17.21",
-    "multer": "^1.4.2",
+    "jsonwebtoken": "^9.0.3",
+    "lodash": "^4.18.1",
+    "multer": "^2.1.1",
     "number-to-words": "^1.2.4",
     "pino": "^8.17.2",
     "pino-http": "^5.5.0",
@@ -51,10 +61,12 @@
     "react": "^18.2.0",
     "react-csv-reader": "^3.3.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.0",
-    "react-scripts": "5.0.0",
+    "react-router-dom": "^6.30.4",
+    "react-scripts": "5.0.1",
+    "to-fast-properties": "2.0.0",
     "typemoq": "^2.1.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "webpack-dev-server": "5.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.1",
@@ -74,27 +86,28 @@
     "@types/react-dom": "^18.2.18",
     "@types/react-router-dom": "^5.3.3",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "axios-mock-adapter": "^1.19.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
+    "eslint": "8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "pino-pretty": "^4.7.1",
-    "supertest": "^6.1.6"
+    "supertest": "^7.2.2"
   },
   "peerDependencies": {
-    "react-router": "^6.21.1"
+    "react-router": "^6.30.4"
   },
   "browserslist": {
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "not op_mob > 0"
     ],
     "development": [
       "last 1 chrome version",
