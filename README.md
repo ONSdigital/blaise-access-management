@@ -24,12 +24,9 @@ yarn install
 
 ### Authenticate with Google Cloud (keyless)
 
-Use service account impersonation to auth with BIMS and BUS.
-
 ```shell
 gcloud auth login
 gcloud config set project ons-blaise-v2-dev
-gcloud auth application-default login --impersonate-service-account=ons-blaise-v2-dev@appspot.gserviceaccount.com
 ```
 
 ### Start an IAP tunnel to Blaise REST API

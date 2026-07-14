@@ -2,8 +2,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { AuthClient } from "blaise-login-react-client";
 import { BrowserRouter } from "react-router-dom";
 
-import App from "./app";
 import { AUTH_EXPIRED_EVENT_NAME } from "./api/http/axiosAuthConfig";
+import App from "./app";
 
 import type { User } from "blaise-api-node-client";
 

@@ -11,6 +11,7 @@ import { loadConfigFromEnv } from "./config/appConfig.js";
 import GetNodeServer from "./server.js";
 import createLogger from "./utils/httpLogger.js";
 
+import type * as ExpressRateLimitModule from "express-rate-limit";
 import type { HttpLogger } from "pino-http";
 import type { IMock } from "typemoq";
 
@@ -29,7 +30,7 @@ const capturedRateLimitMiddlewareCalls = {
 };
 
 vi.mock("express-rate-limit", async () => {
-  const actual = await vi.importActual<typeof import("express-rate-limit")>("express-rate-limit");
+  const actual = await vi.importActual<typeof ExpressRateLimitModule>("express-rate-limit");
 
   return {
     ...actual,
@@ -62,7 +63,10 @@ process.env = Object.assign(process.env, {
 const config = loadConfigFromEnv();
 const auth = new Auth(config);
 
-function createServer(customAuth?: Auth): { server: ReturnType<typeof GetNodeServer>; logger: pino.Logger } {
+function createServer(customAuth?: Auth): {
+  server: ReturnType<typeof GetNodeServer>;
+  logger: pino.Logger;
+} {
   const logger = pino();
   const httpLogger: HttpLogger = createLogger({ logger: logger, autoLogging: false });
   const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(
@@ -165,9 +169,11 @@ describe("server.ts focused coverage", () => {
     });
     const { server, logger } = createServer();
     const logError = vi.spyOn(logger, "error");
-    const errorLayer = (server as unknown as { router?: { stack: Array<{ handle: Function }> } }).router?.stack.find(
-      (layer) => layer.handle.length === 4,
-    );
+    const errorLayer = (
+      server as unknown as {
+        router?: { stack: Array<{ handle: (...args: unknown[]) => unknown }> };
+      }
+    ).router?.stack.find((layer) => layer.handle.length === 4);
 
     expect(errorLayer).toBeDefined();
 
@@ -189,9 +195,11 @@ describe("server.ts focused coverage", () => {
     });
     const { server, logger } = createServer();
     const logError = vi.spyOn(logger, "error");
-    const errorLayer = (server as unknown as { router?: { stack: Array<{ handle: Function }> } }).router?.stack.find(
-      (layer) => layer.handle.length === 4,
-    );
+    const errorLayer = (
+      server as unknown as {
+        router?: { stack: Array<{ handle: (...args: unknown[]) => unknown }> };
+      }
+    ).router?.stack.find((layer) => layer.handle.length === 4);
 
     expect(errorLayer).toBeDefined();
 
