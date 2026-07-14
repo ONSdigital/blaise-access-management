@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": true,
+    "sourceMap": false,
+    "types": ["node"]
+  },
+  "extends": "./tsconfig.base.json",
+  "include": ["eslint.config.ts", "vite.config.ts", "vitest.config.ts"]
+}

@@ -1,0 +1,331 @@
+import {
+  DefaultErrorBoundary,
+  ErrorBoundary,
+  Footer,
+  Header,
+  LoadingPanel,
+  NotProductionWarning,
+  Panel,
+} from "blaise-design-system-react-components";
+import { AuthClient, LoginForm } from "blaise-login-react-client";
+import { lazy, type ReactElement, Suspense, useEffect, useEffectEvent, useState } from "react";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
+
+import { AUTH_EXPIRED_EVENT_NAME } from "./api/http/axiosAuthConfig";
+import { type ReturnPanel } from "./types/users.types";
+import { getAuthClientConfig } from "./utils/auth";
+import { isProduction } from "./utils/env";
+
+import type { User } from "blaise-api-node-client";
+
+const loginContentMinHeight = "67vh";
+const BulkUserUpload = lazy(() => {
+  return import("./pages/bulkUploadUsersPage/bulkUploadUsersPage");
+});
+const ChangePassword = lazy(() => {
+  return import("./pages/changePasswordPage/changePasswordPage");
+});
+const ChangeRole = lazy(() => {
+  return import("./pages/changeRolePage/changeRolePage");
+});
+const NewUserComponent = lazy(() => {
+  return import("./pages/createNewUserPage/createNewUserPage");
+});
+const DeleteUser = lazy(() => {
+  return import("./pages/deleteUserPage/deleteUserPage");
+});
+const Home = lazy(() => {
+  return import("./pages/homePage/homePage");
+});
+const AuditPage = lazy(() => {
+  return import("./pages/auditPage/auditPage");
+});
+const ManageUserPage = lazy(() => {
+  return import("./pages/manageUserPage/manageUserPage");
+});
+const Roles = lazy(() => {
+  return import("./pages/manageRolesPage/manageRolesPage");
+});
+const Users = lazy(() => {
+  return import("./pages/manageUsersPage/manageUsersPage");
+});
+const PageNotFound = lazy(() => {
+  return import("./pages/shared/pageNotFound");
+});
+
+type AppRoutesProps = {
+  user: User;
+  updatedPanel: ReturnPanel | null;
+};
+
+const createNavLink = (id: string | undefined, label: string, endpoint: string): ReactElement => (
+  <Link
+    to={endpoint}
+    id={id}
+    className="ons-navigation__link"
+  >
+    {label}
+  </Link>
+);
+
+function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
+  return (
+    <DefaultErrorBoundary>
+      <Suspense fallback={<LoadingPanel />}>
+        <Routes>
+          <Route
+            path={"/users/change-password/:user"}
+            element={
+              <ErrorBoundary
+                errorMessageText={"Unable to load Change Password page. Please try again."}
+              >
+                <ChangePassword />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path={"/users/delete/:user"}
+            element={<DeleteUser />}
+          />
+          <Route
+            path="/users/change-role/:user"
+            element={
+              <ErrorBoundary
+                errorMessageText={"Unable to load Change Role page. Please try again."}
+              >
+                <ChangeRole />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/users/:user"
+            element={
+              <ErrorBoundary
+                errorMessageText={"Unable to load User Profile Page. Please try again."}
+              >
+                <ManageUserPage
+                  currentUser={user}
+                  updatedPanel={updatedPanel}
+                />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path={"/users/upload"}
+            element={<BulkUserUpload />}
+          />
+          <Route
+            path={"/users/new"}
+            element={<NewUserComponent />}
+          />
+          <Route
+            path="/users"
+            element={
+              <ErrorBoundary errorMessageText={"Unable to load users table. Please try again."}>
+                <Users
+                  currentUser={user}
+                  updatedPanel={updatedPanel}
+                />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/audit"
+            element={
+              <ErrorBoundary errorMessageText={"Unable to load access history. Please try again."}>
+                <AuditPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path={"/roles"}
+            element={
+              <ErrorBoundary errorMessageText={"Unable to load roles table. Please try again."}>
+                <Roles />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <ErrorBoundary errorMessageText={"Unable to load homepage. Please try again."}>
+                <Home />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="*"
+            element={<PageNotFound />}
+          />
+        </Routes>
+      </Suspense>
+    </DefaultErrorBoundary>
+  );
+}
+
+function App(): ReactElement {
+  const location = useLocation();
+  const updatedPanel = ((location.state as { updatedPanel?: ReturnPanel } | null)?.updatedPanel ??
+    null) as ReturnPanel | null;
+  const [authClient] = useState(() => new AuthClient(getAuthClientConfig()));
+  const [authState, setAuthState] = useState<"checking" | "unauthenticated" | "authenticated">(
+    () => (authClient.getToken() == null ? "unauthenticated" : "checking"),
+  );
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  function clearSession(): void {
+    authClient.logOut();
+    setCurrentUser(null);
+    setAuthState("unauthenticated");
+  }
+
+  const clearSessionEffect = useEffectEvent(clearSession);
+
+  async function handleAuthenticated(token: string): Promise<void> {
+    authClient.setToken(token);
+    setAuthState("checking");
+
+    try {
+      const user = await authClient.getLoggedInUser();
+
+      if (!user) {
+        clearSession();
+
+        return;
+      }
+
+      setCurrentUser(user);
+      setAuthState("authenticated");
+    } catch {
+      clearSession();
+    }
+  }
+
+  useEffect(() => {
+    if (authClient.getToken() == null) {
+      return;
+    }
+
+    let cancelled = false;
+
+    void authClient
+      .getLoggedInUser()
+      .then((user) => {
+        if (cancelled) {
+          return;
+        }
+
+        if (!user) {
+          authClient.clearToken();
+          setCurrentUser(null);
+          setAuthState("unauthenticated");
+
+          return;
+        }
+
+        setCurrentUser(user);
+        setAuthState("authenticated");
+      })
+      .catch(() => {
+        if (cancelled) {
+          return;
+        }
+
+        authClient.clearToken();
+        setCurrentUser(null);
+        setAuthState("unauthenticated");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authClient]);
+
+  useEffect(() => {
+    const onAuthExpired = () => {
+      clearSessionEffect();
+    };
+
+    window.addEventListener(AUTH_EXPIRED_EVENT_NAME, onAuthExpired);
+
+    return () => {
+      window.removeEventListener(AUTH_EXPIRED_EVENT_NAME, onAuthExpired);
+    };
+  }, []);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <a
+        href="#main-content"
+        className="ons-skip-to-content ons-u-fs-r--b"
+      >
+        Skip to content
+      </a>
+      {!isProduction(window.location.hostname) && <NotProductionWarning />}
+      <Header
+        title={"Blaise Access Management"}
+        signOutButton={authState === "authenticated"}
+        noSave={true}
+        signOutFunction={clearSession}
+        navigationLinks={
+          authState === "authenticated"
+            ? [
+                {
+                  id: "home-link",
+                  label: "Home",
+                  endpoint: "/",
+                },
+                {
+                  id: "users-link",
+                  label: "Manage users",
+                  endpoint: "/users",
+                },
+                {
+                  id: "roles-link",
+                  label: "Manage roles",
+                  endpoint: "/roles",
+                },
+                {
+                  id: "audit-link",
+                  label: "View access history",
+                  endpoint: "/audit",
+                },
+              ]
+            : []
+        }
+        currentLocation={location.pathname}
+        createNavLink={createNavLink}
+      />
+      <div
+        style={{
+          flexGrow: 1,
+          minHeight: authState === "authenticated" ? undefined : loginContentMinHeight,
+        }}
+        className="ons-page__container ons-container"
+      >
+        <DefaultErrorBoundary>
+          {authState === "checking" && (
+            <div id="main-content">
+              <LoadingPanel />
+            </div>
+          )}
+          {authState === "unauthenticated" && (
+            <div id="main-content">
+              <Panel status="info">Enter your Blaise username and password</Panel>
+              <LoginForm onAuthenticated={handleAuthenticated} />
+            </div>
+          )}
+          {authState === "authenticated" && currentUser && (
+            <AppRoutes
+              user={currentUser}
+              updatedPanel={updatedPanel}
+            />
+          )}
+        </DefaultErrorBoundary>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;

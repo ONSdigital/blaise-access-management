@@ -1,0 +1,406 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Manage Users page > view users page matches Snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <main
+        class="ons-page__main ons-u-mt-m"
+        id="main-content"
+      >
+        <h1
+          class="ons-u-mb-l"
+        >
+          Manage users
+        </h1>
+        <ul
+          class="ons-list ons-list--bare ons-list--inline ons-u-mb-m"
+        >
+          <li
+            class="ons-list__item "
+          >
+            <a
+              data-discover="true"
+              href="/users/new"
+            >
+              Create new user
+            </a>
+          </li>
+          <li
+            class="ons-list__item "
+          >
+            <a
+              data-discover="true"
+              href="/users/upload"
+            >
+              Bulk upload users
+            </a>
+          </li>
+        </ul>
+        <div
+          class="ons-field ons-u-mb-s"
+        >
+          <div
+            class="ons-field"
+          >
+            <label
+              class="ons-label"
+              for="filter-by-name"
+            >
+              Filter by user name
+            </label>
+            <input
+              class="ons-input ons-input--text ons-input-type__input"
+              data-testid="filter-by-name-input"
+              id="filter-by-name"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <h3
+          aria-live="polite"
+        >
+          3
+           results of 
+          3
+        </h3>
+        <div
+          class="ons-table-scrollable ons-table-scrollable--on"
+        >
+          <div
+            aria-label="Users table"
+            class="ons-table-scrollable__content"
+            role="region"
+            tabindex="0"
+          >
+            <table
+              class="ons-table"
+              data-testid="users-table-table"
+              id="users-table"
+            >
+              <thead
+                class="ons-table__head"
+              >
+                <tr
+                  class="ons-table__row"
+                >
+                  <th
+                    class="ons-table__header ons-table__header--top"
+                    scope="col"
+                  >
+                    <span
+                      class="ons-table__header-text"
+                    >
+                      Name
+                    </span>
+                  </th>
+                  <th
+                    class="ons-table__header ons-table__header--top"
+                    scope="col"
+                  >
+                    <span
+                      class="ons-table__header-text"
+                    >
+                      Role
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="ons-table__body"
+              >
+                <tr
+                  class="ons-table__row"
+                  data-testid="users-table-row"
+                >
+                  <td
+                    class="ons-table__cell"
+                  >
+                    <a
+                      data-discover="true"
+                      href="/users/AlphaUser"
+                    >
+                      AlphaUser
+                    </a>
+                  </td>
+                  <td
+                    class="ons-table__cell"
+                  >
+                    BDSS
+                  </td>
+                </tr>
+                <tr
+                  class="ons-table__row"
+                  data-testid="users-table-row"
+                >
+                  <td
+                    class="ons-table__cell"
+                  >
+                    <a
+                      data-discover="true"
+                      href="/users/SecondUser"
+                    >
+                      SecondUser
+                    </a>
+                  </td>
+                  <td
+                    class="ons-table__cell"
+                  >
+                    BDSS
+                  </td>
+                </tr>
+                <tr
+                  class="ons-table__row"
+                  data-testid="users-table-row"
+                >
+                  <td
+                    class="ons-table__cell"
+                  >
+                    <a
+                      data-discover="true"
+                      href="/users/ZuluUser"
+                    >
+                      ZuluUser
+                    </a>
+                  </td>
+                  <td
+                    class="ons-table__cell"
+                  >
+                    DST
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <main
+      class="ons-page__main ons-u-mt-m"
+      id="main-content"
+    >
+      <h1
+        class="ons-u-mb-l"
+      >
+        Manage users
+      </h1>
+      <ul
+        class="ons-list ons-list--bare ons-list--inline ons-u-mb-m"
+      >
+        <li
+          class="ons-list__item "
+        >
+          <a
+            data-discover="true"
+            href="/users/new"
+          >
+            Create new user
+          </a>
+        </li>
+        <li
+          class="ons-list__item "
+        >
+          <a
+            data-discover="true"
+            href="/users/upload"
+          >
+            Bulk upload users
+          </a>
+        </li>
+      </ul>
+      <div
+        class="ons-field ons-u-mb-s"
+      >
+        <div
+          class="ons-field"
+        >
+          <label
+            class="ons-label"
+            for="filter-by-name"
+          >
+            Filter by user name
+          </label>
+          <input
+            class="ons-input ons-input--text ons-input-type__input"
+            data-testid="filter-by-name-input"
+            id="filter-by-name"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <h3
+        aria-live="polite"
+      >
+        3
+         results of 
+        3
+      </h3>
+      <div
+        class="ons-table-scrollable ons-table-scrollable--on"
+      >
+        <div
+          aria-label="Users table"
+          class="ons-table-scrollable__content"
+          role="region"
+          tabindex="0"
+        >
+          <table
+            class="ons-table"
+            data-testid="users-table-table"
+            id="users-table"
+          >
+            <thead
+              class="ons-table__head"
+            >
+              <tr
+                class="ons-table__row"
+              >
+                <th
+                  class="ons-table__header ons-table__header--top"
+                  scope="col"
+                >
+                  <span
+                    class="ons-table__header-text"
+                  >
+                    Name
+                  </span>
+                </th>
+                <th
+                  class="ons-table__header ons-table__header--top"
+                  scope="col"
+                >
+                  <span
+                    class="ons-table__header-text"
+                  >
+                    Role
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="ons-table__body"
+            >
+              <tr
+                class="ons-table__row"
+                data-testid="users-table-row"
+              >
+                <td
+                  class="ons-table__cell"
+                >
+                  <a
+                    data-discover="true"
+                    href="/users/AlphaUser"
+                  >
+                    AlphaUser
+                  </a>
+                </td>
+                <td
+                  class="ons-table__cell"
+                >
+                  BDSS
+                </td>
+              </tr>
+              <tr
+                class="ons-table__row"
+                data-testid="users-table-row"
+              >
+                <td
+                  class="ons-table__cell"
+                >
+                  <a
+                    data-discover="true"
+                    href="/users/SecondUser"
+                  >
+                    SecondUser
+                  </a>
+                </td>
+                <td
+                  class="ons-table__cell"
+                >
+                  BDSS
+                </td>
+              </tr>
+              <tr
+                class="ons-table__row"
+                data-testid="users-table-row"
+              >
+                <td
+                  class="ons-table__cell"
+                >
+                  <a
+                    data-discover="true"
+                    href="/users/ZuluUser"
+                  >
+                    ZuluUser
+                  </a>
+                </td>
+                <td
+                  class="ons-table__cell"
+                >
+                  DST
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
