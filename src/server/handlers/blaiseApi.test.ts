@@ -82,7 +82,7 @@ describe("POST /api/users endpoint", () => {
       .field("role", roleName);
 
     expect(logInfo.mock.calls[0][0]).toEqual(
-      `AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`,
+      `AUDIT_LOG: ${mockUser.name} created user ${newUser.name} with role ${roleName}`,
     );
     expect(response.statusCode).toEqual(200);
     blaiseApiMock.verify(
@@ -124,7 +124,7 @@ describe("POST /api/users endpoint", () => {
     const log = logInfo.mock.calls[0][0];
 
     expect(log).toEqual(
-      `AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`,
+      `AUDIT_LOG: ${mockUser.name} created user ${newUser.name} with role ${roleName}`,
     );
     expect(response.statusCode).toEqual(200);
     blaiseApiMock.verify(
@@ -220,7 +220,7 @@ describe("POST /api/users endpoint", () => {
       .field("name", newUser.name)
       .field("role", roleName);
 
-    const successMessage = `AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`;
+    const successMessage = `AUDIT_LOG: ${mockUser.name} created user ${newUser.name} with role ${roleName}`;
 
     expect(response.statusCode).toEqual(500);
     expect(response.body).toStrictEqual({ error: "Internal server error" });
@@ -414,9 +414,7 @@ describe("POST /api/change-password/:user endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(
-      `AUDIT_LOG: ${mockUser.name} has successfully changed the password for ${username}`,
-    );
+    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} changed password for user ${username}`);
     expect(response.statusCode).toEqual(204);
     blaiseApiMock.verify(
       (a) => a.changePassword(It.isValue<string>(username), It.isValue<string>(password)),
@@ -479,9 +477,7 @@ describe("POST /api/change-password/:user endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(
-      `AUDIT_LOG: ${mockUser.name} has successfully changed the password for ${username}`,
-    );
+    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} changed password for user ${username}`);
     expect(response.statusCode).toEqual(204);
     blaiseApiMock.verify(
       (a) => a.changePassword(It.isValue<string>(username), It.isValue<string>("password")),
@@ -515,6 +511,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
   it("should update user role and permissions successfully and return http status 200", async () => {
     const user = "testUser";
     const role = "Field Interviewer";
+    const previousRole = "DST";
     const serverParks = ["gusty", "cma"];
     const defaultServerPark = "gusty";
 
@@ -534,12 +531,12 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
     const response = await sut
       .patch(`/api/users/${user}/rolesAndPermissions`)
       .set("Authorization", `Bearer ${mockAuthToken}`)
-      .send({ role });
+      .send({ role, previousRole });
 
     const log = logInfo.mock.calls[0][0];
 
     expect(log).toEqual(
-      `AUDIT_LOG: testUser has successfully updated role to ${role} for user ${user}`,
+      `AUDIT_LOG: testUser changed user ${user} role to ${role} (previously ${previousRole})`,
     );
     expect(response.statusCode).toEqual(200);
     expect(response.body.message).toContain(

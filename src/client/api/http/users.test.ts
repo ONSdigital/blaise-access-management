@@ -327,7 +327,7 @@ describe("Function getAllUsers", () => {
   });
 });
 
-describe("Function patchUserRolesAndPermissions(user: string, role: string)", () => {
+describe("Function patchUserRolesAndPermissions(user: string, role: string, previousRole: string)", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -340,17 +340,23 @@ describe("Function patchUserRolesAndPermissions(user: string, role: string)", ()
       data: { message: "Role updated" },
     });
 
-    const result = await patchUserRolesAndPermissions("testUser", "DST");
+    const result = await patchUserRolesAndPermissions("testUser", "DST", "BDSS");
 
     expect(result.success).toBe(true);
     expect(result.status).toBe(200);
     expect(result.message).toBe("Role updated");
+    expect(fetchJsonMock).toHaveBeenCalledWith(
+      "PATCH",
+      "/api/users/testUser/rolesAndPermissions",
+      JSON.stringify({ role: "DST", previousRole: "BDSS" }),
+      { "Content-Type": "application/json" },
+    );
   });
 
   it("returns error object when request fails", async () => {
     fetchJsonMock.mockRejectedValueOnce(new Error("Server error"));
 
-    const result = await patchUserRolesAndPermissions("testUser", "BAD_ROLE");
+    const result = await patchUserRolesAndPermissions("testUser", "BAD_ROLE", "BDSS");
 
     expect(result.success).toBe(false);
     expect(result.status).toBe(500);

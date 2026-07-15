@@ -48,7 +48,7 @@ describe("GCP health check", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual("AUDIT_LOG: Health check endpoint called");
+    expect(log).toEqual("Health check endpoint called");
     expect(response.statusCode).toEqual(200);
     expect(response.body).toStrictEqual({ healthy: true });
   });

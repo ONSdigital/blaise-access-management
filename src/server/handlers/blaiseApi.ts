@@ -72,6 +72,7 @@ export default function createBlaiseApiHandler(
     async function (req: Request, res: Response) {
       const currentUser = auth.getUser(auth.getToken(req));
       const role = singleValue(req.body.role);
+      const previousRole = singleValue(req.body.previousRole) || "Unknown";
       const user = singleValue(req.params.user);
 
       if (!user || !role) {
@@ -83,7 +84,7 @@ export default function createBlaiseApiHandler(
       try {
         await blaiseApiClient.changeUserRole(user, role);
         await blaiseApiClient.changeUserServerParks(user, serverParks, defaultServerPark);
-        const successMessage = `${currentUser?.name || "Unknown user"} has successfully updated role to ${role} for user ${user}`;
+        const successMessage = `${currentUser?.name || "Unknown user"} changed user ${user} role to ${role} (previously ${previousRole})`;
 
         auditLogger.info(req.log, successMessage);
 
@@ -155,7 +156,7 @@ export default function createBlaiseApiHandler(
         .then(() => {
           auditLogger.info(
             req.log,
-            `${currentUser?.name || "Unknown"} has successfully changed the password for ${userName}`,
+            `${currentUser?.name || "Unknown"} changed password for user ${userName}`,
           );
 
           return res.status(204).json(null);
@@ -235,7 +236,7 @@ export default function createBlaiseApiHandler(
 
         auditLogger.info(
           req.log,
-          `${currentUser?.name || "Unknown"} has successfully created user, ${data.name}, with an assigned role of ${role}`,
+          `${currentUser?.name || "Unknown"} created user ${data.name} with role ${role}`,
         );
 
         return res.status(200).json(createdUser);

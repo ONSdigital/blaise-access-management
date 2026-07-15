@@ -143,7 +143,11 @@ describe("ChangeRole Component (with state management)", () => {
     await userEvent.click(saveButton);
 
     expect(patchUserRolesAndPermissions).toHaveBeenCalledTimes(1);
-    expect(patchUserRolesAndPermissions).toHaveBeenCalledWith("testUser", "IPS Field Interviewer");
+    expect(patchUserRolesAndPermissions).toHaveBeenCalledWith(
+      "testUser",
+      "IPS Field Interviewer",
+      "DST",
+    );
   });
 
   it("displays an error message when fetching roles fails", async () => {
@@ -179,17 +183,23 @@ describe("ChangeRole Component (with state management)", () => {
   it("returns early when user already has the same role", async () => {
     (getAllRoles as Mock).mockResolvedValue({ success: true, data: mockRoles });
 
-    const { findByText } = render(
+    const { findByText, findByRole } = render(
       <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
         <ChangeRole currentUser={currentUser} />
       </MemoryRouter>,
     );
 
+    expect(await findByRole("combobox")).toBeVisible();
     const saveButton = await findByText("Save");
 
     await userEvent.click(saveButton);
 
+    expect(await findByText(/Please select a different role before saving./i)).toBeVisible();
     expect(patchUserRolesAndPermissions).not.toHaveBeenCalled();
+    expect(clientLogger.warn).not.toHaveBeenCalledWith(
+      "Change role blocked: selected role matches current role",
+      expect.anything(),
+    );
   });
 
   it("navigates back when Cancel is clicked", async () => {

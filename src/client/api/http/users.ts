@@ -151,10 +151,11 @@ async function deleteUser(username: string): Promise<ApiResponse<Record<string, 
 async function patchUserRolesAndPermissions(
   user: string,
   role: string,
+  previousRole: string,
 ): Promise<PatchUserRoleResponse> {
   try {
     const url = `/api/users/${user}/rolesAndPermissions`;
-    const response = await fetchJson("PATCH", url, JSON.stringify({ role }), {
+    const response = await fetchJson("PATCH", url, JSON.stringify({ role, previousRole }), {
       "Content-Type": "application/json",
     });
 

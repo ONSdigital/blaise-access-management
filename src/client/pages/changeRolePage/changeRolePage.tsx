@@ -99,16 +99,13 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
       const message = "Please select a different role before saving.";
 
       setSetError(message);
-      clientLogger.warn("Change role blocked: selected role matches current role", {
-        viewedUsername,
-        role,
-      });
 
       return;
     }
 
     if (roleList.some((userRole) => userRole.name === role)) {
-      const res = await patchUserRolesAndPermissions(viewedUsername, role);
+      const previousRole = getRoleName(viewedUserDetails.data.role);
+      const res = await patchUserRolesAndPermissions(viewedUsername, role, previousRole);
 
       setRedirectWithData({
         redirect: true,
@@ -145,10 +142,6 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
     });
   }, [getRoleList, getViewedUserDetails]);
 
-  if (setError) {
-    return <Panel status="error">{setError}</Panel>;
-  }
-
   return (
     <>
       {redirectWithData.redirect && (
@@ -174,6 +167,7 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
           <h1 className="ons-u-mb-l">
             Change role for user <em className="ons-highlight">{viewedUsername}</em>
           </h1>
+          {setError && <Panel status="error">{setError}</Panel>}
           <form onSubmit={handleSubmit}>
             <Select
               id="new-user-role"

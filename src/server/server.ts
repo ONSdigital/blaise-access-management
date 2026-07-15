@@ -199,7 +199,7 @@ export default function createNodeServer(
   const clientLogRouter = createClientLogHandler(auth, auditLogger);
 
   server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
-    auditLogger.info(req.log, "Health check endpoint called");
+    req.log.info("Health check endpoint called");
     res.status(200).json({ healthy: true });
   });
   server.use("/", loginRouter);
