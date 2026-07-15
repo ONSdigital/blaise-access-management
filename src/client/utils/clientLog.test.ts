@@ -68,7 +68,6 @@ describe("sendClientLog", () => {
 
     const payload = axiosPostMock.mock.calls[0]?.[1] as { message: string };
 
-    // Error stack or message should appear
     expect(payload.message).toContain("msg-error");
   });
 
@@ -83,7 +82,6 @@ describe("sendClientLog", () => {
   it("ignores axios post failures silently", async () => {
     axiosPostMock.mockRejectedValueOnce(new Error("network down"));
 
-    // Should not throw
     await expect(sendClientLog("warn", "something")).resolves.toBeUndefined();
   });
 

@@ -4,8 +4,8 @@ import pino from "pino";
 import supertest from "supertest";
 import { Mock } from "typemoq";
 
-import { loadConfigFromEnv } from "./config/appConfig.js";
-import GetNodeServer from "./server.js";
+import { loadServerConfigFromEnv } from "./config/appConfig.js";
+import createNodeServer from "./server.js";
 import createLogger from "./utils/httpLogger.js";
 
 import type { HttpLogger } from "pino-http";
@@ -21,7 +21,7 @@ process.env = Object.assign(process.env, {
   URL_DOMAIN: "blaise.gcp.onsdigital.uk",
   SESSION_TIMEOUT: "12h",
 });
-const config = loadConfigFromEnv();
+const config = loadServerConfigFromEnv();
 const auth = new Auth(config);
 
 const logger: pino.Logger = pino();
@@ -35,7 +35,7 @@ const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(
   "http://blaise-api",
 );
 
-const server = GetNodeServer(config, blaiseApiMock.object, auth, httpLogger);
+const server = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
 const sut = supertest(server);
 
 describe("GCP health check", () => {
@@ -48,7 +48,7 @@ describe("GCP health check", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual("AUDIT_LOG: Heath check endpoint called");
+    expect(log).toEqual("AUDIT_LOG: Health check endpoint called");
     expect(response.statusCode).toEqual(200);
     expect(response.body).toStrictEqual({ healthy: true });
   });
@@ -82,7 +82,6 @@ describe("Express server utility functions via integration", () => {
   it("returns the HTML index page for an unknown path (catch-all route)", async () => {
     const response = await sut.get("/some/unknown/route");
 
-    // Should render the index.html (status 200)
     expect([200, 301, 302]).toContain(response.statusCode);
   });
 
@@ -101,7 +100,7 @@ describe("Express server utility functions via integration", () => {
   it("uses custom BAM_API_RATE_LIMIT env var when set", async () => {
     process.env.BAM_API_RATE_LIMIT = "100";
 
-    const localServer = GetNodeServer(config, blaiseApiMock.object, auth, httpLogger);
+    const localServer = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
     const localSut = supertest(localServer);
     const response = await localSut.get("/bam-ui/version/health");
 
@@ -111,9 +110,9 @@ describe("Express server utility functions via integration", () => {
   });
 
   it("uses custom BAM_PAGE_RATE_LIMIT env var when set", async () => {
-    process.env.BAM_PAGE_RATE_LIMIT = "invalid"; // non-numeric → uses fallback
+    process.env.BAM_PAGE_RATE_LIMIT = "invalid";
 
-    const localServer = GetNodeServer(config, blaiseApiMock.object, auth, httpLogger);
+    const localServer = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
     const localSut = supertest(localServer);
     const response = await localSut.get("/bam-ui/version/health");
 

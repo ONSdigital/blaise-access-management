@@ -7,10 +7,6 @@ import {
   notifyAuthExpiredIfNeeded,
 } from "./axiosAuthConfig";
 
-// The auth module mock (setupTests) provides AuthManager whose getToken() returns the
-// module-level mockToken. We must call AuthClient.OverrideReturnValues(user, true)
-// before tests that rely on getToken() returning a non-null value.
-
 type TestAuthClient = typeof AuthClient & {
   OverrideReturnValues: (user: unknown, loggedIn: boolean) => void;
 };
@@ -48,7 +44,6 @@ describe("notifyAuthExpiredIfNeeded", () => {
 
   beforeEach(() => {
     dispatchSpy.mockClear();
-    // Ensure a token is present so the 401/403 condition is satisfied
     mockAuthClient.OverrideReturnValues({ name: "user" }, true);
   });
 

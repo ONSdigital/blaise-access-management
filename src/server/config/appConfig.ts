@@ -1,4 +1,4 @@
-import role_to_server_parks_map_json from "./role-to-server-parks-map.json" with { type: "json" };
+import roleToServerParksMapJson from "./role-to-server-parks-map.json" with { type: "json" };
 
 import type { CustomConfig } from "../types/server.types.js";
 
@@ -30,12 +30,12 @@ export function assertResolvedRequiredEnv(
   }
 }
 
-export function loadConfigFromEnv(): CustomConfig {
+export function loadServerConfigFromEnv(): CustomConfig {
   assertResolvedRequiredEnv(process.env);
 
   const { PROJECT_ID, BLAISE_API_URL, SERVER_PARK, URL_DOMAIN, SESSION_SECRET } = process.env;
 
-  const roleToServerParksMap: { [key: string]: string[] } = role_to_server_parks_map_json;
+  const roleToServerParksMap: { [key: string]: string[] } = roleToServerParksMapJson;
 
   return {
     BlaiseApiUrl: fixUrl(BLAISE_API_URL),

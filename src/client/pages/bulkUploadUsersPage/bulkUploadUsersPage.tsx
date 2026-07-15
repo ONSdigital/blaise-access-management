@@ -50,9 +50,9 @@ function BulkUserUpload(): ReactElement {
         password: user.password,
         role: user.role,
       };
-      const created = await addNewUser(newUser);
+      const response = await addNewUser(newUser).catch(() => ({ success: false }));
 
-      uploadedUsersList.push({ name: user.name, created: created });
+      uploadedUsersList.push({ name: user.name, created: response.success });
     }
 
     const createdUsersCount = uploadedUsersList.filter((user) => user.created).length;

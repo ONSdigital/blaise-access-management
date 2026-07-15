@@ -1,17 +1,11 @@
-import { type AuditLog } from "../../utils/auditLog.types";
+import { type AuditLog } from "../../types/auditLog.types";
 
-import { fetchJsonList } from "./fetchJson";
+import { fetchJsonList, type FetchJsonListResponse } from "./fetchJson";
 
-type GetAuditLogsResponse = [boolean, AuditLog[]];
+type GetAuditLogsResponse = FetchJsonListResponse<AuditLog>;
 
 async function getAuditLogs(): Promise<GetAuditLogsResponse> {
-  try {
-    const [success, data] = await fetchJsonList<AuditLog>("GET", "/api/audit");
-
-    return [success, data] as GetAuditLogsResponse;
-  } catch {
-    return [false, []] as GetAuditLogsResponse;
-  }
+  return fetchJsonList<AuditLog>("GET", "/api/audit");
 }
 
 export { getAuditLogs };

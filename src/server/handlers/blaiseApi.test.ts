@@ -1,13 +1,12 @@
 import { BlaiseApiClient } from "blaise-api-node-client";
 import { Auth } from "blaise-login-react-server";
-import { size } from "lodash";
 import pino from "pino";
 import supertest from "supertest";
 import { It, Mock, Times } from "typemoq";
 
-import { loadConfigFromEnv } from "../config/appConfig.js";
-import role_to_server_parks_map from "../config/role-to-server-parks-map.json" with { type: "json" };
-import GetNodeServer from "../server.js";
+import { loadServerConfigFromEnv } from "../config/appConfig.js";
+import roleToServerParksMapJson from "../config/role-to-server-parks-map.json" with { type: "json" };
+import createNodeServer from "../server.js";
 import AuditLogger from "../utils/auditLogger.js";
 import createLogger from "../utils/httpLogger.js";
 
@@ -25,9 +24,9 @@ process.env = Object.assign(process.env, {
   URL_DOMAIN: "blaise.gcp.onsdigital.uk",
   SESSION_TIMEOUT: "12h",
 });
-const config = loadConfigFromEnv();
+const config = loadServerConfigFromEnv();
 const auth = new Auth(config);
-const roleToServerParksMap = role_to_server_parks_map as Record<string, string[]> & {
+const roleToServerParksMap = roleToServerParksMapJson as Record<string, string[]> & {
   DEFAULT: string[];
 };
 const mockUser: User = {
@@ -50,10 +49,9 @@ const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(
   "http://blaise-api",
 );
 
-const server = GetNodeServer(config, blaiseApiMock.object, auth, httpLogger);
+const server = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
 const sut = supertest(server);
 
-// Blaise API endpoints
 describe("POST /api/users endpoint", () => {
   beforeEach(() => {
     blaiseApiMock.reset();
@@ -62,7 +60,7 @@ describe("POST /api/users endpoint", () => {
 
   it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-server-parks-map.json AND return http status OK_200", async () => {
     const roleName = "Field Interviewer";
-    
+
     logInfo.mockReset();
     blaiseApiMock.reset();
 
@@ -222,8 +220,11 @@ describe("POST /api/users endpoint", () => {
       .field("name", newUser.name)
       .field("role", roleName);
 
+    const successMessage = `AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`;
+
     expect(response.statusCode).toEqual(500);
     expect(response.body).toStrictEqual({ error: "Internal server error" });
+    expect(logInfo.mock.calls.some(([message]) => message === successMessage)).toBe(false);
     blaiseApiMock.verify(
       (a) =>
         a.createUser(
@@ -280,11 +281,13 @@ describe("DELETE /api/users endpoint", () => {
       .set("user", username);
 
     const log = logError.mock.calls[0][0];
+    const successMessage = `AUDIT_LOG: ${mockUser.name} has successfully deleted user ${username}`;
 
     expect(log).toEqual(
       `AUDIT_LOG: Error whilst trying to delete user, ${username}, with error message: ${errorMessage}`,
     );
     expect(response.statusCode).toEqual(500);
+    expect(logInfo.mock.calls.some(([message]) => message === successMessage)).toBe(false);
     blaiseApiMock.verify((a) => a.deleteUser(It.isValue<string>(username)), Times.once());
     expect(response.body).toStrictEqual({ error: "Internal server error" });
   });
@@ -378,13 +381,13 @@ describe("GET /api/audit endpoint", () => {
     expect(response.body).toStrictEqual(mockAuditLogs);
   });
 
-  it("returns HTTP 200 with an empty list when audit logs retrieval fails", async () => {
+  it("returns HTTP 500 when audit logs retrieval fails", async () => {
     vi.spyOn(AuditLogger.prototype, "getLogs").mockRejectedValueOnce(new Error("boom"));
 
     const response = await sut.get("/api/audit").set("Authorization", `Bearer ${mockAuthToken}`);
 
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toStrictEqual([]);
+    expect(response.statusCode).toEqual(500);
+    expect(response.body).toStrictEqual({ error: "Failed to retrieve audit logs" });
   });
 });
 

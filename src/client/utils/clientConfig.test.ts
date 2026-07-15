@@ -1,6 +1,3 @@
-// The auth mock provides getClientRuntimeEnv via env.ts.
-// We set up a script element to give it known values.
-
 function setAppConfigScript(json: object): void {
   const existing = document.getElementById("app-config");
 
@@ -16,7 +13,7 @@ function setAppConfigScript(json: object): void {
   document.body.appendChild(script);
 }
 
-describe("loadConfigFromEnv", () => {
+describe("loadClientConfigFromRuntimeEnv", () => {
   beforeEach(() => {
     vi.resetModules();
   });
@@ -31,7 +28,7 @@ describe("loadConfigFromEnv", () => {
       ROLE_TO_SERVER_PARKS_MAP: { DST: ["gusty"] },
     });
 
-    const { loadConfigFromEnv: fresh } = await import("./clientConfig");
+    const { loadClientConfigFromRuntimeEnv: fresh } = await import("./clientConfig");
     const config = fresh();
 
     expect(config.DefaultServerPark).toBe("gusty");
@@ -39,7 +36,7 @@ describe("loadConfigFromEnv", () => {
   });
 
   it("returns empty defaultServerPark when config is missing", async () => {
-    const { loadConfigFromEnv: fresh } = await import("./clientConfig");
+    const { loadClientConfigFromRuntimeEnv: fresh } = await import("./clientConfig");
     const config = fresh();
 
     expect(typeof config.DefaultServerPark).toBe("string");

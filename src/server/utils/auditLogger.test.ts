@@ -1,14 +1,11 @@
 import { formatLogMessage } from "./auditLogger.js";
 import AuditLogger from "./auditLogger.js";
 
-// Mock @google-cloud/logging for all getLogs tests.
-// The dynamic import inside getLoggerClient will get this mock.
 vi.mock("@google-cloud/logging", () => {
   const mockGetEntries = vi.fn().mockResolvedValue([[]]);
   const mockLog = vi.fn().mockReturnValue({ getEntries: mockGetEntries });
 
   return {
-    // Must use 'function' (not arrow) so the mock is usable as a constructor
     Logging: vi.fn().mockImplementation(function () {
       return { log: mockLog };
     }),
@@ -85,9 +82,8 @@ describe("AuditLogger class", () => {
 
       const calledWith = mockLog.error.mock.calls[0]?.[0] as string;
 
-      // The message after prefix "AUDIT_LOG: " should be truncated to 1000 chars
       expect(calledWith.startsWith("AUDIT_LOG: ")).toBe(true);
-      expect(calledWith.length).toBeLessThanOrEqual(1011); // "AUDIT_LOG: " (11) + 1000
+      expect(calledWith.length).toBeLessThanOrEqual(1011);
     });
   });
 
@@ -220,9 +216,8 @@ describe("AuditLogger class", () => {
       const al = new AuditLogger("cached-project");
 
       await al.getLogs();
-      await al.getLogs(); // second call should reuse cached logger
+      await al.getLogs();
 
-      // Logging constructor should only be called once (cached after first call)
       expect(callCount.value).toBe(1);
 
       MockLogging.mockRestore();

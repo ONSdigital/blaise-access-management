@@ -22,16 +22,12 @@ export default function UserTable({
   const roleName = typeof role === "string" ? role : (role?.name ?? "");
 
   return (
-    <main
-      id="main-content"
-      className="ons-page__main ons-u-mt-m"
-    >
+    <>
       <style>{`
         #user-details-table .ons-table__head {
           display: none;
         }
       `}</style>
-      <h1 className="ons-u-mb-l">{name ? name : "Not found"}</h1>
       <Table
         id="user-details-table"
         columns={[]}
@@ -101,6 +97,6 @@ export default function UserTable({
           )}
         </li>
       </ul>
-    </main>
+    </>
   );
 }

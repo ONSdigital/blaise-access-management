@@ -100,7 +100,6 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    // With zero users the success panel should show and no failed table
     expect(screen.getByText(/Users will appear in the table/i)).toBeDefined();
   });
 
@@ -120,7 +119,6 @@ describe("UsersUploadedSummary", () => {
 
     await userEvent.click(returnButton);
 
-    // Button should still be defined (navigation happens without errors)
     expect(returnButton).toBeDefined();
   });
 });

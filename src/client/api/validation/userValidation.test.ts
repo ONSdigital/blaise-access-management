@@ -5,9 +5,8 @@ import { validateImportedUsers, validateUser } from "./userValidation";
 
 import type { User, UserRole } from "blaise-api-node-client";
 
-// set mocks
-type getRolesListResponse = [boolean, UserRole[]];
-type getUsersListResponse = [boolean, User[]];
+type MockRolesResponse = { success: boolean; status: number; message: string; data: UserRole[] };
+type MockUsersResponse = { success: boolean; status: number; message: string; data: User[] };
 
 vi.mock("../http");
 
@@ -39,9 +38,11 @@ describe("Function validateImportedUsers", () => {
     },
   ];
 
-  const roles: getRolesListResponse = [
-    true,
-    [
+  const roles: MockRolesResponse = {
+    success: true,
+    status: 200,
+    message: "Request completed",
+    data: [
       {
         name: "BDSS",
         description: "",
@@ -53,9 +54,14 @@ describe("Function validateImportedUsers", () => {
         permissions: [],
       },
     ],
-  ];
+  };
 
-  const existingUsers: getUsersListResponse = [true, []];
+  const existingUsers: MockUsersResponse = {
+    success: true,
+    status: 200,
+    message: "Request completed",
+    data: [],
+  };
 
   beforeEach(() => {
     getAllRolesMock.mockImplementation(() => Promise.resolve(roles));
@@ -63,30 +69,27 @@ describe("Function validateImportedUsers", () => {
   });
 
   it("should mark the valid status to true if users are valid", async () => {
-    // act
     await validateImportedUsers(importedUsers);
 
-    // assert
     expect(importedUsers[0].valid).toBeTruthy();
     expect(importedUsers[1].valid).toBeTruthy();
     expect(importedUsers[2].valid).toBeTruthy();
   });
 
   it("should not populate the warnings list if users are valid", async () => {
-    // act
     await validateImportedUsers(importedUsers);
 
-    // assert
     expect(importedUsers[0].warnings).toEqual([]);
     expect(importedUsers[1].warnings).toEqual([]);
     expect(importedUsers[2].warnings).toEqual([]);
   });
 
   it("should mark the valid status to false if a user already exists", async () => {
-    // arrange
-    const matchingExistingUsers: getUsersListResponse = [
-      true,
-      [
+    const matchingExistingUsers: MockUsersResponse = {
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [
         {
           name: "Jamie",
           role: "BDSS",
@@ -100,24 +103,23 @@ describe("Function validateImportedUsers", () => {
           defaultServerPark: "",
         },
       ],
-    ];
+    };
 
     getAllUsersMock.mockImplementation(() => Promise.resolve(matchingExistingUsers));
 
-    // act
     await validateImportedUsers(importedUsers);
 
-    // assert
     expect(importedUsers[0].valid).toBeFalsy();
     expect(importedUsers[1].valid).toBeTruthy();
     expect(importedUsers[2].valid).toBeFalsy();
   });
 
   it("should set an appropriate warning message if a user is in multiple times", async () => {
-    // arrange
-    const matchingExistingUsers: getUsersListResponse = [
-      true,
-      [
+    const matchingExistingUsers: MockUsersResponse = {
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [
         {
           name: "Jamie",
           role: "BDSS",
@@ -131,14 +133,12 @@ describe("Function validateImportedUsers", () => {
           defaultServerPark: "",
         },
       ],
-    ];
+    };
 
     getAllUsersMock.mockImplementation(() => Promise.resolve(matchingExistingUsers));
 
-    // act
     await validateImportedUsers(importedUsers);
 
-    // assert
     expect(importedUsers[0].warnings).toEqual(["User already exists"]);
     expect(importedUsers[1].warnings).toEqual([]);
     expect(importedUsers[2].warnings).toEqual(["User already exists"]);
@@ -155,29 +155,43 @@ describe("validateImportedUsers – when API calls fail", () => {
   ];
 
   it("handles getAllRoles returning false (getRoles returns [])", async () => {
-    getAllRolesMock.mockResolvedValueOnce([false, []]);
-    getAllUsersMock.mockResolvedValueOnce([true, []]);
+    getAllRolesMock.mockResolvedValueOnce({
+      success: false,
+      status: 500,
+      message: "Request failed",
+      data: [],
+    });
+    getAllUsersMock.mockResolvedValueOnce({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [],
+    });
 
     await validateImportedUsers(importedUsers);
 
-    // With empty validRoles, every user's role is "Not a valid role"
     expect(importedUsers[0]?.warnings).toContain("Not a valid role");
   });
 
   it("handles getAllUsers returning false (getExistingUsers returns [])", async () => {
-    getAllRolesMock.mockResolvedValueOnce([
-      true,
-      [{ name: "BDSS", permissions: [], description: "" }],
-    ]);
-    getAllUsersMock.mockResolvedValueOnce([false, []]);
+    getAllRolesMock.mockResolvedValueOnce({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [{ name: "BDSS", permissions: [], description: "" }],
+    });
+    getAllUsersMock.mockResolvedValueOnce({
+      success: false,
+      status: 500,
+      message: "Request failed",
+      data: [],
+    });
 
-    // Reset user state
     importedUsers[0]!.valid = false;
     importedUsers[0]!.warnings = [];
 
     await validateImportedUsers(importedUsers);
 
-    // No existing users check, so user should be valid (assuming other fields ok)
     expect(importedUsers[0]?.valid).toBeTruthy();
   });
 
@@ -201,8 +215,6 @@ describe("Function validateUser", () => {
   ];
 
   it("The valid property should be set to true if the user is valid", async () => {
-    // arrange
-
     const validUser: ImportUser = {
       name: "Jamie",
       password: "pass",
@@ -211,16 +223,12 @@ describe("Function validateUser", () => {
       warnings: [],
     };
 
-    // act
     validateUser(validUser, validRoles, []);
 
-    // assert
     expect(validUser.valid).toBeTruthy();
   });
 
   it("No warnings should be set if the user is valid", async () => {
-    // arrange
-
     const validUser: ImportUser = {
       name: "Jamie",
       password: "pass",
@@ -229,16 +237,12 @@ describe("Function validateUser", () => {
       warnings: [],
     };
 
-    // act
     validateUser(validUser, validRoles, []);
 
-    // assert
     expect(validUser.warnings).toEqual([]);
   });
 
   it("The valid property should be set to false if the user already exists", async () => {
-    // arrange
-
     const invalidMatchingUser: ImportUser = {
       name: "Jamie",
       password: "pass",
@@ -256,16 +260,12 @@ describe("Function validateUser", () => {
       },
     ];
 
-    // act
     validateUser(invalidMatchingUser, validRoles, matchingExistingUser);
 
-    // assert
     expect(invalidMatchingUser.valid).toBeFalsy();
   });
 
   it("The warning list should be set if the user already exists", async () => {
-    // arrange
-
     const invalidMatchingUser: ImportUser = {
       name: "Jamie",
       password: "pass",
@@ -283,16 +283,12 @@ describe("Function validateUser", () => {
       },
     ];
 
-    // act
     validateUser(invalidMatchingUser, validRoles, matchingExistingUser);
 
-    // assert
     expect(invalidMatchingUser.warnings).toEqual(["User already exists"]);
   });
 
   it("The valid property should be set to false if the password is not supplied", async () => {
-    // arrange
-
     const validUser: ImportUser = {
       name: "Jamie",
       password: "",
@@ -301,16 +297,12 @@ describe("Function validateUser", () => {
       warnings: [],
     };
 
-    // act
     validateUser(validUser, validRoles, []);
 
-    // assert
     expect(validUser.valid).toBeFalsy();
   });
 
   it("The warning list should be set if the password is not supplied", async () => {
-    // arrange
-
     const validUser: ImportUser = {
       name: "Jamie",
       password: "",
@@ -319,10 +311,8 @@ describe("Function validateUser", () => {
       warnings: [],
     };
 
-    // act
     validateUser(validUser, validRoles, []);
 
-    // assert
     expect(validUser.warnings).toEqual(["Invalid password"]);
   });
 

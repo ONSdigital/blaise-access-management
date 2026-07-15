@@ -1,9 +1,10 @@
-import { act, cleanup, render } from "@testing-library/react";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 import { MemoryRouter, useParams } from "react-router-dom";
 
 import { getAllRoles, getUser, patchUserRolesAndPermissions } from "../../api/http";
+import { clientLogger } from "../../utils/logger";
 
 import ChangeRole from "./changeRolePage";
 
@@ -30,6 +31,15 @@ vi.mock("../../api/http", async () => {
   };
 });
 
+vi.mock("../../utils/logger", () => ({
+  clientLogger: {
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+  },
+}));
+
 const mockRoles = [
   { name: "DST", description: "DST User" },
   { name: "BDSS", description: "BDSS User" },
@@ -46,6 +56,9 @@ const mockRoles = [
 ];
 
 const mockUserDetails = {
+  success: true,
+  status: 200,
+  message: "User found",
   data: {
     name: "testUser",
     role: { name: "DST" },
@@ -66,26 +79,32 @@ const currentUser: User = {
 };
 
 beforeEach(() => {
-  (getAllRoles as Mock).mockResolvedValue([true, mockRoles]);
+  (getAllRoles as Mock).mockResolvedValue({ success: true, data: mockRoles });
   (getUser as Mock).mockResolvedValue(mockUserDetails);
   (patchUserRolesAndPermissions as unknown as Mock).mockResolvedValue({
+    success: true,
+    data: {},
     message: "Role updated successfully",
     status: 200,
   });
   (useParams as Mock).mockReturnValue({ user: mockUserDetails.name });
 });
 
-afterEach(() => cleanup());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  cleanup();
+});
 
 describe("ChangeRole Component (with state management)", () => {
   it("matches the snapshot", async () => {
-    const { asFragment } = render(
+    const { asFragment, findByText } = render(
       <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
         <ChangeRole currentUser={currentUser} />
       </MemoryRouter>,
     );
 
-    await act(async () => {});
+    await findByText(/Change role for user/i);
 
     expect(asFragment()).toMatchSnapshot();
   });
@@ -96,8 +115,6 @@ describe("ChangeRole Component (with state management)", () => {
         <ChangeRole currentUser={currentUser} />
       </MemoryRouter>,
     );
-
-    await act(async () => {});
 
     expect(await findByText(/Change role for user/i)).toBeVisible();
     expect(await findByText(/New role/i)).toBeVisible();
@@ -116,8 +133,6 @@ describe("ChangeRole Component (with state management)", () => {
       </MemoryRouter>,
     );
 
-    await act(async () => {});
-
     const select = await findByRole("combobox");
     const saveButton = await findByText("Save");
 
@@ -126,8 +141,6 @@ describe("ChangeRole Component (with state management)", () => {
     expect(await findByText(/IPS Field Interviewer/i)).toBeVisible();
 
     await userEvent.click(saveButton);
-
-    await act(async () => {});
 
     expect(patchUserRolesAndPermissions).toHaveBeenCalledTimes(1);
     expect(patchUserRolesAndPermissions).toHaveBeenCalledWith("testUser", "IPS Field Interviewer");
@@ -142,13 +155,12 @@ describe("ChangeRole Component (with state management)", () => {
       </MemoryRouter>,
     );
 
-    await act(async () => {});
-
     expect(await findByText(/Failed to fetch roles list, please try again/i)).toBeVisible();
   });
 
   it("returns an error when viewed user details cannot be loaded", async () => {
     (getUser as Mock).mockResolvedValue({
+      success: true,
       status: 200,
       message: "No data",
       data: {},
@@ -160,14 +172,12 @@ describe("ChangeRole Component (with state management)", () => {
       </MemoryRouter>,
     );
 
-    await act(async () => {});
-
     expect(await findByText(/Unable to load user details, please try again/i)).toBeVisible();
     expect(patchUserRolesAndPermissions).not.toHaveBeenCalled();
   });
 
   it("returns early when user already has the same role", async () => {
-    (getAllRoles as Mock).mockResolvedValue([true, mockRoles]);
+    (getAllRoles as Mock).mockResolvedValue({ success: true, data: mockRoles });
 
     const { findByText } = render(
       <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
@@ -175,16 +185,10 @@ describe("ChangeRole Component (with state management)", () => {
       </MemoryRouter>,
     );
 
-    await act(async () => {});
-
-    // Submit without changing role → same role as viewedUserDetails.role → early return
     const saveButton = await findByText("Save");
 
     await userEvent.click(saveButton);
 
-    await act(async () => {});
-
-    // No patch called because role didn't change
     expect(patchUserRolesAndPermissions).not.toHaveBeenCalled();
   });
 
@@ -195,44 +199,40 @@ describe("ChangeRole Component (with state management)", () => {
       </MemoryRouter>,
     );
 
-    await act(async () => {});
-
     const cancelButton = await findByText("Cancel");
 
     await userEvent.click(cancelButton);
 
-    // Navigation triggered — test passes without throwing
     expect(cancelButton).toBeDefined();
   });
 
-  it("shows window.alert when role is invalid (not in role list)", async () => {
+  it("shows an error panel and logs when role is invalid (not in role list)", async () => {
     const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => undefined);
 
-    (getUser as Mock).mockResolvedValue({
-      ...mockUserDetails,
-      data: {
-        ...mockUserDetails.data,
-        role: { name: "OldRole" },
-      },
-    });
+    (getAllRoles as Mock).mockResolvedValue({ success: true, data: mockRoles });
 
-    (getAllRoles as Mock).mockResolvedValue([true, mockRoles]);
-
-    const { findByText } = render(
+    const { findByText, findByRole } = render(
       <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
         <ChangeRole currentUser={currentUser} />
       </MemoryRouter>,
     );
 
-    await act(async () => {});
+    const select = await findByRole("combobox");
+
+    fireEvent.change(select, { target: { value: "OldRole" } });
 
     const saveButton = await findByText("Save");
 
     await userEvent.click(saveButton);
 
-    await act(async () => {});
-
-    expect(alertSpy).toHaveBeenCalledWith(expect.stringContaining("Invalid role"));
+    expect(alertSpy).not.toHaveBeenCalled();
+    expect(
+      await findByText(/Selected role is invalid. Please choose a role from the list./i),
+    ).toBeVisible();
+    expect(clientLogger.warn).toHaveBeenCalledWith(
+      "Change role blocked: invalid role selected",
+      expect.objectContaining({ viewedUsername: "testUser" }),
+    );
 
     alertSpy.mockRestore();
   });

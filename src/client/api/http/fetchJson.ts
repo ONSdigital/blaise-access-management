@@ -4,63 +4,100 @@ import { notifyAuthExpiredIfNeeded } from "./axiosAuthConfig";
 
 type HeadersObject = Record<string, string>;
 
+export interface ApiResponse<TData = unknown> {
+  success: boolean;
+  status: number;
+  data: TData;
+  message: string;
+  error?: unknown;
+}
+
+export type FetchJsonResponse<TData = unknown> = ApiResponse<TData>;
+
+export type FetchJsonListResponse<TData> = ApiResponse<TData[]>;
+
+function getMessageFromPayload(data: unknown, fallbackMessage: string): string {
+  if (typeof data === "object" && data !== null && "message" in data) {
+    const message = (data as { message?: unknown }).message;
+
+    if (typeof message === "string" && message.trim() !== "") {
+      return message;
+    }
+  }
+
+  return fallbackMessage;
+}
+
 async function fetchJson(
   method: string,
   url: string,
-  body: FormData | null = null,
+  body: BodyInit | null = null,
   headers: HeadersObject = {},
-): Promise<[number, JSON]> {
+): Promise<FetchJsonResponse<unknown>> {
   const authManager = createAuthManager();
 
-  try {
-    const response = await fetch(url, {
-      method,
-      body,
-      headers: Object.assign({}, headers, authManager.authHeader()),
-    });
+  const response = await fetch(url, {
+    method,
+    body,
+    headers: Object.assign({}, headers, authManager.authHeader()),
+  });
 
-    notifyAuthExpiredIfNeeded(response.status);
+  notifyAuthExpiredIfNeeded(response.status);
 
-    if (response.status === 204) {
-      return [response.status, JSON.parse("{}")];
-    } else {
-      const data = await response.json();
+  const success = response.status >= 200 && response.status < 300;
 
-      return [response.status, data];
-    }
-  } catch {
-    return [0, JSON.parse("{}")];
+  if (response.status === 204) {
+    return {
+      success,
+      status: response.status,
+      data: {},
+      message: "Request completed",
+    };
   }
+
+  const data = await response.json();
+
+  return {
+    success,
+    status: response.status,
+    data,
+    message: getMessageFromPayload(data, success ? "Request completed" : "Request failed"),
+  };
 }
 
-async function fetchJsonList<T>(method: string, url: string, body = null): Promise<[boolean, T[]]> {
-  const authManager = createAuthManager();
+async function fetchJsonList<T>(
+  method: string,
+  url: string,
+  body: BodyInit | null = null,
+): Promise<FetchJsonListResponse<T>> {
+  const response = await fetchJson(method, url, body);
 
-  try {
-    const response = await fetch(url, {
-      method,
-      body,
-      headers: authManager.authHeader(),
-    });
-
-    notifyAuthExpiredIfNeeded(response.status);
-
-    const data = await response.json();
-
-    if (response.status === 200) {
-      if (!Array.isArray(data)) {
-        return [false, []];
-      }
-
-      return [true, data];
-    } else if (response.status === 404) {
-      return [true, data];
-    } else {
-      return [false, []];
-    }
-  } catch {
-    return [false, []];
+  if (!response.success || response.status !== 200) {
+    return {
+      success: false,
+      status: response.status,
+      data: [],
+      message: response.message,
+      error: response.error,
+    };
   }
+
+  if (!Array.isArray(response.data)) {
+    return {
+      success: false,
+      status: response.status,
+      data: [],
+      message: "Request failed",
+      error: new Error("Expected list response"),
+    };
+  }
+
+  return {
+    success: true,
+    status: response.status,
+    data: response.data,
+    message: response.message,
+  };
 }
 
 export { fetchJson, fetchJsonList };

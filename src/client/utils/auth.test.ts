@@ -1,8 +1,5 @@
 import { createAuthManager } from "./auth";
 
-// The auth mock (setupTests) provides `createSessionKey` as (projectId) => `mock-session-${projectId}`.
-// AuthManager is also mocked.
-
 function setAppConfigScript(json: object): void {
   const existing = document.getElementById("app-config");
 

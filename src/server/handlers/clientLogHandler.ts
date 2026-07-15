@@ -93,7 +93,7 @@ function buildAuditMessage(userName: string, clientLog: ClientLogPayload): strin
   return `${userName} ${action}`.trim();
 }
 
-export default function newClientLogHandler(auth: Auth, auditLogger: AuditLogger): Router {
+export default function createClientLogHandler(auth: Auth, auditLogger: AuditLogger): Router {
   const router = express.Router();
 
   router.post("/api/client-log", auth.middleware, (req: Request, res: Response) => {

@@ -5,9 +5,11 @@ import { Navigate, useParams } from "react-router-dom";
 import { deleteUser } from "../../api/http";
 import { type ReturnPanel, type UserRouteParams } from "../../types/users.types";
 
+type DeleteConfirmation = "unset" | "yes" | "no";
+
 function DeleteUser(): ReactElement {
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
-  const [confirm, setConfirm] = useState<boolean>(false);
+  const [confirmChoice, setConfirmChoice] = useState<DeleteConfirmation>("unset");
   const [message, setMessage] = useState<string>("");
   const [redirect, setRedirect] = useState<boolean>(false);
   const [redirectPath, setRedirectPath] = useState<string>("/users");
@@ -24,7 +26,7 @@ function DeleteUser(): ReactElement {
   }
 
   async function deleteUserConfirm() {
-    if (!confirm) {
+    if (confirmChoice !== "yes") {
       setRedirectPath(`/users/${viewedUsername}`);
       setRedirect(true);
       setReturnPanel({ visible: true, message: "Action discarded", status: "info" });
@@ -33,9 +35,9 @@ function DeleteUser(): ReactElement {
     }
 
     setButtonLoading(true);
-    const deleted = await deleteUser(viewedUsername);
+    const deleted = await deleteUser(viewedUsername).catch(() => ({ success: false }));
 
-    if (!deleted) {
+    if (!deleted.success) {
       setMessage("Failed to delete user");
       setButtonLoading(false);
 
@@ -83,36 +85,35 @@ function DeleteUser(): ReactElement {
                   <input
                     type="radio"
                     id="yes-delete-item"
-                    className="ons-radio__input ons-js-radio "
+                    className="ons-radio__input ons-js-radio"
                     value="True"
                     name="confirm-delete"
                     aria-label="Yes"
-                    checked={confirm}
-                    onChange={() => setConfirm(true)}
+                    checked={confirmChoice === "yes"}
+                    onChange={() => setConfirmChoice("yes")}
                   />
                   <label
-                    className="ons-radio__label "
+                    className="ons-radio__label"
                     htmlFor="yes-delete-item"
                   >
                     Yes, delete user {viewedUsername}
                   </label>
                 </span>
               </p>
-              <br />
               <p className="ons-radios__item">
                 <span className="ons-radio">
                   <input
                     type="radio"
                     id="no-delete-item"
-                    className="ons-radio__input ons-js-radio "
+                    className="ons-radio__input ons-js-radio"
                     value="False"
                     name="confirm-delete"
                     aria-label="No"
-                    checked={!confirm}
-                    onChange={() => setConfirm(false)}
+                    checked={confirmChoice === "no"}
+                    onChange={() => setConfirmChoice("no")}
                   />
                   <label
-                    className="ons-radio__label "
+                    className="ons-radio__label"
                     htmlFor="no-delete-item"
                   >
                     No, do not delete user {viewedUsername}
@@ -122,13 +123,14 @@ function DeleteUser(): ReactElement {
             </div>
           </fieldset>
 
-          <br />
-          <Button
-            label={"Save"}
-            primary={true}
-            submit={true}
-            loading={buttonLoading}
-          />
+          <div className="ons-u-mt-m">
+            <Button
+              label={"Save"}
+              primary={true}
+              submit={true}
+              loading={buttonLoading}
+            />
+          </div>
         </form>
       </main>
     </>

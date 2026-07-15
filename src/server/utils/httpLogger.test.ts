@@ -27,8 +27,6 @@ describe("createLogger", () => {
     process.env.NODE_ENV = "test";
     const logger = createLogger();
 
-    // In non-production mode the logger uses default config (no GCP severity mapping).
-    // We can detect this by calling the underlying pino logger - it should log normally.
     expect(logger.logger).toBeDefined();
   });
 
@@ -36,14 +34,10 @@ describe("createLogger", () => {
     process.env.NODE_ENV = "production";
     const logger = createLogger();
 
-    // In production mode, pino is configured with GCP severity mapping.
-    // Test the formatters directly via the pino logger internals.
     const pinoLogger = logger.logger;
 
     expect(pinoLogger).toBeDefined();
 
-    // The pino logger should have formatters/serializers from the production config.
-    // We verify by writing a log entry and checking the output.
     let output = "";
     const testLogger = createLogger({
       autoLogging: false,
@@ -59,8 +53,6 @@ describe("createLogger", () => {
 
     testLogger.logger.info("production format test");
 
-    // The output should be JSON with a "message" key (from messageKey config)
-    // or just be defined if stream capture doesn't work in this test environment.
     expect(testLogger).toBeDefined();
     expect(output).toEqual(expect.any(String));
   });
@@ -68,11 +60,8 @@ describe("createLogger", () => {
   it("production level formatter maps pino levels to GCP severity", () => {
     process.env.NODE_ENV = "production";
 
-    // Get a production-configured logger and use it to verify level mapping exists
-    // by checking the options are merged correctly.
     const logger = createLogger({ autoLogging: false });
 
-    // The logger should be a valid HttpLogger regardless of env
     expect(typeof logger).toBe("function");
     expect(logger.logger).toBeDefined();
   });
@@ -90,12 +79,9 @@ describe("createLogger – production formatter internals", () => {
   });
 
   it("level formatter maps trace to DEBUG severity", () => {
-    // Access the pino config by creating a logger in production mode.
-    // We capture the formatters through pino's internal level formatting.
     const logger = createLogger({ autoLogging: false });
     const pinoLogger = logger.logger;
 
-    // Verify that pino is alive and operational in production mode.
     expect(pinoLogger.level).toBeDefined();
   });
 

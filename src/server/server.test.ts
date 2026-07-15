@@ -7,8 +7,8 @@ import pino from "pino";
 import supertest from "supertest";
 import { Mock } from "typemoq";
 
-import { loadConfigFromEnv } from "./config/appConfig.js";
-import GetNodeServer from "./server.js";
+import { loadServerConfigFromEnv } from "./config/appConfig.js";
+import createNodeServer from "./server.js";
 import createLogger from "./utils/httpLogger.js";
 
 import type * as ExpressRateLimitModule from "express-rate-limit";
@@ -60,11 +60,11 @@ process.env = Object.assign(process.env, {
   SESSION_TIMEOUT: "12h",
 });
 
-const config = loadConfigFromEnv();
+const config = loadServerConfigFromEnv();
 const auth = new Auth(config);
 
 function createServer(customAuth?: Auth): {
-  server: ReturnType<typeof GetNodeServer>;
+  server: ReturnType<typeof createNodeServer>;
   logger: pino.Logger;
 } {
   const logger = pino();
@@ -77,7 +77,7 @@ function createServer(customAuth?: Auth): {
   );
 
   return {
-    server: GetNodeServer(config, blaiseApiMock.object, customAuth ?? auth, httpLogger),
+    server: createNodeServer(config, blaiseApiMock.object, customAuth ?? auth, httpLogger),
     logger,
   };
 }
@@ -153,6 +153,27 @@ describe("server.ts focused coverage", () => {
     expect(capturedRateLimitMiddlewareCalls.page).not.toHaveBeenCalled();
   });
 
+  it("serves built client assets from /assets without invoking the page limiter", async () => {
+    const { server } = createServer();
+    const [assetFileName] = fs.readdirSync("build/client/assets");
+
+    expect(assetFileName).toBeDefined();
+
+    const response = await supertest(server).get(`/assets/${assetFileName}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(capturedRateLimitMiddlewareCalls.page).not.toHaveBeenCalled();
+  });
+
+  it("serves built root client files such as /users.csv", async () => {
+    const { server } = createServer();
+
+    const response = await supertest(server).get("/users.csv");
+
+    expect(response.statusCode).toBe(200);
+    expect(response.text).toContain("name,password,role");
+  });
+
   it("falls back to root index.html when build/client/index.html is missing", async () => {
     vi.spyOn(fs, "existsSync").mockReturnValue(false);
     const { server } = createServer();
@@ -164,9 +185,6 @@ describe("server.ts focused coverage", () => {
   });
 
   it("routes render errors through the global error handler", async () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {
-      return;
-    });
     const { server, logger } = createServer();
     const logError = vi.spyOn(logger, "error");
     const errorLayer = (
@@ -184,15 +202,10 @@ describe("server.ts focused coverage", () => {
     errorLayer?.handle(new Error("forced template failure"), req, res, vi.fn());
 
     expect(render).toHaveBeenCalledWith("500.html", {});
-
-    expect(consoleError).toHaveBeenCalled();
     expect(logError).toHaveBeenCalled();
   });
 
   it("logs undefined errors through the global error handler", async () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {
-      return;
-    });
     const { server, logger } = createServer();
     const logError = vi.spyOn(logger, "error");
     const errorLayer = (
@@ -210,7 +223,6 @@ describe("server.ts focused coverage", () => {
     errorLayer?.handle("not-an-error", req, res, vi.fn());
 
     expect(render).toHaveBeenCalledWith("500.html", {});
-    expect(consoleError).toHaveBeenCalledWith("An undefined error occurred");
     expect(logError).toHaveBeenCalledWith("AUDIT_LOG: An undefined error occurred");
   });
 });

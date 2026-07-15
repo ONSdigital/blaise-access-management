@@ -6,6 +6,11 @@ exports[`ManageUserPage Component > matches the snapshot 1`] = `
     class="ons-page__main ons-u-mt-m"
     id="main-content"
   >
+    <h1
+      class="ons-u-mb-l"
+    >
+      testUser
+    </h1>
     <style>
       
         #user-details-table .ons-table__head {
@@ -13,11 +18,6 @@ exports[`ManageUserPage Component > matches the snapshot 1`] = `
         }
       
     </style>
-    <h1
-      class="ons-u-mb-l"
-    >
-      testUser
-    </h1>
     <div
       class="ons-table-scrollable ons-table-scrollable--on"
     >

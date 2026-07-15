@@ -1,4 +1,4 @@
-import { assertResolvedRequiredEnv, loadConfigFromEnv } from "./appConfig.js";
+import { assertResolvedRequiredEnv, loadServerConfigFromEnv } from "./appConfig.js";
 
 describe("Config setup", () => {
   const originalEnv = process.env;
@@ -21,7 +21,7 @@ describe("Config setup", () => {
   });
 
   it("should return the correct environment variables", () => {
-    const config = loadConfigFromEnv();
+    const config = loadServerConfigFromEnv();
 
     expect(config.ProjectId).toBe("mock-project");
     expect(config.ServerPark).toBe("mock-server-park");
@@ -33,7 +33,7 @@ describe("Config setup", () => {
   it("should use a default session timeout when SESSION_TIMEOUT is not set", () => {
     delete process.env.SESSION_TIMEOUT;
 
-    const config = loadConfigFromEnv();
+    const config = loadServerConfigFromEnv();
 
     expect(config.SessionTimeout).toBe("12h");
   });
@@ -41,13 +41,15 @@ describe("Config setup", () => {
   it("should throw when required environment variables are missing", () => {
     delete process.env.URL_DOMAIN;
 
-    expect(() => loadConfigFromEnv()).toThrow("Missing required environment variables: URL_DOMAIN");
+    expect(() => loadServerConfigFromEnv()).toThrow(
+      "Missing required environment variables: URL_DOMAIN",
+    );
   });
 
   it("should throw when SESSION_SECRET is missing", () => {
     delete process.env.SESSION_SECRET;
 
-    expect(() => loadConfigFromEnv()).toThrow(
+    expect(() => loadServerConfigFromEnv()).toThrow(
       "Missing required environment variables: SESSION_SECRET",
     );
   });
@@ -71,13 +73,13 @@ describe("Config setup", () => {
   it("should prefix the BLAISE_API_URL with http:// when it does not start with http", () => {
     process.env.BLAISE_API_URL = "blaise-api:8080";
 
-    const config = loadConfigFromEnv();
+    const config = loadServerConfigFromEnv();
 
     expect(config.BlaiseApiUrl).toBe("http://blaise-api:8080");
   });
 
   it("should return the hardcoded ALLOWED_ROLES", () => {
-    const config = loadConfigFromEnv();
+    const config = loadServerConfigFromEnv();
 
     expect(config.Roles).toEqual(["DST"]);
   });

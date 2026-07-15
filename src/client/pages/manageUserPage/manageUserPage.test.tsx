@@ -23,6 +23,7 @@ vi.mock("../../api/http", () => ({
 }));
 
 const mockUserDetails = {
+  success: true,
   data: {
     name: "testUser",
     role: "IPS Manager",

@@ -58,9 +58,7 @@ describe("BulkUserUpload", () => {
     await userEvent.upload(input, file);
     await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
 
-    // After upload, moves to the ToUploadSummary page
     await waitFor(() => {
-      // UsersToUploadSummary heading or confirmation component
       expect(
         screen.queryByRole("heading", { name: "Bulk upload users", level: 1 }),
       ).not.toBeInTheDocument();
@@ -68,7 +66,7 @@ describe("BulkUserUpload", () => {
   });
 
   it("navigates through the upload flow: SelectFile → Summary → InProgress → UploadedSummary", async () => {
-    mockAddNewUser.mockResolvedValue(true);
+    mockAddNewUser.mockResolvedValue({ success: true, status: 201, data: {}, message: "" });
 
     render(
       <BrowserRouter>
@@ -76,21 +74,18 @@ describe("BulkUserUpload", () => {
       </BrowserRouter>,
     );
 
-    // Step 1: Upload a CSV with valid roles
     const csvContent = "name,password,role\nalice,pass1,DST\nbob,pass2,BDSS";
     const file = new File([csvContent], "users.csv", { type: "text/csv" });
 
     await userEvent.upload(screen.getByLabelText(/Select users file/i), file);
     await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
 
-    // Step 2: On summary / confirmation page
     await waitFor(() => {
       expect(
         screen.queryByRole("heading", { name: "Bulk upload users", level: 1 }),
       ).not.toBeInTheDocument();
     });
 
-    // Wait for validation to complete (usersToUploadSummary validates users)
     await waitFor(
       () => {
         expect(screen.queryByRole("radio", { name: /Yes/i })).not.toBeNull();
@@ -98,7 +93,6 @@ describe("BulkUserUpload", () => {
       { timeout: 3000 },
     );
 
-    // Find and click the Yes radio + confirm button
     const yesRadio = screen.queryByRole("radio", { name: /Yes/i });
 
     if (yesRadio) {
@@ -106,7 +100,6 @@ describe("BulkUserUpload", () => {
       await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
     }
 
-    // Eventually reaches UploadedSummary (check for heading with user count text)
     await waitFor(
       () => {
         expect(screen.getByRole("heading", { level: 1 })).toBeDefined();

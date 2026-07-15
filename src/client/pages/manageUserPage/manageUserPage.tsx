@@ -24,9 +24,18 @@ export default function ManageUserPage({ currentUser, updatedPanel = null }: Man
   const fetchUserDetails = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getUser(viewedUsername as string);
+      const response = await getUser(viewedUsername as string);
 
-      setViewedUserDetails(data);
+      if (!response.success) {
+        setError(
+          "Unable to load user details, please try again. If this continues, please the contact service desk.",
+        );
+        setViewedUserDetails(null);
+
+        return;
+      }
+
+      setViewedUserDetails(response);
       setError("");
     } catch {
       setError(
@@ -50,16 +59,24 @@ export default function ManageUserPage({ currentUser, updatedPanel = null }: Man
         <Panel status={updatedPanel.status}>{updatedPanel.message}</Panel>
       ) : null}
       {error && <Panel status={"error"}>{error}</Panel>}
-      {loading ? (
-        <LoadingPanel />
-      ) : (
-        viewedUserDetails && (
-          <UserTable
-            currentUser={currentUser}
-            viewedUserDetails={viewedUserDetails}
-          />
-        )
-      )}
+      <main
+        id="main-content"
+        className="ons-page__main ons-u-mt-m"
+      >
+        {loading ? (
+          <LoadingPanel />
+        ) : (
+          viewedUserDetails && (
+            <>
+              <h1 className="ons-u-mb-l">{viewedUserDetails.data.name || "Not found"}</h1>
+              <UserTable
+                currentUser={currentUser}
+                viewedUserDetails={viewedUserDetails}
+              />
+            </>
+          )
+        )}
+      </main>
     </>
   );
 }

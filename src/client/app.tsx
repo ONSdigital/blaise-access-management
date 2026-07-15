@@ -19,22 +19,22 @@ import { isProduction } from "./utils/env";
 import type { User } from "blaise-api-node-client";
 
 const loginContentMinHeight = "67vh";
-const BulkUserUpload = lazy(() => {
+const BulkUploadUsersPage = lazy(() => {
   return import("./pages/bulkUploadUsersPage/bulkUploadUsersPage");
 });
-const ChangePassword = lazy(() => {
+const ChangePasswordPage = lazy(() => {
   return import("./pages/changePasswordPage/changePasswordPage");
 });
-const ChangeRole = lazy(() => {
+const ChangeRolePage = lazy(() => {
   return import("./pages/changeRolePage/changeRolePage");
 });
-const NewUserComponent = lazy(() => {
+const CreateNewUserPage = lazy(() => {
   return import("./pages/createNewUserPage/createNewUserPage");
 });
-const DeleteUser = lazy(() => {
+const DeleteUserPage = lazy(() => {
   return import("./pages/deleteUserPage/deleteUserPage");
 });
-const Home = lazy(() => {
+const HomePage = lazy(() => {
   return import("./pages/homePage/homePage");
 });
 const AuditPage = lazy(() => {
@@ -43,10 +43,10 @@ const AuditPage = lazy(() => {
 const ManageUserPage = lazy(() => {
   return import("./pages/manageUserPage/manageUserPage");
 });
-const Roles = lazy(() => {
+const ManageRolesPage = lazy(() => {
   return import("./pages/manageRolesPage/manageRolesPage");
 });
-const Users = lazy(() => {
+const ManageUsersPage = lazy(() => {
   return import("./pages/manageUsersPage/manageUsersPage");
 });
 
@@ -93,13 +93,13 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
               <ErrorBoundary
                 errorMessageText={"Unable to load Change Password page. Please try again."}
               >
-                <ChangePassword currentUser={user} />
+                <ChangePasswordPage currentUser={user} />
               </ErrorBoundary>
             }
           />
           <Route
             path={"/users/delete/:user"}
-            element={<DeleteUser />}
+            element={<DeleteUserPage />}
           />
           <Route
             path="/users/change-role/:user"
@@ -107,7 +107,7 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
               <ErrorBoundary
                 errorMessageText={"Unable to load Change Role page. Please try again."}
               >
-                <ChangeRole currentUser={user} />
+                <ChangeRolePage currentUser={user} />
               </ErrorBoundary>
             }
           />
@@ -126,17 +126,17 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
           />
           <Route
             path={"/users/upload"}
-            element={<BulkUserUpload />}
+            element={<BulkUploadUsersPage />}
           />
           <Route
             path={"/users/new"}
-            element={<NewUserComponent />}
+            element={<CreateNewUserPage />}
           />
           <Route
             path="/users"
             element={
               <ErrorBoundary errorMessageText={"Unable to load users table. Please try again."}>
-                <Users
+                <ManageUsersPage
                   currentUser={user}
                   updatedPanel={updatedPanel}
                 />
@@ -155,7 +155,7 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
             path={"/roles"}
             element={
               <ErrorBoundary errorMessageText={"Unable to load roles table. Please try again."}>
-                <Roles />
+                <ManageRolesPage />
               </ErrorBoundary>
             }
           />
@@ -163,7 +163,7 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
             path="/"
             element={
               <ErrorBoundary errorMessageText={"Unable to load homepage. Please try again."}>
-                <Home />
+                <HomePage />
               </ErrorBoundary>
             }
           />

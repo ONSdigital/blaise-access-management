@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 
 import type { CustomConfig } from "../types/server.types.js";
 import type AuditLogger from "../utils/auditLogger.js";
@@ -38,13 +39,14 @@ function getServerParksForRole(
   };
 }
 
-export default function blaiseApi(
+export default function createBlaiseApiHandler(
   config: CustomConfig,
   auth: Auth,
   blaiseApiClient: BlaiseApiClient,
   auditLogger: AuditLogger,
 ): Router {
   const router = express.Router();
+  const upload = multer();
 
   router.get("/api/audit", auth.middleware, async function (req: Request, res: Response) {
     try {
@@ -52,7 +54,7 @@ export default function blaiseApi(
     } catch (error) {
       auditLogger.error(req.log, `Error whilst trying to retrieve audit logs: ${String(error)}`);
 
-      return res.status(200).json([]);
+      return res.status(500).json({ error: "Failed to retrieve audit logs" });
     }
   });
 
@@ -134,6 +136,7 @@ export default function blaiseApi(
   router.post(
     "/api/change-password/:user",
     auth.middleware,
+    upload.any(),
     async function (req: Request, res: Response) {
       const currentUser = auth.getUser(auth.getToken(req));
       const data = req.body;
@@ -187,12 +190,14 @@ export default function blaiseApi(
         return res.status(400).json();
       }
 
+      await blaiseApiClient.deleteUser(user);
+
       auditLogger.info(
         req.log,
         `${currentUser?.name || "Unknown"} has successfully deleted user ${user}`,
       );
 
-      return res.status(204).json(await blaiseApiClient.deleteUser(user));
+      return res.status(204).json();
     } catch (error) {
       const errorMessage = String(error);
 
@@ -205,40 +210,47 @@ export default function blaiseApi(
     }
   });
 
-  router.post("/api/users", auth.middleware, async function (req: Request, res: Response) {
-    try {
-      const currentUser = auth.getUser(auth.getToken(req));
-      const role = singleValue(req.body.role);
+  router.post(
+    "/api/users",
+    auth.middleware,
+    upload.any(),
+    async function (req: Request, res: Response) {
+      try {
+        const currentUser = auth.getUser(auth.getToken(req));
+        const role = singleValue(req.body.role);
 
-      if (!role) {
-        return res.status(400).json({ message: "No role provided for user creation" });
+        if (!role) {
+          return res.status(400).json({ message: "No role provided for user creation" });
+        }
+
+        const { serverParks, defaultServerPark } = getServerParksForRole(config, role);
+        const data = {
+          ...req.body,
+          role,
+          serverParks,
+          defaultServerPark,
+        };
+
+        const createdUser = await blaiseApiClient.createUser(data);
+
+        auditLogger.info(
+          req.log,
+          `${currentUser?.name || "Unknown"} has successfully created user, ${data.name}, with an assigned role of ${role}`,
+        );
+
+        return res.status(200).json(createdUser);
+      } catch (error) {
+        const errorMessage = String(error);
+
+        auditLogger.error(
+          req.log,
+          `Error whilst trying to create new user, ${req.body.name}, with error message: ${errorMessage}`,
+        );
+
+        return res.status(500).json({ error: "Internal server error" });
       }
-
-      const { serverParks, defaultServerPark } = getServerParksForRole(config, role);
-      const data = {
-        ...req.body,
-        role,
-        serverParks,
-        defaultServerPark,
-      };
-
-      auditLogger.info(
-        req.log,
-        `${currentUser?.name || "Unknown"} has successfully created user, ${data.name}, with an assigned role of ${role}`,
-      );
-
-      return res.status(200).json(await blaiseApiClient.createUser(data));
-    } catch (error) {
-      const errorMessage = String(error);
-
-      auditLogger.error(
-        req.log,
-        `Error whilst trying to create new user, ${req.body.name}, with error message: ${errorMessage}`,
-      );
-
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  });
+    },
+  );
 
   return router;
 }

@@ -4,7 +4,7 @@ import { getAllRoles, getAllUsers } from "../http";
 import type { User, UserRole } from "blaise-api-node-client";
 
 async function getRoles(): Promise<UserRole[]> {
-  const [success, roles] = await getAllRoles();
+  const { success, data: roles } = await getAllRoles();
 
   if (success) {
     return roles;
@@ -14,7 +14,7 @@ async function getRoles(): Promise<UserRole[]> {
 }
 
 async function getExistingUsers(): Promise<User[]> {
-  const [success, users] = await getAllUsers();
+  const { success, data: users } = await getAllUsers();
 
   if (success) {
     return users;
@@ -27,44 +27,38 @@ async function validateImportedUsers(users: ImportUser[]): Promise<void> {
   const validRoles = await getRoles();
   const existingUsers = await getExistingUsers();
 
-  users.map((user) => {
+  users.forEach((user) => {
     validateUser(user, validRoles, existingUsers);
-    console.debug(user);
   });
 }
 
 function validateUser(user: ImportUser, validRoles: UserRole[], existingUsers: User[]): void {
-  user.valid = true;
-  user.warnings = [];
+  const warnings: string[] = [];
 
   if (existingUsers.find((existingUser) => existingUser.name === user.name)) {
-    user.valid = false;
-    user.warnings.push("User already exists");
+    warnings.push("User already exists");
   }
 
   if (user.name === undefined || user.name === null) {
-    user.valid = false;
-    user.warnings.push("Invalid name");
+    warnings.push("Invalid name");
   }
 
   if (!user.password || user.password === null) {
-    user.valid = false;
-    user.warnings.push("Invalid password");
+    warnings.push("Invalid password");
   }
 
   if (user.role === undefined || user.role === null) {
-    user.warnings.push("Invalid role");
-    user.valid = false;
+    warnings.push("Invalid role");
   } else {
-    const isValidRole = validRoles.some(function (el) {
-      return el.name === user.role;
-    });
+    const isValidRole = validRoles.some((role) => role.name === user.role);
 
     if (!isValidRole) {
-      user.warnings.push("Not a valid role");
-      user.valid = false;
+      warnings.push("Not a valid role");
     }
   }
+
+  user.warnings = warnings;
+  user.valid = warnings.length === 0;
 }
 
 export { validateImportedUsers, validateUser };

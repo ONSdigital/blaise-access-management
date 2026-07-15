@@ -7,10 +7,9 @@ import ejs from "ejs";
 import express from "express";
 import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import helmet from "helmet";
-import multer from "multer";
 
-import blaiseApi from "./handlers/blaiseApi.js";
-import newClientLogHandler from "./handlers/clientLogHandler.js";
+import createBlaiseApiHandler from "./handlers/blaiseApi.js";
+import createClientLogHandler from "./handlers/clientLogHandler.js";
 import AuditLogger from "./utils/auditLogger.js";
 
 import type { CustomConfig } from "./types/server.types.js";
@@ -136,11 +135,10 @@ function createAppConfigJson(config: CustomConfig): string {
     ROLE_TO_SERVER_PARKS_MAP: config.RoleToServerParksMap,
   };
 
-  // Prevent accidentally closing the script tag from JSON content.
   return JSON.stringify(appConfig).replace(/</g, "\\u003c");
 }
 
-export default function GetNodeServer(
+export default function createNodeServer(
   config: CustomConfig,
   blaiseApiClient: BlaiseApiClient,
   auth: Auth,
@@ -148,7 +146,6 @@ export default function GetNodeServer(
 ): Express {
   const auditLogger = new AuditLogger(config.ProjectId);
   const pinoLogger = logger;
-  const upload = multer();
   const server = express();
   const apiRateLimiter = createApiRateLimiter(auth);
   const pageRateLimiter = rateLimit({
@@ -182,10 +179,13 @@ export default function GetNodeServer(
     }),
   );
 
-  server.use(upload.any());
   server.use(pinoLogger);
   server.use((req, res, next) => {
-    if (req.path.startsWith("/api/") || req.path.startsWith("/static/")) {
+    if (
+      req.path.startsWith("/api/") ||
+      req.path.startsWith("/assets/") ||
+      req.path.startsWith("/static/")
+    ) {
       return next();
     }
 
@@ -195,11 +195,11 @@ export default function GetNodeServer(
   axios.defaults.timeout = 10000;
 
   const loginRouter = newLoginHandler(auth, blaiseApiClient);
-  const blaiseApiRouter = blaiseApi(config, auth, blaiseApiClient, auditLogger);
-  const clientLogRouter = newClientLogHandler(auth, auditLogger);
+  const blaiseApiRouter = createBlaiseApiHandler(config, auth, blaiseApiClient, auditLogger);
+  const clientLogRouter = createClientLogHandler(auth, auditLogger);
 
   server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
-    auditLogger.info(req.log, "Heath check endpoint called");
+    auditLogger.info(req.log, "Health check endpoint called");
     res.status(200).json({ healthy: true });
   });
   server.use("/", loginRouter);
@@ -208,6 +208,8 @@ export default function GetNodeServer(
 
   server.set("views", path.join(process.cwd(), "src/server/views"));
   server.engine("html", ejs.renderFile);
+  server.use(express.static(path.join(process.cwd(), "build/client"), { index: false }));
+  server.use("/assets", express.static(path.join(process.cwd(), "build/client/assets")));
   server.use("/static", express.static(path.join(process.cwd(), "build/client/static")));
 
   let indexFilePath = path.join(process.cwd(), "build/client/index.html");
@@ -225,10 +227,8 @@ export default function GetNodeServer(
   server.use(function (err: unknown, _req: Request, res: Response, _next: NextFunction) {
     if (err instanceof Error && err.stack) {
       auditLogger.error(_req.log, err.stack);
-      console.error(err.stack);
     } else {
       auditLogger.error(_req.log, "An undefined error occurred");
-      console.error("An undefined error occurred");
     }
 
     res.render("500.html", {});

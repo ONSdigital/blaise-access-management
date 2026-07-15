@@ -17,8 +17,8 @@ The app is a React frontend served by an Express backend.
 ### Clone and install packages
 
 ```shell
-git clone https://github.com/ONSdigital/blaise-user-management.git
-cd blaise-user-management
+git clone https://github.com/ONSdigital/blaise-access-management.git
+cd blaise-access-management
 yarn install
 ```
 

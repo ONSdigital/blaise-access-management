@@ -125,7 +125,7 @@ describe("Given the API returns an empty list", () => {
     mockFetchImplementation(
       vi.fn(() =>
         Promise.resolve({
-          status: 404,
+          status: 200,
           json: () => Promise.resolve([]),
         }),
       ),

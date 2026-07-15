@@ -81,7 +81,6 @@ describe("Confirmation", () => {
     await userEvent.click(screen.getByRole("radio", { name: /No/i }));
     await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
-    // No upload should have happened
     expect(mockUploadUsers).not.toHaveBeenCalled();
   });
 

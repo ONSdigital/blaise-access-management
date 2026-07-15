@@ -55,6 +55,6 @@ export async function sendClientLog(level: ClientLogLevel, ...args: unknown[]): 
   try {
     await axios.post("/api/client-log", payload, getAxiosAuthConfig());
   } catch {
-    // Ignore logging failures so they never impact user actions.
+    // ignore logging failures so they never impact user actions
   }
 }

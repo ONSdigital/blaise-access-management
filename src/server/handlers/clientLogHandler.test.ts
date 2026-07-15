@@ -4,8 +4,8 @@ import pino from "pino";
 import supertest from "supertest";
 import { Mock } from "typemoq";
 
-import { loadConfigFromEnv } from "../config/appConfig.js";
-import GetNodeServer from "../server.js";
+import { loadServerConfigFromEnv } from "../config/appConfig.js";
+import createNodeServer from "../server.js";
 import createLogger from "../utils/httpLogger.js";
 
 import type { HttpLogger } from "pino-http";
@@ -20,7 +20,7 @@ process.env = Object.assign(process.env, {
   SESSION_TIMEOUT: "12h",
 });
 
-const config = loadConfigFromEnv();
+const config = loadServerConfigFromEnv();
 const auth = new Auth(config);
 
 const logger: pino.Logger = pino();
@@ -41,7 +41,7 @@ const mockUser = {
 };
 const authToken = auth.signToken(mockUser);
 
-const server = GetNodeServer(config, blaiseApiMock.object, auth, httpLogger);
+const server = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
 const sut = supertest(server);
 
 describe("POST /api/client-log", () => {
@@ -131,14 +131,12 @@ describe("POST /api/client-log", () => {
   });
 
   it("returns 400 when body is not a JSON object (it is a non-object)", async () => {
-    // Sending a valid JSON primitive (array) - body is not a Record, so level is missing
     const response = await sut
       .post("/api/client-log")
       .set("Authorization", `Bearer ${authToken}`)
       .set("Content-Type", "application/json")
       .send(JSON.stringify(["array", "value"]));
 
-    // body = [] which is not a record → missing level
     expect(response.status).toBe(400);
     expect(response.body.error).toMatch(/Missing level/i);
   });
@@ -170,7 +168,7 @@ describe("POST /api/client-log", () => {
   });
 
   it("truncates very long messages (clamp function)", async () => {
-    const longMessage = "x".repeat(2000); // > 1500 char limit
+    const longMessage = "x".repeat(2000);
 
     const response = await sut
       .post("/api/client-log")

@@ -33,7 +33,12 @@ afterEach(() => {
 
 describe("CreateNewUserPage", () => {
   beforeEach(() => {
-    mockGetAllRoles.mockResolvedValue([true, mockRoles]);
+    mockGetAllRoles.mockResolvedValue({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: mockRoles,
+    });
   });
 
   it("renders the Create new user heading", async () => {
@@ -99,7 +104,7 @@ describe("CreateNewUserPage", () => {
   });
 
   it("shows error panel when user creation fails", async () => {
-    mockAddNewUser.mockResolvedValue(false);
+    mockAddNewUser.mockResolvedValue({ success: false, status: 500, data: {}, message: "" });
 
     render(
       <BrowserRouter>
@@ -121,7 +126,7 @@ describe("CreateNewUserPage", () => {
   });
 
   it("redirects on successful user creation", async () => {
-    mockAddNewUser.mockResolvedValue(true);
+    mockAddNewUser.mockResolvedValue({ success: true, status: 201, data: {}, message: "" });
 
     render(
       <MemoryRouter initialEntries={["/users/new"]}>
@@ -143,7 +148,12 @@ describe("CreateNewUserPage", () => {
   });
 
   it("shows 'Select a role' error when no role is selected", async () => {
-    mockGetAllRoles.mockResolvedValue([true, []]);
+    mockGetAllRoles.mockResolvedValue({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [],
+    });
 
     render(
       <BrowserRouter>
@@ -165,7 +175,12 @@ describe("CreateNewUserPage", () => {
   });
 
   it("changing role select clears form errors and updates role", async () => {
-    mockGetAllRoles.mockResolvedValue([true, mockRoles]);
+    mockGetAllRoles.mockResolvedValue({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: mockRoles,
+    });
 
     render(
       <BrowserRouter>
@@ -175,13 +190,10 @@ describe("CreateNewUserPage", () => {
 
     await waitFor(() => screen.getByRole("combobox"));
 
-    // Change the select to the second available role (BDSS)
     const select = screen.getByRole("combobox");
 
     await userEvent.selectOptions(select, ["BDSS"]);
 
-    // setRole and setFormErrors are called on change
-    // Verify the select now shows BDSS
     await waitFor(() => {
       expect(select).toHaveValue("BDSS");
     });
@@ -200,7 +212,6 @@ describe("CreateNewUserPage", () => {
 
     await userEvent.click(cancelBtn);
 
-    // Navigation triggered — button may still be visible but no errors thrown
     expect(cancelBtn).toBeDefined();
   });
 });

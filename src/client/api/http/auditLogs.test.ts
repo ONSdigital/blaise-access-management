@@ -1,7 +1,7 @@
 import { cleanup } from "@testing-library/react";
 
 import { mockFetchImplementation, mockFetchJsonResponse } from "../../test-utils/fetch.mock";
-import { type AuditLog } from "../../utils/auditLog.types";
+import { type AuditLog } from "../../types/auditLog.types";
 
 import { getAuditLogs } from "./auditLogs";
 import * as fetchJsonModule from "./fetchJson";
@@ -19,25 +19,25 @@ describe("Function getAuditLogs()", () => {
   it("returns true with data when the list is returned successfully", async () => {
     mockFetchJsonResponse(200, auditLogs);
 
-    const [success, logs] = await getAuditLogs();
+    const { success, data: logs } = await getAuditLogs();
 
     expect(success).toBeTruthy();
     expect(logs).toEqual(auditLogs);
   });
 
-  it("returns true with an empty list when a 404 is returned", async () => {
+  it("returns false with an empty list when a 404 is returned", async () => {
     mockFetchJsonResponse(404, []);
 
-    const [success, logs] = await getAuditLogs();
+    const { success, data: logs } = await getAuditLogs();
 
-    expect(success).toBeTruthy();
+    expect(success).toBeFalsy();
     expect(logs).toEqual([]);
   });
 
   it("returns false with an empty list if request returns an error code", async () => {
     mockFetchJsonResponse(500, {});
 
-    const [success, logs] = await getAuditLogs();
+    const { success, data: logs } = await getAuditLogs();
 
     expect(success).toBeFalsy();
     expect(logs).toEqual([]);
@@ -46,23 +46,20 @@ describe("Function getAuditLogs()", () => {
   it("returns false with an empty list if request JSON is invalid", async () => {
     mockFetchJsonResponse(200, { text: "invalid" });
 
-    const [success, logs] = await getAuditLogs();
+    const { success, data: logs } = await getAuditLogs();
 
     expect(success).toBeFalsy();
     expect(logs).toEqual([]);
   });
 
-  it("returns false with an empty list if request call fails", async () => {
+  it("throws if the request call fails", async () => {
     mockFetchImplementation(
       vi.fn(() => {
         throw new Error("Network error");
       }),
     );
 
-    const [success, logs] = await getAuditLogs();
-
-    expect(success).toBeFalsy();
-    expect(logs).toEqual([]);
+    await expect(getAuditLogs()).rejects.toThrow("Network error");
   });
 
   afterAll(() => {
@@ -71,16 +68,13 @@ describe("Function getAuditLogs()", () => {
   });
 });
 
-describe("getAuditLogs – catch branch (fetchJsonList throws)", () => {
-  it("returns [false, []] when fetchJsonList throws", async () => {
+describe("getAuditLogs", () => {
+  it("rethrows when fetchJsonList throws", async () => {
     const spy = vi
       .spyOn(fetchJsonModule, "fetchJsonList")
       .mockRejectedValueOnce(new Error("Unexpected error"));
 
-    const [success, logs] = await getAuditLogs();
-
-    expect(success).toBeFalsy();
-    expect(logs).toEqual([]);
+    await expect(getAuditLogs()).rejects.toThrow("Unexpected error");
 
     spy.mockRestore();
   });

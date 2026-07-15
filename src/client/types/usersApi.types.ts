@@ -1,16 +1,8 @@
+import type { ApiResponse } from "../api/http/fetchJson";
 import type { User } from "blaise-api-node-client";
 
-export interface GetUserResponse {
-  status: number;
-  message: string;
-  data: User | Record<string, never>;
-  error?: unknown;
-}
+export type GetUserResponse = ApiResponse<User | Record<string, never>>;
 
-export interface PatchUserRoleResponse {
-  status: number;
-  message: string;
-  error?: unknown;
-}
+export type PatchUserRoleResponse = ApiResponse<Record<string, never>>;
 
-export type GetUsersListResponse = [boolean, User[]];
+export type GetUsersListResponse = ApiResponse<User[]>;

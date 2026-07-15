@@ -12,6 +12,7 @@ const currentUser = {
 };
 
 const viewedUserDetails = {
+  success: true,
   data: {
     name: "testUser",
     role: "IPS Manager",
@@ -46,7 +47,6 @@ describe("UserTable Component", () => {
       </Router>,
     );
 
-    expect(screen.getByText("testUser")).toBeVisible();
     expect(screen.getByText("IPS Manager")).toBeVisible();
     expect(screen.getByText("gusty")).toBeVisible();
     expect(screen.getByText("gusty, cma")).toBeVisible();
@@ -58,6 +58,7 @@ describe("UserTable Component", () => {
 
   it('displays "Not found" for missing user details', () => {
     const missingDetails = {
+      success: false,
       data: {
         name: "",
         role: "",

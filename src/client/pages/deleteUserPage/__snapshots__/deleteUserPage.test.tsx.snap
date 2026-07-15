@@ -37,21 +37,20 @@ exports[`DeleteUser Component > matches the snapshot 1`] = `
             >
               <input
                 aria-label="Yes"
-                class="ons-radio__input ons-js-radio "
+                class="ons-radio__input ons-js-radio"
                 id="yes-delete-item"
                 name="confirm-delete"
                 type="radio"
                 value="True"
               />
               <label
-                class="ons-radio__label "
+                class="ons-radio__label"
                 for="yes-delete-item"
               >
                 Yes, delete user testUser
               </label>
             </span>
           </p>
-          <br />
           <p
             class="ons-radios__item"
           >
@@ -60,15 +59,14 @@ exports[`DeleteUser Component > matches the snapshot 1`] = `
             >
               <input
                 aria-label="No"
-                checked=""
-                class="ons-radio__input ons-js-radio "
+                class="ons-radio__input ons-js-radio"
                 id="no-delete-item"
                 name="confirm-delete"
                 type="radio"
                 value="False"
               />
               <label
-                class="ons-radio__label "
+                class="ons-radio__label"
                 for="no-delete-item"
               >
                 No, do not delete user testUser
@@ -77,12 +75,15 @@ exports[`DeleteUser Component > matches the snapshot 1`] = `
           </p>
         </div>
       </fieldset>
-      <br />
-      <button
-        type="submit"
+      <div
+        class="ons-u-mt-m"
       >
-        Save
-      </button>
+        <button
+          type="submit"
+        >
+          Save
+        </button>
+      </div>
     </form>
   </main>
 </DocumentFragment>

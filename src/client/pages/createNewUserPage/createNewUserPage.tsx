@@ -85,9 +85,9 @@ function CreateNewUserPage(): ReactElement {
     setButtonLoading(true);
     setCreatedUsername(newUser.name);
 
-    const created = await addNewUser(newUser);
+    const created = await addNewUser(newUser).catch(() => ({ success: false }));
 
-    if (!created) {
+    if (!created.success) {
       setMessage("Failed to create new user");
       setButtonLoading(false);
 
@@ -105,10 +105,15 @@ function CreateNewUserPage(): ReactElement {
 
   async function getRoleList() {
     setRoleList([]);
-    const [, roleList] = await getAllRoles();
 
-    setRole(roleList[0]?.name ?? "");
-    setRoleList(roleList);
+    try {
+      const { data: roleList } = await getAllRoles();
+
+      setRole(roleList[0]?.name ?? "");
+      setRoleList(roleList);
+    } catch {
+      setMessage("Failed to load roles");
+    }
   }
 
   return (

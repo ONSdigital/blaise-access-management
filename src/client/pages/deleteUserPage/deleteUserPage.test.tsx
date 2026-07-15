@@ -48,7 +48,7 @@ describe("DeleteUser Component", () => {
   });
 
   it("successfully deletes a user", async () => {
-    (deleteUser as Mock).mockResolvedValue(true);
+    (deleteUser as Mock).mockResolvedValue({ success: true, status: 204, data: {}, message: "" });
 
     const { getByText, getByLabelText } = render(
       <MemoryRouter>
@@ -65,7 +65,7 @@ describe("DeleteUser Component", () => {
   });
 
   it("shows error when deletion fails", async () => {
-    (deleteUser as Mock).mockResolvedValue(false);
+    (deleteUser as Mock).mockResolvedValue({ success: false, status: 500, data: {}, message: "" });
 
     const { getByText, getByLabelText } = render(
       <MemoryRouter>
@@ -91,15 +91,27 @@ describe("DeleteUser Component", () => {
     await userEvent.click(getByLabelText("No"));
     await userEvent.click(getByText("Save"));
 
-    // Navigate should be in the DOM (redirect triggered)
     await waitFor(() => {
-      // When redirect is true, Navigate renders; test passes if no throw
+      expect(deleteUser).not.toHaveBeenCalled();
+    });
+  });
+
+  it("redirects with action discarded when no confirmation option is selected", async () => {
+    const { getByText } = render(
+      <MemoryRouter>
+        <DeleteUser />
+      </MemoryRouter>,
+    );
+
+    await userEvent.click(getByText("Save"));
+
+    await waitFor(() => {
       expect(deleteUser).not.toHaveBeenCalled();
     });
   });
 
   it("submitting the form via onSubmit triggers deleteUserConfirm", async () => {
-    (deleteUser as Mock).mockResolvedValue(true);
+    (deleteUser as Mock).mockResolvedValue({ success: true, status: 204, data: {}, message: "" });
 
     const { getByLabelText, container } = render(
       <MemoryRouter>

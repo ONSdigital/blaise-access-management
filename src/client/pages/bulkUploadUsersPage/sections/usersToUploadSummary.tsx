@@ -18,7 +18,15 @@ function UsersToUploadSummary({
 
   const setupUserList = useCallback(async () => {
     setListError("Loading ...");
-    await validateImportedUsers(usersToImport);
+
+    try {
+      await validateImportedUsers(usersToImport);
+    } catch {
+      setListError("Unable to validate imported users");
+      setUserList([]);
+
+      return;
+    }
 
     let noValid = 0;
 

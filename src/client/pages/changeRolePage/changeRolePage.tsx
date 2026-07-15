@@ -5,6 +5,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getAllRoles, getUser, patchUserRolesAndPermissions } from "../../api/http";
 import { type RedirectWithData, type UserRouteParams } from "../../types/users.types";
 import { type GetUserResponse } from "../../types/usersApi.types";
+import { clientLogger } from "../../utils/logger";
 
 import type { User, UserRole } from "blaise-api-node-client";
 
@@ -43,7 +44,7 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
 
   const getRoleList = useCallback(async () => {
     try {
-      const [, roleList] = await getAllRoles();
+      const { data: roleList } = await getAllRoles();
 
       setRoleList(roleList);
     } catch {
@@ -53,16 +54,22 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
 
   const getViewedUserDetails = useCallback(async () => {
     try {
-      const data = await getUser(viewedUsername);
+      const response = await getUser(viewedUsername);
 
-      if (!("role" in data.data)) {
+      if (!response.success) {
         setSetError("Unable to load user details, please try again");
 
         return;
       }
 
-      setViewedUserDetails(data);
-      setRole(getRoleName(data.data.role));
+      if (!("role" in response.data)) {
+        setSetError("Unable to load user details, please try again");
+
+        return;
+      }
+
+      setViewedUserDetails(response);
+      setRole(getRoleName(response.data.role));
     } catch {
       setSetError("Unable to load user details, please try again");
     }
@@ -74,14 +81,28 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
   };
 
   const changeBlaiseUserRolesAndServerParks = async () => {
+    setSetError(null);
+
     if (!hasRoleData(viewedUserDetails)) {
-      console.log("Viewed user details is undefined or null");
+      const message =
+        "Unable to change role because user details are unavailable. Please reload and try again.";
+
+      setSetError(message);
+      clientLogger.error("Change role failed: viewed user details missing", {
+        viewedUsername,
+      });
 
       return;
     }
 
     if (role === getRoleName(viewedUserDetails.data.role)) {
-      console.log("User already has role: ", role);
+      const message = "Please select a different role before saving.";
+
+      setSetError(message);
+      clientLogger.warn("Change role blocked: selected role matches current role", {
+        viewedUsername,
+        role,
+      });
 
       return;
     }
@@ -95,9 +116,24 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
         message: res?.message || "",
         statusType: res?.status === 500 ? "error" : "success",
       });
+
+      if (res?.status === 500) {
+        setSetError("Failed to update role, please try again.");
+        clientLogger.error("Change role failed: server returned error", {
+          viewedUsername,
+          role,
+          status: res?.status,
+          message: res?.message,
+        });
+      }
     } else {
-      window.alert(`Invalid role: ${role}`);
-      console.log("Invalid Role:", role);
+      const message = "Selected role is invalid. Please choose a role from the list.";
+
+      setSetError(message);
+      clientLogger.warn("Change role blocked: invalid role selected", {
+        viewedUsername,
+        role,
+      });
 
       return;
     }

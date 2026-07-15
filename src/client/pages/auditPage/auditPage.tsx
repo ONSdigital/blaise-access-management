@@ -5,10 +5,11 @@ import {
   Panel,
   Table,
 } from "blaise-design-system-react-components";
-import { type ReactElement, useEffect, useState } from "react";
+import { type ReactElement } from "react";
 
 import { getAuditLogs } from "../../api/http";
-import { type AuditLog } from "../../utils/auditLog.types";
+import { useListLoader } from "../../hooks/useListLoader";
+import { type AuditLog } from "../../types/auditLog.types";
 
 function formatTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
@@ -28,33 +29,16 @@ function formatTimestamp(timestamp: string): string {
 }
 
 function AuditPage(): ReactElement {
-  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [listError, setListError] = useState<string>("");
-
-  async function loadAuditLogs() {
-    setIsLoading(true);
-    setListError("");
-
-    const [success, logs] = await getAuditLogs();
-
-    setAuditLogs(logs);
-    setIsLoading(false);
-
-    if (!success) {
-      setListError("Unable to load access history.");
-
-      return;
-    }
-
-    if (logs.length === 0) {
-      setListError("No recent access history found.");
-    }
-  }
-
-  useEffect(() => {
-    void loadAuditLogs();
-  }, []);
+  const {
+    list: auditLogs,
+    isLoading,
+    listError,
+    reloadList: loadAuditLogs,
+  } = useListLoader<AuditLog>({
+    load: getAuditLogs,
+    unableToLoadMessage: "Unable to load access history.",
+    emptyListMessage: "No recent access history found.",
+  });
 
   return (
     <>

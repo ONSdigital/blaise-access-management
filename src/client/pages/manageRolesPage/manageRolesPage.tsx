@@ -1,43 +1,24 @@
 import { ErrorPanel, LoadingPanel, Panel } from "blaise-design-system-react-components";
-import { type ReactElement, useEffect, useState } from "react";
+import { type ReactElement } from "react";
 
 import { getAllRoles } from "../../api/http";
+import { useListLoader } from "../../hooks/useListLoader";
 
 import RolesTable from "./sections/rolesTable";
 
 import type { UserRole } from "blaise-api-node-client";
 
 function ManageRolesPage(): ReactElement {
-  const [roles, setRoles] = useState<UserRole[]>([]);
-  const [listError, setListError] = useState<string>("Loading ...");
-  const [listLoading, setListLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    getRolesList().then(() => {
-      return;
-    });
-  }, []);
-
-  async function getRolesList() {
-    setRoles([]);
-    setListLoading(true);
-
-    const [success, roleList] = await getAllRoles();
-
-    setListLoading(false);
-
-    if (!success) {
-      setListError("Unable to load roles.");
-
-      return;
-    }
-
-    if (roleList.length === 0) {
-      setListError("No installed roles found.");
-    }
-
-    setRoles(roleList);
-  }
+  const {
+    list: roles,
+    isLoading: listLoading,
+    listError,
+  } = useListLoader<UserRole>({
+    load: getAllRoles,
+    unableToLoadMessage: "Unable to load roles.",
+    emptyListMessage: "No installed roles found.",
+    initialError: "Loading ...",
+  });
 
   return (
     <>

@@ -10,12 +10,10 @@ import UsersToUploadSummary from "./usersToUploadSummary";
 
 import type { User, UserRole } from "blaise-api-node-client";
 
-// set global vars
 let view: RenderResult;
 
-// set mocks
-type getRolesListResponse = [boolean, UserRole[]];
-type getUsersListResponse = [boolean, User[]];
+type MockRolesResponse = { success: boolean; status: number; message: string; data: UserRole[] };
+type MockUsersResponse = { success: boolean; status: number; message: string; data: User[] };
 
 vi.mock("../../../api/http");
 
@@ -47,9 +45,11 @@ describe("Upload summary tests", () => {
     },
   ];
 
-  const roles: getRolesListResponse = [
-    true,
-    [
+  const roles: MockRolesResponse = {
+    success: true,
+    status: 200,
+    message: "Request completed",
+    data: [
       {
         name: "BDSS",
         description: "",
@@ -61,9 +61,14 @@ describe("Upload summary tests", () => {
         permissions: [],
       },
     ],
-  ];
+  };
 
-  const existingUsers: getUsersListResponse = [true, []];
+  const existingUsers: MockUsersResponse = {
+    success: true,
+    status: 200,
+    message: "Request completed",
+    data: [],
+  };
 
   beforeEach(() => {
     getAllRolesMock.mockImplementation(() => Promise.resolve(roles));
@@ -71,9 +76,6 @@ describe("Upload summary tests", () => {
   });
 
   it("Upload summary pages for valid imported users matches Snapshot", async () => {
-    //arrange
-
-    // act
     await act(async () => {
       view = render(
         <UsersToUploadSummary
@@ -86,16 +88,12 @@ describe("Upload summary tests", () => {
       );
     });
 
-    // assert
     await waitFor(() => {
       expect(view).toMatchSnapshot();
     });
   });
 
   it("Upload summary pages for valid imported users displays correct summary", async () => {
-    //arrange
-
-    // act
     await act(async () => {
       view = render(
         <UsersToUploadSummary
@@ -108,7 +106,6 @@ describe("Upload summary tests", () => {
       );
     });
 
-    // assert
     const summary = view.getByTestId("summary-panel");
 
     expect(summary).toHaveTextContent("3 of 3 users are valid and will be uploaded");
@@ -158,7 +155,6 @@ describe("Upload summary tests", () => {
       },
     ];
 
-    // act
     await act(async () => {
       view = render(
         <UsersToUploadSummary
@@ -171,7 +167,6 @@ describe("Upload summary tests", () => {
       );
     });
 
-    // assert
     await waitFor(() => {
       expect(view).toMatchSnapshot();
     });
@@ -203,7 +198,6 @@ describe("Upload summary tests", () => {
       },
     ];
 
-    // act
     await act(async () => {
       view = render(
         <UsersToUploadSummary
@@ -216,7 +210,6 @@ describe("Upload summary tests", () => {
       );
     });
 
-    // assert
     const summary = view.getByTestId("summary-panel");
 
     expect(summary).toHaveTextContent("2 of 3 users are valid and will be uploaded");
@@ -266,9 +259,11 @@ describe("Upload summary tests", () => {
       },
     ];
 
-    const matchingExistingUsers: getUsersListResponse = [
-      true,
-      [
+    const matchingExistingUsers: MockUsersResponse = {
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [
         {
           name: "Jamie",
           role: "BDSS",
@@ -282,11 +277,10 @@ describe("Upload summary tests", () => {
           defaultServerPark: "",
         },
       ],
-    ];
+    };
 
     getAllUsersMock.mockImplementation(() => Promise.resolve(matchingExistingUsers));
 
-    // act
     await act(async () => {
       view = render(
         <UsersToUploadSummary
@@ -299,14 +293,12 @@ describe("Upload summary tests", () => {
       );
     });
 
-    // assert
     await waitFor(() => {
       expect(view).toMatchSnapshot();
     });
   });
 
   it("Upload summary pages for two users with the same name displays correct summary", async () => {
-    //arrange
     const importedUsersIncludingExisting: ImportUser[] = [
       {
         name: "Jamie",
@@ -331,9 +323,11 @@ describe("Upload summary tests", () => {
       },
     ];
 
-    const matchingExistingUsers: getUsersListResponse = [
-      true,
-      [
+    const matchingExistingUsers: MockUsersResponse = {
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [
         {
           name: "Jamie",
           role: "BDSS",
@@ -347,11 +341,10 @@ describe("Upload summary tests", () => {
           defaultServerPark: "",
         },
       ],
-    ];
+    };
 
     getAllUsersMock.mockImplementation(() => Promise.resolve(matchingExistingUsers));
 
-    // act
     await act(async () => {
       view = render(
         <UsersToUploadSummary
@@ -364,7 +357,6 @@ describe("Upload summary tests", () => {
       );
     });
 
-    // assert
     const summary = view.getByTestId("summary-panel");
 
     expect(summary).toHaveTextContent("1 of 3 users are valid and will be uploaded");
@@ -399,8 +391,18 @@ describe("UsersToUploadSummary – empty users list", () => {
     const getAllRolesMock = vi.mocked(getAllRoles);
     const getAllUsersMock = vi.mocked(getAllUsers);
 
-    getAllRolesMock.mockResolvedValue([true, [{ name: "DST", permissions: [], description: "" }]]);
-    getAllUsersMock.mockResolvedValue([true, []]);
+    getAllRolesMock.mockResolvedValue({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [{ name: "DST", permissions: [], description: "" }],
+    });
+    getAllUsersMock.mockResolvedValue({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: [],
+    });
 
     const uploadUsers = vi.fn();
 

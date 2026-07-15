@@ -4,7 +4,7 @@ export interface ClientConfig {
 }
 import { getClientRuntimeEnv } from "./env";
 
-export function loadConfigFromEnv(): ClientConfig {
+export function loadClientConfigFromRuntimeEnv(): ClientConfig {
   const runtimeEnv = getClientRuntimeEnv();
 
   return {

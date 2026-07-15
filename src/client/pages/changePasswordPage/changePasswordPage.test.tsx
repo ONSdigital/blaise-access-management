@@ -168,7 +168,12 @@ describe("ChangePassword Component", () => {
     const confirmPasswordInput = getByLabelText("Confirm password");
     const saveButton = getByText("Save");
 
-    (editPassword as Mock).mockResolvedValue(false);
+    (editPassword as Mock).mockResolvedValue({
+      success: false,
+      status: 500,
+      data: {},
+      message: "",
+    });
     await userEvent.type(newPasswordInput, "password123");
     await userEvent.type(confirmPasswordInput, "password123");
     await userEvent.click(saveButton);
@@ -200,7 +205,7 @@ describe("ChangePassword Component", () => {
     const confirmPasswordInput = getByLabelText("Confirm password");
     const saveButton = getByText("Save");
 
-    (editPassword as Mock).mockResolvedValue(true);
+    (editPassword as Mock).mockResolvedValue({ success: true, status: 204, data: {}, message: "" });
     await userEvent.type(newPasswordInput, "password123");
     await userEvent.type(confirmPasswordInput, "password123");
     await userEvent.click(saveButton);

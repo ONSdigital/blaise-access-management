@@ -1,8 +1,9 @@
 import { ErrorPanel, LoadingPanel, Panel, TextInput } from "blaise-design-system-react-components";
-import { type ReactElement, useEffect, useState } from "react";
+import { type ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { getAllUsers } from "../../api/http";
+import { useListLoader } from "../../hooks/useListLoader";
 import { type ReturnPanel, type UsersProps } from "../../types/users.types";
 
 import UsersTable from "./sections/usersTable";
@@ -14,37 +15,17 @@ type ManageUsersPageProps = UsersProps & {
 };
 
 function ManageUsersPage({ currentUser, updatedPanel = null }: ManageUsersPageProps): ReactElement {
-  const [users, setUsers] = useState<User[]>([]);
   const [filterText, setFilterText] = useState<string>("");
-  const [listError, setListError] = useState<string>("Loading ...");
-  const [listLoading, setListLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    getUserList().then(() => {
-      return;
-    });
-  }, []);
-
-  async function getUserList() {
-    setUsers([]);
-    setListLoading(true);
-
-    const [success, usersList] = await getAllUsers();
-
-    setListLoading(false);
-
-    if (!success) {
-      setListError("Unable to load users.");
-
-      return;
-    }
-
-    if (usersList.length === 0) {
-      setListError("No installed users found.");
-    }
-
-    setUsers(usersList);
-  }
+  const {
+    list: users,
+    isLoading: listLoading,
+    listError,
+  } = useListLoader<User>({
+    load: getAllUsers,
+    unableToLoadMessage: "Unable to load users.",
+    emptyListMessage: "No installed users found.",
+    initialError: "Loading ...",
+  });
 
   function filterUsersList(usersList: User[], filterValue: string): User[] {
     if (usersList.length === 0) {

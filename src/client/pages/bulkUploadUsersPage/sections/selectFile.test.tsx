@@ -32,7 +32,6 @@ describe("SelectFile", () => {
       </BrowserRouter>,
     );
 
-    // Use exact role + name to avoid matching the h3 "Bulk upload users template file"
     expect(screen.getByRole("heading", { name: "Bulk upload users", level: 1 })).toBeDefined();
   });
 
@@ -96,7 +95,6 @@ describe("SelectFile", () => {
 
     const input = screen.getByLabelText(/Select users file/i);
 
-    // Use fireEvent to simulate selecting a non-CSV file
     const txtFile = new File(["some data"], "users.txt", { type: "text/plain" });
     const fileList = { 0: txtFile, length: 1, item: () => txtFile };
 
@@ -114,14 +112,12 @@ describe("SelectFile", () => {
       </BrowserRouter>,
     );
 
-    // Trigger error first by clicking Upload with no file
     await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/Select a CSV file to upload/i)).toBeDefined();
     });
 
-    // Clear the input by firing a change event with no files
     const input = screen.getByLabelText(/Select users file/i);
 
     fireEvent.change(input, { target: { files: [] } });
