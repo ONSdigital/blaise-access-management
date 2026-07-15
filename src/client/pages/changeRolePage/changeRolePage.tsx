@@ -167,7 +167,11 @@ export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactEleme
           <h1 className="ons-u-mb-l">
             Change role for user <em className="ons-highlight">{viewedUsername}</em>
           </h1>
-          {setError && <Panel status="error">{setError}</Panel>}
+          {setError && (
+            <div className="ons-u-mb-m">
+              <Panel status="error">{setError}</Panel>
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             <Select
               id="new-user-role"
