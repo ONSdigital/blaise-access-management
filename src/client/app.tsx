@@ -49,9 +49,6 @@ const Roles = lazy(() => {
 const Users = lazy(() => {
   return import("./pages/manageUsersPage/manageUsersPage");
 });
-const PageNotFound = lazy(() => {
-  return import("./pages/shared/pageNotFound");
-});
 
 type AppRoutesProps = {
   user: User;
@@ -68,6 +65,23 @@ const createNavLink = (id: string | undefined, label: string, endpoint: string):
   </Link>
 );
 
+function NotFound(): ReactElement {
+  return (
+    <main
+      id="main-content"
+      className="ons-page__main ons-u-mt-l"
+    >
+      <div className="ons-grid">
+        <div className="ons-grid__col ons-col-8@m">
+          <h1>Page not found</h1>
+          <p>The page you're looking for doesn't exist.</p>
+          <Link to="/">Return home</Link>
+        </div>
+      </div>
+    </main>
+  );
+}
+
 function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
   return (
     <DefaultErrorBoundary>
@@ -79,7 +93,7 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
               <ErrorBoundary
                 errorMessageText={"Unable to load Change Password page. Please try again."}
               >
-                <ChangePassword />
+                <ChangePassword currentUser={user} />
               </ErrorBoundary>
             }
           />
@@ -93,7 +107,7 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
               <ErrorBoundary
                 errorMessageText={"Unable to load Change Role page. Please try again."}
               >
-                <ChangeRole />
+                <ChangeRole currentUser={user} />
               </ErrorBoundary>
             }
           />
@@ -155,7 +169,7 @@ function AppRoutes({ user, updatedPanel }: AppRoutesProps): ReactElement {
           />
           <Route
             path="*"
-            element={<PageNotFound />}
+            element={<NotFound />}
           />
         </Routes>
       </Suspense>

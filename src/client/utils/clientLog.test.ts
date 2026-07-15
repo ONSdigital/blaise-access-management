@@ -101,14 +101,12 @@ describe("sendClientLog", () => {
   });
 
   it("falls back to String(value) when JSON.stringify throws (circular reference)", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const circular: any = {};
+    const circular: { self?: unknown } = {};
 
-    circular.self = circular; // circular reference → JSON.stringify throws
+    circular.self = circular;
 
     await sendClientLog("info", circular);
 
-    // Should still post (String(circular) is "[object Object]")
     expect(axiosPostMock).toHaveBeenCalled();
   });
 });

@@ -69,9 +69,7 @@ function ManageUsersPage({ currentUser, updatedPanel = null }: ManageUsersPagePr
   return (
     <>
       {updatedPanel && updatedPanel.visible ? (
-        <Panel status={updatedPanel.status}>
-          <div className="ons-panel__body">{updatedPanel.message}</div>
-        </Panel>
+        <Panel status={updatedPanel.status}>{updatedPanel.message}</Panel>
       ) : null}
       <main
         id="main-content"

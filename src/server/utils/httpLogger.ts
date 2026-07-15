@@ -8,7 +8,6 @@ type RequestSerializerInput = {
   };
 };
 
-// https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity
 const PinoLevelToSeverityLookup = {
   trace: "DEBUG",
   debug: "DEBUG",
@@ -18,14 +17,20 @@ const PinoLevelToSeverityLookup = {
   fatal: "CRITICAL",
 };
 
+type PinoLevel = keyof typeof PinoLevelToSeverityLookup;
+
+function isPinoLevel(label: unknown): label is PinoLevel {
+  return typeof label === "string" && label in PinoLevelToSeverityLookup;
+}
+
 const defaultPinoConf = {
   messageKey: "message",
   formatters: {
     level(label: unknown, number: unknown) {
       return {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        severity: PinoLevelToSeverityLookup[label] || PinoLevelToSeverityLookup["info"],
+        severity: isPinoLevel(label)
+          ? PinoLevelToSeverityLookup[label]
+          : PinoLevelToSeverityLookup["info"],
         level: number,
       };
     },

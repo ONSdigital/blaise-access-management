@@ -47,9 +47,7 @@ function Confirmation({ validUsers, uploadUsers }: Props): ReactElement {
           confirmDeleteRadios(validUsers, setConfirm)
         ) : (
           <Panel status={"error"}>
-            <p className="ons-panel__error">
-              <strong>{formError}</strong>
-            </p>
+            <strong>{formError}</strong>
             {confirmDeleteRadios(validUsers, setConfirm)}
           </Panel>
         )}

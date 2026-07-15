@@ -65,7 +65,6 @@ describe("ManageUserPage Component", () => {
       </MemoryRouter>,
     );
 
-    // Wait for state update
     await act(async () => {});
 
     await waitFor(() => {
@@ -115,18 +114,5 @@ describe("ManageUserPage Component", () => {
         /Unable to load user details, please try again. If this continues, please the contact service desk./i,
       ),
     ).toBeVisible();
-  });
-
-  it("renders UserSignInErrorPanel when currentUser is null", () => {
-    const { getByText } = render(
-      <MemoryRouter initialEntries={[mockState]}>
-        <ManageUserPage
-          currentUser={null as unknown as User}
-          updatedPanel={null}
-        />
-      </MemoryRouter>,
-    );
-
-    expect(getByText(/Sorry, there is a problem/i)).toBeDefined();
   });
 });

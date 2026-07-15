@@ -198,16 +198,14 @@ export default function GetNodeServer(
   const blaiseApiRouter = blaiseApi(config, auth, blaiseApiClient, auditLogger);
   const clientLogRouter = newClientLogHandler(auth, auditLogger);
 
-  // GCP health check
   server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
-    auditLogger.info(req.log, "Heath Check endpoint called");
+    auditLogger.info(req.log, "Heath check endpoint called");
     res.status(200).json({ healthy: true });
   });
   server.use("/", loginRouter);
   server.use("/", apiRateLimiter, clientLogRouter);
   server.use("/", apiRateLimiter, blaiseApiRouter);
 
-  // treat the index.html as a template and substitute the values at runtime
   server.set("views", path.join(process.cwd(), "src/server/views"));
   server.engine("html", ejs.renderFile);
   server.use("/static", express.static(path.join(process.cwd(), "build/client/static")));

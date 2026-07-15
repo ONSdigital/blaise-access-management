@@ -34,7 +34,6 @@ export default defineConfig({
         "src/**/*.types.ts",
         "src/**/setupTests.ts",
         "src/client/test-utils/**",
-        // Entry-point bootstrap files — not unit-testable
         "src/client/index.tsx",
         "src/server/index.ts",
       ],

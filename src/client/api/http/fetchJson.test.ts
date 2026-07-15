@@ -9,7 +9,6 @@ describe("fetchJson", () => {
       vi.fn(() =>
         Promise.resolve({
           status: 204,
-          // 204 should NOT call .json()
           json: () => Promise.reject(new Error("Should not call json() on 204")),
         }),
       ),

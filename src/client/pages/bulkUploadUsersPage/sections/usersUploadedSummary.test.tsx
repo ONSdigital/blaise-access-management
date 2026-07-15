@@ -47,7 +47,6 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    // 'user' not 'users' for count of 1
     expect(screen.getByText(/one of one/i)).toBeDefined();
   });
 
@@ -61,7 +60,6 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    // The heading contains 'users' (plural) due to numberOfValidUsers > 1
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/users/i);
   });
 

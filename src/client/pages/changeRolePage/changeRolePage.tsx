@@ -1,22 +1,36 @@
 import { Button, LoadingPanel, Panel, Select } from "blaise-design-system-react-components";
-import { type FormEvent, type ReactElement, useEffect, useState } from "react";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { type FormEvent, type ReactElement, useCallback, useEffect, useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-import { getAllRoles, patchUserRolesAndPermissions } from "../../api/http";
+import { getAllRoles, getUser, patchUserRolesAndPermissions } from "../../api/http";
 import { type RedirectWithData, type UserRouteParams } from "../../types/users.types";
-import UserSignInErrorPanel from "../shared/userSignInErrorPanel";
+import { type GetUserResponse } from "../../types/usersApi.types";
 
-import type { UserRole } from "blaise-api-node-client";
+import type { User, UserRole } from "blaise-api-node-client";
 
-export default function ChangeRole(): ReactElement {
+type ChangeRoleProps = {
+  currentUser: User;
+};
+
+function getRoleName(role: User["role"]): string {
+  if (typeof role === "string") {
+    return role;
+  }
+
+  return role?.name ?? "";
+}
+
+function hasRoleData(
+  userDetails: GetUserResponse | null,
+): userDetails is GetUserResponse & { data: User } {
+  return Boolean(userDetails && "role" in userDetails.data);
+}
+
+export default function ChangeRole({ currentUser }: ChangeRoleProps): ReactElement {
   const navigate = useNavigate();
   const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
-  const { state } = useLocation();
-  const { currentUser, viewedUserDetails } = state || {
-    currentUser: null,
-    viewedUserDetails: null,
-  };
-  const [role, setRole] = useState<string>(viewedUserDetails?.data?.role ?? "");
+  const [viewedUserDetails, setViewedUserDetails] = useState<GetUserResponse | null>(null);
+  const [role, setRole] = useState<string>("");
   const [roleList, setRoleList] = useState<UserRole[]>([]);
   const [redirectWithData, setRedirectWithData] = useState<RedirectWithData>({
     redirect: false,
@@ -27,17 +41,32 @@ export default function ChangeRole(): ReactElement {
   const [setError, setSetError] = useState<string | null>(null);
   const [setLoading, setSetLoading] = useState<boolean>(true);
 
-  const getRoleList = async () => {
+  const getRoleList = useCallback(async () => {
     try {
       const [, roleList] = await getAllRoles();
 
       setRoleList(roleList);
-      setSetLoading(false);
     } catch {
       setSetError("Failed to fetch roles list, please try again");
-      setSetLoading(false);
     }
-  };
+  }, []);
+
+  const getViewedUserDetails = useCallback(async () => {
+    try {
+      const data = await getUser(viewedUsername);
+
+      if (!("role" in data.data)) {
+        setSetError("Unable to load user details, please try again");
+
+        return;
+      }
+
+      setViewedUserDetails(data);
+      setRole(getRoleName(data.data.role));
+    } catch {
+      setSetError("Unable to load user details, please try again");
+    }
+  }, [viewedUsername]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,13 +74,13 @@ export default function ChangeRole(): ReactElement {
   };
 
   const changeBlaiseUserRolesAndServerParks = async () => {
-    if (!viewedUserDetails || !viewedUserDetails.data) {
+    if (!hasRoleData(viewedUserDetails)) {
       console.log("Viewed user details is undefined or null");
 
       return;
     }
 
-    if (role === viewedUserDetails.role) {
+    if (role === getRoleName(viewedUserDetails.data.role)) {
       console.log("User already has role: ", role);
 
       return;
@@ -75,11 +104,13 @@ export default function ChangeRole(): ReactElement {
   };
 
   useEffect(() => {
-    getRoleList();
-  }, []);
+    void Promise.all([getRoleList(), getViewedUserDetails()]).finally(() => {
+      setSetLoading(false);
+    });
+  }, [getRoleList, getViewedUserDetails]);
 
-  if (!currentUser || !viewedUserDetails || setError) {
-    return setError ? <Panel status="error">{setError}</Panel> : <UserSignInErrorPanel />;
+  if (setError) {
+    return <Panel status="error">{setError}</Panel>;
   }
 
   return (

@@ -23,7 +23,9 @@ exports[`DeleteUser Component > matches the snapshot 1`] = `
       >
         <legend
           class="ons-fieldset__legend"
-        />
+        >
+          Confirm delete action
+        </legend>
         <div
           class="ons-radios__items"
         >
@@ -58,6 +60,7 @@ exports[`DeleteUser Component > matches the snapshot 1`] = `
             >
               <input
                 aria-label="No"
+                checked=""
                 class="ons-radio__input ons-js-radio "
                 id="no-delete-item"
                 name="confirm-delete"
@@ -76,7 +79,7 @@ exports[`DeleteUser Component > matches the snapshot 1`] = `
       </fieldset>
       <br />
       <button
-        type="button"
+        type="submit"
       >
         Save
       </button>

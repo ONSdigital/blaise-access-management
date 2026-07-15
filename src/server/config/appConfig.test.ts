@@ -10,6 +10,7 @@ describe("Config setup", () => {
       BLAISE_API_URL: "http://mock",
       SERVER_PARK: "mock-server-park",
       URL_DOMAIN: "blaise.gcp.onsdigital.uk",
+      SESSION_SECRET: "mock-session-secret",
     };
   });
 
@@ -43,11 +44,27 @@ describe("Config setup", () => {
     expect(() => loadConfigFromEnv()).toThrow("Missing required environment variables: URL_DOMAIN");
   });
 
+  it("should throw when SESSION_SECRET is missing", () => {
+    delete process.env.SESSION_SECRET;
+
+    expect(() => loadConfigFromEnv()).toThrow(
+      "Missing required environment variables: SESSION_SECRET",
+    );
+  });
+
   it("should throw when required environment variables are unresolved placeholders", () => {
     process.env.BLAISE_API_URL = "_BLAISE_API_URL";
 
     expect(() => assertResolvedRequiredEnv(process.env)).toThrow(
       "Missing required environment variables: BLAISE_API_URL",
+    );
+  });
+
+  it("should throw when SESSION_SECRET is an unresolved placeholder", () => {
+    process.env.SESSION_SECRET = "_SESSION_SECRET";
+
+    expect(() => assertResolvedRequiredEnv(process.env)).toThrow(
+      "Missing required environment variables: SESSION_SECRET",
     );
   });
 
@@ -59,52 +76,9 @@ describe("Config setup", () => {
     expect(config.BlaiseApiUrl).toBe("http://blaise-api:8080");
   });
 
-  it("should use custom ROLES when provided", () => {
-    process.env.ROLES = "DST,BDSS,IPS Manager";
-
-    const config = loadConfigFromEnv();
-
-    expect(config.Roles).toEqual(["DST", "BDSS", "IPS Manager"]);
-  });
-
-  it("should default ROLES to DST when ROLES is empty", () => {
-    process.env.ROLES = "";
-
+  it("should return the hardcoded ALLOWED_ROLES", () => {
     const config = loadConfigFromEnv();
 
     expect(config.Roles).toEqual(["DST"]);
-  });
-
-  it("should default ROLES to DST when ROLES is the placeholder _ROLES", () => {
-    process.env.ROLES = "_ROLES";
-
-    const config = loadConfigFromEnv();
-
-    expect(config.Roles).toEqual(["DST"]);
-  });
-
-  it("should use provided SESSION_SECRET", () => {
-    process.env.SESSION_SECRET = "my-secret-key";
-
-    const config = loadConfigFromEnv();
-
-    expect(config.SessionSecret).toBe("my-secret-key");
-  });
-
-  it("should generate a random SESSION_SECRET when it is the placeholder", () => {
-    process.env.SESSION_SECRET = "_SESSION_SECRET";
-
-    const config = loadConfigFromEnv();
-
-    // Generated secret should be a hex string of 40 chars (20 bytes)
-    expect(config.SessionSecret).toMatch(/^[a-f0-9]{40}$/);
-  });
-
-  it("should generate a random SESSION_SECRET when it is empty", () => {
-    process.env.SESSION_SECRET = "";
-
-    const config = loadConfigFromEnv();
-
-    expect(config.SessionSecret).toMatch(/^[a-f0-9]{40}$/);
   });
 });

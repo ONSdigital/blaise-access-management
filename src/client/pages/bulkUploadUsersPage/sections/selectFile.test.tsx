@@ -158,7 +158,6 @@ describe("SelectFile", () => {
     await userEvent.upload(input, emptyFile);
     await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
 
-    // With empty CSV, parseCsv returns [] → setUploadError fires
     await waitFor(() => {
       expect(screen.getByText(/Select a CSV file to upload/i)).toBeDefined();
     });

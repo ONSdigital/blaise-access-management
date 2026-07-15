@@ -1,5 +1,5 @@
 import { Button, Panel } from "blaise-design-system-react-components";
-import { type ReactElement, useState } from "react";
+import { type FormEvent, type ReactElement, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 
 import { deleteUser } from "../../api/http";
@@ -18,6 +18,11 @@ function DeleteUser(): ReactElement {
   });
   const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
 
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    void deleteUserConfirm();
+  }
+
   async function deleteUserConfirm() {
     if (!confirm) {
       setRedirectPath(`/users/${viewedUsername}`);
@@ -27,6 +32,7 @@ function DeleteUser(): ReactElement {
       return;
     }
 
+    setButtonLoading(true);
     const deleted = await deleteUser(viewedUsername);
 
     if (!deleted) {
@@ -68,9 +74,9 @@ function DeleteUser(): ReactElement {
           {message}
         </Panel>
 
-        <form onSubmit={() => deleteUserConfirm()}>
+        <form onSubmit={handleSubmit}>
           <fieldset className="ons-fieldset">
-            <legend className="ons-fieldset__legend"></legend>
+            <legend className="ons-fieldset__legend">Confirm delete action</legend>
             <div className="ons-radios__items">
               <p className="ons-radios__item">
                 <span className="ons-radio">
@@ -81,6 +87,7 @@ function DeleteUser(): ReactElement {
                     value="True"
                     name="confirm-delete"
                     aria-label="Yes"
+                    checked={confirm}
                     onChange={() => setConfirm(true)}
                   />
                   <label
@@ -101,6 +108,7 @@ function DeleteUser(): ReactElement {
                     value="False"
                     name="confirm-delete"
                     aria-label="No"
+                    checked={!confirm}
                     onChange={() => setConfirm(false)}
                   />
                   <label
@@ -118,8 +126,8 @@ function DeleteUser(): ReactElement {
           <Button
             label={"Save"}
             primary={true}
+            submit={true}
             loading={buttonLoading}
-            onClick={() => deleteUserConfirm()}
           />
         </form>
       </main>

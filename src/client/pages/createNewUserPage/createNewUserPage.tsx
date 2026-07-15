@@ -105,8 +105,7 @@ function CreateNewUserPage(): ReactElement {
 
   async function getRoleList() {
     setRoleList([]);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_success, roleList] = await getAllRoles();
+    const [, roleList] = await getAllRoles();
 
     setRole(roleList[0]?.name ?? "");
     setRoleList(roleList);

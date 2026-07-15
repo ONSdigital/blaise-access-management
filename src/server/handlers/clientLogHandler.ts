@@ -49,11 +49,18 @@ function normaliseLevel(level: ClientLogLevel): NormalisedClientLogLevel {
   }
 }
 
-// eslint-disable-next-line no-control-regex
-const CONTROL_CHARS_RE = /[\x00-\x1F\x7F\u2028\u2029]/g;
-
 function sanitise(value: string): string {
-  return value.replace(CONTROL_CHARS_RE, " ").replace(/\s+/g, " ").trim();
+  const withoutControlChars = Array.from(value, (character) => {
+    const code = character.charCodeAt(0);
+
+    if ((code >= 0x00 && code <= 0x1f) || code === 0x7f || code === 0x2028 || code === 0x2029) {
+      return " ";
+    }
+
+    return character;
+  }).join("");
+
+  return withoutControlChars.replace(/\s+/g, " ").trim();
 }
 
 function clamp(value: string, maxLength: number): string {

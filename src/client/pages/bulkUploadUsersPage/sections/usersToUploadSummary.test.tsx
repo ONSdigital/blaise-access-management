@@ -145,7 +145,7 @@ describe("Upload summary tests", () => {
       {
         name: "Rob",
         password: "pass2",
-        role: "BOB", // invalid role
+        role: "BOB",
         valid: false,
         warnings: [],
       },
@@ -190,7 +190,7 @@ describe("Upload summary tests", () => {
       {
         name: "Rob",
         password: "pass2",
-        role: "BOB", // invalid role
+        role: "BOB",
         valid: false,
         warnings: [],
       },
@@ -244,7 +244,7 @@ describe("Upload summary tests", () => {
     //arrange
     const importedUsersIncludingExisting: ImportUser[] = [
       {
-        name: "Jamie", // user already exists
+        name: "Jamie",
         password: "pass",
         role: "BDSS",
         valid: false,
@@ -258,7 +258,7 @@ describe("Upload summary tests", () => {
         warnings: [],
       },
       {
-        name: "Rich", // user already exists
+        name: "Rich",
         password: "pass3",
         role: "BDSS",
         valid: false,
@@ -309,7 +309,7 @@ describe("Upload summary tests", () => {
     //arrange
     const importedUsersIncludingExisting: ImportUser[] = [
       {
-        name: "Jamie", // user already exists
+        name: "Jamie",
         password: "pass",
         role: "BDSS",
         valid: false,
@@ -323,7 +323,7 @@ describe("Upload summary tests", () => {
         warnings: [],
       },
       {
-        name: "Rich", // user already exists
+        name: "Rich",
         password: "pass3",
         role: "BDSS",
         valid: false,

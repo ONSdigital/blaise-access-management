@@ -1,16 +1,19 @@
 import { Button, Panel, PasswordInput } from "blaise-design-system-react-components";
 import { type ReactElement, useState } from "react";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import { editPassword } from "../../api/http/users";
 import { type UserRouteParams } from "../../types/users.types";
-import UserSignInErrorPanel from "../shared/userSignInErrorPanel";
 
-export default function ChangePassword(): ReactElement {
+import type { User } from "blaise-api-node-client";
+
+type ChangePasswordProps = {
+  currentUser: User;
+};
+
+export default function ChangePassword({ currentUser }: ChangePasswordProps): ReactElement {
   const navigate = useNavigate();
   const { user: viewedUsername }: UserRouteParams = useParams() as unknown as UserRouteParams;
-  const { state } = useLocation();
-  const { currentUser } = state || { currentUser: null, viewedUserDetails: null };
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -45,10 +48,6 @@ export default function ChangePassword(): ReactElement {
     setButtonLoading(false);
     setRedirect(true);
   };
-
-  if (!currentUser) {
-    return <UserSignInErrorPanel />;
-  }
 
   return (
     <>

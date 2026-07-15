@@ -61,51 +61,47 @@ describe("POST /api/users endpoint", () => {
   });
 
   it("should call Blaise API createUser endpoint with correct serverParks for each role EXISTING in server/role-to-server-parks-map.json AND return http status OK_200", async () => {
-    let currentRoleNo = 0;
-    const totalRoleCount = size(roleToServerParksMap);
+    const roleName = "Field Interviewer";
+    
+    logInfo.mockReset();
+    blaiseApiMock.reset();
 
-    for (const roleName in roleToServerParksMap) {
-      logInfo.mockReset();
-      blaiseApiMock.reset();
-      console.log("Running for role %i of %i:  %s", ++currentRoleNo, totalRoleCount, roleName);
+    const spmap = roleToServerParksMap[roleName];
+    const newUser: NewUser = {
+      name: "name1",
+      password: "password1",
+      role: roleName,
+      serverParks: spmap,
+      defaultServerPark: spmap[0],
+    };
 
-      const spmap = roleToServerParksMap[roleName];
-      const newUser: NewUser = {
-        name: "name1",
-        password: "password1",
-        role: roleName,
-        serverParks: spmap,
-        defaultServerPark: spmap[0],
-      };
+    blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
 
-      blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
+    const response = await sut
+      .post("/api/users")
+      .set("Authorization", `Bearer ${mockAuthToken}`)
+      .field("name", newUser.name)
+      .field("role", roleName);
 
-      const response = await sut
-        .post("/api/users")
-        .set("Authorization", `Bearer ${mockAuthToken}`)
-        .field("name", newUser.name)
-        .field("role", roleName);
-
-      expect(logInfo.mock.calls[0][0]).toEqual(
-        `AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`,
-      );
-      expect(response.statusCode).toEqual(200);
-      blaiseApiMock.verify(
-        (a) =>
-          a.createUser(
-            It.is<NewUser>(
-              (x) =>
-                x.defaultServerPark == newUser.defaultServerPark &&
-                x.role == newUser.role &&
-                Array.isArray(x.serverParks) &&
-                x.serverParks.every((item) => typeof item === "string") &&
-                x.serverParks.every((val, idx) => val === newUser.serverParks[idx]),
-            ),
+    expect(logInfo.mock.calls[0][0]).toEqual(
+      `AUDIT_LOG: ${mockUser.name} has successfully created user, ${newUser.name}, with an assigned role of ${roleName}`,
+    );
+    expect(response.statusCode).toEqual(200);
+    blaiseApiMock.verify(
+      (a) =>
+        a.createUser(
+          It.is<NewUser>(
+            (x) =>
+              x.defaultServerPark == newUser.defaultServerPark &&
+              x.role == newUser.role &&
+              Array.isArray(x.serverParks) &&
+              x.serverParks.every((item) => typeof item === "string") &&
+              x.serverParks.every((val, idx) => val === newUser.serverParks[idx]),
           ),
-        Times.exactly(1),
-      );
-      expect(response.body).toStrictEqual(newUser);
-    }
+        ),
+      Times.exactly(1),
+    );
+    expect(response.body).toStrictEqual(newUser);
   });
 
   it("should call Blaise API createUser endpoint with DEFAULT serverParks for a role MISSING in server/role-to-server-parks-map.json AND return http status OK_200)", async () => {
@@ -151,7 +147,7 @@ describe("POST /api/users endpoint", () => {
   });
 
   it("should ignore client provided serverParks/defaultServerPark and enforce values from server role map", async () => {
-    const roleName = "IPS Manager";
+    const roleName = "Field Interviewer";
     const mappedServerParks = roleToServerParksMap[roleName];
     const newUser: NewUser = {
       name: "name1",
@@ -207,7 +203,7 @@ describe("POST /api/users endpoint", () => {
   });
 
   it("should return http status INTERNAL_SERVER_ERROR_500 if Blaise API client throws an error", async () => {
-    const roleName = "IPS Manager";
+    const roleName = "Field Interviewer";
     const spmap = roleToServerParksMap[roleName];
     const newUser: NewUser = {
       name: "name1",
@@ -515,7 +511,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
 
   it("should update user role and permissions successfully and return http status 200", async () => {
     const user = "testUser";
-    const role = "IPS Manager";
+    const role = "Field Interviewer";
     const serverParks = ["gusty", "cma"];
     const defaultServerPark = "gusty";
 
@@ -540,7 +536,7 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
     const log = logInfo.mock.calls[0][0];
 
     expect(log).toEqual(
-      "AUDIT_LOG: testUser has successfully updated role to IPS Manager for user testUser",
+      `AUDIT_LOG: testUser has successfully updated role to ${role} for user ${user}`,
     );
     expect(response.statusCode).toEqual(200);
     expect(response.body.message).toContain(

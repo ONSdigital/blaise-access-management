@@ -5,14 +5,13 @@ import { useParams } from "react-router-dom";
 import { getUser } from "../../api/http";
 import { type ReturnPanel } from "../../types/users.types";
 import { type GetUserResponse } from "../../types/usersApi.types";
-import UserSignInErrorPanel from "../shared/userSignInErrorPanel";
 
 import UserTable from "./sections/userTable";
 
 import type { User } from "blaise-api-node-client";
 
 type ManageUserPageProps = {
-  currentUser: User | null;
+  currentUser: User;
   updatedPanel?: ReturnPanel | null;
 };
 
@@ -45,22 +44,12 @@ export default function ManageUserPage({ currentUser, updatedPanel = null }: Man
     }
   }, [fetchUserDetails, viewedUsername]);
 
-  if (!currentUser) {
-    return <UserSignInErrorPanel />;
-  }
-
   return (
     <>
       {updatedPanel && updatedPanel.visible ? (
-        <Panel status={updatedPanel.status}>
-          <div className="ons-panel__body">{updatedPanel.message}</div>
-        </Panel>
+        <Panel status={updatedPanel.status}>{updatedPanel.message}</Panel>
       ) : null}
-      {error && (
-        <Panel status={"error"}>
-          <div className="ons-panel__body">{error}</div>
-        </Panel>
-      )}
+      {error && <Panel status={"error"}>{error}</Panel>}
       {loading ? (
         <LoadingPanel />
       ) : (

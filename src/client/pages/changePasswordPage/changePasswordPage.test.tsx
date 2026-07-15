@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 import { MemoryRouter, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import { editPassword } from "../../api/http/users";
 
 import ChangePassword from "./changePasswordPage";
 
+import type { User } from "blaise-api-node-client";
 import type { Mock } from "vitest";
 
 vi.mock("blaise-design-system-react-components", async () => {
@@ -53,6 +54,13 @@ const mockState = {
   state: { currentUser: "currentUser" },
 };
 
+const currentUser: User = {
+  name: "currentUser",
+  role: "Manager",
+  serverParks: ["gusty"],
+  defaultServerPark: "gusty",
+};
+
 function RedirectStateMessage() {
   const { state } = useLocation();
   const message = (state as { updatedPanel?: { message?: string } } | null)?.updatedPanel?.message;
@@ -74,7 +82,7 @@ describe("ChangePassword Component", () => {
   it("matches the snapshot", async () => {
     const { asFragment } = render(
       <MemoryRouter initialEntries={[mockState]}>
-        <ChangePassword />
+        <ChangePassword currentUser={currentUser} />
       </MemoryRouter>,
     );
 
@@ -84,7 +92,7 @@ describe("ChangePassword Component", () => {
   it("displays error message when passwords are empty", async () => {
     const { findByText, getByText } = render(
       <MemoryRouter initialEntries={[mockState]}>
-        <ChangePassword />
+        <ChangePassword currentUser={currentUser} />
       </MemoryRouter>,
     );
 
@@ -98,7 +106,7 @@ describe("ChangePassword Component", () => {
   it("displays error message when passwords do not match", async () => {
     const { findByText, getByLabelText, getByText } = render(
       <MemoryRouter initialEntries={[mockState]}>
-        <ChangePassword />
+        <ChangePassword currentUser={currentUser} />
       </MemoryRouter>,
     );
 
@@ -116,7 +124,7 @@ describe("ChangePassword Component", () => {
   it("calls editPassword function with correct parameters upon form submission with correct username and password without any trailing whitespaces", async () => {
     const { getByLabelText, getByText } = render(
       <MemoryRouter initialEntries={[mockState]}>
-        <ChangePassword />
+        <ChangePassword currentUser={currentUser} />
       </MemoryRouter>,
     );
 
@@ -134,7 +142,7 @@ describe("ChangePassword Component", () => {
   it("calls editPassword function with correct parameters upon form submission with correct username and password", async () => {
     const { getByLabelText, getByText } = render(
       <MemoryRouter initialEntries={[mockState]}>
-        <ChangePassword />
+        <ChangePassword currentUser={currentUser} />
       </MemoryRouter>,
     );
 
@@ -152,7 +160,7 @@ describe("ChangePassword Component", () => {
   it("displays error message if the function returns false", async () => {
     const { getByLabelText, getByText, findByText } = render(
       <MemoryRouter initialEntries={[mockState]}>
-        <ChangePassword />
+        <ChangePassword currentUser={currentUser} />
       </MemoryRouter>,
     );
 
@@ -178,7 +186,7 @@ describe("ChangePassword Component", () => {
         <Routes>
           <Route
             path={initialPath}
-            element={<ChangePassword />}
+            element={<ChangePassword currentUser={currentUser} />}
           />
           <Route
             path={destinationPath}
@@ -200,26 +208,6 @@ describe("ChangePassword Component", () => {
     expect(editPassword).toHaveBeenCalledWith("testUser", "password123");
     expect(await findByText("Password successfully changed for user testUser")).toBeInTheDocument();
   });
-
-  it("renders UserSignInErrorPanel when currentUser is null", () => {
-    const invalidState = {
-      pathname: `/users/${mockUserDetails.name}/change-password`,
-      state: { currentUser: null },
-    };
-
-    render(
-      <MemoryRouter initialEntries={[invalidState]}>
-        <ChangePassword />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByText("Sorry, there is a problem")).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /User details cannot be found\.\s*Please try again and ensure you are signed in\./i,
-      ),
-    ).toBeInTheDocument();
-  });
 });
 
 it("navigates back when Cancel is clicked", async () => {
@@ -228,7 +216,7 @@ it("navigates back when Cancel is clicked", async () => {
       <Routes>
         <Route
           path="/users/:user/change-password"
-          element={<ChangePassword />}
+          element={<ChangePassword currentUser={currentUser} />}
         />
       </Routes>
     </MemoryRouter>,

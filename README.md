@@ -49,6 +49,8 @@ Example `.env` file:
 BLAISE_API_URL=localhost:8080
 SERVER_PARK=gusty
 PROJECT_ID=ons-blaise-v2-dev
+URL_DOMAIN=localhost
+SESSION_SECRET=blah
 ```
 
 ### Run the app
