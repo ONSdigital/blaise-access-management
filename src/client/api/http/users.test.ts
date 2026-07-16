@@ -309,6 +309,60 @@ describe("Function getUser(user: string)", () => {
     expect(result.success).toBe(false);
     expect(result.status).toBe(500);
   });
+
+  it("falls back to top-level message and empty user when response data is not an object", async () => {
+    fetchJsonMock.mockResolvedValueOnce({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: "invalid payload",
+    });
+
+    const result = await getUser("testUser");
+
+    expect(result.success).toBe(true);
+    expect(result.message).toBe("Request completed");
+    expect(result.data).toEqual({});
+  });
+
+  it("falls back to empty user when nested data object is missing", async () => {
+    fetchJsonMock.mockResolvedValueOnce({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: {
+        message: "User payload missing",
+      },
+    });
+
+    const result = await getUser("testUser");
+
+    expect(result.success).toBe(true);
+    expect(result.message).toBe("User payload missing");
+    expect(result.data).toEqual({});
+  });
+
+  it("falls back to empty user when nested data is not a valid user", async () => {
+    fetchJsonMock.mockResolvedValueOnce({
+      success: true,
+      status: 200,
+      message: "Request completed",
+      data: {
+        message: "Invalid user",
+        data: {
+          name: "testUser",
+          role: "DST",
+          serverParks: ["gusty"],
+        },
+      },
+    });
+
+    const result = await getUser("testUser");
+
+    expect(result.success).toBe(true);
+    expect(result.message).toBe("Invalid user");
+    expect(result.data).toEqual({});
+  });
 });
 
 describe("Function getAllUsers", () => {

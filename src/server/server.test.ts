@@ -125,6 +125,48 @@ describe("server.ts focused coverage", () => {
     expect(key).toBe(ipKeyGenerator("198.51.100.10"));
   });
 
+  it("parses bracketed IPv6 Forwarded values for page limiter keys", () => {
+    createServer();
+
+    const pageRateLimit = capturedRateLimitOptions[1];
+    const key = pageRateLimit.keyGenerator?.({
+      headers: { forwarded: 'for="[2001:db8:cafe::17]"' },
+      socket: { remoteAddress: "127.0.0.1" },
+    });
+
+    expect(key).toBe(ipKeyGenerator("2001:db8:cafe::17"));
+  });
+
+  it("parses IPv4 Forwarded values with ports after skipping unrelated parameters", () => {
+    createServer();
+
+    const pageRateLimit = capturedRateLimitOptions[1];
+    const key = pageRateLimit.keyGenerator?.({
+      headers: { forwarded: "proto=https;by=203.0.113.43;for=198.51.100.12:8443" },
+      socket: { remoteAddress: "127.0.0.1" },
+    });
+
+    expect(key).toBe(ipKeyGenerator("198.51.100.12"));
+  });
+
+  it("falls back when Forwarded values are unknown or unusable", () => {
+    createServer();
+
+    const pageRateLimit = capturedRateLimitOptions[1];
+    const forwardedUnknownKey = pageRateLimit.keyGenerator?.({
+      headers: { forwarded: "proto=https;for=unknown" },
+      ip: "198.51.100.77",
+      socket: { remoteAddress: "127.0.0.1" },
+    });
+    const missingForKey = pageRateLimit.keyGenerator?.({
+      headers: { forwarded: "proto=https;host=example.test" },
+      socket: { remoteAddress: "203.0.113.45" },
+    });
+
+    expect(forwardedUnknownKey).toBe(ipKeyGenerator("198.51.100.77"));
+    expect(missingForKey).toBe(ipKeyGenerator("203.0.113.45"));
+  });
+
   it("falls back to forwarded header key when authenticated user lookup throws", () => {
     const authDouble = {
       getToken: vi.fn(() => {

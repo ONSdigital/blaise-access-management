@@ -10,6 +10,8 @@ import createNodeServer from "../server.js";
 import AuditLogger from "../utils/auditLogger.js";
 import createLogger from "../utils/httpLogger.js";
 
+import { singleValue } from "./blaiseApi.js";
+
 import type { NewUser, User, UserRole } from "blaise-api-node-client";
 import type { HttpLogger } from "pino-http";
 import type { IMock } from "typemoq";
@@ -51,6 +53,44 @@ const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(
 
 const server = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
 const sut = supertest(server);
+
+describe("singleValue function", () => {
+  it("should return first element when value is an array", () => {
+    const result = singleValue(["first", "second", "third"]);
+
+    expect(result).toEqual("first");
+  });
+
+  it("should return the value when it is a string", () => {
+    const result = singleValue("test-value");
+
+    expect(result).toEqual("test-value");
+  });
+
+  it("should return undefined when value is undefined", () => {
+    const result = singleValue(undefined);
+
+    expect(result).toBeUndefined();
+  });
+
+  it("should return first element from array with one item", () => {
+    const result = singleValue(["only-item"]);
+
+    expect(result).toEqual("only-item");
+  });
+
+  it("should return undefined when passed an empty array", () => {
+    const result = singleValue([]);
+
+    expect(result).toBeUndefined();
+  });
+
+  it("should return empty string when passed empty string", () => {
+    const result = singleValue("");
+
+    expect(result).toEqual("");
+  });
+});
 
 describe("POST /api/users endpoint", () => {
   beforeEach(() => {
@@ -183,6 +223,33 @@ describe("POST /api/users endpoint", () => {
     expect(response.body).toStrictEqual(newUser);
   });
 
+  it("should call Blaise API createUser endpoint and handle role as array by taking first element", async () => {
+    const roleName = "Field Interviewer";
+    const spmap = roleToServerParksMap[roleName];
+    const newUser: NewUser = {
+      name: "name1",
+      password: "password1",
+      role: roleName,
+      serverParks: spmap,
+      defaultServerPark: spmap[0],
+    };
+
+    blaiseApiMock.setup((api) => api.createUser(It.isAny())).returns(async () => newUser);
+
+    const response = await sut
+      .post("/api/users")
+      .set("Authorization", `Bearer ${mockAuthToken}`)
+      .field("name", newUser.name)
+      .field("role", roleName)
+      .field("role", "second-role");
+
+    expect(response.statusCode).toEqual(200);
+    blaiseApiMock.verify(
+      (a) => a.createUser(It.is<NewUser>((x) => x.role === roleName)),
+      Times.exactly(1),
+    );
+  });
+
   it("should return http status BAD_REQUEST_400 if role is empty OR hasn't been specified in the request", async () => {
     let response = await sut
       .post("/api/users")
@@ -262,9 +329,22 @@ describe("DELETE /api/users endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} has successfully deleted user ${username}`);
+    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} deleted user ${username}`);
     expect(response.statusCode).toEqual(204);
     blaiseApiMock.verify((a) => a.deleteUser(It.isValue<string>(username)), Times.once());
+  });
+
+  it("should handle user header that is an array and join it before calling deleteUser", async () => {
+    blaiseApiMock.setup((api) => api.deleteUser(It.isAny())).returns((_) => Promise.resolve(null));
+
+    const req = sut.delete("/api/users").set("Authorization", `Bearer ${mockAuthToken}`);
+
+    req.set("user", "value1");
+    req.set("user", "value2");
+
+    const response = await req;
+
+    expect(response.statusCode).toEqual(204);
   });
 
   it("should return error message if external Blaise API deleteUser endpoint rejects request with error message AND should return http status INTERNAL_SERVER_ERROR_500", async () => {
@@ -281,7 +361,7 @@ describe("DELETE /api/users endpoint", () => {
       .set("user", username);
 
     const log = logError.mock.calls[0][0];
-    const successMessage = `AUDIT_LOG: ${mockUser.name} has successfully deleted user ${username}`;
+    const successMessage = `AUDIT_LOG: ${mockUser.name} deleted user ${username}`;
 
     expect(log).toEqual(
       `AUDIT_LOG: Error whilst trying to delete user, ${username}, with error message: ${errorMessage}`,
@@ -611,6 +691,25 @@ describe("GET /api/users/:user endpoint", () => {
     blaiseApiMock.reset();
   });
 
+  it("should handle user param and call getUser with the extracted value", async () => {
+    const user: NewUser = {
+      name: "test",
+      password: "password1",
+      role: "DST",
+      serverParks: ["gusty", "cma"],
+      defaultServerPark: "gusty",
+    };
+
+    blaiseApiMock.setup((api) => api.getUser(It.isValue("testuser"))).returns(async () => user);
+    const response = await sut
+      .get("/api/users/testuser")
+      .set("Authorization", `Bearer ${mockAuthToken}`);
+
+    blaiseApiMock.verify((api) => api.getUser(It.isValue("testuser")), Times.once());
+    expect(response.statusCode).toEqual(200);
+    expect(response.body.data).toEqual(user);
+  });
+
   it("should call Blaise API getUser endpoint if user param is valid and return user if exists in blaise", async () => {
     const user: NewUser = {
       name: "test",
@@ -643,5 +742,25 @@ describe("GET /api/users/:user endpoint", () => {
     expect(response.statusCode).toEqual(500);
     expect(response.body.message).toContain("Error whilst trying to retrieve user");
     expect(response.body.error).toEqual(errorMessage);
+  });
+
+  it("should handle user param passed as array through singleValue and use first element", async () => {
+    const user: NewUser = {
+      name: "arrayTest",
+      password: "password1",
+      role: "DST",
+      serverParks: ["gusty", "cma"],
+      defaultServerPark: "gusty",
+    };
+
+    blaiseApiMock.setup((api) => api.getUser(It.isValue("arrayTest"))).returns(async () => user);
+
+    const response = await sut
+      .get("/api/users/arrayTest")
+      .set("Authorization", `Bearer ${mockAuthToken}`);
+
+    expect(response.statusCode).toEqual(200);
+    expect(response.body.data).toEqual(user);
+    blaiseApiMock.verify((api) => api.getUser(It.isValue("arrayTest")), Times.once());
   });
 });

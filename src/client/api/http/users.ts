@@ -50,7 +50,7 @@ function getNestedMessage(data: unknown, fallbackMessage: string): string {
 }
 
 function getNestedUser(data: unknown): User | Record<string, never> {
-  if (!isRecord(data) || !isRecord(data.data)) {
+  if (!isRecord(data)) {
     return {};
   }
 

@@ -15,6 +15,8 @@ function singleValue(value: string | string[] | undefined): string | undefined {
   return value;
 }
 
+export { singleValue };
+
 function getServerParksForRole(
   config: CustomConfig,
   role: string,
@@ -193,10 +195,7 @@ export default function createBlaiseApiHandler(
 
       await blaiseApiClient.deleteUser(user);
 
-      auditLogger.info(
-        req.log,
-        `${currentUser?.name || "Unknown"} has successfully deleted user ${user}`,
-      );
+      auditLogger.info(req.log, `${currentUser?.name || "Unknown"} deleted user ${user}`);
 
       return res.status(204).json();
     } catch (error) {

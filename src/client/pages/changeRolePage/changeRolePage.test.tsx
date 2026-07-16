@@ -150,6 +150,34 @@ describe("ChangeRole Component (with state management)", () => {
     );
   });
 
+  it("uses string role values when loading and submitting", async () => {
+    (getUser as Mock).mockResolvedValue({
+      ...mockUserDetails,
+      data: {
+        ...mockUserDetails.data,
+        role: "DST",
+      },
+    });
+
+    const { findByText, findByRole } = render(
+      <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
+        <ChangeRole currentUser={currentUser} />
+      </MemoryRouter>,
+    );
+
+    const select = await findByRole("combobox");
+    const saveButton = await findByText("Save");
+
+    await userEvent.selectOptions(select, ["IPS Field Interviewer"]);
+    await userEvent.click(saveButton);
+
+    expect(patchUserRolesAndPermissions).toHaveBeenCalledWith(
+      "testUser",
+      "IPS Field Interviewer",
+      "DST",
+    );
+  });
+
   it("displays an error message when fetching roles fails", async () => {
     (getAllRoles as Mock).mockRejectedValue(new Error("Failed to fetch roles"));
 
@@ -169,6 +197,49 @@ describe("ChangeRole Component (with state management)", () => {
       message: "No data",
       data: {},
     });
+
+    const { findByText } = render(
+      <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
+        <ChangeRole currentUser={currentUser} />
+      </MemoryRouter>,
+    );
+
+    expect(await findByText(/Unable to load user details, please try again/i)).toBeVisible();
+    expect(patchUserRolesAndPermissions).not.toHaveBeenCalled();
+  });
+
+  it("blocks saving when getUser returns an unsuccessful response", async () => {
+    (getUser as Mock).mockResolvedValue({
+      success: false,
+      status: 500,
+      message: "Lookup failed",
+      data: {},
+    });
+
+    const { findByText } = render(
+      <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
+        <ChangeRole currentUser={currentUser} />
+      </MemoryRouter>,
+    );
+
+    expect(await findByText(/Unable to load user details, please try again/i)).toBeVisible();
+
+    await userEvent.click(await findByText("Save"));
+
+    expect(
+      await findByText(
+        /Unable to change role because user details are unavailable. Please reload and try again./i,
+      ),
+    ).toBeVisible();
+    expect(clientLogger.error).toHaveBeenCalledWith(
+      "Change role failed: viewed user details missing",
+      expect.objectContaining({ viewedUsername: "testUser" }),
+    );
+    expect(patchUserRolesAndPermissions).not.toHaveBeenCalled();
+  });
+
+  it("shows an error when fetching viewed user details throws", async () => {
+    (getUser as Mock).mockRejectedValue(new Error("Request failed"));
 
     const { findByText } = render(
       <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
@@ -200,6 +271,27 @@ describe("ChangeRole Component (with state management)", () => {
       "Change role blocked: selected role matches current role",
       expect.anything(),
     );
+  });
+
+  it("treats a missing role name as an empty current role", async () => {
+    (getUser as Mock).mockResolvedValue({
+      ...mockUserDetails,
+      data: {
+        ...mockUserDetails.data,
+        role: undefined,
+      },
+    });
+
+    const { findByText } = render(
+      <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
+        <ChangeRole currentUser={currentUser} />
+      </MemoryRouter>,
+    );
+
+    await userEvent.click(await findByText("Save"));
+
+    expect(await findByText(/Please select a different role before saving./i)).toBeVisible();
+    expect(patchUserRolesAndPermissions).not.toHaveBeenCalled();
   });
 
   it("navigates back when Cancel is clicked", async () => {
@@ -245,5 +337,64 @@ describe("ChangeRole Component (with state management)", () => {
     );
 
     alertSpy.mockRestore();
+  });
+
+  it("logs and marks the update as failed when the patch request returns a server error", async () => {
+    (patchUserRolesAndPermissions as unknown as Mock).mockResolvedValue({
+      success: false,
+      data: {},
+      message: "Role update failed",
+      status: 500,
+    });
+
+    const { findByText, findByRole } = render(
+      <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
+        <ChangeRole currentUser={currentUser} />
+      </MemoryRouter>,
+    );
+
+    const select = await findByRole("combobox");
+
+    await userEvent.selectOptions(select, ["IPS Field Interviewer"]);
+    await userEvent.click(await findByText("Save"));
+
+    expect(clientLogger.error).toHaveBeenCalledWith(
+      "Change role failed: server returned error",
+      expect.objectContaining({
+        viewedUsername: "testUser",
+        role: "IPS Field Interviewer",
+        status: 500,
+        message: "Role update failed",
+      }),
+    );
+  });
+
+  it("allows an empty API message when the role update succeeds", async () => {
+    (patchUserRolesAndPermissions as unknown as Mock).mockResolvedValue({
+      success: true,
+      data: {},
+      status: 200,
+    });
+
+    const { findByText, findByRole } = render(
+      <MemoryRouter initialEntries={[`/users/${mockUserDetails.name}/change-role`]}>
+        <ChangeRole currentUser={currentUser} />
+      </MemoryRouter>,
+    );
+
+    const select = await findByRole("combobox");
+
+    await userEvent.selectOptions(select, ["IPS Field Interviewer"]);
+    await userEvent.click(await findByText("Save"));
+
+    expect(patchUserRolesAndPermissions).toHaveBeenCalledWith(
+      "testUser",
+      "IPS Field Interviewer",
+      "DST",
+    );
+    expect(clientLogger.error).not.toHaveBeenCalledWith(
+      "Change role failed: server returned error",
+      expect.anything(),
+    );
   });
 });
