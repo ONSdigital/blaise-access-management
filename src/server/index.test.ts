@@ -25,7 +25,6 @@ const config = loadServerConfigFromEnv();
 const auth = new Auth(config);
 
 const logger: pino.Logger = pino();
-const logInfo = vi.spyOn(logger, "info");
 const httpLogger: HttpLogger = createLogger({ logger: logger, autoLogging: false });
 
 const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(
@@ -45,10 +44,6 @@ describe("GCP health check", () => {
 
   it("should return a 200 status and json message", async () => {
     const response = await sut.get("/bam-ui/version/health");
-
-    const log = logInfo.mock.calls[0][0];
-
-    expect(log).toEqual("Health check endpoint called");
     expect(response.statusCode).toEqual(200);
     expect(response.body).toStrictEqual({ healthy: true });
   });

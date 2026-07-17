@@ -5,6 +5,9 @@ import { type Logging } from "@google-cloud/logging";
 import type { AuditLog } from "../types/logger.types.js";
 
 type LoggingClient = Logging;
+const AUDIT_LOG_LOOKBACK_DAYS = 7;
+const APP_ENGINE_RESOURCE_TYPE = "gae_app";
+const APP_ENGINE_SERVICE_ID = "bam-ui";
 const AUDIT_LOG_MESSAGE_PREFIX = "AUDIT_LOG:";
 const AUDIT_LOG_PAYLOAD_FIELD = "auditMessage";
 
@@ -25,7 +28,32 @@ function readStringField(payload: unknown, key: string): string | undefined {
 function sanitiseLogText(value: unknown): string {
   return String(value)
     .replace(/[\r\n]+/g, " ")
-    .replace(/[^\x20-\x7E]+/g, "");
+    .replace(/[^\x20-\x7E]+/g, "")
+    .trim();
+}
+
+function stripAuditPrefix(message: string): string {
+  return message.replace(/^AUDIT_LOG:\s*/, "");
+}
+
+function buildAuditLogFilter(referenceDate: Date): string {
+  const earliestTimestamp = new Date(
+    referenceDate.getTime() - AUDIT_LOG_LOOKBACK_DAYS * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  return (
+    `resource.type="${APP_ENGINE_RESOURCE_TYPE}" AND ` +
+    `resource.labels.module_id="${APP_ENGINE_SERVICE_ID}" AND ` +
+    `severity="INFO" AND ` +
+    `timestamp >= "${earliestTimestamp}" AND (` +
+    `jsonPayload.message:"${AUDIT_LOG_MESSAGE_PREFIX}" OR ` +
+    `jsonPayload.msg:"${AUDIT_LOG_MESSAGE_PREFIX}" OR ` +
+    `jsonPayload.info.message:"${AUDIT_LOG_MESSAGE_PREFIX}" OR ` +
+    `jsonPayload.info.msg:"${AUDIT_LOG_MESSAGE_PREFIX}" OR ` +
+    `jsonPayload.${AUDIT_LOG_PAYLOAD_FIELD}:* OR ` +
+    `jsonPayload.info.${AUDIT_LOG_PAYLOAD_FIELD}:*` +
+    `)`
+  );
 }
 
 export function formatLogMessage(text: string, severity: "info" | "error"): string {
@@ -65,7 +93,7 @@ export default class AuditLogger {
   }
 
   error(logger: IncomingMessage["log"], message: string): void {
-    const auditMessage = sanitiseLogText(message).substring(0, 1000);
+    const auditMessage = sanitiseLogText(message);
 
     logger.error({ [AUDIT_LOG_PAYLOAD_FIELD]: auditMessage }, AUDIT_LOG_MESSAGE_PREFIX);
   }
@@ -73,8 +101,9 @@ export default class AuditLogger {
   async getLogs(): Promise<AuditLog[]> {
     const auditLogs: AuditLog[] = [];
     const log = (await this.getLoggerClient()).log(this.logName);
+    const filter = buildAuditLogFilter(new Date());
     const [entries] = await log.getEntries({
-      filter: 'jsonPayload.message=~"^AUDIT_LOG: "',
+      filter,
       maxResults: 50,
     });
 
@@ -109,7 +138,7 @@ export default class AuditLogger {
       if (auditMessage) {
         message = auditMessage;
       } else if (rawMessage) {
-        message = rawMessage.replace(/^AUDIT_LOG:\s*/, "");
+        message = stripAuditPrefix(rawMessage);
       }
 
       auditLogs.push({

@@ -198,8 +198,7 @@ export default function createNodeServer(
   const blaiseApiRouter = createBlaiseApiHandler(config, auth, blaiseApiClient, auditLogger);
   const clientLogRouter = createClientLogHandler(auth, auditLogger);
 
-  server.get("/bam-ui/:version/health", async function (req: Request, res: Response) {
-    req.log.info("Health check endpoint called");
+  server.get("/bam-ui/:version/health", async function (_req: Request, res: Response) {
     res.status(200).json({ healthy: true });
   });
   server.use("/", loginRouter);
