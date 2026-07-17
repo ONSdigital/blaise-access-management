@@ -54,6 +54,10 @@ const blaiseApiMock: IMock<BlaiseApiClient> = Mock.ofType(
 const server = createNodeServer(config, blaiseApiMock.object, auth, httpLogger);
 const sut = supertest(server);
 
+function expectAuditMessage(logArg: unknown, expected: string): void {
+  expect(logArg).toEqual({ auditMessage: expected });
+}
+
 describe("singleValue function", () => {
   it("should return first element when value is an array", () => {
     const result = singleValue(["first", "second", "third"]);
@@ -121,8 +125,9 @@ describe("POST /api/users endpoint", () => {
       .field("name", newUser.name)
       .field("role", roleName);
 
-    expect(logInfo.mock.calls[0][0]).toEqual(
-      `AUDIT_LOG: ${mockUser.name} created user ${newUser.name} with role ${roleName}`,
+    expectAuditMessage(
+      logInfo.mock.calls[0][0],
+      `${mockUser.name} created user ${newUser.name} with role ${roleName}`,
     );
     expect(response.statusCode).toEqual(200);
     blaiseApiMock.verify(
@@ -163,9 +168,7 @@ describe("POST /api/users endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(
-      `AUDIT_LOG: ${mockUser.name} created user ${newUser.name} with role ${roleName}`,
-    );
+    expectAuditMessage(log, `${mockUser.name} created user ${newUser.name} with role ${roleName}`);
     expect(response.statusCode).toEqual(200);
     blaiseApiMock.verify(
       (a) =>
@@ -287,11 +290,13 @@ describe("POST /api/users endpoint", () => {
       .field("name", newUser.name)
       .field("role", roleName);
 
-    const successMessage = `AUDIT_LOG: ${mockUser.name} created user ${newUser.name} with role ${roleName}`;
+    const successMessage = `${mockUser.name} created user ${newUser.name} with role ${roleName}`;
 
     expect(response.statusCode).toEqual(500);
     expect(response.body).toStrictEqual({ error: "Internal server error" });
-    expect(logInfo.mock.calls.some(([message]) => message === successMessage)).toBe(false);
+    expect(logInfo.mock.calls.some(([payload]) => payload?.auditMessage === successMessage)).toBe(
+      false,
+    );
     blaiseApiMock.verify(
       (a) =>
         a.createUser(
@@ -329,7 +334,7 @@ describe("DELETE /api/users endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} deleted user ${username}`);
+    expectAuditMessage(log, `${mockUser.name} deleted user ${username}`);
     expect(response.statusCode).toEqual(204);
     blaiseApiMock.verify((a) => a.deleteUser(It.isValue<string>(username)), Times.once());
   });
@@ -361,13 +366,16 @@ describe("DELETE /api/users endpoint", () => {
       .set("user", username);
 
     const log = logError.mock.calls[0][0];
-    const successMessage = `AUDIT_LOG: ${mockUser.name} deleted user ${username}`;
+    const successMessage = `${mockUser.name} deleted user ${username}`;
 
-    expect(log).toEqual(
-      `AUDIT_LOG: Error whilst trying to delete user, ${username}, with error message: ${errorMessage}`,
+    expectAuditMessage(
+      log,
+      `Error whilst trying to delete user, ${username}, with error message: ${errorMessage}`,
     );
     expect(response.statusCode).toEqual(500);
-    expect(logInfo.mock.calls.some(([message]) => message === successMessage)).toBe(false);
+    expect(logInfo.mock.calls.some(([payload]) => payload?.auditMessage === successMessage)).toBe(
+      false,
+    );
     blaiseApiMock.verify((a) => a.deleteUser(It.isValue<string>(username)), Times.once());
     expect(response.body).toStrictEqual({ error: "Internal server error" });
   });
@@ -380,7 +388,7 @@ describe("DELETE /api/users endpoint", () => {
 
     const log = logError.mock.calls[0][0];
 
-    expect(log).toEqual("AUDIT_LOG: No user provided for deletion");
+    expectAuditMessage(log, "No user provided for deletion");
     expect(response.statusCode).toEqual(400);
 
     response = await sut.delete("/api/users").set("Authorization", `Bearer ${mockAuthToken}`);
@@ -494,7 +502,7 @@ describe("POST /api/change-password/:user endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} changed password for user ${username}`);
+    expectAuditMessage(log, `${mockUser.name} changed password for user ${username}`);
     expect(response.statusCode).toEqual(204);
     blaiseApiMock.verify(
       (a) => a.changePassword(It.isValue<string>(username), It.isValue<string>(password)),
@@ -534,8 +542,9 @@ describe("POST /api/change-password/:user endpoint", () => {
 
     const log = logError.mock.calls[0][0];
 
-    expect(log).toEqual(
-      `AUDIT_LOG: Error whilst trying to change password for ${username}: ${errorMessage}`,
+    expectAuditMessage(
+      log,
+      `Error whilst trying to change password for ${username}: ${errorMessage}`,
     );
     expect(response.statusCode).toEqual(500);
     blaiseApiMock.verify((a) => a.changePassword(It.isAnyString(), It.isAnyString()), Times.once());
@@ -557,7 +566,7 @@ describe("POST /api/change-password/:user endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(`AUDIT_LOG: ${mockUser.name} changed password for user ${username}`);
+    expectAuditMessage(log, `${mockUser.name} changed password for user ${username}`);
     expect(response.statusCode).toEqual(204);
     blaiseApiMock.verify(
       (a) => a.changePassword(It.isValue<string>(username), It.isValue<string>("password")),
@@ -615,8 +624,9 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
 
     const log = logInfo.mock.calls[0][0];
 
-    expect(log).toEqual(
-      `AUDIT_LOG: testUser changed user ${user} role to ${role} (previously ${previousRole})`,
+    expectAuditMessage(
+      log,
+      `testUser changed user ${user} role to ${role} (previously ${previousRole})`,
     );
     expect(response.statusCode).toEqual(200);
     expect(response.body.message).toContain(
@@ -669,11 +679,13 @@ describe("PATCH /api/users/:user/rolesAndPermissions endpoint", () => {
     const infoLog = logInfo.mock.calls[0][0];
     const errorLog = logError.mock.calls[0][0];
 
-    expect(infoLog).toEqual(
-      `AUDIT_LOG: ${mockUser.name} has failed to update user role and permissions to ${role} for ${user}`,
+    expectAuditMessage(
+      infoLog,
+      `${mockUser.name} has failed to update user role and permissions to ${role} for ${user}`,
     );
-    expect(errorLog).toEqual(
-      `AUDIT_LOG: Error whilst trying to update user role and permissions to admin for ${mockUser.name}, with error message: Error: ${errorMessage}`,
+    expectAuditMessage(
+      errorLog,
+      `Error whilst trying to update user role and permissions to admin for ${mockUser.name}, with error message: Error: ${errorMessage}`,
     );
     expect(response.statusCode).toEqual(500);
     expect(response.body.message).toContain(

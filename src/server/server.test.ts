@@ -273,6 +273,9 @@ describe("server.ts focused coverage", () => {
     errorLayer?.handle("not-an-error", req, res, vi.fn());
 
     expect(render).toHaveBeenCalledWith("500.html", {});
-    expect(logError).toHaveBeenCalledWith("AUDIT_LOG: An undefined error occurred");
+    expect(logError).toHaveBeenCalledWith(
+      { auditMessage: "An undefined error occurred" },
+      "AUDIT_LOG:",
+    );
   });
 });

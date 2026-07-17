@@ -59,7 +59,7 @@ describe("AuditLogger class", () => {
         "User logged in",
       );
 
-      expect(mockLog.info).toHaveBeenCalledWith("AUDIT_LOG: User logged in");
+      expect(mockLog.info).toHaveBeenCalledWith({ auditMessage: "User logged in" }, "AUDIT_LOG:");
     });
   });
 
@@ -70,7 +70,7 @@ describe("AuditLogger class", () => {
 
       al.error(mockLog as unknown as Parameters<typeof al.error>[0], "Something broke");
 
-      expect(mockLog.error).toHaveBeenCalledWith("AUDIT_LOG: Something broke");
+      expect(mockLog.error).toHaveBeenCalledWith({ auditMessage: "Something broke" }, "AUDIT_LOG:");
     });
 
     it("truncates error messages longer than 1000 characters", () => {
@@ -80,10 +80,10 @@ describe("AuditLogger class", () => {
 
       al.error(mockLog as unknown as Parameters<typeof al.error>[0], longMessage);
 
-      const calledWith = mockLog.error.mock.calls[0]?.[0] as string;
+      const firstArg = mockLog.error.mock.calls[0]?.[0] as { auditMessage: string };
 
-      expect(calledWith.startsWith("AUDIT_LOG: ")).toBe(true);
-      expect(calledWith.length).toBeLessThanOrEqual(1011);
+      expect(firstArg.auditMessage.length).toBeLessThanOrEqual(1000);
+      expect(mockLog.error.mock.calls[0]?.[1]).toBe("AUDIT_LOG:");
     });
   });
 
@@ -103,7 +103,7 @@ describe("AuditLogger class", () => {
                     timestamp: new Date("2024-01-01T00:00:00Z"),
                     severity: "INFO",
                   },
-                  data: { message: "AUDIT_LOG: User created testUser" },
+                  data: { auditMessage: "User created testUser", message: "AUDIT_LOG:" },
                 },
               ],
             ]),
@@ -131,7 +131,7 @@ describe("AuditLogger class", () => {
               [
                 {
                   metadata: {},
-                  data: { msg: "AUDIT_LOG: test message" },
+                  data: { info: { auditMessage: "test message" }, msg: "AUDIT_LOG:" },
                 },
               ],
             ]),

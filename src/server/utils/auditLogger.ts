@@ -5,6 +5,8 @@ import { type Logging } from "@google-cloud/logging";
 import type { AuditLog } from "../types/logger.types.js";
 
 type LoggingClient = Logging;
+const AUDIT_LOG_MESSAGE_PREFIX = "AUDIT_LOG:";
+const AUDIT_LOG_PAYLOAD_FIELD = "auditMessage";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -30,7 +32,7 @@ export function formatLogMessage(text: string, severity: "info" | "error"): stri
   const sanitisedText = sanitiseLogText(text);
   const message = severity === "error" ? sanitisedText.substring(0, 1000) : sanitisedText;
 
-  return `AUDIT_LOG: ${message}`;
+  return `${AUDIT_LOG_MESSAGE_PREFIX} ${message}`;
 }
 
 export default class AuditLogger {
@@ -57,15 +59,15 @@ export default class AuditLogger {
   }
 
   info(logger: IncomingMessage["log"], message: string): void {
-    const log = formatLogMessage(message, "info");
+    const auditMessage = sanitiseLogText(message);
 
-    logger.info(sanitiseLogText(log));
+    logger.info({ [AUDIT_LOG_PAYLOAD_FIELD]: auditMessage }, AUDIT_LOG_MESSAGE_PREFIX);
   }
 
   error(logger: IncomingMessage["log"], message: string): void {
-    const log = formatLogMessage(message, "error");
+    const auditMessage = sanitiseLogText(message).substring(0, 1000);
 
-    logger.error(sanitiseLogText(log));
+    logger.error({ [AUDIT_LOG_PAYLOAD_FIELD]: auditMessage }, AUDIT_LOG_MESSAGE_PREFIX);
   }
 
   async getLogs(): Promise<AuditLog[]> {
@@ -95,13 +97,18 @@ export default class AuditLogger {
       }
 
       const nestedPayload = isRecord(entry.data) ? entry.data.info : undefined;
+      const auditMessage =
+        readStringField(entry.data, AUDIT_LOG_PAYLOAD_FIELD) ??
+        readStringField(nestedPayload, AUDIT_LOG_PAYLOAD_FIELD);
       const rawMessage =
         readStringField(entry.data, "message") ??
         readStringField(entry.data, "msg") ??
         readStringField(nestedPayload, "message") ??
         readStringField(nestedPayload, "msg");
 
-      if (rawMessage) {
+      if (auditMessage) {
+        message = auditMessage;
+      } else if (rawMessage) {
         message = rawMessage.replace(/^AUDIT_LOG:\s*/, "");
       }
 
