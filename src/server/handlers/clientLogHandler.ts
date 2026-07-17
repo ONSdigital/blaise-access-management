@@ -73,6 +73,10 @@ function clamp(value: string, maxLength: number): string {
   return sanitised.slice(0, maxLength);
 }
 
+function sanitiseForAuditLog(value: unknown): string {
+  return String(value).replace(/[\r\n]+/g, " ").replace(/[^\x20-\x7E]+/g, "");
+}
+
 function currentUserName(auth: Auth, req: Request): string {
   try {
     const user = auth.getUser(auth.getToken(req));
@@ -88,9 +92,10 @@ function currentUserName(auth: Auth, req: Request): string {
 }
 
 function buildAuditMessage(userName: string, clientLog: ClientLogPayload): string {
-  const action = clamp(clientLog.message, 1500);
+  const safeUserName = sanitiseForAuditLog(userName);
+  const action = sanitiseForAuditLog(clamp(clientLog.message, 1500));
 
-  return `${userName} ${action}`.trim();
+  return `${safeUserName} ${action}`.trim();
 }
 
 export default function createClientLogHandler(auth: Auth, auditLogger: AuditLogger): Router {

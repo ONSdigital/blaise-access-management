@@ -17,6 +17,10 @@ function singleValue(value: string | string[] | undefined): string | undefined {
 
 export { singleValue };
 
+function sanitiseForAuditLog(value: unknown): string {
+  return String(value).replace(/[\r\n]+/g, " ").replace(/[^\x20-\x7E]+/g, "");
+}
+
 function getServerParksForRole(
   config: CustomConfig,
   role: string,
@@ -54,7 +58,10 @@ export default function createBlaiseApiHandler(
     try {
       return res.status(200).json(await auditLogger.getLogs());
     } catch (error) {
-      auditLogger.error(req.log, `Error whilst trying to retrieve audit logs: ${String(error)}`);
+      auditLogger.error(
+        req.log,
+        `Error whilst trying to retrieve audit logs: ${sanitiseForAuditLog(error)}`,
+      );
 
       return res.status(500).json({ error: "Failed to retrieve audit logs" });
     }
@@ -82,11 +89,15 @@ export default function createBlaiseApiHandler(
       }
 
       const { serverParks, defaultServerPark } = getServerParksForRole(config, role);
+      const safeRole = sanitiseForAuditLog(role);
+      const safePreviousRole = sanitiseForAuditLog(previousRole);
+      const safeUser = sanitiseForAuditLog(user);
+      const safeCurrentUser = sanitiseForAuditLog(currentUser?.name || "Unknown user");
 
       try {
         await blaiseApiClient.changeUserRole(user, role);
         await blaiseApiClient.changeUserServerParks(user, serverParks, defaultServerPark);
-        const successMessage = `${currentUser?.name || "Unknown user"} changed user ${user} role to ${role} (previously ${previousRole})`;
+        const successMessage = `${safeCurrentUser} changed user ${safeUser} role to ${safeRole} (previously ${safePreviousRole})`;
 
         auditLogger.info(req.log, successMessage);
 
@@ -94,11 +105,11 @@ export default function createBlaiseApiHandler(
           message: "Successfully updated role to " + role + " for user " + user,
         });
       } catch (error) {
-        const errorMessage = `Error whilst trying to update user role and permissions to ${role} for ${req.params.user}, with error message: ${error}`;
+        const errorMessage = `Error whilst trying to update user role and permissions to ${safeRole} for ${safeUser}, with error message: ${sanitiseForAuditLog(error)}`;
 
         auditLogger.info(
           req.log,
-          `${currentUser?.name || "Unknown user"} has failed to update user role and permissions to ${role} for ${user}`,
+          `${safeCurrentUser} has failed to update user role and permissions to ${safeRole} for ${safeUser}`,
         );
         auditLogger.error(req.log, errorMessage);
 
@@ -144,6 +155,8 @@ export default function createBlaiseApiHandler(
       const currentUser = auth.getUser(auth.getToken(req));
       const data = req.body;
       const userName = singleValue(req.params.user);
+      const safeUserName = sanitiseForAuditLog(userName);
+      const safeCurrentUser = sanitiseForAuditLog(currentUser?.name || "Unknown");
 
       if (Array.isArray(data.password)) {
         data.password = data.password.join("");
@@ -156,21 +169,18 @@ export default function createBlaiseApiHandler(
       blaiseApiClient
         .changePassword(userName, data.password)
         .then(() => {
-          auditLogger.info(
-            req.log,
-            `${currentUser?.name || "Unknown"} changed password for user ${userName}`,
-          );
+          auditLogger.info(req.log, `${safeCurrentUser} changed password for user ${safeUserName}`);
 
           return res.status(204).json(null);
         })
         .catch((error: unknown) => {
           auditLogger.info(
             req.log,
-            `${currentUser?.name || "Unknown"} has failed to change the password for ${userName}`,
+            `${safeCurrentUser} has failed to change the password for ${safeUserName}`,
           );
           auditLogger.error(
             req.log,
-            `Error whilst trying to change password for ${userName}: ${error}`,
+            `Error whilst trying to change password for ${safeUserName}: ${sanitiseForAuditLog(error)}`,
           );
 
           return res.status(500).json(error);
@@ -195,7 +205,10 @@ export default function createBlaiseApiHandler(
 
       await blaiseApiClient.deleteUser(user);
 
-      auditLogger.info(req.log, `${currentUser?.name || "Unknown"} deleted user ${user}`);
+      auditLogger.info(
+        req.log,
+        `${sanitiseForAuditLog(currentUser?.name || "Unknown")} deleted user ${sanitiseForAuditLog(user)}`,
+      );
 
       return res.status(204).json();
     } catch (error) {
@@ -203,7 +216,7 @@ export default function createBlaiseApiHandler(
 
       auditLogger.error(
         req.log,
-        `Error whilst trying to delete user, ${req.headers.user}, with error message: ${errorMessage}`,
+        `Error whilst trying to delete user, ${sanitiseForAuditLog(req.headers.user)}, with error message: ${sanitiseForAuditLog(errorMessage)}`,
       );
 
       return res.status(500).json({ error: "Internal server error" });
@@ -232,11 +245,11 @@ export default function createBlaiseApiHandler(
         };
 
         const createdUser = await blaiseApiClient.createUser(data);
+        const safeCurrentUser = sanitiseForAuditLog(currentUser?.name || "Unknown");
+        const safeUserName = sanitiseForAuditLog(data.name);
+        const safeRole = sanitiseForAuditLog(role);
 
-        auditLogger.info(
-          req.log,
-          `${currentUser?.name || "Unknown"} created user ${data.name} with role ${role}`,
-        );
+        auditLogger.info(req.log, `${safeCurrentUser} created user ${safeUserName} with role ${safeRole}`);
 
         return res.status(200).json(createdUser);
       } catch (error) {
@@ -244,7 +257,7 @@ export default function createBlaiseApiHandler(
 
         auditLogger.error(
           req.log,
-          `Error whilst trying to create new user, ${req.body.name}, with error message: ${errorMessage}`,
+          `Error whilst trying to create new user, ${sanitiseForAuditLog(req.body.name)}, with error message: ${sanitiseForAuditLog(errorMessage)}`,
         );
 
         return res.status(500).json({ error: "Internal server error" });
