@@ -1,0 +1,282 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Manage Roles page > view users page matches Snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <main
+        class="ons-page__main ons-u-mt-m"
+        id="main-content"
+      >
+        <h1
+          class="ons-u-mb-l"
+        >
+          Manage roles
+        </h1>
+        <div
+          class="ons-u-mb-m"
+        >
+          <div
+            class="ons-panel ons-panel--info ons-panel--no-title ons-u-mt-m"
+            id="panel-_r_0_"
+          >
+            <span
+              class="ons-panel__assistive-text ons-u-vh"
+            >
+              Important information:
+               
+            </span>
+            <div
+              class="ons-panel__body "
+            >
+              To ensure consistency across environments, DST are responsible for creating and managing roles. If you require a new role, please reach out to DST for assistance.
+            </div>
+          </div>
+        </div>
+        <div
+          class="ons-table-scrollable ons-table-scrollable--on"
+        >
+          <div
+            aria-label="Roles table"
+            class="ons-table-scrollable__content"
+            role="region"
+            tabindex="0"
+          >
+            <table
+              class="ons-table"
+              data-testid="roles-table-table"
+              id="roles-table"
+            >
+              <thead
+                class="ons-table__head"
+              >
+                <tr
+                  class="ons-table__row"
+                >
+                  <th
+                    class="ons-table__header ons-table__header--top"
+                    scope="col"
+                  >
+                    <span
+                      class="ons-table__header-text"
+                    >
+                      Name
+                    </span>
+                  </th>
+                  <th
+                    class="ons-table__header ons-table__header--top"
+                    scope="col"
+                  >
+                    <span
+                      class="ons-table__header-text"
+                    >
+                      Number of permissions
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="ons-table__body"
+              >
+                <tr
+                  class="ons-table__row"
+                  data-testid="user-table-row"
+                >
+                  <td
+                    class="ons-table__cell "
+                  >
+                    BDSS
+                  </td>
+                  <td
+                    class="ons-table__cell "
+                  >
+                    1
+                  </td>
+                </tr>
+                <tr
+                  class="ons-table__row"
+                  data-testid="user-table-row"
+                >
+                  <td
+                    class="ons-table__cell "
+                  >
+                    DST
+                  </td>
+                  <td
+                    class="ons-table__cell "
+                  >
+                    2
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <main
+      class="ons-page__main ons-u-mt-m"
+      id="main-content"
+    >
+      <h1
+        class="ons-u-mb-l"
+      >
+        Manage roles
+      </h1>
+      <div
+        class="ons-u-mb-m"
+      >
+        <div
+          class="ons-panel ons-panel--info ons-panel--no-title ons-u-mt-m"
+          id="panel-_r_0_"
+        >
+          <span
+            class="ons-panel__assistive-text ons-u-vh"
+          >
+            Important information:
+             
+          </span>
+          <div
+            class="ons-panel__body "
+          >
+            To ensure consistency across environments, DST are responsible for creating and managing roles. If you require a new role, please reach out to DST for assistance.
+          </div>
+        </div>
+      </div>
+      <div
+        class="ons-table-scrollable ons-table-scrollable--on"
+      >
+        <div
+          aria-label="Roles table"
+          class="ons-table-scrollable__content"
+          role="region"
+          tabindex="0"
+        >
+          <table
+            class="ons-table"
+            data-testid="roles-table-table"
+            id="roles-table"
+          >
+            <thead
+              class="ons-table__head"
+            >
+              <tr
+                class="ons-table__row"
+              >
+                <th
+                  class="ons-table__header ons-table__header--top"
+                  scope="col"
+                >
+                  <span
+                    class="ons-table__header-text"
+                  >
+                    Name
+                  </span>
+                </th>
+                <th
+                  class="ons-table__header ons-table__header--top"
+                  scope="col"
+                >
+                  <span
+                    class="ons-table__header-text"
+                  >
+                    Number of permissions
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="ons-table__body"
+            >
+              <tr
+                class="ons-table__row"
+                data-testid="user-table-row"
+              >
+                <td
+                  class="ons-table__cell "
+                >
+                  BDSS
+                </td>
+                <td
+                  class="ons-table__cell "
+                >
+                  1
+                </td>
+              </tr>
+              <tr
+                class="ons-table__row"
+                data-testid="user-table-row"
+              >
+                <td
+                  class="ons-table__cell "
+                >
+                  DST
+                </td>
+                <td
+                  class="ons-table__cell "
+                >
+                  2
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

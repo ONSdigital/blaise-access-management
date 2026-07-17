@@ -1,115 +1,88 @@
-# Blaise Access Management
+# Blaise Access Management (BAM) 🔑
 
-[![codecov](https://codecov.io/gh/ONSdigital/blaise-access-management/branch/main/graph/badge.svg)](https://codecov.io/gh/ONSdigital/blaise-access-management)
-[![CI status](https://github.com/ONSdigital/blaise-access-management/workflows/Test%20coverage%20report/badge.svg)](https://github.com/ONSdigital/blaise-access-management/workflows/Test%20coverage%20report/badge.svg)
-<img src="https://img.shields.io/github/release/ONSdigital/blaise-access-management.svg?style=flat-square" alt="Nisra Case Mover release verison">
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/ONSdigital/blaise-access-management.svg)](https://github.com/ONSdigital/blaise-access-management/pulls)
-[![Github last commit](https://img.shields.io/github/last-commit/ONSdigital/blaise-access-management.svg)](https://github.com/ONSdigital/blaise-access-management/commits)
-[![Github contributors](https://img.shields.io/github/contributors/ONSdigital/blaise-access-management.svg)](https://github.com/ONSdigital/blaise-access-management/graphs/contributors)
+Blaise Access Management (BAM) provides a web UI for managing user access to the Blaise platform.
 
-Dashboard for managing Blaise users.
+The app is a React frontend served by an Express backend.
 
-This project is a React application which when built is rendered by a Node.js express server.
+![](.github/architecture-diagram.jpg)
 
-![React and NodeJS server setup diagram](.github/ReactNodeJSDiagram.jpg)
+## Local Development
 
-### Local Setup
+### Prerequisites
 
-Prerequisites
-- [Node.js](https://nodejs.org/)
-- [Yarn](https://yarnpkg.com/)
-- [Cloud SDK](https://cloud.google.com/sdk/)
+- [Node.js](https://nodejs.org/) 24+ (see `engines` in [package.json](package.json))
+- [Yarn](https://yarnpkg.com/) 4+
+- [Google Cloud SDK (`gcloud` CLI)](https://cloud.google.com/sdk/)
 
-Clone the repository:
+### Clone and install packages
 
-```shell script
-git clone https://github.com/ONSdigital/blaise-user-management.git
+```shell
+git clone https://github.com/ONSdigital/blaise-access-management.git
+cd blaise-access-management
+yarn install
 ```
 
-Create an .env file in the root of the project and add the following variables:
+### Authenticate with Google Cloud (keyless)
 
-| Variable            | Description                                                                                                                                                                                                                                                                            | Var Example          |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| PORT                | **Optional variable**, specify the Port for express server to run on. If not passed in this is set as 5000 by default. <br><br>It's best not to set this as the react project will try and use the variable as well and conflict. By default, React project locally runs on port 3000. | 5009                 |
-| BLAISE_API_URL      | Url that Blaise REST API is running on to send calls to.                                                                                                                                                                                                                     | localhost:8011       |
-| SERVER_PARK         | Blaise Server Park Name, required for creating users in the correct server park                                                                                                                                                                                                        | gusty                |
-| PROJECT_ID      | Variable to set up the project id to be used, mostly it should be set up to your sandbox id, like example string appended with your sandbox suffix                                                                                                                                                                                                                     | ons-blaise-v2-dev-<sandbox-suffix>       |
-| SESSION_TIMEOUT      | **Optional variable**, Variable to set up the session timeout, If not set up, it defaults to 12h                                                                                                                                                                                                                     |  12h       |
-
-
-Example .env file:
-
-```.env
-BLAISE_API_URL='localhost:8011'
-SERVER_PARK=gusty
-PROJECT_ID='ons-blaise-v2-dev-<sandbox-suffix>'
-SESSION_TIMEOUT=12h
-```
-
-Install the project dependencies:
-
-```shell script
-yarn
-```
-
-Running yarn or yarn install will install all the required modules specified in the yarn.lock file.
-
-The versions of theses modules are fixed in the yarn.lock files, so to avoid unwanted upgrades or instability caused by incorrect modifications, DO NOT DELETE THE LOCK FILE.
-
-More information about yarn (https://confluence.ons.gov.uk/x/zdwACQ)
-
-Authenticate with GCP:
 ```shell
 gcloud auth login
+gcloud config set project ons-blaise-v2-dev
 ```
 
-Set your GCP project:
+### Start an IAP tunnel to Blaise REST API
+
+Run this in a separate terminal and keep it running:
+
 ```shell
-gcloud config set project ons-blaise-v2-dev-<sandbox-suffix>
+gcloud compute start-iap-tunnel restapi-1 80 --local-host-port=localhost:8080 --zone europe-west2-a
 ```
 
-Open a tunnel to our Blaise RESTful API in your GCP project:
+Expected output includes `Listening on port [8080]`.
+
+### Configure environment variables
+
+Create a `.env` file in the repository root.
+
+Example `.env` file:
+
+```ini
+BLAISE_API_URL=localhost:8080
+SERVER_PARK=gusty
+PROJECT_ID=ons-blaise-v2-dev
+URL_DOMAIN=localhost
+SESSION_SECRET=blah
+```
+
+### Run the app
+
+Standard mode:
+
 ```shell
-gcloud compute start-iap-tunnel restapi-1 80 --local-host-port=localhost:8011 --zone europe-west2-a
-```
-
-Ensure the proxy is configured to the correct port in the 'package.json'
-
-```.json
-"proxy": "http://localhost:5000",
-```
-
-In a new terminal, run Node.js server and React.js client via the following package.json script
-
-```shell script
 yarn dev
 ```
 
-The UI should now be accessible via:
+For WSL/mounted paths (polling mode):
 
-http://localhost:3000/
-
-Tests can be run via the following package.json script:
-
-```shell script
-yarn test
+```shell
+yarn dev-wsl
 ```
 
-Test snapshots can be updated via:
+UI is available at http://localhost:3000/.
 
-```shell script
-yarn test -u
+If local processes become stale, stop known ports and watchers:
+
+```shell
+yarn kill
 ```
 
+## Common Scripts
 
-##### Run commands
-
-The following run commands are available. These are all setup in the `package.json` under `scripts`.
-
-| Command             | Description                                                                                                                                                                              |
-|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `yarn start-server` | Start the express server, Note: For the website to be rendered the React Project will need to be built.                                                                                  |
-| `yarn start-react`  | Starts React project in local development setup with quick reloading on making changes. Note: For questionnaires to be shown the server needs to be running.                                |
-| `yarn build-react`  | Compiles build project ready to be served by express. The build in outputted to the the `build` directory which express points to with the var `buildFolder` in `server/server.js`.      |
-| `yarn test`         | Runs all tests for server and React Components and outputs coverage statistics.                                                                                                          |
-| `gcp-build`         | [App Engine custom build step](https://cloud.google.com/appengine/docs/standard/nodejs/running-custom-build-step) which builds the react application and complies the TypeScript server. |
+- `yarn dev`: Run frontend + backend in watch mode
+- `yarn dev-wsl`: Run with polling watcher support for WSL/mounted paths
+- `yarn build`: Build client and server
+- `yarn typecheck`: Run TypeScript checks for frontend and server projects
+- `yarn lint`: Run typecheck, ESLint, Prettier checks, and knip
+- `yarn lint-fix`: Auto-fix lint/prettier issues and run knip fix
+- `yarn test`: Run Vitest suite with coverage
+- `yarn test-watch`: Run Vitest in watch mode
+- `yarn spellcheck`: Run cspell over code/config/docs files

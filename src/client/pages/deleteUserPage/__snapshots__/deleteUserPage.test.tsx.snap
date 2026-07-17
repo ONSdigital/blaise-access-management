@@ -1,0 +1,90 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DeleteUser Component > matches the snapshot 1`] = `
+<DocumentFragment>
+  <main
+    class="ons-page__main ons-u-mt-m"
+    id="main-content"
+  >
+    <h1
+      class="ons-u-mb-l"
+    >
+      Are you sure you want to delete user 
+      <em
+        class="ons-highlight"
+      >
+        testUser
+      </em>
+      ?
+    </h1>
+    <form>
+      <fieldset
+        class="ons-fieldset"
+      >
+        <legend
+          class="ons-fieldset__legend"
+        >
+          Confirm delete action
+        </legend>
+        <div
+          class="ons-radios__items"
+        >
+          <p
+            class="ons-radios__item"
+          >
+            <span
+              class="ons-radio"
+            >
+              <input
+                aria-label="Yes"
+                class="ons-radio__input ons-js-radio"
+                id="yes-delete-item"
+                name="confirm-delete"
+                type="radio"
+                value="True"
+              />
+              <label
+                class="ons-radio__label"
+                for="yes-delete-item"
+              >
+                Yes, delete user testUser
+              </label>
+            </span>
+          </p>
+          <p
+            class="ons-radios__item"
+          >
+            <span
+              class="ons-radio"
+            >
+              <input
+                aria-label="No"
+                class="ons-radio__input ons-js-radio"
+                id="no-delete-item"
+                name="confirm-delete"
+                type="radio"
+                value="False"
+              />
+              <label
+                class="ons-radio__label"
+                for="no-delete-item"
+              >
+                No, do not delete user testUser
+              </label>
+            </span>
+          </p>
+        </div>
+      </fieldset>
+      <div
+        class="ons-u-mt-m"
+      >
+        <button
+          type="submit"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </main>
+</DocumentFragment>
+`;

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1"
+      name="viewport"
+    />
+    <link
+      href="https://cdn.ons.gov.uk/sdc/design-system/73.5.0/favicons/favicon.ico"
+      rel="icon"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.ons.gov.uk/sdc/design-system/73.5.0/favicons/favicon-32x32.png"
+      rel="icon"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      href="https://cdn.ons.gov.uk/sdc/design-system/73.5.0/css/main.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>Blaise Access Management</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script
+      id="app-config"
+      type="application/json"
+    >
+      <%- typeof appConfigJson === 'string' ? appConfigJson : '' %>
+    </script>
+    <div id="root"></div>
+    <script
+      type="module"
+      src="/src/client/index.tsx"
+    ></script>
+  </body>
+</html>
