@@ -21,12 +21,13 @@ function readStringField(payload: unknown, key: string): string | undefined {
 }
 
 export function formatLogMessage(text: string, severity: "info" | "error"): string {
+  const normalisedText = String(text).replace(/[\r\n]+/g, " ");
   const message =
     severity === "error"
-      ? String(text)
+      ? normalisedText
           .substring(0, 1000)
-          .replace(/[^\x20-\x7E\r\n]+/g, "")
-      : String(text).replace(/[^\x20-\x7E\r\n]+/g, "");
+          .replace(/[^\x20-\x7E]+/g, "")
+      : normalisedText.replace(/[^\x20-\x7E]+/g, "");
 
   return `AUDIT_LOG: ${message}`;
 }
