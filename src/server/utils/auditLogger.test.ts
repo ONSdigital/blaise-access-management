@@ -104,6 +104,7 @@ describe("AuditLogger class", () => {
       });
 
       const al = new AuditLogger("mock-project");
+
       await al.getLogs();
 
       expect(getEntries).toHaveBeenCalledTimes(1);
