@@ -73,21 +73,77 @@ describe("AuditLogger class", () => {
       expect(mockLog.error).toHaveBeenCalledWith({ auditMessage: "Something broke" }, "AUDIT_LOG:");
     });
 
-    it("truncates error messages longer than 1000 characters", () => {
+    it("sanitises newline characters in audit messages", () => {
       const al = new AuditLogger("test-project");
       const mockLog = { info: vi.fn(), error: vi.fn() };
-      const longMessage = "x".repeat(1200);
+      const message = "line one\nline two\r\nline three";
 
-      al.error(mockLog as unknown as Parameters<typeof al.error>[0], longMessage);
+      al.error(mockLog as unknown as Parameters<typeof al.error>[0], message);
 
       const firstArg = mockLog.error.mock.calls[0]?.[0] as { auditMessage: string };
 
-      expect(firstArg.auditMessage.length).toBeLessThanOrEqual(1000);
+      expect(firstArg.auditMessage).toBe("line one line two line three");
       expect(mockLog.error.mock.calls[0]?.[1]).toBe("AUDIT_LOG:");
     });
   });
 
   describe("getLogs()", () => {
+    it("queries logs using DQS-style resource scope, lookback window and audit markers", async () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2026-05-16T15:13:27.000Z"));
+      const getEntries = vi.fn().mockResolvedValue([[]]);
+      const { Logging } = await import("@google-cloud/logging");
+      const MockLogging = vi.mocked(Logging);
+
+      MockLogging.mockImplementationOnce(function () {
+        return {
+          log: vi.fn().mockReturnValue({
+            getEntries,
+          }),
+        } as unknown as InstanceType<typeof Logging>;
+      });
+
+      const al = new AuditLogger("mock-project");
+
+      await al.getLogs();
+
+      expect(getEntries).toHaveBeenCalledTimes(1);
+      expect(getEntries).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.stringContaining('resource.type="gae_app"'),
+          maxResults: 50,
+        }),
+      );
+      expect(getEntries).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.stringContaining('resource.labels.module_id="bam-ui"'),
+          maxResults: 50,
+        }),
+      );
+      expect(getEntries).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.stringContaining('severity="INFO"'),
+        }),
+      );
+      expect(getEntries).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.stringContaining('timestamp >= "2026-05-09T15:13:27.000Z"'),
+        }),
+      );
+      expect(getEntries).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.stringContaining('jsonPayload.message:"AUDIT_LOG:"'),
+        }),
+      );
+      expect(getEntries).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.stringContaining("jsonPayload.auditMessage:*"),
+        }),
+      );
+
+      vi.useRealTimers();
+    });
+
     it("returns parsed audit log entries from GCP Logging", async () => {
       const { Logging } = await import("@google-cloud/logging");
       const MockLogging = vi.mocked(Logging);
