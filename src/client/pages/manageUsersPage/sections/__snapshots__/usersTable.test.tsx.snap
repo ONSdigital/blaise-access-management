@@ -1,0 +1,118 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UsersTable Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="ons-table-scrollable ons-table-scrollable--on"
+  >
+    <div
+      aria-label="Users table"
+      class="ons-table-scrollable__content"
+      role="region"
+      tabindex="0"
+    >
+      <table
+        class="ons-table"
+        data-testid="users-table-table"
+        id="users-table"
+      >
+        <thead
+          class="ons-table__head"
+        >
+          <tr
+            class="ons-table__row"
+          >
+            <th
+              class="ons-table__header ons-table__header--top"
+              scope="col"
+            >
+              <span
+                class="ons-table__header-text"
+              >
+                Name
+              </span>
+            </th>
+            <th
+              class="ons-table__header ons-table__header--top"
+              scope="col"
+            >
+              <span
+                class="ons-table__header-text"
+              >
+                Role
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="ons-table__body"
+        >
+          <tr
+            class="ons-table__row"
+            data-testid="users-table-row"
+          >
+            <td
+              class="ons-table__cell"
+            >
+              <a
+                data-discover="true"
+                href="/users/AlphaUser"
+              >
+                AlphaUser
+              </a>
+            </td>
+            <td
+              class="ons-table__cell"
+            >
+              BDSS
+            </td>
+          </tr>
+          <tr
+            class="ons-table__row"
+            data-testid="users-table-row"
+          >
+            <td
+              class="ons-table__cell"
+            >
+              <a
+                data-discover="true"
+                href="/users/CurrentUser"
+              >
+                CurrentUser
+              </a>
+              <span>
+                 (Current user)
+              </span>
+            </td>
+            <td
+              class="ons-table__cell"
+            >
+              Manager
+            </td>
+          </tr>
+          <tr
+            class="ons-table__row"
+            data-testid="users-table-row"
+          >
+            <td
+              class="ons-table__cell"
+            >
+              <a
+                data-discover="true"
+                href="/users/ZuluUser"
+              >
+                ZuluUser
+              </a>
+            </td>
+            <td
+              class="ons-table__cell"
+            >
+              DST
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,150 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChangeRole Component (with state management) > matches the snapshot 1`] = `
+<DocumentFragment>
+  <main
+    class="ons-page__main ons-u-mt-m"
+    id="main-content"
+  >
+    <h1
+      class="ons-u-mb-l"
+    >
+      Change role for user 
+      <em
+        class="ons-highlight"
+      >
+        testUser
+      </em>
+    </h1>
+    <form>
+      <div
+        class="ons-field"
+      >
+        <label
+          class="ons-label"
+          for="new-user-role"
+        >
+          New role
+        </label>
+        <select
+          class="ons-input ons-input--select"
+          data-testid="new-user-role-input"
+          id="new-user-role"
+          name="select-role"
+        >
+          <option
+            disabled=""
+            value=""
+          >
+            Select an option
+          </option>
+          <option
+            data-testid="new-user-role-option-DST"
+            value="DST"
+          >
+            DST
+          </option>
+          <option
+            data-testid="new-user-role-option-BDSS"
+            value="BDSS"
+          >
+            BDSS
+          </option>
+          <option
+            data-testid="new-user-role-option-IPS Manager"
+            value="IPS Manager"
+          >
+            IPS Manager
+          </option>
+          <option
+            data-testid="new-user-role-option-IPS Field Interviewer"
+            value="IPS Field Interviewer"
+          >
+            IPS Field Interviewer
+          </option>
+          <option
+            data-testid="new-user-role-option-IPS Researcher"
+            value="IPS Researcher"
+          >
+            IPS Researcher
+          </option>
+          <option
+            data-testid="new-user-role-option-Editor"
+            value="Editor"
+          >
+            Editor
+          </option>
+          <option
+            data-testid="new-user-role-option-Editor Manager"
+            value="Editor Manager"
+          >
+            Editor Manager
+          </option>
+          <option
+            data-testid="new-user-role-option-TO Appointments"
+            value="TO Appointments"
+          >
+            TO Appointments
+          </option>
+          <option
+            data-testid="new-user-role-option-TO Manager"
+            value="TO Manager"
+          >
+            TO Manager
+          </option>
+          <option
+            data-testid="new-user-role-option-TO Interviewer"
+            value="TO Interviewer"
+          >
+            TO Interviewer
+          </option>
+          <option
+            data-testid="new-user-role-option-SEL"
+            value="SEL"
+          >
+            SEL
+          </option>
+          <option
+            data-testid="new-user-role-option-Welsh Speaker"
+            value="Welsh Speaker"
+          >
+            Welsh Speaker
+          </option>
+        </select>
+      </div>
+      <div
+        class="ons-u-mt-m"
+      >
+        <button
+          class="ons-btn"
+          type="submit"
+        >
+          <span
+            class="ons-btn__inner"
+          >
+            <span
+              class="ons-btn__text"
+            >
+              Save
+            </span>
+          </span>
+        </button>
+        <button
+          class="ons-btn ons-btn--secondary"
+          type="button"
+        >
+          <span
+            class="ons-btn__inner"
+          >
+            <span
+              class="ons-btn__text"
+            >
+              Cancel
+            </span>
+          </span>
+        </button>
+      </div>
+    </form>
+  </main>
+</DocumentFragment>
+`;
