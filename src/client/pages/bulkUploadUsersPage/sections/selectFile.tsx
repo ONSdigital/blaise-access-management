@@ -70,7 +70,7 @@ function SelectFile({ setUsersToUpload, movePageForward }: SelectFileProps): Rea
 
       <div className="ons-u-mt-m ons-u-mb-m">
         <Button
-          label={"Upload"}
+          label={"Continue"}
           primary={true}
           onClick={() => uploadUsers()}
           loading={buttonLoading}
@@ -82,10 +82,10 @@ function SelectFile({ setUsersToUpload, movePageForward }: SelectFileProps): Rea
         />
       </div>
 
-      <Collapsible title="What format should the bulk upload file be?">
+      <Collapsible title="What format should the bulk upload users file be?">
         <>
           <p>
-            The user file should be a Comma-Separated Values file (CSV) with the headings{" "}
+            The file should be a Comma-Separated Values (CSV) file with the headings{" "}
             <em>user, password and role</em>. A blank template is available to download below.
           </p>
 
@@ -100,9 +100,7 @@ function SelectFile({ setUsersToUpload, movePageForward }: SelectFileProps): Rea
                   Bulk upload users template file
                 </a>
               </h3>
-              <p className="ons-download__excerpt">
-                Blank CSV file to upload multiple users at once.
-              </p>
+              <p className="ons-download__excerpt">Template CSV file to bulk upload users.</p>
             </div>
           </div>
         </>

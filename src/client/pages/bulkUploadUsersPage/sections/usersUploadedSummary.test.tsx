@@ -34,7 +34,7 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/two of two/i)).toBeDefined();
+    expect(screen.getByText(/2 of 2/i)).toBeDefined();
   });
 
   it("renders singular 'user' when only one valid user", () => {
@@ -47,7 +47,7 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/one of one/i)).toBeDefined();
+    expect(screen.getByText(/1 of 1/i)).toBeDefined();
   });
 
   it("renders plural 'users' when more than one valid user", () => {
@@ -73,7 +73,7 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/Not all users were created successfully/i)).toBeDefined();
+    expect(screen.getByText(/Some users could not be created/i)).toBeDefined();
     expect(screen.getByText(/bob/i)).toBeDefined();
   });
 
@@ -87,7 +87,7 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/Users will appear in the table/i)).toBeDefined();
+    expect(screen.getByText(/Users created/i)).toBeDefined();
   });
 
   it("shows the failed-user table when usersUploaded has failed entries and all created if empty", () => {
@@ -100,10 +100,10 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/Users will appear in the table/i)).toBeDefined();
+    expect(screen.getByText(/Users created/i)).toBeDefined();
   });
 
-  it("clicking Return to homepage navigates to /", async () => {
+  it("clicking Back to users navigates to /users", async () => {
     const { default: userEvent } = await import("@testing-library/user-event");
 
     render(
@@ -115,7 +115,7 @@ describe("UsersUploadedSummary", () => {
       </BrowserRouter>,
     );
 
-    const returnButton = screen.getByRole("button", { name: /Return to homepage/i });
+    const returnButton = screen.getByRole("button", { name: /Back to users/i });
 
     await userEvent.click(returnButton);
 

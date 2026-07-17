@@ -52,7 +52,7 @@ describe("SelectFile", () => {
       </BrowserRouter>,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/Select a CSV file to upload/i)).toBeDefined();
@@ -73,7 +73,7 @@ describe("SelectFile", () => {
 
     await userEvent.upload(input, file);
 
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(mockSetUsersToUpload).toHaveBeenCalledWith(
@@ -112,7 +112,7 @@ describe("SelectFile", () => {
       </BrowserRouter>,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/Select a CSV file to upload/i)).toBeDefined();
@@ -152,7 +152,7 @@ describe("SelectFile", () => {
     const emptyFile = new File([""], "empty.csv", { type: "text/csv" });
 
     await userEvent.upload(input, emptyFile);
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/Select a CSV file to upload/i)).toBeDefined();
@@ -173,7 +173,7 @@ describe("SelectFile", () => {
     const input = screen.getByLabelText(/Select users file/i);
 
     await userEvent.upload(input, file);
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(mockSetUsersToUpload).toHaveBeenCalledWith(

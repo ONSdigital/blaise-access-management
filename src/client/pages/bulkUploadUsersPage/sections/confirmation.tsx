@@ -1,5 +1,4 @@
 import { Button, Panel } from "blaise-design-system-react-components";
-import converter from "number-to-words";
 import { type ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -44,11 +43,11 @@ function Confirmation({ validUsers, uploadUsers }: Props): ReactElement {
 
       <form className="ons-u-mt-s">
         {formError === "" ? (
-          confirmDeleteRadios(validUsers, setConfirm)
+          confirmUploadRadios(validUsers, setConfirm)
         ) : (
           <Panel status={"error"}>
             <strong>{formError}</strong>
-            {confirmDeleteRadios(validUsers, setConfirm)}
+            {confirmUploadRadios(validUsers, setConfirm)}
           </Panel>
         )}
 
@@ -73,7 +72,7 @@ function Confirmation({ validUsers, uploadUsers }: Props): ReactElement {
   );
 }
 
-function confirmDeleteRadios(
+function confirmUploadRadios(
   validUsers: number,
   setConfirm: (value: ((prevState: boolean | null) => boolean | null) | boolean | null) => void,
 ) {
@@ -96,7 +95,7 @@ function confirmDeleteRadios(
               className="ons-radio__label "
               htmlFor="confirm-upload"
             >
-              Yes, upload {converter.toWords(validUsers)} valid user{validUsers > 1 && "s"}
+              Yes, upload {validUsers} user{validUsers > 1 && "s"}
             </label>
           </span>
         </p>
@@ -116,7 +115,7 @@ function confirmDeleteRadios(
               className="ons-radio__label "
               htmlFor="cancel-upload"
             >
-              No, do not upload any users
+              No, cancel
             </label>
           </span>
         </p>

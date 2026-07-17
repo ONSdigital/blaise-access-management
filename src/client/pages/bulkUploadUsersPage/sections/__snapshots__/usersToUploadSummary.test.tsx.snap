@@ -8,7 +8,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
       <h1
         class="ons-u-mb-l"
       >
-        Bulk upload 
+        Upload 
         <em>
           one
         </em>
@@ -36,11 +36,6 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                of 
               3
                users are valid and will be uploaded.
-               
-              <em>
-                Invalid users will not be uploaded.
-              </em>
-               You can review any issues in the table below.
             </p>
           </div>
         </div>
@@ -76,8 +71,8 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                   for="confirm-upload"
                 >
                   Yes, upload 
-                  one
-                   valid user
+                  1
+                   user
                 </label>
               </span>
             </p>
@@ -100,7 +95,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                   class="ons-radio__label "
                   for="cancel-upload"
                 >
-                  No, do not upload any users
+                  No, cancel
                 </label>
               </span>
             </p>
@@ -220,7 +215,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                   <span
                     class="ons-status ons-status--error"
                   >
-                    User already exists. 
+                    User already exists
                   </span>
                 </td>
               </tr>
@@ -244,7 +239,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                   <span
                     class="ons-status ons-status--error"
                   >
-                    User already exists. 
+                    User already exists
                   </span>
                 </td>
               </tr>
@@ -268,7 +263,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                   <span
                     class="ons-status ons-status--success"
                   >
-                    Valid User
+                    Valid
                   </span>
                 </td>
               </tr>
@@ -282,7 +277,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
     <h1
       class="ons-u-mb-l"
     >
-      Bulk upload 
+      Upload 
       <em>
         one
       </em>
@@ -310,11 +305,6 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
              of 
             3
              users are valid and will be uploaded.
-             
-            <em>
-              Invalid users will not be uploaded.
-            </em>
-             You can review any issues in the table below.
           </p>
         </div>
       </div>
@@ -350,8 +340,8 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                 for="confirm-upload"
               >
                 Yes, upload 
-                one
-                 valid user
+                1
+                 user
               </label>
             </span>
           </p>
@@ -374,7 +364,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                 class="ons-radio__label "
                 for="cancel-upload"
               >
-                No, do not upload any users
+                No, cancel
               </label>
             </span>
           </p>
@@ -494,7 +484,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                 <span
                   class="ons-status ons-status--error"
                 >
-                  User already exists. 
+                  User already exists
                 </span>
               </td>
             </tr>
@@ -518,7 +508,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                 <span
                   class="ons-status ons-status--error"
                 >
-                  User already exists. 
+                  User already exists
                 </span>
               </td>
             </tr>
@@ -542,7 +532,7 @@ exports[`Upload summary tests > Upload summary pages for an imported users that 
                 <span
                   class="ons-status ons-status--success"
                 >
-                  Valid User
+                  Valid
                 </span>
               </td>
             </tr>
@@ -613,7 +603,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
       <h1
         class="ons-u-mb-l"
       >
-        Bulk upload 
+        Upload 
         <em>
           two
         </em>
@@ -642,11 +632,6 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                of 
               3
                users are valid and will be uploaded.
-               
-              <em>
-                Invalid users will not be uploaded.
-              </em>
-               You can review any issues in the table below.
             </p>
           </div>
         </div>
@@ -682,8 +667,8 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                   for="confirm-upload"
                 >
                   Yes, upload 
-                  two
-                   valid user
+                  2
+                   user
                   s
                 </label>
               </span>
@@ -707,7 +692,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                   class="ons-radio__label "
                   for="cancel-upload"
                 >
-                  No, do not upload any users
+                  No, cancel
                 </label>
               </span>
             </p>
@@ -827,7 +812,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                   <span
                     class="ons-status ons-status--error"
                   >
-                    Not a valid role. 
+                    Not a valid role
                   </span>
                 </td>
               </tr>
@@ -851,7 +836,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                   <span
                     class="ons-status ons-status--success"
                   >
-                    Valid User
+                    Valid
                   </span>
                 </td>
               </tr>
@@ -875,7 +860,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                   <span
                     class="ons-status ons-status--success"
                   >
-                    Valid User
+                    Valid
                   </span>
                 </td>
               </tr>
@@ -889,7 +874,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
     <h1
       class="ons-u-mb-l"
     >
-      Bulk upload 
+      Upload 
       <em>
         two
       </em>
@@ -918,11 +903,6 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
              of 
             3
              users are valid and will be uploaded.
-             
-            <em>
-              Invalid users will not be uploaded.
-            </em>
-             You can review any issues in the table below.
           </p>
         </div>
       </div>
@@ -958,8 +938,8 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                 for="confirm-upload"
               >
                 Yes, upload 
-                two
-                 valid user
+                2
+                 user
                 s
               </label>
             </span>
@@ -983,7 +963,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                 class="ons-radio__label "
                 for="cancel-upload"
               >
-                No, do not upload any users
+                No, cancel
               </label>
             </span>
           </p>
@@ -1103,7 +1083,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                 <span
                   class="ons-status ons-status--error"
                 >
-                  Not a valid role. 
+                  Not a valid role
                 </span>
               </td>
             </tr>
@@ -1127,7 +1107,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                 <span
                   class="ons-status ons-status--success"
                 >
-                  Valid User
+                  Valid
                 </span>
               </td>
             </tr>
@@ -1151,7 +1131,7 @@ exports[`Upload summary tests > Upload summary pages for two valid and one inval
                 <span
                   class="ons-status ons-status--success"
                 >
-                  Valid User
+                  Valid
                 </span>
               </td>
             </tr>
@@ -1222,7 +1202,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
       <h1
         class="ons-u-mb-l"
       >
-        Bulk upload 
+        Upload 
         <em>
           three
         </em>
@@ -1251,11 +1231,6 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                of 
               3
                users are valid and will be uploaded.
-               
-              <em>
-                Invalid users will not be uploaded.
-              </em>
-               You can review any issues in the table below.
             </p>
           </div>
         </div>
@@ -1291,8 +1266,8 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                   for="confirm-upload"
                 >
                   Yes, upload 
-                  three
-                   valid user
+                  3
+                   user
                   s
                 </label>
               </span>
@@ -1316,7 +1291,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                   class="ons-radio__label "
                   for="cancel-upload"
                 >
-                  No, do not upload any users
+                  No, cancel
                 </label>
               </span>
             </p>
@@ -1436,7 +1411,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                   <span
                     class="ons-status ons-status--success"
                   >
-                    Valid User
+                    Valid
                   </span>
                 </td>
               </tr>
@@ -1460,7 +1435,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                   <span
                     class="ons-status ons-status--success"
                   >
-                    Valid User
+                    Valid
                   </span>
                 </td>
               </tr>
@@ -1484,7 +1459,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                   <span
                     class="ons-status ons-status--success"
                   >
-                    Valid User
+                    Valid
                   </span>
                 </td>
               </tr>
@@ -1498,7 +1473,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
     <h1
       class="ons-u-mb-l"
     >
-      Bulk upload 
+      Upload 
       <em>
         three
       </em>
@@ -1527,11 +1502,6 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
              of 
             3
              users are valid and will be uploaded.
-             
-            <em>
-              Invalid users will not be uploaded.
-            </em>
-             You can review any issues in the table below.
           </p>
         </div>
       </div>
@@ -1567,8 +1537,8 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                 for="confirm-upload"
               >
                 Yes, upload 
-                three
-                 valid user
+                3
+                 user
                 s
               </label>
             </span>
@@ -1592,7 +1562,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                 class="ons-radio__label "
                 for="cancel-upload"
               >
-                No, do not upload any users
+                No, cancel
               </label>
             </span>
           </p>
@@ -1712,7 +1682,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                 <span
                   class="ons-status ons-status--success"
                 >
-                  Valid User
+                  Valid
                 </span>
               </td>
             </tr>
@@ -1736,7 +1706,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                 <span
                   class="ons-status ons-status--success"
                 >
-                  Valid User
+                  Valid
                 </span>
               </td>
             </tr>
@@ -1760,7 +1730,7 @@ exports[`Upload summary tests > Upload summary pages for valid imported users ma
                 <span
                   class="ons-status ons-status--success"
                 >
-                  Valid User
+                  Valid
                 </span>
               </td>
             </tr>

@@ -56,7 +56,7 @@ describe("BulkUserUpload", () => {
     const input = screen.getByLabelText(/Select users file/i);
 
     await userEvent.upload(input, file);
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(
@@ -78,7 +78,7 @@ describe("BulkUserUpload", () => {
     const file = new File([csvContent], "users.csv", { type: "text/csv" });
 
     await userEvent.upload(screen.getByLabelText(/Select users file/i), file);
-    await userEvent.click(screen.getByRole("button", { name: /Upload/i }));
+    await userEvent.click(screen.getByRole("button", { name: /Continue/i }));
 
     await waitFor(() => {
       expect(

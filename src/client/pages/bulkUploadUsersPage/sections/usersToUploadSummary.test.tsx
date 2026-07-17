@@ -114,23 +114,22 @@ describe("Upload summary tests", () => {
 
     expect(user1Summary).toHaveTextContent("Jamie");
     expect(user1Summary).toHaveTextContent("BDSS");
-    expect(user1Summary).toHaveTextContent("Valid User");
+    expect(user1Summary).toHaveTextContent("Valid");
 
     const user2Summary = view.getByTestId("user-table-row-1");
 
     expect(user2Summary).toHaveTextContent("Rob");
     expect(user2Summary).toHaveTextContent("DST");
-    expect(user2Summary).toHaveTextContent("Valid User");
+    expect(user2Summary).toHaveTextContent("Valid");
 
     const user3Summary = view.getByTestId("user-table-row-2");
 
     expect(user3Summary).toHaveTextContent("Rich");
     expect(user3Summary).toHaveTextContent("BDSS");
-    expect(user3Summary).toHaveTextContent("Valid User");
+    expect(user3Summary).toHaveTextContent("Valid");
   });
 
   it("Upload summary pages for two valid and one invalid users matches Snapshot", async () => {
-    //arrange
     const invalidImportedUsers: ImportUser[] = [
       {
         name: "Jamie",
@@ -173,7 +172,6 @@ describe("Upload summary tests", () => {
   });
 
   it("Upload summary pages for two valid and one invalid users displays correct summary", async () => {
-    //arrange
     const invalidImportedUsers: ImportUser[] = [
       {
         name: "Jamie",
@@ -224,17 +222,16 @@ describe("Upload summary tests", () => {
 
     expect(user2Summary).toHaveTextContent("Jamie");
     expect(user2Summary).toHaveTextContent("BDSS");
-    expect(user2Summary).toHaveTextContent("Valid User");
+    expect(user2Summary).toHaveTextContent("Valid");
 
     const user3Summary = view.getByTestId("user-table-row-2");
 
     expect(user3Summary).toHaveTextContent("Rich");
     expect(user3Summary).toHaveTextContent("BDSS");
-    expect(user3Summary).toHaveTextContent("Valid User");
+    expect(user3Summary).toHaveTextContent("Valid");
   });
 
   it("Upload summary pages for an imported users that already exist matches Snapshot", async () => {
-    //arrange
     const importedUsersIncludingExisting: ImportUser[] = [
       {
         name: "Jamie",
@@ -377,7 +374,7 @@ describe("Upload summary tests", () => {
 
     expect(user3Summary).toHaveTextContent("Rob");
     expect(user3Summary).toHaveTextContent("DST");
-    expect(user3Summary).toHaveTextContent("Valid User");
+    expect(user3Summary).toHaveTextContent("Valid");
   });
 
   afterAll(() => {

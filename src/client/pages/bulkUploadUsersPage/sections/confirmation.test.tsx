@@ -107,7 +107,7 @@ describe("Confirmation", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/five/i)).toBeDefined();
+    expect(screen.getByText(/5/i)).toBeDefined();
   });
 
   it("Cancel button navigates away without uploading", async () => {

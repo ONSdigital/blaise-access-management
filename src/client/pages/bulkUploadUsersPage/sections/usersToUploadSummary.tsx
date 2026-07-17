@@ -17,7 +17,7 @@ function UsersToUploadSummary({
   const [noValidUsers, setNoValidUsers] = useState<number>(0);
 
   const setupUserList = useCallback(async () => {
-    setListError("Loading ...");
+    setListError("Loading...");
 
     try {
       await validateImportedUsers(usersToImport);
@@ -53,14 +53,12 @@ function UsersToUploadSummary({
   return (
     <>
       <h1 className="ons-u-mb-l">
-        Bulk upload <em>{converter.toWords(noValidUsers)}</em> user{noValidUsers > 1 && "s"}?
+        Upload <em>{converter.toWords(noValidUsers)}</em> user{noValidUsers > 1 && "s"}?
       </h1>
       <div data-testid="summary-panel">
         <Panel>
           <p>
-            {noValidUsers} of {userList.length} users are valid and will be uploaded.{" "}
-            <em>Invalid users will not be uploaded.</em> You can review any issues in the table
-            below.
+            {noValidUsers} of {userList.length} users are valid and will be uploaded.
           </p>
         </Panel>
       </div>
@@ -89,9 +87,9 @@ function UsersToUploadSummary({
                   <td className="ons-table__cell ">
                     <span className={`ons-status ons-status--${valid ? "success" : "error"}`}>
                       {valid
-                        ? "Valid User"
+                        ? "Valid"
                         : warnings.map((message) => {
-                            return `${message}. `;
+                            return `${message}`;
                           })}
                     </span>
                   </td>

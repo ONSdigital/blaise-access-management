@@ -1,5 +1,4 @@
 import { Button, ErrorBoundary, Panel, Table } from "blaise-design-system-react-components";
-import converter from "number-to-words";
 import { type ReactElement, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -65,31 +64,24 @@ function UsersUploadedSummary({
   return (
     <>
       <h1 className="ons-u-mb-l">
-        Uploaded{" "}
-        <em>
-          {converter.toWords(numberOfCreatedUsers)} of {converter.toWords(numberOfValidUsers)}
-        </em>{" "}
-        user{numberOfValidUsers > 1 && "s"} successfully
+        Uploaded {numberOfCreatedUsers} of {numberOfValidUsers} user{numberOfValidUsers > 1 && "s"}
       </h1>
 
       {numberOfCreatedUsers !== numberOfValidUsers ? (
         <Panel status={"error"}>
-          <p>
-            Not all users were created successfully, you can review which users were not created
-            successfully below.
-          </p>
+          <p>Some users could not be created. See the table below.</p>
         </Panel>
       ) : (
         <Panel>
-          <p>Users will appear in the table on the homepage and should be accessible in Blaise</p>
+          <p>Users created.</p>
         </Panel>
       )}
 
       <br />
       <Button
-        label={"Return to homepage"}
+        label={"Back to users"}
         primary={true}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/users")}
       />
       {numberOfCreatedUsers !== numberOfValidUsers && failedToUploadUserTable()}
     </>

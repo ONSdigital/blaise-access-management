@@ -125,10 +125,18 @@ export default function createClientLogHandler(auth: Auth, auditLogger: AuditLog
       stack: typeof body.stack === "string" ? clamp(body.stack, 8000) : undefined,
     };
 
-    const auditMessage = buildAuditMessage(currentUserName(auth, req), clientLog);
+    const userName = currentUserName(auth, req);
+    const auditMessage = buildAuditMessage(userName, clientLog);
 
     if (normalisedLevel === "error") {
-      auditLogger.error(req.log, auditMessage);
+      req.log.error(
+        {
+          source: "client-log",
+          userName,
+          clientLog,
+        },
+        "CLIENT_LOG_ERROR",
+      );
     } else {
       auditLogger.info(req.log, auditMessage);
     }
