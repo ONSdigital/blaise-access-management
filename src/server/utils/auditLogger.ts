@@ -20,14 +20,15 @@ function readStringField(payload: unknown, key: string): string | undefined {
   return typeof value === "string" ? value : undefined;
 }
 
+function sanitiseLogText(value: unknown): string {
+  return String(value)
+    .replace(/[\r\n]+/g, " ")
+    .replace(/[^\x20-\x7E]+/g, "");
+}
+
 export function formatLogMessage(text: string, severity: "info" | "error"): string {
-  const normalisedText = String(text).replace(/[\r\n]+/g, " ");
-  const message =
-    severity === "error"
-      ? normalisedText
-          .substring(0, 1000)
-          .replace(/[^\x20-\x7E]+/g, "")
-      : normalisedText.replace(/[^\x20-\x7E]+/g, "");
+  const sanitisedText = sanitiseLogText(text);
+  const message = severity === "error" ? sanitisedText.substring(0, 1000) : sanitisedText;
 
   return `AUDIT_LOG: ${message}`;
 }
@@ -58,13 +59,13 @@ export default class AuditLogger {
   info(logger: IncomingMessage["log"], message: string): void {
     const log = formatLogMessage(message, "info");
 
-    logger.info(log);
+    logger.info(sanitiseLogText(log));
   }
 
   error(logger: IncomingMessage["log"], message: string): void {
     const log = formatLogMessage(message, "error");
 
-    logger.error(log);
+    logger.error(sanitiseLogText(log));
   }
 
   async getLogs(): Promise<AuditLog[]> {

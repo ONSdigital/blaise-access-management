@@ -74,7 +74,9 @@ function clamp(value: string, maxLength: number): string {
 }
 
 function sanitiseForAuditLog(value: unknown): string {
-  return String(value).replace(/[\r\n]+/g, " ").replace(/[^\x20-\x7E]+/g, "");
+  return String(value)
+    .replace(/[\r\n]+/g, " ")
+    .replace(/[^\x20-\x7E]+/g, "");
 }
 
 function currentUserName(auth: Auth, req: Request): string {

@@ -18,7 +18,9 @@ function singleValue(value: string | string[] | undefined): string | undefined {
 export { singleValue };
 
 function sanitiseForAuditLog(value: unknown): string {
-  return String(value).replace(/[\r\n]+/g, " ").replace(/[^\x20-\x7E]+/g, "");
+  return String(value)
+    .replace(/[\r\n]+/g, " ")
+    .replace(/[^\x20-\x7E]+/g, "");
 }
 
 function getServerParksForRole(
@@ -249,7 +251,10 @@ export default function createBlaiseApiHandler(
         const safeUserName = sanitiseForAuditLog(data.name);
         const safeRole = sanitiseForAuditLog(role);
 
-        auditLogger.info(req.log, `${safeCurrentUser} created user ${safeUserName} with role ${safeRole}`);
+        auditLogger.info(
+          req.log,
+          `${safeCurrentUser} created user ${safeUserName} with role ${safeRole}`,
+        );
 
         return res.status(200).json(createdUser);
       } catch (error) {
