@@ -215,10 +215,12 @@ export default function createBlaiseApiHandler(
       return res.status(204).json();
     } catch (error) {
       const errorMessage = String(error);
+      const safeRequestedUser = sanitiseForAuditLog(req.headers.user);
+      const safeErrorMessage = sanitiseForAuditLog(errorMessage);
 
       auditLogger.error(
         req.log,
-        `Error whilst trying to delete user, ${sanitiseForAuditLog(req.headers.user)}, with error message: ${sanitiseForAuditLog(errorMessage)}`,
+        `Error whilst trying to delete user, ${safeRequestedUser}, with error message: ${safeErrorMessage}`,
       );
 
       return res.status(500).json({ error: "Internal server error" });
@@ -259,10 +261,12 @@ export default function createBlaiseApiHandler(
         return res.status(200).json(createdUser);
       } catch (error) {
         const errorMessage = String(error);
+        const safeRequestedName = sanitiseForAuditLog(req.body.name);
+        const safeErrorMessage = sanitiseForAuditLog(errorMessage);
 
         auditLogger.error(
           req.log,
-          `Error whilst trying to create new user, ${sanitiseForAuditLog(req.body.name)}, with error message: ${sanitiseForAuditLog(errorMessage)}`,
+          `Error whilst trying to create new user, ${safeRequestedName}, with error message: ${safeErrorMessage}`,
         );
 
         return res.status(500).json({ error: "Internal server error" });
