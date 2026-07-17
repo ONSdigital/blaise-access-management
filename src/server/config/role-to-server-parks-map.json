@@ -1,0 +1,12 @@
+{
+  "DEFAULT": ["gusty"],
+  "FRS Research": ["gusty"],
+  "Field Interviewer": ["gusty", "cma"],
+  "IPS Field Interviewer": ["gusty", "cma"],
+  "IPS Manager": ["gusty", "cma"],
+  "IPS Pilot Interviewer": ["gusty", "cma"],
+  "IPS Researcher": ["gusty", "cma"],
+  "SVT Editor": ["gusty"],
+  "SVT Supervisor": ["gusty"],
+  "Survey Support": ["gusty"]
+}

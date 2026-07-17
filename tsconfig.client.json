@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "outDir": "build/client",
+    "rootDir": "src/client",
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom/vitest"]
+  },
+  "extends": "./tsconfig.base.json",
+  "include": ["src/client"]
+}
