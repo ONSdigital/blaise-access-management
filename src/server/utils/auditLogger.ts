@@ -59,13 +59,13 @@ export default class AuditLogger {
   info(logger: IncomingMessage["log"], message: string): void {
     const log = formatLogMessage(message, "info");
 
-    logger.info(log);
+    logger.info(sanitiseLogText(log));
   }
 
   error(logger: IncomingMessage["log"], message: string): void {
     const log = formatLogMessage(message, "error");
 
-    logger.error(log);
+    logger.error(sanitiseLogText(log));
   }
 
   async getLogs(): Promise<AuditLog[]> {
