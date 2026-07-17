@@ -148,12 +148,18 @@ export default function createClientLogHandler(auth: Auth, auditLogger: AuditLog
       message: sanitiseForAuditLog(clientLog.message),
       args: sanitiseArgs(clientLog.args),
       pathname:
-        typeof clientLog.pathname === "string" ? sanitiseForAuditLog(clientLog.pathname) : undefined,
+        typeof clientLog.pathname === "string"
+          ? sanitiseForAuditLog(clientLog.pathname)
+          : undefined,
       href: typeof clientLog.href === "string" ? sanitiseForAuditLog(clientLog.href) : undefined,
       userAgent:
-        typeof clientLog.userAgent === "string" ? sanitiseForAuditLog(clientLog.userAgent) : undefined,
+        typeof clientLog.userAgent === "string"
+          ? sanitiseForAuditLog(clientLog.userAgent)
+          : undefined,
       timestamp:
-        typeof clientLog.timestamp === "string" ? sanitiseForAuditLog(clientLog.timestamp) : undefined,
+        typeof clientLog.timestamp === "string"
+          ? sanitiseForAuditLog(clientLog.timestamp)
+          : undefined,
       stack: typeof clientLog.stack === "string" ? sanitiseForAuditLog(clientLog.stack) : undefined,
     };
 
