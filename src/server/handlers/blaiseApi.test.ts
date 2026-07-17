@@ -294,9 +294,12 @@ describe("POST /api/users endpoint", () => {
 
     expect(response.statusCode).toEqual(500);
     expect(response.body).toStrictEqual({ error: "Internal server error" });
-    expect(logInfo.mock.calls.some(([payload]) => payload?.auditMessage === successMessage)).toBe(
-      false,
-    );
+    expect(
+      logInfo.mock.calls.some(
+        ([payload]) =>
+          (payload as { auditMessage?: string } | undefined)?.auditMessage === successMessage,
+      ),
+    ).toBe(false);
     blaiseApiMock.verify(
       (a) =>
         a.createUser(
@@ -373,9 +376,12 @@ describe("DELETE /api/users endpoint", () => {
       `Error whilst trying to delete user, ${username}, with error message: ${errorMessage}`,
     );
     expect(response.statusCode).toEqual(500);
-    expect(logInfo.mock.calls.some(([payload]) => payload?.auditMessage === successMessage)).toBe(
-      false,
-    );
+    expect(
+      logInfo.mock.calls.some(
+        ([payload]) =>
+          (payload as { auditMessage?: string } | undefined)?.auditMessage === successMessage,
+      ),
+    ).toBe(false);
     blaiseApiMock.verify((a) => a.deleteUser(It.isValue<string>(username)), Times.once());
     expect(response.body).toStrictEqual({ error: "Internal server error" });
   });
