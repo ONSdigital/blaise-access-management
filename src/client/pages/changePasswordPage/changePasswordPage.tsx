@@ -37,16 +37,18 @@ export default function ChangePassword({ currentUser }: ChangePasswordProps): Re
     }
 
     setButtonLoading(true);
+
+    let updated = false;
+
     try {
       const response = await editPassword(viewedUsername, sanitisedPassword);
 
-      if (!response.success) {
-        setMessage("Set password failed");
-        setButtonLoading(false);
-
-        return;
-      }
+      updated = response.success;
     } catch {
+      updated = false;
+    }
+
+    if (!updated) {
       setMessage("Set password failed");
       setButtonLoading(false);
 
