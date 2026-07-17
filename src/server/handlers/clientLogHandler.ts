@@ -100,6 +100,14 @@ function buildAuditMessage(userName: string, clientLog: ClientLogPayload): strin
   return `${safeUserName} ${action}`.trim();
 }
 
+function sanitiseArgs(args: string[] | undefined): string[] | undefined {
+  if (!Array.isArray(args)) {
+    return undefined;
+  }
+
+  return args.map((arg) => sanitiseForAuditLog(arg));
+}
+
 export default function createClientLogHandler(auth: Auth, auditLogger: AuditLogger): Router {
   const router = express.Router();
 
@@ -134,13 +142,27 @@ export default function createClientLogHandler(auth: Auth, auditLogger: AuditLog
 
     const userName = currentUserName(auth, req);
     const auditMessage = buildAuditMessage(userName, clientLog);
+    const safeUserName = sanitiseForAuditLog(userName);
+    const safeClientLog = {
+      level: clientLog.level,
+      message: sanitiseForAuditLog(clientLog.message),
+      args: sanitiseArgs(clientLog.args),
+      pathname:
+        typeof clientLog.pathname === "string" ? sanitiseForAuditLog(clientLog.pathname) : undefined,
+      href: typeof clientLog.href === "string" ? sanitiseForAuditLog(clientLog.href) : undefined,
+      userAgent:
+        typeof clientLog.userAgent === "string" ? sanitiseForAuditLog(clientLog.userAgent) : undefined,
+      timestamp:
+        typeof clientLog.timestamp === "string" ? sanitiseForAuditLog(clientLog.timestamp) : undefined,
+      stack: typeof clientLog.stack === "string" ? sanitiseForAuditLog(clientLog.stack) : undefined,
+    };
 
     if (normalisedLevel === "error") {
       req.log.error(
         {
           source: "client-log",
-          userName,
-          clientLog,
+          userName: safeUserName,
+          clientLog: safeClientLog,
         },
         "CLIENT_LOG_ERROR",
       );
